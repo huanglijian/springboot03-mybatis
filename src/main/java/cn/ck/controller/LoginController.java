@@ -22,6 +22,11 @@ public class LoginController {
 		return "homePage";
 	}
 
+	@RequestMapping("/hlj")
+	public String search(){
+		return "search";
+	}
+
 	@GetMapping("/login")
 	public String login() {
 		return "login";

@@ -19,7 +19,16 @@ public class CkAdminContorller {
 
     @RequestMapping("/hlj")
     public String test(){
-        return "search";
+        return "jobs/search";
+    }
+    @RequestMapping("/search")
+    public String search(){
+        return "/jobs/search";
+    }
+
+    @RequestMapping("login")
+    public String login(){
+        return "login/login";
     }
 
     @RequestMapping("/lxn")
