@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface AlluserService extends IService<Alluser> {
 
+
 }
