@@ -61,7 +61,7 @@ public class ShiroConfig {
 		// setLoginUrl 如果不设置值，默认会自动寻找Web工程根目录下的"/login.jsp"页面 或 "/login" 映射
 		shiroFilterFactoryBean.setLoginUrl("/login");
 		// 登录成功后要跳转的链接
-		shiroFilterFactoryBean.setSuccessUrl("/index");
+//		shiroFilterFactoryBean.setSuccessUrl("/index");
 		// 设置无权限时跳转的 url;
 		shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
@@ -73,25 +73,18 @@ public class ShiroConfig {
 
 		// 拦截器。匹配原则是最上面的最优先匹配
 		Map<String, String> chains = Maps.newHashMap();
-		//配置不会被拦截的链接
-		chains.put("/", "anon");
-		chains.put("/cwh", "anon");
-		chains.put("/mzb", "anon");
-		chains.put("/hlj", "anon");
-		chains.put("/lxn", "anon");
-		chains.put("/xwh", "anon");
-		chains.put("/psw", "anon");
-		chains.put("/hhm", "anon");
-//		chains.put("/index", "anon");
-		chains.put("/unauthor", "anon");
+		chains.put("/login", "anon");
 		//配置静态文件不会被拦截
 		chains.put("/static/**", "anon");
-		chains.put("/login", "anon");
 //		chains.put("/css/**", "anon");
 //		chains.put("/js/**", "anon");
 //		chains.put("/fonts/**", "anon");
 //		chains.put("/img/**", "anon");
 		chains.put("/druid/**", "anon");
+		//配置不会被拦截的链接
+		chains.put("/", "anon");
+		chains.put("/ckadmin/**", "anon");
+		chains.put("/unauthor", "anon");
 		// 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		chains.put("/logout", "logout");
 		// 剩余请求需要身份认证

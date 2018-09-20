@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Video.js 6.2.8</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>创客讲堂</title>
+
+    <!-- 全局js -->
+    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- 导航条样式 -->
+    <link href="/static/css/style_head.css" rel="stylesheet">
+    
+    <!-- 修改H+的video样式 -->
+    <link href="/static/css/css_cwh/mystyle.css" rel="stylesheet">
+    <!-- 弹幕样式 -->
+    <link href="/static/css/css_cwh/DanmuPlayer/main.css" rel="stylesheet">
+    <link href="/static/css/css_cwh/DanmuPlayer/colpick.css" rel="stylesheet">
+    <link href="/static/css/css_cwh/DanmuPlayer/scojs.css" rel="stylesheet">
+
+    <!-- 表头固定 -->
+    <style type="text/css">
+        /* 表头固定 */
+        .fixed_headers thead tr {
+            display: block;
+            position: relative;
+        }
+
+        .fixed_headers tbody {
+            display: block;
+            overflow: auto;
+            height: 440px;
+        }
+
+        /* 每列宽度 */
+        .fixed_headers td:nth-child(1),
+        .fixed_headers th:nth-child(1) {
+            min-width: 60px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .fixed_headers td:nth-child(2),
+        .fixed_headers th:nth-child(2) {
+            min-width: 200px;
+        }
+
+        .fixed_headers td:nth-child(3),
+        .fixed_headers th:nth-child(3) {
+            min-width: 80px;
+        }
+    </style>
+
+    <!-- 搜索框样式 -->
+    <style type="text/css">
+        input {
+            font-size: 14px;
+            font-family: arial;
+            border: none;
+            background: none;
+        }
+
+        /*--这里设置输入框文字字体，并设置输入框背景和边框为无--*/
+        span.search {
+            float: left;
+            /*--将输入框放在span中并设置浮动--*/
+            padding: 0;
+            margin: 0;
+            width: 400px;
+            height: 40px;
+            /*--设置输入框的外层元素宽度和高度--*/
+            background: #fafafa;
+            color: #000000;
+            /*--设置背景颜色和输入框文字颜色--*/
+            border: 2px solid #1ab394;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            /*--设置边框，并将左上角和左下角设置圆角--*/
+        }
+
+        span.search input {
+            width: 400px;
+            height: 36px;
+            /*--设置输入框本身的宽度和高度--*/
+            line-height: 36px;
+            /*--设置输入框行距和高度相等以便垂直居中--*/
+            padding: 0 5px;
+            /*--设置输入框本身离外层的内边距，输入文字更美观--*/
+            outline: none;
+            /*--为了美观，将获取焦点时的轮廓线去掉--*/
+        }
+
+        span.button {
+            float: left;
+            /*--设置提交按钮放在span中并设置浮动--*/
+            padding: 0;
+            margin: 0;
+            border: 2px solid #1ab394;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            /*--设置边框，并将右上角和右下角设置圆角--*/
+        }
+
+        span.button input {
+            height: 36px;
+            line-height: 36px;
+            /*--设置按钮本身的高度，行距和高度相等以便垂直居中--*/
+            padding: 0 12px;
+            /*--为了美观，适当设置按钮文字的左右边距--*/
+            background: #1ab394;
+            color: #fff;
+            /*--将提交按钮的背景颜色设置与边框颜色相同--*/
+        }
+    </style>
+
+    <!-- 浮现播放按钮样式 -->
+    <link rel="stylesheet" href="/static/css/css_cwh/videoBtn/videoBtnStyle.css">
+    <style>
+        .box .icon li a {
+            color: #fff;
+            font-size: 25px;
+            line-height: 40px;
+            height: 45px;
+            width: 45px;
+            padding-left: 5px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            display: block;
+            transition: all 0.3s;
+        }
+    </style>
+</head>
+
+<body class="gray-bg top-navigation">
+
+    <header>
+        <div class="container-fluid container-fluid_up">
+            <div class="row_up">
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#">帮助中心</a>
+                    </li>
+                    <li>
+                        <a href="#">注册</a>
+                    </li>
+                    <li>
+                        <a href="#">登录</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container-fluid container-fluid_main">
+            <div class="row_main">
+                <div class="main_logo">
+                    <img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
+                </div>
+                <div class="main_right">
+                    <ul class="nav_psw list-unstyled">
+                        <li class="active">
+                            <a>首 页</a>
+                        </li>
+                        <li>
+                            <a>项目大厅</a>
+                        </li>
+                        <li>
+                            <a>服务大厅</a>
+                        </li>
+                        <li>
+                            <a>创客讲堂</a>
+                        </li>
+                        <li>
+                            <a>原创中心</a>
+                        </li>
+                        <li>
+                            <a>荣誉中心</a>
+                        </li>
+                        <li>
+                            <a>在线求职</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="wrapper">
+        <div id="page-wrapper" class="gray-bg" style="background:#ffffff">
+            <div class="wrapper wrapper-content">
+                <div class="container">
+                    <!--logo和搜索框-->
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <div class="ibox float-e-margins">
+                                <a href=""><img src="/static/img/img_chh/chuankerVideo1.png" alt="logo" style="height: 60px; width:180px"></a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="ibox-content" style="background:#ffffff; border-width: 0px;">
+                                <form action="">
+                                    <span class="search">
+                                        <input type="text" id="search" name="word" baiduSug="1" placeholder="请输入关键词" />
+                                        <div class="input-group-btn">
+                                            <button style="opacity:0;"></button>
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            </ul>
+                                        </div>
+                                    </span>
+                                    <!--注意以上为文本框设置的placeholder属性，为文本框默认显示的文字-->
+                                    <span class="button"><input type="submit" value="创客搜索" /></span>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width: 130%;height: 40px;background: #1ab394;margin-bottom:20px;margin-left: -15%;"></div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- 弹幕视频插件 -->
+                            <!-- DanmuPlayer (//github.com/chiruom/danmuplayer/) - Licensed under the MIT license -->
+                            <div class="row">
+                                <div id="danmup"></div>
+                                <div style="display:none;">
+                                    <span class="glyphicon" aria-hidden="true">&#xe072</span>
+                                    <span class="glyphicon" aria-hidden="true">&#xe073</span>
+                                    <span class="glyphicon" aria-hidden="true">&#xe242</span>
+                                    <span class="glyphicon" aria-hidden="true">&#xe115</span>
+                                    <span class="glyphicon" aria-hidden="true">&#xe111</span>
+                                    <span class="glyphicon" aria-hidden="true">&#xe096</span>
+                                    <span class="glyphicon" aria-hidden="true">&#xe097</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <h2 style="color:#000000; font-weight: 500;">微信小程序</h2>
+                                <small class="text-muted">40.3万次播放&nbsp;-&nbsp;2018-09-07</small>
+                            </div>
+
+                            <div class="row">
+                                <div class="btn-group">
+                                    <small class="text-muted">
+                                        <button class="btn btn-white btn-xs" style="font-size: 20px;">
+                                            <i class="fa fa-thumbs-up"></i>1455万
+                                        </button>
+                                    </small>
+                                    <small class="text-muted">
+                                        <button class="btn btn-white btn-xs" style="font-size: 20px;">
+                                            <i class="fa fa-star"></i>1455万
+                                        </button>
+                                    </small>
+                                    <small class="text-muted">
+                                        <button class="btn btn-white btn-xs" style="font-size: 20px;">
+                                            <i class="fa fa-share"></i>分享
+                                        </button>
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-11" style="padding:0px;">
+                                    <div class="panel panel-default" style="border-width: 2px 0px 2px 0px;margin-top: 10px;">
+                                        <div class="panel-body">
+                                            <h2 style="margin-top:10px;">
+                                                视频简介：
+                                            </h2>
+                                            <p>通过 .panel-heading 可以很简单地为面板加入一个标题容器。你也可以通过添加设置了 .panel-title 类的标签，添加一个预定义样式的标题。
+                                                为了给链接设置合适的颜色，务必将链接放到带有 .panel-title 类的标题标签内。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="clients-list" style="margin-top:0px;">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i>
+                                            弹幕列表</a>
+                                    </li>
+                                    <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-briefcase"></i>
+                                            推荐视频</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab-1" class="tab-pane active">
+                                        <div class="full-height-scroll">
+                                            <div class="table-responsive">
+                                                <table class="table table-condensed table-hover fixed_headers">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><small class="text-muted">时间</small></th>
+                                                            <th><small class="text-muted">弹幕内容</small></th>
+                                                            <th><small class="text-muted">发布时间</small></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><small class="text-muted">11:11</small></td>
+                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
+                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="tab-2" class="tab-pane" style="height:470px">
+                                        <div class="full-height-scroll">
+                                            <div class="table-responsive">
+                                                <table class="table ">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="col-xs-6">
+                                                                    <div class="box">
+                                                                        <img src="/static/img/img_chh/H5Picture.png" alt="">
+                                                                        <div class="box-content">
+                                                                            <ul class="icon">
+                                                                                <li><a href=""><i class="fa fa-play"></i></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <div class="ibox-content" style="padding:0px;border-width:0px;">
+                                                                        <a href="">
+                                                                            <p>【木鱼微剧场】《天之痕》P5最终话：天之痕、神州大地与惦记的人</p>
+                                                                        </a>
+                                                                        <small class="text-muted">
+                                                                            <i class="fa fa-eye"></i>456
+                                                                            <i class="fa fa-star"></i>1455万
+                                                                        </small>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="container-fluid_foot">
+            <div class="foot_panel">
+                <div class="foot_panel_left">
+                    <div class="img">
+                        <a href="#">
+                            <img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+                        </a>
+                    </div>
+                    <div class="beian">
+                        <p>创客网 © 2018－
+                            <br>肇庆学院东软实训班第三组版权所有
+                            <br>[粤ICP备xxxxxxx号-x] 标识
+                            <br> 粤公网安备xxxxxxxxxx号</p>
+                    </div>
+                </div>
+                <div class="foot_panel_right">
+                    <div class="foot_panel_right_row">
+                        <ul class="list-unstyled">
+                            <li>
+                                <h4>新手指南</h4>
+                                <a href="/help/register">注册登录问题</a><br />
+                                <a href="/help/process">项目交易流程</a><br />
+                                <a href="/help/fund">充值提款问题</a><br />
+                                <a href="help/about_agreement">用户注册协议</a><br />
+                                <a href="/help/bid_payings">为何付费竞标</a>
+                            </li>
+                            <li>
+                                <h4>特色服务</h4>
+                                <a href="/help/renzheng">实名认证</a><br />
+                                <a href="/help/searchs">精准搜索</a><br />
+                                <a href="/help/workhour">小时报价</a><br />
+                                <a href="/help/bumanyituikuan">不满意退款</a><br />
+                                <a href="/help/bid_card">竞标卡规则</a>
+                            </li>
+                            <li>
+                                <h4>评价信誉</h4>
+                                <a href="/help/pingjiadengm">操作演示</a><br />
+                                <a href="/help/service_payings">服务收费</a><br />
+                                <a href="/help/evaluations">用户评价</a><br />
+                                <a href="/help/jifens">积分体系</a><br />
+                                <a href="/help/controversy">争议解决</a>
+                            </li>
+                            <li>
+                                <h4>答疑中心</h4>
+                                <a href="/help/pro_relase">项目发布问题</a><br />
+                                <a href="/help/bid_joinings">参与竞标问题</a><br />
+                                <a href="/help/pro_runnings">项目开发问题</a><br />
+                                <a href="/help/pro_done">项目完工问题</a><br />
+                                <a href="/help/it_realse">信息发布问题</a>
+                            </li>
+                            <li>
+                                <h4>联系我们</h4>
+                                <a href="/help/about_us">关于SXSOFT</a><br />
+                                <a href="/help/about_company">公司概况</a><br />
+                                <a href="/help/contact_us">联系方式</a><br />
+                                <a href="/help/about_advertising">广告投放</a><br />
+                                <a href="/help/links">友情链接</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- DanmuPlayer.js -->
+    <script src="/static/js/js_cwh/DanmuPlayer/jquery.shCircleLoader.js"></script>
+    <script src="/static/js/js_cwh/DanmuPlayer/sco.tooltip.js"></script>
+    <script src="/static/js/js_cwh/DanmuPlayer/colpick.js"></script>
+    <script src="/static/js/js_cwh/DanmuPlayer/jquery.danmu.js"></script>
+    <script src="/static/js/js_cwh/DanmuPlayer/main.js"></script>
+    <script>
+        $("#danmup").DanmuPlayer({
+            src: "http://vjs.zencdn.net/v/oceans.mp4",
+            height: "480px", //区域的高度
+            width: "740px", //区域的宽度
+            speed: 10000, //弹幕速度，这是数值指的是视频穿过672像素所需要的毫秒数
+            sumTime: 65535, //弹幕视频的总时间，可不填。
+            danmuList: {}, //弹幕列表
+            defaultColor: "#ffffff", //弹幕的默认字体颜色
+            fontSizeSmall: 16, //小弹幕的字号
+            FontSizeBig: 24, //大弹幕的字号
+            opacity: "1", //弹幕默认透明度
+            topBottonDanmuTime: 6000, //底部及顶部弹幕存留的时间
+            urlToGetDanmu: "", //用来接收弹幕信息的url  (稍后介绍)
+            urlToPostDanmu: "", //用来存储弹幕信息的url  (稍后介绍)
+            maxCountInScreen: 40, //屏幕上的最大的显示弹幕数目,弹幕数量过多时,优先加载最新的。
+            maxCountPerSec: 10 //每分秒秒钟最多的弹幕数目,弹幕数量过多时,优先加载最新的。
+        });
+
+        $("#danmup .danmu-div").danmu("addDanmu", [{
+                "text": "这是滚动弹幕",  //text——弹幕文本内容。
+                color: "white",         //color——弹幕颜色。
+                size: 1,                //size——弹幕文字大小。 0为小字 1为大字
+                position: 0,            //position——弹幕位置 0为滚动 1 为顶部 2为底部
+                time: 2,                //time——弹幕所出现的时间。 单位为分秒（十分之一秒）
+                // isnew:1              //isnew——当出现该属性时（属性值可为任意），会认为这是用户新发的弹幕，从而弹幕在显示的时候会有边框。
+            }, {
+                "text": "我是帽子绿",
+                color: "green",
+                size: 1,
+                position: 0,
+                time: 3
+            }, {
+                "text": "哈哈哈啊哈",
+                color: "black",
+                size: 1,
+                position: 0,
+                time: 10
+            }, {
+                "text": "这是顶部弹幕",
+                color: "yellow",
+                size: 1,
+                position: 1,
+                time: 3
+            }, {
+                "text": "这是底部弹幕",
+                color: "red",
+                size: 1,
+                position: 2,
+                time: 9
+            }, {
+                "text": "大家好，我是伊藤橙",
+                color: "orange",
+                size: 1,
+                position: 1,
+                time: 3
+            }
+        ])
+    </script>
+
+    <!-- 折叠ibox -->
+    <script>
+        $('.collapse-link').click(function () {
+            var ibox = $(this).closest('div.ibox');
+            var button = $(this).find('i');
+            var content = ibox.find('div.ibox-content');
+            content.slideToggle(200);
+            button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
+            ibox.toggleClass('').toggleClass('border-bottom');
+            setTimeout(function () {
+                ibox.resize();
+                ibox.find('[id^=map-]').resize();
+            }, 50);
+        });
+    </script>
+
+    <!-- 弹幕表滚动条 -->
+    <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script>
+        $(function () {
+            $('.full-height-scroll').slimScroll({
+                height: '100%'
+            });
+        });
+    </script>
+
+    <!-- suggest search -->
+    <script src="/static/js/js_cwh/bootstrap-suggest/bootstrap-suggest.js"></script>
+    <script type="text/javascript">
+        var dataList = {value: []}, i = 100;
+        while(i--) {
+            dataList.value.push({
+                id: i,
+                word: Math.random() * 100000,
+                description: 'http://lzw.me'
+            });
+        }
+        $("#search").bsSuggest({
+            url: null,                      //请求数据的 URL 地址
+            jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
+            data: dataList,                              //提示所用的数据，注意格式
+            // indexId: 2,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
+            // indexKey: 1,                    //每组数据的第几个数据，作为input输入框的内容
+            idField: 'id',                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
+            keyField: 'word',                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+
+            /* 搜索相关 */
+            autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
+            allowNoKeyword: true,           //是否允许无关键字时请求数据
+            getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+            delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+            ignorecase: false,              //前端搜索匹配时，是否忽略大小写
+            effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
+            effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
+            searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
+            twoWayMatch: true,              // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
+
+            multiWord: false,               //以分隔符号分割的多关键字支持
+            separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
+            delay: 300,                     //搜索触发的延时时间间隔，单位毫秒
+
+            /* UI */
+            autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
+            autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
+            showHeader: false,              //是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
+            showBtn: true,                  //是否显示下拉按钮
+            inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
+            inputWarnColor: 'rgba(255,255,255,.1)', //输入框内容不是下拉列表选择时的警告色
+            listStyle: {
+                'padding-top': 0,
+                'max-height': '375px',
+                'max-width': '800px',
+                'overflow': 'auto',
+                'width': 'auto',
+                'transition': '0.3s',
+                '-webkit-transition': '0.3s',
+                '-moz-transition': '0.3s',
+                '-o-transition': '0.3s'
+            },                              //列表的样式控制
+            listAlign: 'auto',              //提示列表对齐位置，left/right/auto
+            listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
+            listHoverCSS: 'jhover',         //提示框列表鼠标悬浮的样式名称
+            // clearable: false,               // 是否可清除已输入的内容
+
+            /* key */
+            keyLeft: 37,                    //向左方向键，不同的操作系统可能会有差别，则自行定义
+            keyUp: 38,                      //向上方向键
+            keyRight: 39,                   //向右方向键
+            keyDown: 40,                    //向下方向键
+            keyEnter: 13,                   //回车键
+
+            /* methods */
+            // fnProcessData: processData,     //格式化数据的方法，返回数据格式参考 data 参数
+            // fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
+            // fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
+            // fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
+        }).on('onDataRequestSuccess', function (e, result) {
+            console.log('onDataRequestSuccess: ', result);
+        }).on('onSetSelectValue', function (e, keyword, data) {
+            console.log('onSetSelectValue: ', keyword, data);
+        }).on('onUnsetSelectValue', function () {
+            console.log('onUnsetSelectValue');
+        }).on('onShowDropdown', function (e, data) {
+            console.log('onShowDropdown', e.target.value, data);
+        }).on('onHideDropdown', function (e, data) {
+            console.log('onHideDropdown', e.target.value, data);
+        });
+    </script>
+</body>
+
+</html>
