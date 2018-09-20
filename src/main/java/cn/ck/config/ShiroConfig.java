@@ -75,6 +75,13 @@ public class ShiroConfig {
 		Map<String, String> chains = Maps.newHashMap();
 		//配置不会被拦截的链接
 		chains.put("/", "anon");
+		chains.put("/cwh", "anon");
+		chains.put("/mzb", "anon");
+		chains.put("/hlj", "anon");
+		chains.put("/lxn", "anon");
+		chains.put("/xwh", "anon");
+		chains.put("/psw", "anon");
+		chains.put("/hhm", "anon");
 //		chains.put("/index", "anon");
 		chains.put("/unauthor", "anon");
 		//配置静态文件不会被拦截
