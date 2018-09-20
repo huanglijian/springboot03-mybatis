@@ -24,6 +24,6 @@ public class CkAdminContorller {
 
     @RequestMapping("/lxn")
     public String lxntest(){
-        return "promulgator/prom_Notice";
+        return "promulgator/prom_Account";
     }
 }
