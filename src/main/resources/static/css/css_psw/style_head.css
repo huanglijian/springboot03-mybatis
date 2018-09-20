@@ -23,6 +23,8 @@
 
 .main_right li {
 	float: left;
+	width: 100px;
+	text-align: center;
 }
 
 .main_right li a {
@@ -34,18 +36,18 @@
 	display: inline;
 }
 
-.main_right .navbar-nav>li.active,
-.main_right .navbar-nav>li.open,
-.main_right .navbar-nav>li:hover {
+.main_right .nav_psw>li.active,
+.main_right .nav_psw>li.open,
+.main_right .nav_psw>li:hover {
 	background: #1ab394;
 	color: #ffffff;
 	border-top: 3px solid seagreen;
 	box-sizing: border-box;
 }
 
-.main_right .navbar-nav>li.active>a,
-.main_right .navbar-nav>li.open>a,
-.main_right .navbar-nav>li:hover>a {
+.main_right .nav_psw>li.active>a,
+.main_right .nav_psw>li.open>a,
+.main_right .nav_psw>li:hover>a {
 	background: #1ab394;
 	color: #ffffff;
 	box-sizing: border-box;
