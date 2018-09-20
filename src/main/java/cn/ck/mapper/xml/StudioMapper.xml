@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ck.mapper.StudioMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.ck.entity.Studio">
+        <id column="stu_id" property="stuId" />
+        <result column="stu_creattime" property="stuCreattime" />
+        <result column="stu_name" property="stuName" />
+        <result column="stu_projectnum" property="stuProjectnum" />
+        <result column="stu_grade" property="stuGrade" />
+        <result column="stu_membernum" property="stuMembernum" />
+        <result column="stu_intro" property="stuIntro" />
+        <result column="stu_img" property="stuImg" />
+        <result column="stu_field" property="stuField" />
+        <result column="stu_tag" property="stuTag" />
+        <result column="stu_province" property="stuProvince" />
+        <result column="stu_city" property="stuCity" />
+        <result column="stu_area" property="stuArea" />
+        <result column="stu_income" property="stuIncome" />
+        <result column="stu_creatid" property="stuCreatid" />
+    </resultMap>
+
+</mapper>

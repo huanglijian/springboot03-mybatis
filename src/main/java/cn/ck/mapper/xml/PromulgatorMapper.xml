@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ck.mapper.PromulgatorMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.ck.entity.Promulgator">
+        <id column="prom_id" property="promId" />
+        <result column="prom_name" property="promName" />
+        <result column="prom_phone" property="promPhone" />
+        <result column="prom_abipay" property="promAbipay" />
+        <result column="prom_paypwd" property="promPaypwd" />
+        <result column="prom_logintime" property="promLogintime" />
+        <result column="prom_intro" property="promIntro" />
+        <result column="prom_img" property="promImg" />
+    </resultMap>
+
+</mapper>

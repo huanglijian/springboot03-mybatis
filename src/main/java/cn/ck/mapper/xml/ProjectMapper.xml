@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ck.mapper.ProjectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.ck.entity.Project">
+        <id column="proj_id" property="projId" />
+        <result column="proj_name" property="projName" />
+        <result column="proj_secret" property="projSecret" />
+        <result column="proj_type" property="projType" />
+        <result column="proj_money" property="projMoney" />
+        <result column="proj_creattime" property="projCreattime" />
+        <result column="proj_starttime" property="projStarttime" />
+        <result column="proj_endtime" property="projEndtime" />
+        <result column="proj_cycletime" property="projCycletime" />
+        <result column="proj_intro" property="projIntro" />
+        <result column="proj_file" property="projFile" />
+        <result column="proj_state" property="projState" />
+        <result column="proj_tag" property="projTag" />
+        <result column="proj_img" property="projImg" />
+        <result column="proj_studio" property="projStudio" />
+        <result column="proj_prom" property="projProm" />
+    </resultMap>
+
+</mapper>

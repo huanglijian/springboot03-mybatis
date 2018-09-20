@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ck.mapper.BiddingMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.ck.entity.Bidding">
+        <id column="bid_id" property="bidId" />
+        <result column="bid_time" property="bidTime" />
+        <result column="bid_starttime" property="bidStarttime" />
+        <result column="bid_endtime" property="bidEndtime" />
+        <result column="bid_state" property="bidState" />
+        <result column="bid_scheme" property="bidScheme" />
+        <result column="bid_cycle" property="bidCycle" />
+        <result column="bid_money" property="bidMoney" />
+        <result column="bid_phone" property="bidPhone" />
+        <result column="bid_email" property="bidEmail" />
+        <result column="bid_studio" property="bidStudio" />
+        <result column="bid_proj" property="bidProj" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ck.mapper.ResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.ck.entity.Resource">
+        <id column="res_id" property="resId" />
+        <result column="res_uploadtime" property="resUploadtime" />
+        <result column="res_name" property="resName" />
+        <result column="res_intro" property="resIntro" />
+        <result column="res_path" property="resPath" />
+        <result column="res_tag" property="resTag" />
+        <result column="res_img" property="resImg" />
+        <result column="res_likenum" property="resLikenum" />
+        <result column="res_long" property="resLong" />
+    </resultMap>
+
+</mapper>

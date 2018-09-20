@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ck.mapper.OriginalMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.ck.entity.Original">
+        <id column="orig_id" property="origId" />
+        <result column="orig_name" property="origName" />
+        <result column="orig_intro" property="origIntro" />
+        <result column="orig_type" property="origType" />
+        <result column="orig_tag" property="origTag" />
+        <result column="orig_uploadtime" property="origUploadtime" />
+        <result column="orig_path" property="origPath" />
+        <result column="orig_grade" property="origGrade" />
+        <result column="orig_users" property="origUsers" />
+    </resultMap>
+
+</mapper>

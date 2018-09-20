@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ck.mapper.AlluserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.ck.entity.Alluser">
+        <id column="all_id" property="allId" />
+        <result column="all_type" property="allType" />
+        <result column="all_pwd" property="allPwd" />
+        <result column="all_salt" property="allSalt" />
+        <result column="all_email" property="allEmail" />
+        <result column="all_state" property="allState" />
+    </resultMap>
+
+    <select id="findByEmail" resultMap="BaseResultMap">
+        select *
+        from alluser
+        where all_email = #{email}
+    </select>
+
+</mapper>
