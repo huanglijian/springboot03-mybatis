@@ -1,0 +1,148 @@
+.c_r_contest{
+	width:930px;
+}
+.c_r_c_top{
+	width: 930px;
+	height: 50px;
+	background: #FFFFFF;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.c_r_c_top ul{
+	width:930px;
+	height: 50px;
+	padding: 0;
+	white-space: nowrap;
+}
+.c_r_c_top ul li{
+	list-style: none;
+	text-align: center;
+	color: #999999;
+	float: left;
+    width: 150px;
+    height:50px;
+    padding: 15px 10px;
+}
+
+
+#projBidul li.current{
+	border-bottom: 3px solid #1ab394;
+	
+}
+
+#projBidul li a.current{
+	color: #1AB394;
+}
+.c_r_c_top ul li a:link{
+	text-decoration: none;
+	color: #000000;
+}
+.c_r_c_top ul li a:visited{
+	text-decoration: none;
+	color: #000000;
+}
+.c_r_c_top ul li a:hover{
+	text-decoration: none;
+}
+.c_r_c_top ul li a:active{
+	text-decoration: none;
+}
+
+.c_r_c_bottom{
+	width: 930px;
+	margin-top: 20px;
+	background: #FFFFFF;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#projBidUnfinish{
+
+}
+
+.pBUnfinish_contest,.pBFinish_contest{
+	width: 930px;
+	padding: 0 30px;
+	overflow:hidden;
+	border-bottom: 1px dashed #ebebeb;
+}
+
+.pBUnfinish_left,.pBFinish_left{
+	width:570px;
+	float: left;
+}
+.pB_p1,.pB_p3{
+	padding: 10px 0 0;
+	margin: 0 0 20px;
+	font-size: 20px;
+}
+
+.pB_p1 img,.pB_p3 img{
+	width: 22px;
+	height: 22px;
+	margin: 0 10px 0 0;
+}
+
+.pB_p1 span{
+	padding: 2px 4px;
+	margin: 0 0 0 10px;
+	font-size: 11px;
+	font-weight: 500;
+	color: #FD4C5D;
+	border: 1px solid #fd4c5d;
+	border-radius:25px;
+}
+
+.pB_p2,.pB_p4{
+	padding: 0 0 10px 10px;
+	margin: 0;
+}
+
+.pB_p2 span,.pB_p4 span{
+	font-size: 15px;
+	margin: 0 10px 0 0;
+}
+
+.pBUnfinish_right{
+	width:300px;
+	float: left;
+	padding: 35px 0 0 100px;
+}
+.pBFinish_right{
+	width:300px;
+	float: left;
+	padding: 35px 0 0 180px;
+}
+.pB_a1{
+	background-color:#FD4C5D;
+	color: #FFFFFF;
+	text-align:center;
+}
+
+.pB_a2{
+	background-color:#1ab394;
+	color: #FFFFFF;
+	text-align:center;
+}
+
+.pB_a3{
+	background-color:#1ab394;
+	color: #FFFFFF;
+	text-align:center;
+}
+
+.pB_a1:link,.pB_a2:link,.pB_a3:link{
+	text-decoration: none;
+	color: #FFFFFF;
+}
+.pB_a1:visited,.pB_a2:visited,.pB_a3:visited{
+	text-decoration: none;
+	color: #FFFFFF;
+}
+.pB_a1:hover,.pB_a2:hover,.pB_a3:hover{
+	text-decoration: none;
+	color: #FFFFFF;
+}
+.pB_a1:active,.pB_a2:active,.pB_a3:active{
+	text-decoration: none;
+	color: #FFFFFF;
+}

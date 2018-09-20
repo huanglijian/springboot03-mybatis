@@ -1,0 +1,33 @@
+.contest{
+	margin:20px auto;
+	width: 1080px;
+}
+
+.contest_left{
+	margin-top: 150px;
+	margin-bottom: 250px;
+	padding: 0;
+	border-right: 2px dashed #e8e8e8;	
+}
+
+.c_p{
+	margin-top: 40px;
+}
+
+.p_title{
+	font-weight:700 ;
+	line-height: 25px;
+}
+
+.p_meg{
+	line-height: 25px;
+}
+
+.c_a{
+	margin-top: 20px;
+}
+.contest_right{
+	padding: 0 0 0 35px;
+	margin-top: 150px;
+	margin-bottom: 150px;
+}
