@@ -1,0 +1,103 @@
+/*!
+ * Bootstrap v3.3.7 (http://getbootstrap.com)
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+body {
+	background: #EEEEEE;
+}
+
+ul li {
+	list-style-type: none;
+}
+
+.lefthead_li_a:link,.panel-collapse li a:link {
+	text-decoration: none;
+	color: black;
+}
+
+.lefthead_li_a:visited,.panel-collapse li a:visited {
+	text-decoration: none;
+	color: black;
+}
+
+.lefthead_li_a:hover,.panel-collapse li a:hover {
+	text-decoration: none;
+	color: black;
+}
+
+.lefthead_li_a:active,.panel-collapse li a:active {
+	text-decoration: none;
+	color: black;
+}
+
+.contest {
+	width: 1180px;
+	margin: 20px auto;
+}
+
+.col_left{
+	float: left;
+	width:220px;
+	padding-left: 10px;
+	padding-right:10px;	
+}
+
+
+
+.ul_contest{
+	padding: 0;
+	margin: 0;	
+
+}
+
+.lefthead {
+	min-height:780px;
+	padding: 0;
+	margin: 0;
+	background: #FFFFFF;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.lefthead_li{
+	padding: 0;
+	margin: 0;
+	text-indent:50px;  //首行缩进
+}
+.lefthead_li_a{
+	line-height: 60px;
+	font-size: 17px;
+}
+
+.panel-collapse{
+	padding: 0;
+}
+.panel-collapse li{
+	padding: 0;
+	text-indent: 80px;
+}
+
+.panel-collapse li.current{
+	background: #1ab394;
+}
+.panel-collapse li:visited {
+	background: #1ab394;
+}
+
+.panel-collapse li:hover {
+	background: #1ab394;
+}
+
+
+.panel-collapse li a{
+	line-height: 40px;
+	font-size: 15px;
+}
+.col_right{
+	width:930px;
+	float: right;
+	
+}
+
+

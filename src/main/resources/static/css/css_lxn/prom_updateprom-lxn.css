@@ -1,0 +1,46 @@
+.c_r_contest {
+	width: 930px;
+}
+
+.c_r_contest h2 {
+	font-size: 20px;
+	color: #999999;
+	background: #FFFFFF;
+	padding: 20px 15px 10px;
+	margin: 0;
+	border-bottom: 3px solid #1ab394;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.ibox-content{
+	margin: 15px 0 0 0;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.col_right_mfy_down .ibox-content {
+	border-top: none;
+}
+
+.col_right_mfy_up_1 {
+	width: 800px;
+	margin-left: 15px;
+	margin-right: 15px;
+	height: 60px;
+	border-bottom: 3px solid #2eb135;
+}
+
+.col_right_mfy_up_1 h1 {
+	font-weight: 100;
+	line-height: 15px;
+	float: left;
+}
+
+.col_right_mfy_up_1 button {
+	margin-top: 20px;
+	float: right;
+	border: none;
+	margin-left: 10px;
+	font-size: 10px;
+}
+
+.red{
+	color: red;
+}

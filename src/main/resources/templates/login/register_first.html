@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/css_lxn/register-lxn.css" />
+		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/animate.css" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/font-awesome.css" />
+
+		<!-- jQuery Validation plugin javascript-->
+		<script src="../../../../../../project/CreatCenter/js/plugins/validate/jquery.validate.min.js"></script>
+		<script src="../../../../../../project/CreatCenter/js/plugins/validate/messages_zh.min.js"></script>
+		<script type="text/javascript" src="js/js_lxn/register_validate.js"></script>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="contest">
+				<div class="contop col-md-12">
+					<div class="topimg col-md-11">
+						<img src="../../../../../../project/CreatCenter/img/img_hlj/logo2.png" alt="" />
+					</div>
+					<div class="topmeg col-md-1">
+						<span><a href="#">首页</a></span>
+						<span>|</span>
+						<span><a href="#">帮助</a></span>
+					</div>
+				</div>
+				<div class="conbottom col-md-12">
+					<div class="bottop text-center">
+						<p>注册新用户</p>
+					</div>
+					<div class="botimg text-center col-md-12">
+						<img src="../../../../../../project/CreatCenter/img/img_hlj/process_bg_1.png" alt="" />
+					</div>
+					<div class="botmeg col-md-12">
+						<span class="botmegspan1 col-md-4">邮箱验证</span>
+						<span class="botmegspan2 col-md-4">填写信息</span>
+						<span class="botmegspan3 col-md-4">注册成功</span>
+					</div>
+					<div class="botform col-md-12">
+						<div class="formmeg col-md-12">
+							<form action="" class="form-horizontal" id="signupForm">
+								<div class="form-group">
+									<div class="col-md-5">
+										<div class="input-group">
+											<span class="input-group-addon glyphicon glyphicon-envelope"></span>
+											<input type="text" class="form-control" placeholder="常用邮箱（将作为登录账号）" id="email" name="email" />
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-3">
+										<div class="input-group">
+											<input type="text" class="form-control" placeholder="邮箱验证码" name="code" id="code" />
+										</div>
+									</div>
+									<div class="col-md-2" style="padding: 0;">
+										<div class="input-group">
+											<input type="button" id="btn" class="btn btn_mark" value="获取验证码" onclick="settime(this)" />
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-5">
+										<div class="input-group">
+											<button type="submit" class="btn sub_email">验证邮箱验证码</button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			var countdown = 60;
+
+			function settime(obj) {
+				if(countdown == 0) {
+					obj.removeAttribute("disabled");
+					obj.value = "获取邮箱验证码";
+					countdown = 60;
+					return;
+				} else {
+					obj.setAttribute("disabled", true);
+					obj.value = "重新发送(" + countdown + ")";
+					//在这加入后台邮箱验证代码
+					countdown--;
+				}
+				setTimeout(function() {
+					settime(obj)
+				}, 1000)
+			}
+
+			$(".sub_email").click(function() {
+				window.location.href = "#";
+			})
+		</script>
+	</body>
+
+</html>

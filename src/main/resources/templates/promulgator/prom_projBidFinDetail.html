@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/css_lxn/prom_layout-lxn.css" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/css_lxn/prom_projBidDetails.css" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/css_psw/style_head.css" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/style.css" />
+		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/bootstrap.min.js" ></script>
+		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/js_lxn/prom_BidDetail.js" ></script>
+	</head>
+
+	<body>
+
+		<header>
+			<div class="container-fluid container-fluid_up">
+				<div class="row_up">
+					<ul class="list-unstyled">
+						<li>
+							<a href="#">帮助中心</a>
+						</li>
+						<li>
+							<a href="#">注册</a>
+						</li>
+						<li>
+							<a href="#">登录</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="container-fluid container-fluid_main">
+				<div class="row_main">
+					<div class="main_logo">
+						<img class="img-responsive img-rounded" src="../../../../../../project/CreatCenter/img/img_psw/logo2.png" />
+					</div>
+					<div class="main_right">
+						<ul class="nav_psw list-unstyled">
+							<li class="active">
+								<a>首 页</a>
+							</li>
+							<li>
+								<a>项目大厅</a>
+							</li>
+							<li>
+								<a>服务大厅</a>
+							</li>
+							<li>
+								<a>创客讲堂</a>
+							</li>
+							<li>
+								<a>原创中心</a>
+							</li>
+							<li>
+								<a>荣誉中心</a>
+							</li>
+							<li>
+								<a>在线求职</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="container-fluid contest">
+			<div class="col_left">
+				<div class="ul_contest">
+					<ul class="lefthead">
+						<li class="lefthead_li">
+							<a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone" onclick="selectimg(this.id)">
+								个人中心
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</a>
+							<ul id="personcenter" class="panel-collapse collapse in">
+								<li>
+									<a href="prom_Account.html">账户</a>
+								</li>
+								<li>
+									<a href="prom_homepage.html">个人主页</a>
+								</li>
+								<li>
+									<a href="prom_updateprom.html">修改资料</a>
+								</li>
+								<li>
+									<a href="prom_Notice.html">系统通知</a>
+								</li>
+							</ul>
+						</li>
+						<li class="lefthead_li">
+							<a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo" onclick="selectimg(this.id)">
+								项目管理
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</a>
+							<ul id="projectmanage" class="panel-collapse collapse in">
+								<li>
+									<a href="prom_projCreat.html">发布项目</a>
+								</li>
+								<li>
+									<a href="prom_projInvit.html">邀请列表</a>
+								</li>
+								<li class="current">
+									<a href="prom_projBidding.html">竞标项目</a>
+								</li>
+								<li>
+									<a href="prom_projManage.html">项目订单</a>
+								</li>
+							</ul>
+						</li>
+						<li class="lefthead_li">
+							<a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree" onclick="selectimg(this.id)">
+								资金管理
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</a>
+							<ul id="pricemanage" class="panel-collapse collapse in">
+								<li>
+									<a href="prom_priManage.html">我的钱包</a>
+								</li>
+							</ul>
+						</li>
+						<li class="lefthead_li">
+							<a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
+								安全管理
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</a>
+							<ul id="safemanage" class="panel-collapse collapse in">
+								<li>
+									<a href="prom_uploginpwd.html">修改登录密码</a>
+								</li>
+								<li>
+									<a href="prom_uppaypwd.html">修改支付密码</a>
+								</li>
+								<li>
+									<a href="prom_Logout.html">注销账户</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col_right" id="right">
+				<div class="c_r_contest">
+					<div class="con_top col-md-12">
+						<div class="top_meg col-md-12">
+							<p>
+								<span class="megspan1">创客中心项目</span>
+								<span class="megspan5">停止竞标</span>
+							</p>
+							<p>
+								<span class="megspan3">发布时间</span>
+								<span class="megspan4">2018-08-30</span>
+							</p>
+							<p>
+								<span class="megspan3">项目类型</span>
+								<span class="megspan4">网站开发</span>
+								<span class="megspan3">&nbsp;&nbsp;&nbsp;&nbsp;项目预算</span>
+								<span class="megspan4">待商议</span>
+								<span class="megspan3">&nbsp;&nbsp;&nbsp;&nbsp;开发周期</span>
+								<span class="megspan4">40天</span>
+							</p>
+						</div>
+						<div class="top_a col-md-12 text-center">
+							<a href="#" class="show topa1">查看全部信息&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-down"></span></a>
+							<a href="#" class="hide topa2">收起全部信息&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-up"></span></a>
+						</div>
+						<div class="top_detail col-md-12 hide">
+							<p class="detp1">项目内容描述</p>
+							<p class="detp2">需求： 1、项目信息： 主要实现项目的发布，项目信息包括：项目的类型、项目的预算、项目的标题、项目的具体信息、
+								项目的时间、项目的状态，实现根据项目的标题搜索项目，可以根据不同项目的状态查看项目。 2、项目的承接：
+								主要实现在平台上承接外包项目，包括合同的签订、网上支付等功能 3、项目工作室：实现在平台上创建项目工作室、
+								可以申请加入工作室、工作室信息的呈现。 4、创客讲堂：提供在线视频、文字资源的分享 5、原创中心：
+								为原创作品提供一个发布平台 6、荣誉中心：对每个月的接包达人进行排名 7、在线求职：为企业提供职位信息的发布，
+								为个人提供就业的渠道。 验收标准： 面议
+							</p>
+						</div>
+					</div>
+					<div class="con_bottom col-md-12">
+						<p>
+							<span class="titspan1">竞标工作室个数：</span>
+							<span class="titspan2">2</span>
+							<span class="titspan3">(沟通并选择合适承接人，填写相关信息并托管资金后，项目将进入开发状态。)</span>
+						</p>
+						<div class="botbid col-md-12">
+							<div class="bidnum col-md-2">
+								<div class="nummeg col-md-3">&nbsp;1</div>
+								<div class="numimg col-md-9">
+									<img src="../../../../../../project/CreatCenter/img/a1.jpg" alt="" class="img_size"/>
+								</div>
+							</div>
+							<div class="bidleft col-md-8">
+								<div class="lefttop col-md-12">
+									<a href="#">咸鱼工作室</a>
+									<span>已承诺不满意退款</span>
+								</div>
+								<div class="leftmiddle col-md-12">
+									<ul class="col-md-12">
+										<li class="col-md-2">
+										<p>交付项目</p>
+										<p>2个</p>
+										</li>
+										<li class="col-md-2">
+										<p>总收入</p>
+										<p>￥10000</p>
+										</li>
+										<li class="col-md-2">
+										<p>电话</p>
+										<p>17876251234</p>	
+										</li>
+										<li class="col-md-3">
+										<p>Email</p>
+										<p>123456789@qq.com</p>	
+										</li>
+										<li class="col-md-3">
+										<p>地址</p>
+										<p>广东省 肇庆市 端州区</p>	
+										</li>
+									</ul>
+								</div>
+								<div class="leftbotttom col-md-12">
+									<p class="botp1">[竞标方案]</p>
+									<p class="botp2">创客平台主要实现发布项目、就业信息、外包项目的承接、资源的分享等功能。
+										致力于软件行业的项目外包、众包、项目承接和求职招聘等信息的提供，
+										为有IT相关需求的企事业单位、软件公司和各类软件开发人才提供了一个方便
+										快捷的网上信息交流、项目交易的平台，着力发展一批技术过硬、自我管理能力强、
+										沟通有效的独立程序员群体。的的的的 单位我我的 
+									</p>
+								</div>
+							</div>
+							<div class="bidright col-md-2 text-center">
+								<p>
+									<span>￥</span>
+									<span>50000</span>
+									<span>/</span>
+									<span>20</span>
+									<span>天</span>
+								</p>
+							</div>
+						</div>
+						
+						<div class="botbid col-md-12">
+							<div class="bidnum col-md-2">
+								<div class="nummeg col-md-3">&nbsp;2</div>
+								<div class="numimg col-md-9">
+									<img src="../../../../../../project/CreatCenter/img/a1.jpg" alt="" class="img_size"/>
+								</div>
+							</div>
+							<div class="bidleft col-md-8">
+								<div class="lefttop col-md-12">
+									<a href="#">咸鱼工作室</a>
+									<span>已承诺不满意退款</span>
+								</div>
+								<div class="leftmiddle col-md-12">
+									<ul class="col-md-12">
+										<li class="col-md-2">
+										<p>交付项目</p>
+										<p>2个</p>
+										</li>
+										<li class="col-md-2">
+										<p>总收入</p>
+										<p>￥10000</p>
+										</li>
+										<li class="col-md-2">
+										<p>电话</p>
+										<p>17876251234</p>	
+										</li>
+										<li class="col-md-3">
+										<p>Email</p>
+										<p>123456789@qq.com</p>	
+										</li>
+										<li class="col-md-3">
+										<p>地址</p>
+										<p>广东省 肇庆市 端州区</p>	
+										</li>
+									</ul>
+								</div>
+								<div class="leftbotttom col-md-12">
+									<p class="botp1">[竞标方案]</p>
+									<p class="botp2">创客平台主要实现发布项目、就业信息、外包项目的承接、资源的分享等功能。
+										致力于软件行业的项目外包、众包、项目承接和求职招聘等信息的提供，
+										为有IT相关需求的企事业单位、软件公司和各类软件开发人才提供了一个方便
+										快捷的网上信息交流、项目交易的平台，着力发展一批技术过硬、自我管理能力强、
+										沟通有效的独立程序员群体。的的的的 单位我我的 
+									</p>
+								</div>
+							</div>
+							<div class="bidright col-md-2 text-center">
+								<p>
+									<span>￥</span>
+									<span>50000</span>
+									<span>/</span>
+									<span>20</span>
+									<span>天</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>				
+			</div>
+
+		</div>
+
+		<footer>
+			<div class="container-fluid_foot">
+				<div class="foot_panel">
+					<div class="foot_panel_left">
+						<div class="img">
+							<a href="#">
+								<img src="../../../../../../project/CreatCenter/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+							</a>
+						</div>
+						<div class="beian">
+							<p>创客网 © 2018－
+								<br>肇庆学院东软实训班第三组版权所有
+								<br>[粤ICP备xxxxxxx号-x] 标识
+								<br> 粤公网安备xxxxxxxxxx号</p>
+						</div>
+					</div>
+					<div class="foot_panel_right">
+						<div class="foot_panel_right_row">
+							<ul class="list-unstyled">
+								<li>
+									<h4>新手指南</h4>
+									<a href="/help/register">注册登录问题</a><br />
+									<a href="/help/process">项目交易流程</a><br />
+									<a href="/help/fund">充值提款问题</a><br />
+									<a href="help/about_agreement">用户注册协议</a><br />
+									<a href="/help/bid_payings">为何付费竞标</a>
+								</li>
+								<li>
+									<h4>特色服务</h4>
+									<a href="/help/renzheng">实名认证</a><br />
+									<a href="/help/searchs">精准搜索</a><br />
+									<a href="/help/workhour">小时报价</a><br />
+									<a href="/help/bumanyituikuan">不满意退款</a><br />
+									<a href="/help/bid_card">竞标卡规则</a>
+								</li>
+								<li>
+									<h4>评价信誉</h4>
+									<a href="/help/pingjiadengm">操作演示</a><br />
+									<a href="/help/service_payings">服务收费</a><br />
+									<a href="/help/evaluations">用户评价</a><br />
+									<a href="/help/jifens">积分体系</a><br />
+									<a href="/help/controversy">争议解决</a>
+								</li>
+								<li>
+									<h4>答疑中心</h4>
+									<a href="/help/pro_relase">项目发布问题</a><br />
+									<a href="/help/bid_joinings">参与竞标问题</a><br />
+									<a href="/help/pro_runnings">项目开发问题</a><br />
+									<a href="/help/pro_done">项目完工问题</a><br />
+									<a href="/help/it_realse">信息发布问题</a>
+								</li>
+								<li>
+									<h4>联系我们</h4>
+									<a href="/help/about_us">关于SXSOFT</a><br />
+									<a href="/help/about_company">公司概况</a><br />
+									<a href="/help/contact_us">联系方式</a><br />
+									<a href="/help/about_advertising">广告投放</a><br />
+									<a href="/help/links">友情链接</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/js_lxn/prom-jquery.js" ></script>
+	</body>
+
+</html>

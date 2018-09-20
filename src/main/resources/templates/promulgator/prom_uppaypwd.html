@@ -2,19 +2,26 @@
 <html>
 
 	<head>
-		<meta charset="utf-8" />		
-		<link rel="stylesheet" href="../../../../../project/CreatCenter/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="../../../../../project/CreatCenter/css/css_lxn/prom_layout-lxn.css" />
-		<link rel="stylesheet" href="../../../../../project/CreatCenter/css/css_lxn/prom_Account-lxn.css" />
-		<link rel="stylesheet" href="../../../../../project/CreatCenter/css/css_psw/style_head.css" />
-		<link rel="stylesheet" href="../../../../../project/CreatCenter/css/style.css" />
-		<script type="text/javascript" src="../../../../../project/CreatCenter/js/jquery.min.js" ></script>
-		<script type="text/javascript" src="../../../../../project/CreatCenter/js/bootstrap.min.js" ></script>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/css_lxn/prom_layout-lxn.css" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/css_psw/style_head.css" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/style.css" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/css_lxn/prom_uppaypwd-lxn.css" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/animate.css" />
+		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/font-awesome.css" />
+		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/bootstrap.min.js"></script>
+		
+		<!-- jQuery Validation plugin javascript-->
+		<script src="../../../../../../project/CreatCenter/js/plugins/validate/jquery.validate.min.js"></script>
+		<script src="../../../../../../project/CreatCenter/js/plugins/validate/messages_zh.min.js"></script>
+		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/js_lxn/prom_updatepwd.js" ></script>
 
 	</head>
 
 	<body>
-	<div></div>
+
 		<header>
 			<div class="container-fluid container-fluid_up">
 				<div class="row_up">
@@ -34,7 +41,7 @@
 			<div class="container-fluid container-fluid_main">
 				<div class="row_main">
 					<div class="main_logo">
-						<img class="img-responsive img-rounded" src="../../../../../project/CreatCenter/img/img_psw/logo2.png" />
+						<img class="img-responsive img-rounded" src="../../../../../../project/CreatCenter/img/img_psw/logo2.png" />
 					</div>
 					<div class="main_right">
 						<ul class="nav_psw list-unstyled">
@@ -64,6 +71,7 @@
 				</div>
 			</div>
 		</header>
+
 		<div class="container-fluid contest">
 			<div class="col_left">
 				<div class="ul_contest">
@@ -74,17 +82,17 @@
 								<span class="glyphicon glyphicon-chevron-up"></span>
 							</a>
 							<ul id="personcenter" class="panel-collapse collapse in">
-								<li class="current">
+								<li>
 									<a href="prom_Account.html">账户</a>
 								</li>
 								<li>
-									<a href="../../../../../project/CreatCenter/prom_homepage.html">个人主页</a>
+									<a href="prom_homepage.html">个人主页</a>
 								</li>
 								<li>
-									<a href="../../../../../project/CreatCenter/prom_updateprom.html">修改资料</a>
+									<a href="prom_updateprom.html">修改资料</a>
 								</li>
 								<li>
-									<a href="../../../../../project/CreatCenter/prom_Notice.html">系统通知</a>
+									<a href="prom_Notice.html">系统通知</a>
 								</li>
 							</ul>
 						</li>
@@ -95,16 +103,16 @@
 							</a>
 							<ul id="projectmanage" class="panel-collapse collapse in">
 								<li>
-									<a href="../../../../../project/CreatCenter/prom_projCreat.html">发布项目</a>
+									<a href="prom_projCreat.html">发布项目</a>
 								</li>
 								<li>
-									<a href="../../../../../project/CreatCenter/prom_projInvit.html">邀请列表</a>
+									<a href="prom_projInvit.html">邀请列表</a>
 								</li>
 								<li>
-									<a href="../../../../../project/CreatCenter/prom_projBidding.html">竞标项目</a>
+									<a href="prom_projBidding.html">竞标项目</a>
 								</li>
 								<li>
-									<a href="../../../../../project/CreatCenter/prom_projManage.html">项目订单</a>
+									<a href="prom_projManage.html">项目订单</a>
 								</li>
 							</ul>
 						</li>
@@ -115,7 +123,7 @@
 							</a>
 							<ul id="pricemanage" class="panel-collapse collapse in">
 								<li>
-									<a href="../../../../../project/CreatCenter/prom_priManage.html">我的钱包</a>
+									<a href="prom_priManage.html">我的钱包</a>
 								</li>
 							</ul>
 						</li>
@@ -126,13 +134,13 @@
 							</a>
 							<ul id="safemanage" class="panel-collapse collapse in">
 								<li>
-									<a href="../../../../../project/CreatCenter/prom_uploginpwd.html">修改登录密码</a>
+									<a href="prom_uploginpwd.html">修改登录密码</a>
+								</li>
+								<li  class="current">
+									<a href="prom_uppaypwd.html">修改支付密码</a>
 								</li>
 								<li>
-									<a href="../../../../../project/CreatCenter/prom_uppaypwd.html">修改支付密码</a>
-								</li>
-								<li>
-									<a href="../../../../../project/CreatCenter/prom_Logout.html">注销账户</a>
+									<a href="prom_Logout.html">注销账户</a>
 								</li>
 							</ul>
 						</li>
@@ -140,108 +148,34 @@
 				</div>
 			</div>
 			<div class="col_right" id="right">
-				<div class="right_contest">
-					<div class="r_c_top">
-						<div class="r_c_t_left">
-							<div class="r_c_t_l_img">
-								<div class="r_c_t_l_updateimg">
-									<a href="../../../../../project/CreatCenter/prom_updatephoto.html">更换头像</a>
-								</div>
-								<img src="../../../../../project/CreatCenter/img/img_lxn/default.jpg" alt="" class="imgsize" />
-							</div>
-							<div class="r_c_t_l_pcData">
-								<a class="pcDatabtn" href="../../../../../project/CreatCenter/prom_updateprom.html">修改资料</a>
-							</div>
+				<div class="c_r_contest">
+					<h2>修改支付密码</h2>
+					<div class="c_r_c_form">
+						<div class="form_tips">
+							<span>请确保支付密码与登录密码不同！ *注：密码最长限6位。</span>
 						</div>
-						<div class="r_c_t_right">
-							<div class="r_c_t_r_top">
-								<h4>用户名123456</h4>
+						<form action="#" class="form-horizontal" id="signupForm">
+							<div class="form-group">
+								<label class="control-label">当前支付密码：</label>
+								<input type="text" class="form-control" name="oldpaypwd" id="oldpaypwd"/>
 							</div>
-							<div class="r_c_t_r_middle">
-								<div class="r_c_t_r_m_left">
-									<h3>账户余额</h3>
-									<h4>0.00</h4>
-								</div>
-								<div class="r_c_t_r_m_middle">
-									<a class="a1" href="../../../../../project/CreatCenter/prom_priManage.html">充值</a>
-									<a class="a2" href="../../../../../project/CreatCenter/prom_priManage.html">提款</a>
-								</div>
-								<div class="r_c_t_r_m_right">
-									<br/> &nbsp;&nbsp;&nbsp;&nbsp;
-									<a class="a3" href="../../../../../project/CreatCenter/prom_priManage.html">充值查询</a>
-									|
-									<a class="a3" href="../../../../../project/CreatCenter/prom_priManage.html">提款查询</a>
-								</div>
+							<div class="form-group">
+								<label class="control-label">新的支付密码：</label>
+								<input type="text" class="form-control" name="newpaypwd" id="newpaypwd"/>
 							</div>
-							<div class="r_c_t_r_bottom">
-								<ul class="r_c_t_r_b_ul">
-									<li class="">
-										<span>发布总数</span>
-										<h4>0</h4>
-									</li>
-									<li>
-										<span>完工项目</span>
-										<h4>0</h4>
-									</li>
-									<li>
-										<span>开发中项目</span>
-										<h4>0</h4>
-									</li>
-									<li>
-										<span>超时项目</span>
-										<h4>0</h4>
-									</li>
-									<li>
-										<span>失败项目</span>
-										<h4>0</h4>
-									</li>
-									<li>
-										<span>交易金额</span>
-										<h4>0.00</h4>
-									</li>
-								</ul>
+							<div class="form-group">
+								<label class="control-label">确认新支付密码：</label>
+								<input type="text" class="form-control" name="againpaypwd" id="againpaypwd"/>
 							</div>
-						</div>
-					</div>
-					<div class="r_c_middle">
-						<h2>待处理的项目动态</h2>
-						<table class="table">
-							<thead>
-								<tr>
-									<th>项目</th>
-									<th>项目状态</th>
-									<th>项目开始日期</th>
-									<th>项目结束日期</th>
-									<th>操作</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>创客中心项目设计</td>
-									<td>待完成</td>
-									<td>2018/09/06 20:00</td>
-									<td>2018/09/16 20:00</td>
-									<td>
-										<button type="button" class="btn btn-sm" id="table_btn">查看详情</button>
-									</td>
-								</tr>
-																<tr>
-									<td>创客中心项目设计</td>
-									<td>待完成</td>
-									<td>2018/09/06 20:00</td>
-									<td>2018/09/16 20:00</td>
-									<td>
-										<button type="button" class="btn btn-sm" id="table_btn">查看详情</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="r_c_bottom">
-						<h2>优秀工作室推荐</h2>
+							<div class="form-group">
+								<button type="submit" class="btn btn_sumbit">确认</button>
+								<button type="reset" class="btn btn_reset">重置</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
+
 		</div>
 
 		<footer>
@@ -250,7 +184,7 @@
 					<div class="foot_panel_left">
 						<div class="img">
 							<a href="#">
-								<img src="../../../../../project/CreatCenter/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+								<img src="../../../../../../project/CreatCenter/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
 							</a>
 						</div>
 						<div class="beian">
@@ -309,8 +243,8 @@
 				</div>
 			</div>
 		</footer>
-		<script type="text/javascript" src="../../../../../project/CreatCenter/js/js_lxn/prom-jquery.js" ></script>
-		
+
+		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/js_lxn/prom-jquery.js"></script>
 	</body>
 
 </html>
