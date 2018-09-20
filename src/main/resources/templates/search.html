@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>在线求职</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+		<link href="css/css_hlj/sea.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css_psw/style_head.css" />
+		<style>
+			body {
+				/*background: #eeeeee;*/
+			}
+			/*模态框*/
+			
+			.file {
+				position: relative;
+				display: inline-block;
+				background: #D0EEFF;
+				border: 1px solid #99D3F5;
+				border-radius: 4px;
+				padding: 4px 12px;
+				overflow: hidden;
+				color: #1E88C7;
+				text-decoration: none;
+				text-indent: 0;
+				line-height: 20px;
+			}
+			
+			.file input {
+				position: absolute;
+				font-size: 100px;
+				right: 0;
+				top: 0;
+				opacity: 0;
+			}
+			
+			.file:hover {
+				background: #AADFFD;
+				border-color: #78C3F3;
+				color: #004974;
+				text-decoration: none;
+			}
+			/*a{
+				/*background: #FFFF77;*/
+			/*color: #555;*/
+			/*}*/
+			/*<a>*/
+			/* 未访问的链接 		黑色*/
+			/*a:link {
+				color: #AAAAAA;*/
+			/*background: pink;*/
+			/*}*/
+			/* 已访问的链接 		红色*/
+			/*a:visited {
+				color: #FF3333;
+				background: pink;	
+				
+			}*/
+			/* 当有鼠标悬停在链接上	黄色 */
+			/*a:hover {
+				color: #FFFF00
+			}*/
+			/* 被选择的链接 		绿色*/
+			/*a:active {
+				color: #00FF00
+			}*/
+			
+			
+		</style>
+
+
+	</head>
+
+	<body>
+
+		<header>
+			<div class="container-fluid container-fluid_up">
+				<div class="row_up">
+					<ul class="list-unstyled">
+						<li>
+							<a href="#">帮助中心</a>
+						</li>
+						<li>
+							<a href="#">注册</a>
+						</li>
+						<li>
+							<a href="#">登录</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="container-fluid container-fluid_main">
+				<div class="row_main">
+					<div class="main_logo">
+						<img class="img-responsive img-rounded" src="img/img_psw/logo2.png" />
+					</div>
+					<div class="main_right">
+						<ul class="nav_psw list-unstyled">
+							<li class="active">
+								<a>首 页</a>
+							</li>
+							<li>
+								<a>项目大厅</a>
+							</li>
+							<li>
+								<a>服务大厅</a>
+							</li>
+							<li>
+								<a>创客讲堂</a>
+							</li>
+							<li>
+								<a>原创中心</a>
+							</li>
+							<li>
+								<a>荣誉中心</a>
+							</li>
+							<li>
+								<a>在线求职</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</header>
+		
+	
+		
+		<!--<label>45</label>
+		<label>45</label>-->
+		<!--<a href="#">连接</a>
+		<a>连接</a>-->
+
+		<div class="major">
+			<div class="kong"></div>
+			<div class="search">
+				<div class="searchL"></div>
+				<div class="search2">
+					<div class="searchM">
+						<div class="input-group">
+							<input type="text" placeholder="请输入工作室名称或标签" class="input-sm form-control">
+							<span class="input-group-btn">
+                			<button type="button" class="btn btn-sm btn-primary but" > 搜索</button> </span>
+						</div>
+					</div>
+					<div class="searchR"></div>
+				</div>
+			</div>
+
+			<div class="mid">
+
+				<div class="choice">
+					<ul class="list-unstyled">
+						<li class="li1">
+							<div class="explain">
+								<label>技术类型</label>
+							</div>
+							<div class="type">
+								<span class="ATpye">
+									<a href="#">不限</a>								
+								</span>
+								<span class="ATpye" >
+									<a href="#">java</a>					
+								</span>
+								<span class="ATpye">
+									<a href="#">html</a>
+								</span>
+								<span class="ATpye">
+									<a href="#">c语言</a>
+								</span>
+								<span class="ATpye">
+									<a href="#">JavaWebl</a>
+								</span>
+								<span class="ATpye">
+									<a href="#">bootstrap</a>
+								</span>
+								<span class="ATpye">
+									<a href="#">jquey</a>
+								</span>
+							</div>
+						</li>
+
+						<li class="li2">
+							<div class="explain">
+								<label>薪资范围</label>
+							</div>
+							<div class="type">
+								
+								<span class="ATpye">
+									<a href="#">不限</a>							
+								</span>
+								<span class="ATpye">
+									<a href="#">2k以内</a>							
+								</span>
+								<span class="ATpye">
+									<a href="#">2k-5k</a>
+								</span>
+								<span class="ATpye">
+									<a href="#">5k-8k</a>
+								</span>
+								<span class="ATpye">
+									<a href="#">8k-10k</a>
+								</span>
+								<span class="ATpye">
+									<a href="#">10k以上</a>
+								</span>
+							</div>
+						</li>
+						<li class="li3">
+							<div class="explain">
+								<label>工作室排行</label>
+							</div>
+							<div class="type">
+								<span class="ATpye">
+									<a href="#">不限</a>							
+								</span>
+								<span class="ATpye">
+									<a href="#">按评价排行</a>								
+								</span>
+								<span class="ATpye">
+									<a href="#">按接单总数排行</a>
+								</span>
+								<span class="ATpye">
+									<a href="#">按团队人数排行</a>
+								</span>
+								<span class="ATpye">
+									<a href="#">按薪酬排行</a>
+								</span>
+							</div>
+						</li>
+						<li class="li4">
+							<div class="explain">
+								<label>工作室创建时间</label>
+							</div>
+							<div class="type">
+								<span class="ATpye">
+									<a href="#">不限时间</a>								
+								</span>
+								<span class="ATpye">
+									<a href="#">1年以上</a>
+								</span>
+								<span class="ATpye">
+									<a href="#">半年内</a>
+								</span>
+								<span class="ATpye">
+									<a href="#">一个月内</a>
+								</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="down">
+				<!--搜索到的结果数量-->
+				<div class="number">
+					<div class="numberR">
+						<div class="kong"></div>
+						<p class="white" style="float: left;">共搜索到</p>
+						<p class="red" style="float: left;">&nbsp;&nbsp;2&nbsp;&nbsp;</p>
+						<p class="white">相关职位</p>							
+						<div class="line_02 long"></div><br />		
+					</div>
+				</div>
+				<div class="line">
+					<div class="lineR">
+						<!--<div class="line_02 long"></div><br />-->									
+					</div>
+				</div>
+				
+				<ul class="list-unstyled">
+					<li>
+						<!--<div claonmouseover="this.style.backgroundColor='#F4F9FD'"  onmouseout="this.style.backgroundColor='#FFFFFF'">-->
+						<div class="DownLi" onmouseover="this.style.backgroundColor='#F4F9FD'" onmouseout="this.style.backgroundColor='#FFFFFF'">
+							<div class="piture">
+								<img src="img/img_hlj/alibaba2.png" />
+							</div>
+							<div class="studioIntro">
+								<h4><a href="detail.html" class="color">小虎队工作室</a></h4>
+								<!--<label class="white">职位</label>	<label>&nbsp;Java工程师</label><br />
+								<label class="white">发布时间:</label>	<label>&nbsp;7小时前</label><br />
+								<label class="white">工资</label>	<label>&nbsp;5k</label>
+								<label class="white">人数</label>	<label>&nbsp;8人</label><br />
+								<label class="white">职位简介</label>	<label>&nbsp;简介简介简介简介简介简介简介简介简介简介简</label>-->
+								
+								
+								<p class="white" style="float:left;" >职位: </p> <p >&nbsp;&nbsp;java工程师</p>
+								<p class="white" style="float:left;" >发布时间:</p><p>&nbsp;&nbsp;7小时前</p>
+								<p class="white" style="float:left;">工资:</p><p style="float:left;">&nbsp;&nbsp;5k</p>
+								<p class="white" style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;人数:</p><p >&nbsp;&nbsp;8人</p>
+								<p class="white" style="float:left;">职位简介: </p><p>&nbsp;&nbsp;简介简介简介简介简介简介简介简介简介简介简介简介简介</p>
+								<!--<div style="height:250px ;width: 150px;background: peru;">
+									999
+								</div>-->
+							</div>
+
+							<div class="join">
+								<div class="joinUp"></div>
+								<div class="joinM">
+									<!--<a class="btn btn-block btn-primary compose-mail" href="mail_compose.html" data-toggle="modal" data-target="#myModal">申请加入</a>-->
+									<a class="btn btn-block btn-primary compose-mail but" href="detail.html" target="_blank">申请加入</a>
+								</div>
+								<div class="joinD"></div>
+
+							</div>
+							<!--1<br />1<br />1<br />1<br />1<br />-->
+						</div>
+					</li>
+					
+					<li>
+						<!--<div claonmouseover="this.style.backgroundColor='#F4F9FD'"  onmouseout="this.style.backgroundColor='#FFFFFF'">-->
+						<div class="DownLi" onmouseover="this.style.backgroundColor='#F4F9FD'" onmouseout="this.style.backgroundColor='#FFFFFF'">
+							<div class="piture">
+								<img src="img/img_hlj/alibaba2.png" />
+							</div>
+							<div class="studioIntro">
+								<h4>小虎队工作室</h4>
+								<!--<label class="white">职位</label>	<label>&nbsp;Java工程师</label><br />
+								<label class="white">发布时间:</label>	<label>&nbsp;7小时前</label><br />
+								<label class="white">工资</label>	<label>&nbsp;5k</label>
+								<label class="white">人数</label>	<label>&nbsp;8人</label><br />
+								<label class="white">职位简介</label>	<label>&nbsp;简介简介简介简介简介简介简介简介简介简介简</label>-->
+								
+								
+								<p class="white" style="float:left;" >职位: </p> <p >&nbsp;&nbsp;java工程师</p>
+								<p class="white" style="float:left;" >发布时间:</p><p>&nbsp;&nbsp;7小时前</p>
+								<p class="white" style="float:left;">工资:</p><p style="float:left;">&nbsp;&nbsp;5k</p>
+								<p class="white" style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;人数:</p><p >&nbsp;&nbsp;8人</p>
+								<p class="white" style="float:left;">职位简介: </p><p>&nbsp;&nbsp;简介简介简介简介简介简介简介简介简介简介简介简介简介</p>
+								<!--<div style="height:250px ;width: 150px;background: peru;">
+									999
+								</div>-->
+							</div>
+
+							<div class="join">
+								<div class="joinUp"></div>
+								<div class="joinM">
+									<!--<a class="btn btn-block btn-primary compose-mail" href="mail_compose.html" data-toggle="modal" data-target="#myModal">申请加入</a>-->
+									<a class="btn btn-block btn-primary compose-mail but" href="detail.html" target="_blank">申请加入</a>
+								</div>
+								<div class="joinD"></div>
+
+							</div>
+							<!--1<br />1<br />1<br />1<br />1<br />-->
+						</div>
+					</li>
+					
+					
+
+					<!--<li>
+						<div class="piture">
+							
+						</div>
+						<div class="studioIntro"></div>
+						<div class="join"></div>
+					</li>-->
+				</ul>
+				
+				
+			</div>
+		</div>
+
+		<!--模态框-->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<!--聚焦的部分-->
+				<div class="modal-content">
+					<!--模态框标题部分-->
+					<div class="modal-header">
+						<!--退出按钮 X-->
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<!--标题-->
+						<h4 class="modal-title" id="myModalLabel">
+							提交你的简历
+						</h4>
+					</div>
+
+					<!--模态主题-->
+					<div class="modal-body" id="ModalBody">
+						请上传你的简历文件<br><br>
+						<div <a href="javascript:;" class="file">选择文件
+							<input type="file" name="" id="">
+							</a>
+
+						</div>
+
+					</div>
+
+					<!--尾栏-->
+					<div class="modal-footer">
+						<!--关闭按钮-->
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<!--提交按钮-->
+						<button type="button" class="btn btn-primary">确定提交</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+		<footer>
+			<div class="container-fluid_foot">
+				<div class="foot_panel">
+					<div class="foot_panel_left">
+						<div class="img">
+							<a href="#">
+								<img src="img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+							</a>
+						</div>
+						<div class="beian">
+							<p>创客网 © 2018－
+								<br>肇庆学院东软实训班第三组版权所有
+								<br>[粤ICP备xxxxxxx号-x] 标识
+								<br> 粤公网安备xxxxxxxxxx号</p>
+						</div>
+					</div>
+					<div class="foot_panel_right">
+						<div class="foot_panel_right_row">
+							<ul class="list-unstyled">
+								<li>
+									<h4>新手指南</h4>
+									<a href="/help/register">注册登录问题</a><br />
+									<a href="/help/process">项目交易流程</a><br />
+									<a href="/help/fund">充值提款问题</a><br />
+									<a href="help/about_agreement">用户注册协议</a><br />
+									<a href="/help/bid_payings">为何付费竞标</a>
+								</li>
+								<li>
+									<h4>特色服务</h4>
+									<a href="/help/renzheng">实名认证</a><br />
+									<a href="/help/searchs">精准搜索</a><br />
+									<a href="/help/workhour">小时报价</a><br />
+									<a href="/help/bumanyituikuan">不满意退款</a><br />
+									<a href="/help/bid_card">竞标卡规则</a>
+								</li>
+								<li>
+									<h4>评价信誉</h4>
+									<a href="/help/pingjiadengm">操作演示</a><br />
+									<a href="/help/service_payings">服务收费</a><br />
+									<a href="/help/evaluations">用户评价</a><br />
+									<a href="/help/jifens">积分体系</a><br />
+									<a href="/help/controversy">争议解决</a>
+								</li>
+								<li>
+									<h4>答疑中心</h4>
+									<a href="/help/pro_relase">项目发布问题</a><br />
+									<a href="/help/bid_joinings">参与竞标问题</a><br />
+									<a href="/help/pro_runnings">项目开发问题</a><br />
+									<a href="/help/pro_done">项目完工问题</a><br />
+									<a href="/help/it_realse">信息发布问题</a>
+								</li>
+								<li>
+									<h4>联系我们</h4>
+									<a href="/help/about_us">关于SXSOFT</a><br />
+									<a href="/help/about_company">公司概况</a><br />
+									<a href="/help/contact_us">联系方式</a><br />
+									<a href="/help/about_advertising">广告投放</a><br />
+									<a href="/help/links">友情链接</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		
+		<script>
+			$(".li1 .ATpye a").click(function() {
+				$(".li1 .ATpye").removeClass("current");
+				$(this).parent().addClass("current");
+				
+				$(".li1 .ATpye a").removeClass("current");
+				$(this).addClass("current");
+			})
+			
+//			$(".li1 .ATpye a").click(function() {
+//				$(".li1 .ATpye a").removeClass("current");
+//				$(this).parent().addClass("current");
+//			})
+			
+			
+			$(".li2 .ATpye a").click(function() {
+				$(".li2 .ATpye").removeClass("current");
+				$(this).parent().addClass("current");
+				
+				$(".li2 .ATpye a").removeClass("current");
+				$(this).addClass("current");
+			})
+			
+			$(".li3 .ATpye a").click(function() {
+				$(".li3 .ATpye").removeClass("current");
+				$(this).parent().addClass("current");
+				
+				$(".li3 .ATpye a").removeClass("current");
+				$(this).addClass("current");
+			})
+			$(".li4 .ATpye a").click(function() {
+			$(".li4 .ATpye").removeClass("current");
+				$(this).parent().addClass("current");
+				
+				$(".li4 .ATpye a").removeClass("current");
+				$(this).addClass("current");
+			})
+		</script>
+	</body>
+
+</html>
