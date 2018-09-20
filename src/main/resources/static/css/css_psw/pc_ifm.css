@@ -1,0 +1,113 @@
+.col_right {
+	height: 640px;
+	border-bottom: 1px solid #E8E8E8;
+	background: #ffffff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.col_right_ifm_up_1 {
+	width: 810px;
+	margin-left: 15px;
+	height: 40px;
+	background: #ffffff;
+	border-bottom: 1px dashed #ddd;
+}
+
+.col_right_ifm_down {
+	width: 800px;
+	margin-left: 15px;
+}
+
+.col_right_ifm_up_1 span {
+	margin-top: 17px;
+	margin-right: 10px;
+	float: right;
+	border: none;
+	font-size: 13px;
+}
+
+.col_right_ifm_down_left {
+	padding-top: 20px;
+	float: left;
+	width: 150px;
+}
+
+.r_c_t_left {
+	width: 155px;
+	height: 165px;
+	padding-left: 15px;
+	padding-right: 15px;
+	position: absolute;
+}
+
+.r_c_t_l_img {
+	width: 125px;
+	height: 125px;
+	position: absolute;
+	z-index: 2;
+}
+
+.r_c_t_l_updateimg {
+	width: 125px;
+	height: 27px;
+	background-color: #000000;
+	position: absolute;
+	z-index: 1;
+	bottom: 0;
+	border-radius: 6px;
+	opacity: 0.4;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 13px;
+	text-align: center;
+}
+
+.r_c_t_l_updateimg a {
+	color: #FFFFFF;
+}
+
+.imgsize {
+	width: 125px;
+	height: 125px;
+}
+
+.r_c_t_l_pcData {
+	width: 125px;
+	height: 27px;
+}
+
+.pcDatabtn {
+	width: 125px;
+	height: 32px;
+	padding-top: 5px;
+	background-color: #1ab394;
+	color: #FFFFFF;
+	text-align: center;
+	border-radius: 6px;
+	position: absolute;
+	bottom: 0;
+}
+
+.col_right_ifm_down_right {
+	padding-top: 20px;
+	float: right;
+	width: 630px;
+}
+
+.col_right_ifm_down_right_1 .username {
+	font-size: 16px;
+	color: #999;
+}
+
+.col_right_ifm_down_right_2 {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px dashed #ddd;
+}
+
+.col_right_ifm_down_right_3 ul li {
+	height: 32px;
+	line-height: 32px;
+	font-size: 14px;
+	color: #4d4d4d;
+}
