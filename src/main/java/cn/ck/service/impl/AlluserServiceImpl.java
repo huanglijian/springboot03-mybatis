@@ -3,7 +3,10 @@ package cn.ck.service.impl;
 import cn.ck.entity.Alluser;
 import cn.ck.mapper.AlluserMapper;
 import cn.ck.service.AlluserService;
+import cn.ck.utils.ShiroUtils;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +20,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class AlluserServiceImpl extends ServiceImpl<AlluserMapper, Alluser> implements AlluserService {
 
+    @Override
+    public boolean updatePassword(String userUUId, String password, String newPassword) {
+        Alluser user = new Alluser();
+        user.setAllPwd(newPassword);
+        return this.update(user,
+                new EntityWrapper<Alluser>().eq("all_id", userUUId).eq("all_pwd", password));
+    }
+
+    @Override
+    public void save(Alluser user) {
+        String salt = RandomStringUtils.randomAlphanumeric(20);
+        user.setAllSalt(salt);
+        user.setAllPwd(ShiroUtils.sha256(user.getAllPwd(), user.getAllSalt()));
+        this.insert(user);
+
+        //保存用户与角色关系
+        baseMapper.insert(user);
+    }
 }

@@ -51,7 +51,7 @@ public class LoginController {
 		}
 	}
 	
-	@GetMapping("/403")
+	@RequestMapping("/403")
 	public String forbid() {
 		return "error/403";
 	}
@@ -62,6 +62,7 @@ public class LoginController {
 		model.addAttribute("user", user);
 		return "index";
 	}
+
 	/**
 	 * 退出
 	 */

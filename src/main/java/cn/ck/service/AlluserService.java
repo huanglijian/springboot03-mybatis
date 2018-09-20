@@ -13,5 +13,16 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface AlluserService extends IService<Alluser> {
 
+    /**
+     * 修改密码
+     * @param userUUId       用户UUID
+     * @param oldPassword     原密码
+     * @param newPassword  新密码
+     */
+    boolean updatePassword(String userUUId, String oldPassword, String newPassword);
 
+    /**
+     * 保存用户
+     */
+    void save(Alluser user);
 }
