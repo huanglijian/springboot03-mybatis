@@ -18,7 +18,7 @@ public class LoginController {
 
 	@RequestMapping("/")
 	public String homePage(){
-		return "cwh/resource_player";
+		return "homePage";
 	}
 
 	@GetMapping("/login")
@@ -29,7 +29,6 @@ public class LoginController {
 	@PostMapping("/login")
 	@ResponseBody
 	public ResponseBo login(String username, String password, Boolean rememberMe) {
-//		password = MD5Utils.encrypt(username, password);
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
 		Subject subject = SecurityUtils.getSubject();
 		try {
