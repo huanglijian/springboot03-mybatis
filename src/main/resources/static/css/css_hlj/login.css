@@ -1,0 +1,106 @@
+.downM {
+	height: auto;
+	/*height: 100px;*/
+	width: 400px;
+	margin-left: 270px;
+	margin-top: 30px;
+	/*background: paleturquoise;*/
+}
+
+.downM .welcome {
+	height: 40px;
+	width: 400px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	
+	/*background: palegreen;*/
+}
+
+.downM .welcome span {
+	/*float: left;*/
+	font-size: 22px;
+	margin-left: 70px;
+}
+
+.downM .email {
+	height: 40px;
+	width: 400px;
+	float: left;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	/*background: palegoldenrod;*/
+}
+
+.downM .email input{
+	margin-left: 40px;
+	width: 200px;
+	
+}
+
+.downM .pwd{
+	width: 400px;
+	height: 40px;
+	float: left;
+	margin-bottom: 10px;
+	/*background: palevioletred;*/
+}
+.downM .pwd input{
+	margin-left: 40px;
+	width: 200px;
+}
+
+.downM .verify{
+	width: 400px;
+	height: 40px;
+	float: left;
+	margin-bottom: 20px;
+	/*background: palegreen;*/
+}
+
+.downM .verify span{
+	/*margin-bottom: 10px;*/
+	margin-left: 10px;
+	/*background: palegoldenrod;*/
+	}
+
+.downM .verify input{
+	margin-left: 40px;
+	float: left;
+	width: 120px;
+}
+
+.downM .verify img{
+	margin-left: 40px;
+	float: left;
+	width: 100px;
+	height: 35px;
+}
+
+.login{
+	width: 400px;
+	height: 40px;
+	float: left;
+	/*background: palegoldenrod;*/
+}
+.login button{
+	margin-left: 40px;
+	height: 35px;
+	width: 200px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
