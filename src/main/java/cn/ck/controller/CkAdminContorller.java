@@ -35,4 +35,9 @@ public class CkAdminContorller {
     public String lxntest(){
         return "promulgator/prom_Account";
     }
+
+    @RequestMapping("/psw")
+    public String pswtest(){
+        return "users/pc_mfy_information";
+    }
 }
