@@ -1,0 +1,377 @@
+
+ 
+            .studioSelect1{
+                border:1px solid gainsboro;
+                border-radius: 3px;   
+                height: 35px;   
+                width: 80px;      	
+            }
+            .studioSelect2{
+                border:1px solid gainsboro;
+                border-radius: 3px;   
+                height: 35px;   
+                width: 137px;      	
+            }
+			.ibox-content_mzb {
+				clear: both;
+			    
+			    color: inherit;
+			    padding: 15px 20px 20px 20px;
+			    border-color: #e7eaec;
+			    -webkit-border-image: none;
+			    -o-border-image: none;
+			    border-image: none;
+			    border-style: solid solid none;
+			    border-width: 1px 0px;	
+			}
+
+
+			/*资金设计*/
+			.fundCzbtn1{
+				border: 0px solid #5cb85c; 
+				border-radius: 5px;
+				color: white;
+				background-color: #5cb85c;
+				padding: 6px 30px 6px 30px;
+				margin-left: 1%;
+				margin-right: 0%;
+				
+			}
+
+			.fundCzbtn2{
+				border: 0px solid #5cb85c; 
+				border-radius: 5px;
+				color: white;
+				background-color: darkgray;
+				padding: 6px 30px 6px 30px;
+				margin-left: 0%;
+				margin-right: 3%;
+				
+			}	
+			.fundTop{
+				position: relative;
+				left:2%;
+				top: 20px;
+			}
+			.fundCenter{
+				position: relative;
+				left:7%;
+				top: 30px;
+			}			
+			/*竞标设计*/
+			.bidInput{
+				border-radius: 3px;
+				border: 1px solid gray;
+				outline: none;
+				height: 24px;
+			}
+			.bidaButton{
+				background-color:#2eb135;
+				border-radius: 5px;
+				position: relative;
+				top: -2px;				
+			}
+			.bidSelect{
+				width: 100px;
+				height: 24px;
+				border-radius: 3px;
+				border: 1px solid gray;
+				outline: none;			
+				position: relative;
+				top: 1px;	
+			}
+			
+			.content{
+				margin-top: 0px;
+				width:1080px;
+				/*height: 1000px;*/
+				margin-bottom: 30px;
+			/*	margin-top: 20px;*/
+			 }
+			.content .navL{
+				float: left;
+				width:220px;
+				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+				/*height:700px;*/
+				/*background-color: white;*/
+				/*margin-right: 0px;*/
+			}
+			.content .main{
+				float: right;
+				width:830px;
+				margin-left: 0px;
+				/*height:800px;*/
+			}
+			.content .main .mainTop{
+				width:830px;
+				height:202px;
+				margin-bottom: 20px;
+				background-color: white;
+				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+				/*margin-left: 20px;*/
+				/*border: 1px solid #000000;*/
+			}
+			
+			.content .main .mainTop .logo{
+				float: left;
+				width:222px;
+				height:172px;
+				/*background: green;*/
+				margin-bottom: 10px;
+				position: relative;
+				left:0%;
+				margin: 16px 20px;
+				border: 1px solid gainsboro;
+			
+			}
+			.content .main .mainTop .logo .settingimg {
+/*			    border-radius: 6px;
+			    padding: 5px 0;
+			    position: absolute;
+			    bottom: 0;
+			    text-align: center;
+			    background: #000;
+			    width: 100%;
+			    color: #ffffff;
+			    filter: alpha(opacity=50);
+			    -moz-opacity: 0.5;
+			    opacity: 0.5;*/
+			    font-size: 13px;
+			    padding: 2px 0;
+			    color: white;
+			    text-align: center;
+			    width:220px;
+			    height: 20px;
+			    background-color: #000000;
+			    opacity: 0.4;
+			    border-radius:1px ;
+			    position: relative;
+			    top:-12%;
+			   
+			}			
+			
+			
+			.content .main .mainTop .intro{
+				float: right;
+				width:568px;
+				height:202px;
+				position: relative;
+				left:-3%;
+				/*left:-30px;*/
+				/*background: orange;*/
+			   /* margin-right: 15px;*/
+			}		
+			.content .main .mainTop .intro .introTop{
+				
+				width:570px;
+				height:100px;
+				position: relative;
+				/*left:-10px;*/
+		
+			}		
+			.content .main .mainTop .intro .introBottom{
+				/*width: 570px;*/
+				width:570px;
+				height:100px;
+				position: relative;
+			    left: -3px;
+			
+				
+				/*background: red; */
+			}	
+			.content .main .mainTop .intro .introBottom .ibLeft{
+				float: left;
+				width:190px;
+				height:100px;
+			    border-right: 1px solid gainsboro;
+				/*background: orange; */
+			}	
+	
+			.content .main .mainTop .intro .introBottom .ibRight{
+				float:left;
+				width:380px;
+				height:100px;
+				
+				/*background: pink; */
+			}			
+			.content .main .mainTop .intro .introBottom .ibRight .ibRleft{
+				float:left;
+				width:190px;
+				height:100px;
+				border-right: 1px solid gainsboro;
+			
+				/*background: green; */
+			}	
+			.content .main .mainTop .intro .introBottom .ibRight .ibRright{
+				float:right;
+				width:190px;
+				height:100px;
+				/*background: plum; */
+			}
+			.content .main .mainContent{
+				width:830px;
+				/*height:600px;*/
+				/*border: 0.2px solid  #000000;*/
+				/*margin-left: 20px;*/
+				margin-bottom: 50px;
+				background-color: white;
+				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+				/*background:skyblue;*/
+				
+			}
+			/*竞标一览*/
+			.content .main .mainContent .bidAllTop{
+                position: relative;
+				top:20px;
+				left:0%;
+			}			
+			
+			/*项目管理*/
+			.content .main .mainContent .bpmTop{
+				width:800px;
+				height:120px;
+				/*border: 0.2px solid  #000000;*/
+				margin:10px 10px 0px 0px;
+				/*background:skyblue;*/
+			}		
+
+			.content .main .mainContent .bpmBottom{
+				width:800px;
+				/*height:200px;*/
+				/*margin:0px 10px 0px 10px;*/
+				/*border: 0.2px solid  #000000;*/
+				/*margin-bottom: 10px;*/
+				/*background:skyblue;*/
+			}		
+			
+			/*竞标项目表格*/
+			.content .main .mainContent .bidTable{
+				width:800px;
+				height:90px;
+                /*border: 0.5px solid #006621;*/
+                position: relative;
+				left:-10%;
+				
+			}	
+				
+		    .content .main .mainContent .bidTable .btLeft{
+				float: left;
+				width:400px;
+				height:90px;
+              
+				
+			}			
+
+		    .content .main .mainContent .bidTable .btRight{
+				float:right;
+				width:400px;
+				height:90px;
+              
+				
+			}			
+			
+			
+			/*工作室首页*/
+			.content .main .mainContent .memberList{
+				width: 160px;
+				height: 230px;
+				
+				float:left;
+				position: relative;
+				left:0%;
+				margin-right: 25px;
+				margin-bottom: 20px;
+				
+			}
+		/*	.mblistBlock{
+				display: block;
+			}*/
+
+			
+			.content .main .mainContent .memberList .mTop{
+				width: 160px;
+				height: 160px;
+				
+			}
+			.content .main .mainContent .memberList .mBottom{
+				width: 160px;
+				height: 70px;
+				background-color:gainsboro;
+			}
+			
+			.content .main .mainContent .memberList .mBottom .mbLeft{
+			     float: left;
+			     position: relative;
+			     left:3%;
+			     
+			}
+			
+			.content .main .mainContent .memberList .mBottom .mbRight{
+			     float: right;
+			     position: relative;
+			     right:3%;
+			}
+			.content .main .mainContent .memberList .mBottom .mbTop{
+			     width: 200px;
+			     height: 40px;
+			     margin-bottom: 2px;
+			     color: orange;
+			}
+			.content .main .mainContent .memberList .mBottom .mbTop .mbtLeft{
+                 float: left;
+			     
+			}
+	
+			.content .main .mainContent .memberList .mBottom .mbTop .mbtRight{
+                 float: right;
+			     
+			}		
+			.content .main .mainContent .memberList .mBottom .mbBottm{
+			     width: 200px;
+			     height: 23px;
+			     float: left;
+			     color: goldenrod;
+			    
+			}
+			
+			/*案例列表*/
+			.content .main .mainContent .projectList{
+				width: 220px;
+				height: 320px;
+				
+				float:left;
+				position: relative;
+				left:-1%;
+				margin-right: 30px;
+				margin-bottom: 20px;
+				background-color: #DCDCDC;
+			}			
+			.content .main .mainContent .projectList .pTop{
+				width: 220px;
+				height: 220px;
+				background-color: pink;
+			}	
+			.content .main .mainContent .projectList .pCenter{
+
+			}	
+			.content .main .mainContent .projectList .pBottom{
+                 float: right;
+			}				
+			.bidLabel{
+				 font-size: 12px;
+			     border-radius: 5px;
+	             padding: 2px 4px;
+	             margin-left: 10px;
+	             color: #c9302c !important;
+	             border: 1px solid #c9302c !important;
+			}
+/*          .content .main .mainContent .navTop{
+				float: left;
+				width:800px;
+				height:50px;
+			
+			}*/
+			
+/*           .nav-tabs{
+           	border-bottom:1px solid #ddd;
+           	}*/

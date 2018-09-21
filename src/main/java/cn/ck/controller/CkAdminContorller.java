@@ -19,25 +19,16 @@ public class CkAdminContorller {
 
     @RequestMapping("/hlj")
     public String test(){
-        return "jobs/search";
-    }
-    @RequestMapping("/search")
-    public String search(){
-        return "/jobs/search";
-    }
-
-    @RequestMapping("login")
-    public String login(){
-        return "login/login";
+        return "search";
     }
 
     @RequestMapping("/lxn")
     public String lxntest(){
-        return "promulgator/prom_Account";
+        return "promulgator/prom_uppaypwd";
     }
 
-    @RequestMapping("/psw")
-    public String pswtest(){
-        return "users/pc_mfy_information";
+    @RequestMapping("/mzb")
+    public String test1(){
+        return "studio/studio_index";
     }
 }
