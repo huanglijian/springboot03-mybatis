@@ -27,7 +27,7 @@ public class Project implements Serializable {
     private Date projCreattime;
     private Date projStarttime;
     private Date projEndtime;
-    private Date projCycletime;
+    private Integer projCycletime;
     private String projIntro;
     private String projFile;
     private String projState;
@@ -101,11 +101,11 @@ public class Project implements Serializable {
         this.projEndtime = projEndtime;
     }
 
-    public Date getProjCycletime() {
+    public Integer getProjCycletime() {
         return projCycletime;
     }
 
-    public void setProjCycletime(Date projCycletime) {
+    public void setProjCycletime(Integer projCycletime) {
         this.projCycletime = projCycletime;
     }
 
