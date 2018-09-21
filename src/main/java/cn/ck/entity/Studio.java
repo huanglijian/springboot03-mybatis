@@ -1,7 +1,7 @@
 package cn.ck.entity;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-19
+ * @since 2018-09-21
  */
 public class Studio implements Serializable {
 

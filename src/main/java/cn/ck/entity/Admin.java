@@ -8,7 +8,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-19
+ * @since 2018-09-21
  */
 public class Admin implements Serializable {
 
