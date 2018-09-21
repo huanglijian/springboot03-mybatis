@@ -38,6 +38,6 @@ public class CkAdminContorller {
 
     @RequestMapping("/psw")
     public String pswtest(){
-        return "users/pc_zhuxiao";
+        return "users/pc_mfy_information";
     }
 }
