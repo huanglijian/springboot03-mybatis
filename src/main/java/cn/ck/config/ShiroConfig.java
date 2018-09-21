@@ -63,7 +63,7 @@ public class ShiroConfig {
 		// 登录成功后要跳转的链接
 //		shiroFilterFactoryBean.setSuccessUrl("/index");
 		// 设置无权限时跳转的 url;
-		shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+//		shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
 		//自定义权限拦截 Filter
 //		Map<String, Filter>filters = Maps.newHashMap();
@@ -76,15 +76,12 @@ public class ShiroConfig {
 		chains.put("/login", "anon");
 		//配置静态文件不会被拦截
 		chains.put("/static/**", "anon");
-//		chains.put("/css/**", "anon");
-//		chains.put("/js/**", "anon");
-//		chains.put("/fonts/**", "anon");
-//		chains.put("/img/**", "anon");
+		chains.put("/403", "anon");
+		chains.put("/captcha.jpg", "anon");
 		chains.put("/druid/**", "anon");
 		//配置不会被拦截的链接
 		chains.put("/", "anon");
 		chains.put("/ckadmin/**", "anon");
-		chains.put("/unauthor", "anon");
 		// 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		chains.put("/logout", "logout");
 		// 剩余请求需要身份认证

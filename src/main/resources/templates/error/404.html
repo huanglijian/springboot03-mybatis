@@ -1,22 +1,38 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html>
+
 <head>
-    <title>404-页面未找到</title>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-    <link rel="shortcut icon" th:href="@{/favicon.ico}"/>
-    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/404.css}" media="screen"/>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>创客平台 - 404 页面</title>
+
+    <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
+
 </head>
-<body>
-<div id="container">
-    <img class="png" th:src="@{/static/img/error/404.png}" alt=""/>
-    <img class="png msg" th:src="@{/static/img/error/404_msg.png}" alt=""/>
-    <p>
-        <a href="/"><img class="png" th:src="@{/static/img/error/404_to_index.png}" alt=""/></a>
-    </p>
-</div>
-<div id="cloud" class="png"></div>
-<pre style="DISPLAY: none"></pre>
+
+<body class="gray-bg">
+
+
+    <div class="middle-box text-center animated fadeInDown">
+        <h1>404</h1>
+        <h3 class="font-bold">页面未找到！</h3>
+
+        <div class="error-desc">
+            抱歉，页面好像去火星了~
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+
 </body>
+
 </html>

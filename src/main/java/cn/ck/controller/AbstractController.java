@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AbstractController {
-//    protected Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 获取登录的用户实例
