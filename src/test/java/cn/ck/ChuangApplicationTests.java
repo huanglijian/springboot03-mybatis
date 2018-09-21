@@ -32,9 +32,9 @@ public class ChuangApplicationTests {
         String pwd = ShiroUtils.sha256("123456", user.getAllSalt());
         user.setAllPwd(pwd);
 
-        user.setAllEmail("1");
+        user.setAllEmail("2");
         user.setAllState("1");
-        user.setAllType("普通用户");
+        user.setAllType("发布者");
 
         alluserService.insert(user);
     }

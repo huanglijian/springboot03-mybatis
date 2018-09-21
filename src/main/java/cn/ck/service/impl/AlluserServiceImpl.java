@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class AlluserServiceImpl extends ServiceImpl<AlluserMapper, Alluser> implements AlluserService {
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean updatePassword(String userUUId, String password, String newPassword) {
         Alluser user = new Alluser();
         user.setAllPwd(newPassword);
@@ -29,6 +31,7 @@ public class AlluserServiceImpl extends ServiceImpl<AlluserMapper, Alluser> impl
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(Alluser user) {
         String salt = RandomStringUtils.randomAlphanumeric(20);
         user.setAllSalt(salt);
