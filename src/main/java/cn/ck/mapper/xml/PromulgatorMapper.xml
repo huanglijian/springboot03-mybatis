@@ -14,4 +14,10 @@
         <result column="prom_img" property="promImg" />
     </resultMap>
 
+    <select id="selectID" resultMap="BaseResultMap">
+        select *
+            from promulgator
+              where prom_id = #{id}
+    </select>
+
 </mapper>
