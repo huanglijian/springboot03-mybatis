@@ -1,0 +1,251 @@
+.container-fluid_body {
+			width: 1080px;
+
+			margin: 0 auto;
+		}
+
+		.restart {
+			width: 1080px;
+			height: 30px;
+			line-height: 30px;
+			background: forestgreen;
+		}
+
+		.restart span {
+			float: left;
+			color: #FFFFFF;
+		}
+
+		.restart a {
+			float: right;
+			color: #FFFFFF;
+			text-decoration: none;
+		}
+
+		.img {
+			width: 1080px;
+		}
+
+		.shaixuan ul {
+			margin-top: 30px;
+		}
+
+		.shaixuan li {
+			margin-top: 10px;
+			margin-bottom: 20px;
+		}
+
+		.shaixuan li span {
+			color: #999;
+			margin-right: 30px;
+			;
+		}
+
+		.shaixuan li a {
+			color: #555;
+			margin-right: 23px;
+			text-decoration: none;
+		}
+
+		.more_d {
+			width: 1060px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			padding-top: 20px;
+			padding-bottom: 20px;
+			border: 1px dotted seagreen;
+			display: none;
+		}
+
+		.input-fix {
+			margin-left: 15px;
+		}
+
+		.more_d a {
+			line-height: 40px;
+			margin-left: 17px;
+		}
+
+		.content {
+			width: 1080px;
+		}
+
+		.paixu {
+			margin-top: 35px;
+			color: #555;
+		}
+
+		.paixu li {
+			margin-top: 10px;
+		}
+
+		.paixu li span {
+			color: #999;
+		}
+
+		.paixu li a {
+			margin-left: 30px;
+			color: #555;
+			text-decoration: none;
+		}
+
+		.paixu li .sum {
+			font-size: 15px;
+			color: forestgreen;
+		}
+
+		.projectBody2 {
+			border-right: solid white 0.5px;
+			width: 120px;
+			height: 120px;
+			float: left;
+			
+			line-height: 20px;
+			text-align: center;
+		}
+     .projectBody2 a{
+			 font-size: 10px;
+			 color: red;
+		 }
+		 .projectBody2 span{
+		 	font-size: 10px;
+		 	color: green;
+		 }
+		.projectBody3 {
+			padding-top: 20px;
+			border-right: solid white 0.5px;
+			width: 550px;
+			margin-left: 10px;
+			float: left;
+			height: 120px;
+			line-height: 20px;
+		}
+     .projectBody3 a{
+			 display:inline-block;
+			 font-size: 16px; 
+			 
+			 text-decoration:none;
+			 height: 30px;
+			 
+		 }
+		 .status{
+		 	border: solid green 1px;
+		 	font-size: 12px;
+		 	color:  limegreen;
+		 	padding-left: 5px;
+		 	padding-right: 5px;
+		 	padding-top: 2px;
+		 	padding-bottom: 2px;
+		 }
+		 
+		 .projectBody3 span{
+		 	font-size: 10px;
+			margin-right:15px;
+			font-weight:100;
+		 }
+		 .projectBody3 em{
+		 font-size: 13px; 
+		 color: green;
+		 }
+		 .green{
+			 color: green;
+		 }
+	
+		.projectBody4 {
+			width: 100px;
+			margin-left: 10px;
+			float: left;
+			height: 120px;
+			padding-top: 45px;
+			padding-left: 20px;
+			vertical-align: middle
+		}
+
+		.projectBody1 ul li {
+			height: 120px;
+			margin-bottom: 10px;
+		}
+
+		.projectBody1 ul li:hover {
+			background: #DADADA;
+		}
+    .ProjectLike1{
+			
+     border-top: 1px solid beige;
+    }
+		.ProjectLike1 ul li {
+			margin: 0;
+			font-size: 12px;
+			border: none;
+			color: #0000CC;
+		}
+.ProjectLike1 ul li:nth-child(2n+1){
+                border:0.5px solid beige;
+                border-top:0;
+            }
+   .ProjectLike1 ul li:nth-child(2n){
+                border-bottom:0.5px solid beige;
+                border-right:0.5px solid beige;
+								border-left:0.5px solid beige;
+							
+        }
+.ProjectLike2{
+border-top:0.5px solid beige;
+      }
+		/* ProjectLike2 的A标签 */	
+    .nowrap{   
+			text-decoration:none;
+			color:  darkblue;
+		}
+		.nowrap:hover{   
+			text-decoration:none;
+		}
+		.ProjectLike2 ul li {
+			margin: 5px;
+			font-size: 12px;
+			border: none;
+			color: #0000CC;
+			
+		}
+		.ProjectLike2 ul li:nth-child(2n+1){
+               border:0.5px solid beige;
+               border-top:0;
+            }
+   .ProjectLike2 ul li:nth-child(2n){
+               border-bottom:0.5px solid beige;
+               border-right:0.5px solid beige;
+               border-left:0.5px solid beige;
+							
+        }
+		.ProjectLike1 ul li b {
+			font-size: 15px;
+			font-weight: normal;
+			color:  #31B0D5;
+		
+			padding-right: 10px;
+		}
+
+		.ProjectLike2 ul li b {
+			font-size: 15px;
+			font-weight: normal;
+			color:  #31B0D5;
+			padding-right: 10px;
+		}
+
+		.ProjectLike1-top {
+			font-size: 16px;
+		}
+
+		.ProjectLike2-top {
+			font-size: 16px;
+		}
+
+		.FenYe {
+			float: right;
+		}
+		.sum{
+			font-size: 13px;
+			color: green;
+		}
+		.div-relative{position:relative}      
+		.divnew{position:absolute;left:-10;top:0;}  
