@@ -97,7 +97,7 @@
                     </a>
                     <ul id="projectmanage" class="panel-collapse collapse in">
                         <li>
-                            <a href="prom_projCreat.html">发布项目</a>
+                            <a href="/pcjump/projectcreat">发布项目</a>
                         </li>
                         <li>
                             <a href="prom_projInvit.html">邀请列表</a>
@@ -151,7 +151,7 @@
                         <div class="r_c_t_l_updateimg">
                             <a href="prom_updatephoto.html">更换头像</a>
                         </div>
-                        <img :src="src" alt="" class="imgsize"/>
+                        <img :src="src" alt="" class="imgsize" />
                     </div>
                     <div class="r_c_t_l_pcData">
                         <a class="pcDatabtn" href="prom_updateprom.html">修改资料</a>
@@ -159,12 +159,12 @@
                 </div>
                 <div class="r_c_t_right">
                     <div class="r_c_t_r_top">
-                        <h4>{{account.prom.promName}}</h4>
+                        <h4 v-if="account.prom && account.prom.promName">{{account.prom.promName}}</h4>
                     </div>
                     <div class="r_c_t_r_middle">
                         <div class="r_c_t_r_m_left">
                             <h3>账户余额</h3>
-                            <h4>{{account.account.accMoney}}</h4>
+                            <h4 v-if="account.account && account.account.accMoney">{{account.account.accMoney}}</h4>
                         </div>
                         <div class="r_c_t_r_m_middle">
                             <a class="a1" href="prom_priManage.html">充值</a>
@@ -220,15 +220,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>创客中心项目设计</td>
-                        <td>待完成</td>
-                        <td>2018/09/06 20:00</td>
-                        <td>2018/09/16 20:00</td>
-                        <td>
-                            <button type="button" class="btn btn-sm" id="table_btn">查看详情</button>
-                        </td>
-                    </tr>
                     <tr>
                         <td>创客中心项目设计</td>
                         <td>待完成</td>
@@ -327,15 +318,18 @@
         created: function () {
             $.ajax({
                 type: 'post',
-                url: contextPath+'/promcenter/account',
+                url: '/promcenter/account',
+                datatype:'json',
                 success: function (result) {
                     vm.account = result;
-                    vm.src=require(result.prom.promImg);
+                    // var img=result.prom.promImg;
+                    // console.log(img);
+                    vm.src=result.prom.promImg;
                 }
             })
-        }
-    })
+        },
 
+    })
 
 </script>
 </body>

@@ -23,7 +23,7 @@ $.validator.setDefaults({
 
 });
 
-
+//自定义图片、支付密码验证
 $(function() {
 	jQuery.validator.addMethod("filelength", function(value, element) {
 		var length = element.files.length;
@@ -38,16 +38,6 @@ $(function() {
 		var length=value.length;
 		return this.optional(element)||(length==6);
 	},"请输入6位支付密码");
-	
-//	jQuery.validator.addMethod("tagnull",function (value,element) {
-////		var length=$(".label-selected").children("li").length;
-//		var length=element.parent().children("li").length; 
-//		if(length==0){
-//			return false;
-//		}else{
-//			return true;
-//		}		
-//	},"请至少选择1个标签");
 })
 
 //以下为官方示例
@@ -164,14 +154,7 @@ $().ready(function() {
 				equalTo: icon + "两次密码输入不一致"
 			},
 		}
+
 	});
 
-	// propose username by combining first- and lastname
-	$("#username").focus(function() {
-		var firstname = $("#firstname").val();
-		var lastname = $("#lastname").val();
-		if(firstname && lastname && !this.value) {
-			this.value = firstname + "." + lastname;
-		}
-	});
 });

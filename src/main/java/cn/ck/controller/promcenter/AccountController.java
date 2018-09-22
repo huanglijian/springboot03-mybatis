@@ -20,6 +20,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,4 +56,14 @@ public class AccountController {
         System.out.println(prommap);
         return prommap;
     }
+
+//    @RequestMapping("/accountimg")
+//    public void accountimg(HttpServletResponse response) throws IOException {
+//        response.setHeader("Cache-Control", "no-store, no-cache");
+//        response.setContentType("image/jpeg");
+//        File file = new File("/static/img/a1.jpg");
+//        BufferedImage image = ImageIO.read(file);
+//        ServletOutputStream out = response.getOutputStream();
+//        ImageIO.write(image, "jpg", out);
+//    }
 }
