@@ -151,7 +151,7 @@
                         <div class="r_c_t_l_updateimg">
                             <a href="prom_updatephoto.html">更换头像</a>
                         </div>
-                        <img src="{{account.prom.promImg}}" alt="" class="imgsize"/>
+                        <img :src="src" alt="" class="imgsize"/>
                     </div>
                     <div class="r_c_t_l_pcData">
                         <a class="pcDatabtn" href="prom_updateprom.html">修改资料</a>
@@ -315,17 +315,22 @@
 </footer>
 <script type="text/javascript" src="/static/js/js_lxn/prom-jquery.js"></script>
 <script type="text/javascript">
+    /*<![CDATA[*/
+    contextPath = /*[[@{/}]]*/ '';
+    /*]]>*/
     var vm = new Vue({
         el: '#right',
         data: {
             account: '',
+            src:'',
         },
         created: function () {
             $.ajax({
                 type: 'post',
-                url: '/prom/account',
+                url: contextPath+'/promcenter/account',
                 success: function (result) {
                     vm.account = result;
+                    vm.src=require(result.prom.promImg);
                 }
             })
         }

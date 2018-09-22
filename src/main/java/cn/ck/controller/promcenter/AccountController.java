@@ -4,8 +4,10 @@ package cn.ck.controller.promcenter;
 import cn.ck.controller.AbstractController;
 import cn.ck.entity.Account;
 import cn.ck.entity.Alluser;
+import cn.ck.entity.Project;
 import cn.ck.entity.Promulgator;
 import cn.ck.service.AccountService;
+import cn.ck.service.ProjectService;
 import cn.ck.service.PromulgatorService;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,18 +24,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/prom")
+@RequestMapping("/promcenter")
 public class AccountController {
     @Autowired
     private PromulgatorService promulgatorService;
     @Autowired
     private AccountService accountService;
+//    @Autowired
+//    private ProjectService projectService;
 
-    @RequestMapping("/tiao")
-    public String tiao(){
-        return "/promulgator/prom_Account";
-    }
-    @RequestMapping("/account")
+    @PostMapping("/account")
     @ResponseBody
     public Map<String,Object> account() {
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
