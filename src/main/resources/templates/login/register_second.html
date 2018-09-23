@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/css_lxn/register-lxn.css" />
-		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/jquery.min.js"></script>
-		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/animate.css" />
-		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/font-awesome.css" />
+		<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/static/css/css_lxn/register-lxn.css" />
+		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+		<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="/static/css/animate.css" />
+		<link rel="stylesheet" href="/static/css/font-awesome.css" />
 
 		<!-- jQuery Validation plugin javascript-->
-		<script src="../../../../../../project/CreatCenter/js/plugins/validate/jquery.validate.min.js"></script>
-		<script src="../../../../../../project/CreatCenter/js/plugins/validate/messages_zh.min.js"></script>
-		<script type="text/javascript" src="js/js_lxn/register_validate.js"></script>
+		<script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+		<script src="/static/js/plugins/validate/messages_zh.min.js"></script>
+		<script type="text/javascript" src="/static/js/js_lxn/register_validate.js"></script>
+		<script src="/static/js/vue.js"></script>
 	</head>
 
 	<body>
@@ -21,7 +22,7 @@
 			<div class="contest">
 				<div class="contop col-md-12">
 					<div class="topimg col-md-11">
-						<img src="../../../../../../project/CreatCenter/img/img_hlj/logo2.png" alt="" />
+						<img src="/static/img/img_hlj/logo2.png" alt="" />
 					</div>
 					<div class="topmeg col-md-1">
 						<span><a href="#">首页</a></span>
@@ -34,7 +35,7 @@
 						<p>注册新用户</p>
 					</div>
 					<div class="botimg text-center col-md-12">
-						<img src="../../../../../../project/CreatCenter/img/img_hlj/process_bg_2.png" alt="" />
+						<img src="/static/img/img_hlj/process_bg_2.png" alt="" />
 					</div>
 					<div class="botmeg col-md-12">
 						<span class="botmegspan1 col-md-4">邮箱验证</span>
@@ -42,13 +43,13 @@
 						<span class="botmegspan3 col-md-4">注册成功</span>
 					</div>
 					<div class="botform col-md-12">
-						<div class="formmeg col-md-12">
+						<div class="formmeg col-md-12" id="register">
 							<form action="" class="form-horizontal" id="signupForm">
 								<div class="form-group">
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-envelope"></span>
-											<input type="text" class="form-control" placeholder="123456789@qq.com"  disabled="disabled"/>
+											<input type="text" class="form-control" placeholder="[[${uuid}]]"  disabled="disabled"/>
 										</div>
 									</div>
 								</div>
@@ -110,6 +111,108 @@
 								</div>
 							</form>
 						</div>
+						<script type="text/javascript">
+                            /*<![CDATA[*/
+                            contextPath = /*[[@{/}]]*/ '';
+                            /*]]>*/
+                            var vm = new Vue({
+                                el:'#register',
+                                data:{
+                                    userType: "",
+                                    email: '',
+                                    code:''
+                                },
+                                beforeCreate: function () {
+                                },
+                                created: function () {
+                                },
+                                beforeMount: function () {
+                                },
+                                mounted: function () {
+                                    var obj = this.urlparse();
+                                    if(obj.file === "promulgator")
+                                        this.userType = "发布者";
+                                    else if(obj.file === "user")
+                                        this.userType = "普通用户";
+                                    else this.userType = "";
+                                },
+                                beforeUpdate: function () {
+                                },
+                                updated: function () {
+                                },
+                                beforeDestroy: function () {
+                                },
+                                destroyed: function () {
+                                },
+                                methods: {
+                                    urlparse: function(){
+                                        var url = window.location.href;
+                                        var a = document.createElement('a');
+                                        a.href = url;
+                                        var obj = {
+                                            source: url,
+                                            protocol: a.protocol.replace(':', ''),
+                                            host: a.hostname,
+                                            port: a.port,
+                                            query: a.search,
+                                            file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                                            hash: a.hash.replace('#', ''),
+                                            path: a.pathname.replace(/^([^\/])/, '/$1'),
+                                            relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                                            segments: a.pathname.replace(/^\//, '').split('/'),
+                                            params: (function() {
+                                                var ret = {};
+                                                var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
+                                                    if (v!==''&&v.indexOf('=')) {
+                                                        return true;
+                                                    }
+                                                });
+                                                seg.forEach( function(element, index) {
+                                                    var idx = element.indexOf('=');
+                                                    var key = element.substring(0, idx);
+                                                    var val = element.substring(idx+1);
+                                                    ret[key] = val;
+                                                });
+                                                return ret;
+                                            })()
+                                        };
+                                        return obj;
+                                    },
+                                    sentCode: function () {
+                                        var data = "email="+vm.email;
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/registered/sentCode",
+                                            data: data,
+                                            dataType: "json",
+                                            success: function(result){
+                                                if(result.code === 0){
+                                                    alert("success");
+                                                }else{
+                                                    alert("出现错误");
+                                                }
+                                            }
+                                        });
+                                    },
+                                    validateEmail: function () {
+                                        var data = "email="+vm.email + "&code=" + vm.code + "&userType=" + vm.userType;
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/registered/validateEmail",
+                                            data: data,
+                                            dataType: "json",
+                                            success: function(result){
+                                                if(result.code === 0){
+                                                    window.location.href = "/registered/second?UUID=" + result.UUID;
+                                                }else{
+                                                    alert(result.msg);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+						</script>
 					</div>
 				</div>
 			</div>

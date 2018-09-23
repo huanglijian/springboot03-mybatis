@@ -3,8 +3,12 @@ package cn.ck.utils;
 import com.alibaba.druid.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * IP地址
@@ -12,6 +16,16 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class IPUtils {
 	private static Logger logger = LoggerFactory.getLogger(IPUtils.class);
+
+	public static String getLocalIP(){
+        InetAddress localHost = null;
+        try {
+            localHost = Inet4Address.getLocalHost();
+        } catch (UnknownHostException e) {
+            logger.error(e.getMessage(),e);
+        }
+        return localHost.getHostAddress();
+    }
 
 	/**
 	 * 获取IP地址

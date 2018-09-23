@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @ControllerAdvice
 @Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler {
-	
+
 	@ExceptionHandler(value = AuthorizationException.class)
 	public String handleAuthorizationException() {
 		return "error/500";

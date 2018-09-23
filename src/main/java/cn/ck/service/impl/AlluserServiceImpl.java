@@ -10,6 +10,8 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 /**
  * <p>
  *  服务实现类
@@ -40,5 +42,17 @@ public class AlluserServiceImpl extends ServiceImpl<AlluserMapper, Alluser> impl
 
         //保存用户与角色关系
         baseMapper.insert(user);
+    }
+
+    @Override
+    public boolean isExist(String email) {
+        Alluser user = this.selectOne(new EntityWrapper<Alluser>().eq("all_email", email));
+        return user != null;
+    }
+
+    @Override
+    public Alluser setUserUUID(Alluser user) {
+        user.setAllId(UUID.randomUUID().toString());
+        return user;
     }
 }

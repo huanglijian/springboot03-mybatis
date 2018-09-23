@@ -24,16 +24,25 @@ import java.io.IOException;
 
 
 @Controller
-public class LoginController {
+public class LoginController extends AbstractController{
 
+	//验证码产生bean
 	@Autowired
 	private Producer producer;
 
+	//显示主页
 	@RequestMapping("/")
 	public String homePage(){
 		return "homePage";
 	}
 
+	//显示登录页面
+	@GetMapping("/login")
+	public String login() {
+		return "login/login";
+	}
+
+	//获取验证码
 	@RequestMapping("captcha.jpg")
 	public void captcha(HttpServletResponse response)throws IOException {
 		response.setHeader("Cache-Control", "no-store, no-cache");
@@ -50,25 +59,31 @@ public class LoginController {
 		ImageIO.write(image, "jpg", out);
 	}
 
-	@GetMapping("/login")
-	public String login() {
-		return "login/login";
-	}
-
+	/**
+	 * 登录验证
+	 * @param email 用户邮箱
+	 * @param password 密码
+	 * @param captcha 验证码
+	 * @return code：0：成功; 500：失败\ userType : 管理员，发布者，普通用户
+	 */
 	@PostMapping("/login")
 	@ResponseBody
 	public ResponseBo login(String email, String password, String captcha) {
-
+		//验证码验证
 		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
 		if(!captcha.equalsIgnoreCase(kaptcha)){
 			return ResponseBo.error("验证码不正确");
 		}
-
+		//shiro身份验证
 		UsernamePasswordToken token = new UsernamePasswordToken(email, password);
 		Subject subject = SecurityUtils.getSubject();
 		try {
+			//shiro的登录方法
 			subject.login(token);
-			return ResponseBo.ok();
+			//向页面传递数据
+			ResponseBo rb = ResponseBo.ok();
+			rb.put("userType", getUser().getAllType());
+			return rb;
 		} catch (UnknownAccountException e) {
 			return ResponseBo.error(e.getMessage());
 		} catch (IncorrectCredentialsException e) {
