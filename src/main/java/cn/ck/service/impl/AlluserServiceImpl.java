@@ -55,4 +55,10 @@ public class AlluserServiceImpl extends ServiceImpl<AlluserMapper, Alluser> impl
         user.setAllId(UUID.randomUUID().toString());
         return user;
     }
+
+    @Override
+    public Alluser selectByUUID(String UUID) {
+        Alluser user = this.selectOne(new EntityWrapper<Alluser>().eq("all_id", UUID));
+        return user;
+    }
 }

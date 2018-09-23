@@ -39,4 +39,11 @@ public interface AlluserService extends IService<Alluser> {
      * @return 设置了UUID的user实体
      */
     Alluser setUserUUID(Alluser user);
+
+    /**
+     * 根据UUID查找user
+     * @param UUID
+     * @return
+     */
+    Alluser selectByUUID(String UUID);
 }

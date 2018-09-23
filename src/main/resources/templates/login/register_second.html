@@ -44,12 +44,12 @@
 					</div>
 					<div class="botform col-md-12">
 						<div class="formmeg col-md-12" id="register">
-							<form action="" class="form-horizontal" id="signupForm">
+							<form class="form-horizontal" id="signupForm">
 								<div class="form-group">
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-envelope"></span>
-											<input type="text" class="form-control" placeholder="[[${uuid}]]"  disabled="disabled"/>
+											<input type="text" class="form-control" placeholder=""  disabled="disabled"/>
 										</div>
 									</div>
 								</div>
@@ -57,7 +57,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-user"></span>
-											<input type="text" class="form-control" placeholder="用户名" id="name" name="name" />
+											<input type="text" class="form-control" placeholder="用户名" id="name" name="name" v-model="name"/>
 										</div>
 									</div>
 								</div>
@@ -65,7 +65,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-lock"></span>
-											<input type="text" class="form-control" placeholder="登陆密码" id="password" name="password" />
+											<input type="text" class="form-control" placeholder="登陆密码" id="password" name="password" v-model="password"/>
 										</div>
 									</div>
 								</div>
@@ -73,7 +73,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-phone"></span>
-											<input type="text" class="form-control" placeholder="手机号码" id="phone" name="phone" />
+											<input type="text" class="form-control" placeholder="手机号码" id="phone" name="phone" v-model="phone"/>
 										</div>
 									</div>
 								</div>
@@ -81,7 +81,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-yen"></span>
-											<input type="text" class="form-control" placeholder="支付宝账号" id="pay" name="pay" />
+											<input type="text" class="form-control" placeholder="支付宝账号" id="pay" name="pay" v-model="pay"/>
 										</div>
 									</div>
 								</div>
@@ -89,7 +89,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-lock"></span>
-											<input type="text" class="form-control" placeholder="6位支付密码" id="paypwd" name="paypwd" />
+											<input type="text" class="form-control" placeholder="6位支付密码" id="paypwd" name="paypwd" v-model="paypwd"/>
 										</div>
 									</div>
 								</div>
@@ -105,7 +105,7 @@
 								<div class="form-group">
 									<div class="col-md-5">
 										<div class="input-group">
-											<button type="submit" class="btn sub_register">&nbsp;&nbsp;注册&nbsp;&nbsp;</button>
+											<button type="button" class="btn sub_register" @click="register">&nbsp;&nbsp;注册&nbsp;&nbsp;</button>
 										</div>
 									</div>
 								</div>
@@ -118,23 +118,24 @@
                             var vm = new Vue({
                                 el:'#register',
                                 data:{
-                                    userType: "",
+                                    userId: "",
                                     email: '',
-                                    code:''
+                                    code:'',
+									user:'',
+									name:'',
+									password:'',
+									phone:'',
+									pay:'',
+									paypwd:''
                                 },
                                 beforeCreate: function () {
                                 },
                                 created: function () {
                                 },
                                 beforeMount: function () {
+                                    this.getUser();
                                 },
                                 mounted: function () {
-                                    var obj = this.urlparse();
-                                    if(obj.file === "promulgator")
-                                        this.userType = "发布者";
-                                    else if(obj.file === "user")
-                                        this.userType = "普通用户";
-                                    else this.userType = "";
                                 },
                                 beforeUpdate: function () {
                                 },
@@ -178,12 +179,31 @@
                                         };
                                         return obj;
                                     },
-                                    sentCode: function () {
-                                        var data = "email="+vm.email;
+									getUser: function(){
+                                        var obj = this.urlparse();
+                                        var data = "UUID="+obj.params.UUID;
                                         $.ajax({
                                             type: "POST",
-                                            url: "/registered/sentCode",
+                                            url: "/registered/getUserByID",
                                             data: data,
+                                            dataType: "json",
+                                            success: function(result){
+                                                if(result.code === 0){
+                                                    vm.user = result.user;
+                                                    console.log(vm.user);
+                                                }else{
+                                                    alert("出现错误");
+                                                }
+                                            }
+                                        });
+									},
+                                    register: function () {
+                                        var data = vm.user;
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/registered/getUserMessage",
+                                            data:  JSON.stringify(data),
+                                            contentType:"application/json",
                                             dataType: "json",
                                             success: function(result){
                                                 if(result.code === 0){
@@ -191,25 +211,12 @@
                                                 }else{
                                                     alert("出现错误");
                                                 }
+                                            },
+                                            error: function () {
+                                                alert("asdasdas");
                                             }
                                         });
                                     },
-                                    validateEmail: function () {
-                                        var data = "email="+vm.email + "&code=" + vm.code + "&userType=" + vm.userType;
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "/registered/validateEmail",
-                                            data: data,
-                                            dataType: "json",
-                                            success: function(result){
-                                                if(result.code === 0){
-                                                    window.location.href = "/registered/second?UUID=" + result.UUID;
-                                                }else{
-                                                    alert(result.msg);
-                                                }
-                                            }
-                                        });
-                                    }
                                 }
                             });
 						</script>

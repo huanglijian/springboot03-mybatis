@@ -1,5 +1,8 @@
 package cn.ck.entity;
 
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,7 +18,9 @@ public class Promulgator implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(type = IdType.UUID)
     private String promId;
+
     private String promName;
     private String promPhone;
     private String promAbipay;
