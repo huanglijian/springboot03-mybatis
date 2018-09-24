@@ -33,11 +33,13 @@ import java.util.Map;
 @RequestMapping("/promcenter")
 public class AccountController {
     @Autowired
-    private PromulgatorService promulgatorService;
+    PromulgatorService promulgatorService;
     @Autowired
-    private AccountService accountService;
+    AccountService accountService;
 //    @Autowired
-//    private ProjectService projectService;
+//    ProjectService projectService;
+
+
 
     @PostMapping("/account")
     @ResponseBody
@@ -52,8 +54,8 @@ public class AccountController {
         prommap.put("prom",promulgator);
         prommap.put("account",account);
         String json = JSON.toJSONString(prommap,true);
-        System.out.println(json);
-        System.out.println(prommap);
+//        System.out.println(json);
+//        System.out.println(prommap);
         return prommap;
     }
 

@@ -19,7 +19,7 @@ public class AllUserController extends AbstractController{
 
     @RequestMapping("/saveuser")
     public String saveUser(Alluser user){		//sha256加密
-        alluserService.save(user);
+        alluserService.encodePwd(user);
         return "";
     }
 

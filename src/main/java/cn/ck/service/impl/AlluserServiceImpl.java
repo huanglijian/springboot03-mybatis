@@ -34,14 +34,10 @@ public class AlluserServiceImpl extends ServiceImpl<AlluserMapper, Alluser> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(Alluser user) {
+    public void encodePwd(Alluser user) {
         String salt = RandomStringUtils.randomAlphanumeric(20);
         user.setAllSalt(salt);
         user.setAllPwd(ShiroUtils.sha256(user.getAllPwd(), user.getAllSalt()));
-        this.insert(user);
-
-        //保存用户与角色关系
-        baseMapper.insert(user);
     }
 
     @Override
@@ -57,8 +53,8 @@ public class AlluserServiceImpl extends ServiceImpl<AlluserMapper, Alluser> impl
     }
 
     @Override
-    public Alluser selectByUUID(String UUID) {
-        Alluser user = this.selectOne(new EntityWrapper<Alluser>().eq("all_id", UUID));
+    public Alluser selectByEmail(String email) {
+        Alluser user = this.selectOne(new EntityWrapper<Alluser>().eq("all_email", email));
         return user;
     }
 }
