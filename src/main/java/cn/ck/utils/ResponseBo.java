@@ -3,6 +3,10 @@ package cn.ck.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * ResponseBody 类
+ * 用于返回json数据
+ */
 public class ResponseBo extends HashMap<String, Object>{
 	private static final long serialVersionUID = 1L;
 

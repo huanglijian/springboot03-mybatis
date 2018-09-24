@@ -1,7 +1,9 @@
 package cn.ck;
 
 import cn.ck.entity.Alluser;
+import cn.ck.entity.Promulgator;
 import cn.ck.service.AlluserService;
+import cn.ck.service.PromulgatorService;
 import cn.ck.utils.ShiroUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
@@ -18,6 +20,8 @@ public class ChuangApplicationTests {
 
     @Autowired
     AlluserService alluserService;
+    @Autowired
+    PromulgatorService promservice;
 
     @Test
     public void contextLoads() {
@@ -39,4 +43,11 @@ public class ChuangApplicationTests {
         alluserService.insert(user);
     }
 
+    @Test
+    public void promtest(){
+        String id="af8cfc18-b84d-4825-a49c-e0f6cb527858";
+        Promulgator prom=new Promulgator();
+        prom=promservice.selectID(id);
+        System.out.println(prom);
+    }
 }

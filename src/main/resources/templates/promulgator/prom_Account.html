@@ -1,315 +1,337 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="utf-8" />		
-		<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/static/css/css_lxn/prom_layout-lxn.css" />
-		<link rel="stylesheet" href="/static/css/css_lxn/prom_Account-lxn.css" />
-		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
-		<link rel="stylesheet" href="/static/css/style.css" />
-		<script type="text/javascript" src="/static/js/jquery.min.js" ></script>
-		<script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/css_lxn/prom_layout-lxn.css"/>
+    <link rel="stylesheet" href="/static/css/css_lxn/prom_Account-lxn.css"/>
+    <link rel="stylesheet" href="/static/css/css_psw/style_head.css"/>
+    <link rel="stylesheet" href="/static/css/style.css"/>
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/vue.js"></script>
 
-	</head>
+</head>
 
-	<body>
-		<header>
-			<div class="container-fluid container-fluid_up">
-				<div class="row_up">
-					<ul class="list-unstyled">
-						<li>
-							<a href="#">帮助中心</a>
-						</li>
-						<li>
-							<a href="#">注册</a>
-						</li>
-						<li>
-							<a href="#">登录</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="container-fluid container-fluid_main">
-				<div class="row_main">
-					<div class="main_logo">
-						<img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
-					</div>
-					<div class="main_right">
-						<ul class="nav_psw list-unstyled">
-							<li class="active">
-								<a>首 页</a>
-							</li>
-							<li>
-								<a>项目大厅</a>
-							</li>
-							<li>
-								<a>服务大厅</a>
-							</li>
-							<li>
-								<a>创客讲堂</a>
-							</li>
-							<li>
-								<a>原创中心</a>
-							</li>
-							<li>
-								<a>荣誉中心</a>
-							</li>
-							<li>
-								<a>在线求职</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</header>
-		<div class="container-fluid contest">
-			<div class="col_left">
-				<div class="ul_contest">
-					<ul class="lefthead">
-						<li class="lefthead_li">
-							<a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone" onclick="selectimg(this.id)">
-								个人中心
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</a>
-							<ul id="personcenter" class="panel-collapse collapse in">
-								<li class="current">
-									<a href="prom_Account.html">账户</a>
-								</li>
-								<li>
-									<a href="prom_homepage.html">个人主页</a>
-								</li>
-								<li>
-									<a href="prom_updateprom.html">修改资料</a>
-								</li>
-								<li>
-									<a href="prom_Notice.html">系统通知</a>
-								</li>
-							</ul>
-						</li>
-						<li class="lefthead_li">
-							<a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo" onclick="selectimg(this.id)">
-								项目管理
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</a>
-							<ul id="projectmanage" class="panel-collapse collapse in">
-								<li>
-									<a href="prom_projCreat.html">发布项目</a>
-								</li>
-								<li>
-									<a href="prom_projInvit.html">邀请列表</a>
-								</li>
-								<li>
-									<a href="prom_projBidding.html">竞标项目</a>
-								</li>
-								<li>
-									<a href="prom_projManage.html">项目订单</a>
-								</li>
-							</ul>
-						</li>
-						<li class="lefthead_li">
-							<a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree" onclick="selectimg(this.id)">
-								资金管理
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</a>
-							<ul id="pricemanage" class="panel-collapse collapse in">
-								<li>
-									<a href="prom_priManage.html">我的钱包</a>
-								</li>
-							</ul>
-						</li>
-						<li class="lefthead_li">
-							<a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
-								安全管理
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</a>
-							<ul id="safemanage" class="panel-collapse collapse in">
-								<li>
-									<a href="prom_uploginpwd.html">修改登录密码</a>
-								</li>
-								<li>
-									<a href="prom_uppaypwd.html">修改支付密码</a>
-								</li>
-								<li>
-									<a href="prom_Logout.html">注销账户</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col_right" id="right">
-				<div class="right_contest">
-					<div class="r_c_top">
-						<div class="r_c_t_left">
-							<div class="r_c_t_l_img">
-								<div class="r_c_t_l_updateimg">
-									<a href="prom_updatephoto.html">更换头像</a>
-								</div>
-								<img src="/static/img/img_lxn/default.jpg" alt="" class="imgsize" />
-							</div>
-							<div class="r_c_t_l_pcData">
-								<a class="pcDatabtn" href="prom_updateprom.html">修改资料</a>
-							</div>
-						</div>
-						<div class="r_c_t_right">
-							<div class="r_c_t_r_top">
-								<h4>用户名123456</h4>
-							</div>
-							<div class="r_c_t_r_middle">
-								<div class="r_c_t_r_m_left">
-									<h3>账户余额</h3>
-									<h4>0.00</h4>
-								</div>
-								<div class="r_c_t_r_m_middle">
-									<a class="a1" href="prom_priManage.html">充值</a>
-									<a class="a2" href="prom_priManage.html">提款</a>
-								</div>
-								<div class="r_c_t_r_m_right">
-									<br/> &nbsp;&nbsp;&nbsp;&nbsp;
-									<a class="a3" href="prom_priManage.html">充值查询</a>
-									|
-									<a class="a3" href="prom_priManage.html">提款查询</a>
-								</div>
-							</div>
-							<div class="r_c_t_r_bottom">
-								<ul class="r_c_t_r_b_ul">
-									<li class="">
-										<span>发布总数</span>
-										<h4>0</h4>
-									</li>
-									<li>
-										<span>完工项目</span>
-										<h4>0</h4>
-									</li>
-									<li>
-										<span>开发中项目</span>
-										<h4>0</h4>
-									</li>
-									<li>
-										<span>超时项目</span>
-										<h4>0</h4>
-									</li>
-									<li>
-										<span>失败项目</span>
-										<h4>0</h4>
-									</li>
-									<li>
-										<span>交易金额</span>
-										<h4>0.00</h4>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="r_c_middle">
-						<h2>待处理的项目动态</h2>
-						<table class="table">
-							<thead>
-								<tr>
-									<th>项目</th>
-									<th>项目状态</th>
-									<th>项目开始日期</th>
-									<th>项目结束日期</th>
-									<th>操作</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>创客中心项目设计</td>
-									<td>待完成</td>
-									<td>2018/09/06 20:00</td>
-									<td>2018/09/16 20:00</td>
-									<td>
-										<button type="button" class="btn btn-sm" id="table_btn">查看详情</button>
-									</td>
-								</tr>
-																<tr>
-									<td>创客中心项目设计</td>
-									<td>待完成</td>
-									<td>2018/09/06 20:00</td>
-									<td>2018/09/16 20:00</td>
-									<td>
-										<button type="button" class="btn btn-sm" id="table_btn">查看详情</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="r_c_bottom">
-						<h2>优秀工作室推荐</h2>
-					</div>
-				</div>
-			</div>
-		</div>
+<body>
+<header>
+    <div class="container-fluid container-fluid_up">
+        <div class="row_up">
+            <ul class="list-unstyled">
+                <li>
+                    <a href="#">帮助中心</a>
+                </li>
+                <li>
+                    <a href="#">注册</a>
+                </li>
+                <li>
+                    <a href="#">登录</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid container-fluid_main">
+        <div class="row_main">
+            <div class="main_logo">
+                <img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png"/>
+            </div>
+            <div class="main_right">
+                <ul class="nav_psw list-unstyled">
+                    <li class="active">
+                        <a>首 页</a>
+                    </li>
+                    <li>
+                        <a>项目大厅</a>
+                    </li>
+                    <li>
+                        <a>服务大厅</a>
+                    </li>
+                    <li>
+                        <a>创客讲堂</a>
+                    </li>
+                    <li>
+                        <a>原创中心</a>
+                    </li>
+                    <li>
+                        <a>荣誉中心</a>
+                    </li>
+                    <li>
+                        <a>在线求职</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-fluid contest">
+    <div class="col_left">
+        <div class="ul_contest">
+            <ul class="lefthead">
+                <li class="lefthead_li">
+                    <a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone"
+                       onclick="selectimg(this.id)">
+                        个人中心
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+                    <ul id="personcenter" class="panel-collapse collapse in">
+                        <li class="current">
+                            <a href="prom_Account.html">账户</a>
+                        </li>
+                        <li>
+                            <a href="prom_homepage.html">个人主页</a>
+                        </li>
+                        <li>
+                            <a href="prom_updateprom.html">修改资料</a>
+                        </li>
+                        <li>
+                            <a href="prom_Notice.html">系统通知</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="lefthead_li">
+                    <a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo"
+                       onclick="selectimg(this.id)">
+                        项目管理
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+                    <ul id="projectmanage" class="panel-collapse collapse in">
+                        <li>
+                            <a href="/pcjump/projectcreat">发布项目</a>
+                        </li>
+                        <li>
+                            <a href="prom_projInvit.html">邀请列表</a>
+                        </li>
+                        <li>
+                            <a href="prom_projBidding.html">竞标项目</a>
+                        </li>
+                        <li>
+                            <a href="prom_projManage.html">项目订单</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="lefthead_li">
+                    <a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree"
+                       onclick="selectimg(this.id)">
+                        资金管理
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+                    <ul id="pricemanage" class="panel-collapse collapse in">
+                        <li>
+                            <a href="prom_priManage.html">我的钱包</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="lefthead_li">
+                    <a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four"
+                       onclick="selectimg(this.id)">
+                        安全管理
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+                    <ul id="safemanage" class="panel-collapse collapse in">
+                        <li>
+                            <a href="prom_uploginpwd.html">修改登录密码</a>
+                        </li>
+                        <li>
+                            <a href="prom_uppaypwd.html">修改支付密码</a>
+                        </li>
+                        <li>
+                            <a href="prom_Logout.html">注销账户</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col_right" id="right">
+        <div class="right_contest">
+            <div class="r_c_top">
+                <div class="r_c_t_left">
+                    <div class="r_c_t_l_img">
+                        <div class="r_c_t_l_updateimg">
+                            <a href="prom_updatephoto.html">更换头像</a>
+                        </div>
+                        <img :src="src" alt="" class="imgsize" />
+                    </div>
+                    <div class="r_c_t_l_pcData">
+                        <a class="pcDatabtn" href="prom_updateprom.html">修改资料</a>
+                    </div>
+                </div>
+                <div class="r_c_t_right">
+                    <div class="r_c_t_r_top">
+                        <h4 v-if="account.prom && account.prom.promName">{{account.prom.promName}}</h4>
+                    </div>
+                    <div class="r_c_t_r_middle">
+                        <div class="r_c_t_r_m_left">
+                            <h3>账户余额</h3>
+                            <h4 v-if="account.account && account.account.accMoney">{{account.account.accMoney}}</h4>
+                        </div>
+                        <div class="r_c_t_r_m_middle">
+                            <a class="a1" href="prom_priManage.html">充值</a>
+                            <a class="a2" href="prom_priManage.html">提款</a>
+                        </div>
+                        <div class="r_c_t_r_m_right">
+                            <br/> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <a class="a3" href="prom_priManage.html">充值查询</a>
+                            |
+                            <a class="a3" href="prom_priManage.html">提款查询</a>
+                        </div>
+                    </div>
+                    <div class="r_c_t_r_bottom">
+                        <ul class="r_c_t_r_b_ul">
+                            <li class="">
+                                <span>发布总数</span>
+                                <h4>0</h4>
+                            </li>
+                            <li>
+                                <span>完工项目</span>
+                                <h4>0</h4>
+                            </li>
+                            <li>
+                                <span>开发中项目</span>
+                                <h4>0</h4>
+                            </li>
+                            <li>
+                                <span>超时项目</span>
+                                <h4>0</h4>
+                            </li>
+                            <li>
+                                <span>失败项目</span>
+                                <h4>0</h4>
+                            </li>
+                            <li>
+                                <span>交易金额</span>
+                                <h4>0.00</h4>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="r_c_middle">
+                <h2>待处理的项目动态</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>项目</th>
+                        <th>项目状态</th>
+                        <th>项目开始日期</th>
+                        <th>项目结束日期</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>创客中心项目设计</td>
+                        <td>待完成</td>
+                        <td>2018/09/06 20:00</td>
+                        <td>2018/09/16 20:00</td>
+                        <td>
+                            <button type="button" class="btn btn-sm" id="table_btn">查看详情</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="r_c_bottom">
+                <h2>优秀工作室推荐</h2>
+            </div>
+        </div>
+    </div>
+</div>
 
-		<footer>
-			<div class="container-fluid_foot">
-				<div class="foot_panel">
-					<div class="foot_panel_left">
-						<div class="img">
-							<a href="#">
-								<img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
-							</a>
-						</div>
-						<div class="beian">
-							<p>创客网 © 2018－
-								<br>肇庆学院东软实训班第三组版权所有
-								<br>[粤ICP备xxxxxxx号-x] 标识
-								<br> 粤公网安备xxxxxxxxxx号</p>
-						</div>
-					</div>
-					<div class="foot_panel_right">
-						<div class="foot_panel_right_row">
-							<ul class="list-unstyled">
-								<li>
-									<h4>新手指南</h4>
-									<a href="/help/register">注册登录问题</a><br />
-									<a href="/help/process">项目交易流程</a><br />
-									<a href="/help/fund">充值提款问题</a><br />
-									<a href="help/about_agreement">用户注册协议</a><br />
-									<a href="/help/bid_payings">为何付费竞标</a>
-								</li>
-								<li>
-									<h4>特色服务</h4>
-									<a href="/help/renzheng">实名认证</a><br />
-									<a href="/help/searchs">精准搜索</a><br />
-									<a href="/help/workhour">小时报价</a><br />
-									<a href="/help/bumanyituikuan">不满意退款</a><br />
-									<a href="/help/bid_card">竞标卡规则</a>
-								</li>
-								<li>
-									<h4>评价信誉</h4>
-									<a href="/help/pingjiadengm">操作演示</a><br />
-									<a href="/help/service_payings">服务收费</a><br />
-									<a href="/help/evaluations">用户评价</a><br />
-									<a href="/help/jifens">积分体系</a><br />
-									<a href="/help/controversy">争议解决</a>
-								</li>
-								<li>
-									<h4>答疑中心</h4>
-									<a href="/help/pro_relase">项目发布问题</a><br />
-									<a href="/help/bid_joinings">参与竞标问题</a><br />
-									<a href="/help/pro_runnings">项目开发问题</a><br />
-									<a href="/help/pro_done">项目完工问题</a><br />
-									<a href="/help/it_realse">信息发布问题</a>
-								</li>
-								<li>
-									<h4>联系我们</h4>
-									<a href="/help/about_us">关于SXSOFT</a><br />
-									<a href="/help/about_company">公司概况</a><br />
-									<a href="/help/contact_us">联系方式</a><br />
-									<a href="/help/about_advertising">广告投放</a><br />
-									<a href="/help/links">友情链接</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
-		<script type="text/javascript" src="/static/js/js_lxn/prom-jquery.js" ></script>
-		
-	</body>
+<footer>
+    <div class="container-fluid_foot">
+        <div class="foot_panel">
+            <div class="foot_panel_left">
+                <div class="img">
+                    <a href="#">
+                        <img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+                    </a>
+                </div>
+                <div class="beian">
+                    <p>创客网 © 2018－
+                        <br>肇庆学院东软实训班第三组版权所有
+                        <br>[粤ICP备xxxxxxx号-x] 标识
+                        <br> 粤公网安备xxxxxxxxxx号</p>
+                </div>
+            </div>
+            <div class="foot_panel_right">
+                <div class="foot_panel_right_row">
+                    <ul class="list-unstyled">
+                        <li>
+                            <h4>新手指南</h4>
+                            <a href="/help/register">注册登录问题</a><br/>
+                            <a href="/help/process">项目交易流程</a><br/>
+                            <a href="/help/fund">充值提款问题</a><br/>
+                            <a href="help/about_agreement">用户注册协议</a><br/>
+                            <a href="/help/bid_payings">为何付费竞标</a>
+                        </li>
+                        <li>
+                            <h4>特色服务</h4>
+                            <a href="/help/renzheng">实名认证</a><br/>
+                            <a href="/help/searchs">精准搜索</a><br/>
+                            <a href="/help/workhour">小时报价</a><br/>
+                            <a href="/help/bumanyituikuan">不满意退款</a><br/>
+                            <a href="/help/bid_card">竞标卡规则</a>
+                        </li>
+                        <li>
+                            <h4>评价信誉</h4>
+                            <a href="/help/pingjiadengm">操作演示</a><br/>
+                            <a href="/help/service_payings">服务收费</a><br/>
+                            <a href="/help/evaluations">用户评价</a><br/>
+                            <a href="/help/jifens">积分体系</a><br/>
+                            <a href="/help/controversy">争议解决</a>
+                        </li>
+                        <li>
+                            <h4>答疑中心</h4>
+                            <a href="/help/pro_relase">项目发布问题</a><br/>
+                            <a href="/help/bid_joinings">参与竞标问题</a><br/>
+                            <a href="/help/pro_runnings">项目开发问题</a><br/>
+                            <a href="/help/pro_done">项目完工问题</a><br/>
+                            <a href="/help/it_realse">信息发布问题</a>
+                        </li>
+                        <li>
+                            <h4>联系我们</h4>
+                            <a href="/help/about_us">关于SXSOFT</a><br/>
+                            <a href="/help/about_company">公司概况</a><br/>
+                            <a href="/help/contact_us">联系方式</a><br/>
+                            <a href="/help/about_advertising">广告投放</a><br/>
+                            <a href="/help/links">友情链接</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script type="text/javascript" src="/static/js/js_lxn/prom-jquery.js"></script>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    contextPath = /*[[@{/}]]*/ '';
+    /*]]>*/
+    var vm = new Vue({
+        el: '#right',
+        data: {
+            account: '',
+            src:'',
+        },
+        created: function () {
+            $.ajax({
+                type: 'post',
+                url: '/promcenter/account',
+                datatype:'json',
+                success: function (result) {
+                    vm.account = result;
+                    // var img=result.prom.promImg;
+                    // console.log(img);
+                    vm.src=result.prom.promImg;
+                }
+            })
+        },
+
+    })
+
+</script>
+</body>
 
 </html>

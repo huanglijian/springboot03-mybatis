@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-19
+ * @since 2018-09-21
  */
 @Service
 public class BiddingServiceImpl extends ServiceImpl<BiddingMapper, Bidding> implements BiddingService {

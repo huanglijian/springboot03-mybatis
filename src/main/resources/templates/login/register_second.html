@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/css_lxn/register-lxn.css" />
-		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/jquery.min.js"></script>
-		<script type="text/javascript" src="../../../../../../project/CreatCenter/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/animate.css" />
-		<link rel="stylesheet" href="../../../../../../project/CreatCenter/css/font-awesome.css" />
+		<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/static/css/css_lxn/register-lxn.css" />
+		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+		<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="/static/css/animate.css" />
+		<link rel="stylesheet" href="/static/css/font-awesome.css" />
 
 		<!-- jQuery Validation plugin javascript-->
-		<script src="../../../../../../project/CreatCenter/js/plugins/validate/jquery.validate.min.js"></script>
-		<script src="../../../../../../project/CreatCenter/js/plugins/validate/messages_zh.min.js"></script>
-		<script type="text/javascript" src="js/js_lxn/register_validate.js"></script>
+		<script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+		<script src="/static/js/plugins/validate/messages_zh.min.js"></script>
+		<script type="text/javascript" src="/static/js/js_lxn/register_validate.js"></script>
+		<script src="/static/js/vue.js"></script>
 	</head>
 
 	<body>
@@ -21,7 +22,7 @@
 			<div class="contest">
 				<div class="contop col-md-12">
 					<div class="topimg col-md-11">
-						<img src="../../../../../../project/CreatCenter/img/img_hlj/logo2.png" alt="" />
+						<img src="/static/img/img_hlj/logo2.png" alt="" />
 					</div>
 					<div class="topmeg col-md-1">
 						<span><a href="#">首页</a></span>
@@ -34,7 +35,7 @@
 						<p>注册新用户</p>
 					</div>
 					<div class="botimg text-center col-md-12">
-						<img src="../../../../../../project/CreatCenter/img/img_hlj/process_bg_2.png" alt="" />
+						<img src="/static/img/img_hlj/process_bg_2.png" alt="" />
 					</div>
 					<div class="botmeg col-md-12">
 						<span class="botmegspan1 col-md-4">邮箱验证</span>
@@ -42,13 +43,13 @@
 						<span class="botmegspan3 col-md-4">注册成功</span>
 					</div>
 					<div class="botform col-md-12">
-						<div class="formmeg col-md-12">
-							<form action="" class="form-horizontal" id="signupForm">
+						<div class="formmeg col-md-12" id="register">
+							<form class="form-horizontal" id="signupForm">
 								<div class="form-group">
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-envelope"></span>
-											<input type="text" class="form-control" placeholder="123456789@qq.com"  disabled="disabled"/>
+											<input type="text" class="form-control" placeholder=""  disabled="disabled"/>
 										</div>
 									</div>
 								</div>
@@ -56,7 +57,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-user"></span>
-											<input type="text" class="form-control" placeholder="用户名" id="name" name="name" />
+											<input type="text" class="form-control" placeholder="用户名" id="name" name="name" v-model="name"/>
 										</div>
 									</div>
 								</div>
@@ -64,7 +65,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-lock"></span>
-											<input type="text" class="form-control" placeholder="登陆密码" id="password" name="password" />
+											<input type="text" class="form-control" placeholder="登陆密码" id="password" name="password" v-model="password"/>
 										</div>
 									</div>
 								</div>
@@ -72,7 +73,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-phone"></span>
-											<input type="text" class="form-control" placeholder="手机号码" id="phone" name="phone" />
+											<input type="text" class="form-control" placeholder="手机号码" id="phone" name="phone" v-model="phone"/>
 										</div>
 									</div>
 								</div>
@@ -80,7 +81,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-yen"></span>
-											<input type="text" class="form-control" placeholder="支付宝账号" id="pay" name="pay" />
+											<input type="text" class="form-control" placeholder="支付宝账号" id="pay" name="pay" v-model="pay"/>
 										</div>
 									</div>
 								</div>
@@ -88,7 +89,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-lock"></span>
-											<input type="text" class="form-control" placeholder="6位支付密码" id="paypwd" name="paypwd" />
+											<input type="text" class="form-control" placeholder="6位支付密码" id="paypwd" name="paypwd" v-model="paypwd"/>
 										</div>
 									</div>
 								</div>
@@ -104,12 +105,121 @@
 								<div class="form-group">
 									<div class="col-md-5">
 										<div class="input-group">
-											<button type="submit" class="btn sub_register">&nbsp;&nbsp;注册&nbsp;&nbsp;</button>
+											<button type="button" class="btn sub_register" @click="register">&nbsp;&nbsp;注册&nbsp;&nbsp;</button>
 										</div>
 									</div>
 								</div>
 							</form>
 						</div>
+						<script type="text/javascript">
+                            /*<![CDATA[*/
+                            contextPath = /*[[@{/}]]*/ '';
+                            /*]]>*/
+                            var vm = new Vue({
+                                el:'#register',
+                                data:{
+                                    userId: "",
+                                    email: '',
+                                    code:'',
+									user:'',
+									name:'',
+									password:'',
+									phone:'',
+									pay:'',
+									paypwd:''
+                                },
+                                beforeCreate: function () {
+                                },
+                                created: function () {
+                                },
+                                beforeMount: function () {
+                                    this.getUser();
+                                },
+                                mounted: function () {
+                                },
+                                beforeUpdate: function () {
+                                },
+                                updated: function () {
+                                },
+                                beforeDestroy: function () {
+                                },
+                                destroyed: function () {
+                                },
+                                methods: {
+                                    urlparse: function(){
+                                        var url = window.location.href;
+                                        var a = document.createElement('a');
+                                        a.href = url;
+                                        var obj = {
+                                            source: url,
+                                            protocol: a.protocol.replace(':', ''),
+                                            host: a.hostname,
+                                            port: a.port,
+                                            query: a.search,
+                                            file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                                            hash: a.hash.replace('#', ''),
+                                            path: a.pathname.replace(/^([^\/])/, '/$1'),
+                                            relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                                            segments: a.pathname.replace(/^\//, '').split('/'),
+                                            params: (function() {
+                                                var ret = {};
+                                                var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
+                                                    if (v!==''&&v.indexOf('=')) {
+                                                        return true;
+                                                    }
+                                                });
+                                                seg.forEach( function(element, index) {
+                                                    var idx = element.indexOf('=');
+                                                    var key = element.substring(0, idx);
+                                                    var val = element.substring(idx+1);
+                                                    ret[key] = val;
+                                                });
+                                                return ret;
+                                            })()
+                                        };
+                                        return obj;
+                                    },
+									getUser: function(){
+                                        var obj = this.urlparse();
+                                        var data = "UUID="+obj.params.UUID;
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/registered/getUserByID",
+                                            data: data,
+                                            dataType: "json",
+                                            success: function(result){
+                                                if(result.code === 0){
+                                                    vm.user = result.user;
+                                                    console.log(vm.user);
+                                                }else{
+                                                    alert("出现错误");
+                                                }
+                                            }
+                                        });
+									},
+                                    register: function () {
+                                        var data = vm.user;
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/registered/getUserMessage",
+                                            data:  JSON.stringify(data),
+                                            contentType:"application/json",
+                                            dataType: "json",
+                                            success: function(result){
+                                                if(result.code === 0){
+                                                    alert("success");
+                                                }else{
+                                                    alert("出现错误");
+                                                }
+                                            },
+                                            error: function () {
+                                                alert("asdasdas");
+                                            }
+                                        });
+                                    },
+                                }
+                            });
+						</script>
 					</div>
 				</div>
 			</div>

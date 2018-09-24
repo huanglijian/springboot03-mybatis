@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.service.IService;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-19
+ * @since 2018-09-21
  */
 public interface PromulgatorService extends IService<Promulgator> {
-
+        Promulgator selectID(String id);
 }

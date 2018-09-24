@@ -76,8 +76,8 @@ public class UserRealm extends AuthorizingRealm {
 		if (user == null) {
 			throw new UnknownAccountException("用户名或密码错误！");
 		}
-		if (user.getAllState().equals("0")) {
-			throw new LockedAccountException("账号已被锁定,请联系管理员！");
+		if (!user.getAllState().equals("1")) {
+			throw new LockedAccountException("账号状态异常,请联系管理员！");
 		}
 
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getAllPwd(), ByteSource.Util.bytes(user.getAllSalt()), getName());

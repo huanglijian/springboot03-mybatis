@@ -1,9 +1,10 @@
 package cn.ck.entity;
 
-import com.baomidou.mybatisplus.enums.IdType;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -11,7 +12,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-19
+ * @since 2018-09-21
  */
 public class Danmu implements Serializable {
 

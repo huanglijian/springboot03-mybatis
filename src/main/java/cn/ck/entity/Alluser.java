@@ -1,5 +1,8 @@
 package cn.ck.entity;
 
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 /**
@@ -14,7 +17,9 @@ public class Alluser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(type = IdType.UUID)
     private String allId;
+
     private String allType;
     private String allPwd;
     private String allSalt;

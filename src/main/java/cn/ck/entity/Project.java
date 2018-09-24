@@ -1,9 +1,10 @@
 package cn.ck.entity;
 
-import com.baomidou.mybatisplus.enums.IdType;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -11,7 +12,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-19
+ * @since 2018-09-21
  */
 public class Project implements Serializable {
 
@@ -26,7 +27,7 @@ public class Project implements Serializable {
     private Date projCreattime;
     private Date projStarttime;
     private Date projEndtime;
-    private Date projCycletime;
+    private Integer projCycletime;
     private String projIntro;
     private String projFile;
     private String projState;
@@ -100,11 +101,11 @@ public class Project implements Serializable {
         this.projEndtime = projEndtime;
     }
 
-    public Date getProjCycletime() {
+    public Integer getProjCycletime() {
         return projCycletime;
     }
 
-    public void setProjCycletime(Date projCycletime) {
+    public void setProjCycletime(Integer projCycletime) {
         this.projCycletime = projCycletime;
     }
 

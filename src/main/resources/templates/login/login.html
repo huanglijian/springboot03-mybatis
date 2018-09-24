@@ -10,13 +10,8 @@
 		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/static/js/vue.js"></script>
-		<title></title>
+		<title>创客登录</title>
 
-        <script type="text/javascript">
-            // function verify() {
-            //     alert("ok");
-            // }
-        </script>
 	</head>
 	<body>
 		<!--背景图-->
@@ -53,7 +48,7 @@
 							<div class="welcome">
 								<span>欢迎登录创客网</span>
 							</div>
-							<form action="#" onsubmit="return verify(this)">
+							<form v-on:submit.prevent="login" type="post">
 
 								<div class="email">
 									<input type="text" class="form-control" placeholder="邮箱" required="" v-model="email">
@@ -72,7 +67,7 @@
 								</div>
 
 								<div class="login">
-									<button type="submit" class="btn btn-primary block full-width m-b" @click="login">登 录</button>
+									<button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
 								</div>
 
 								<p class="text-muted left"> <a href="#"><small>忘记密码了？</small></a> | <a href="#">注册一个新账号</a>
@@ -91,14 +86,15 @@
                                 password: '',
                                 captcha: '',
                                 error: false,
+								userType:'',
                                 errorMsg: '',
                                 src: 'captcha.jpg'
                             },
-                            beforeCreate: function(){
-                                if(self !== top){
-                                    top.location.href = self.location.href;
-                                }
-                            },
+                            // beforeCreate: function(){
+                            //     if(self !== top){
+                            //         top.location.href = self.location.href;
+                            //     }
+                            // },
                             methods: {
                                 refreshCode: function(){
                                     this.src = "captcha.jpg?t=" + $.now();
@@ -111,8 +107,13 @@
                                         data: data,
                                         dataType: "json",
                                         success: function(result){
-                                            if(result.code == 0){//登录成功
-                                                parent.location.href = contextPath + "/";
+                                            if(result.code === 0){//登录成功
+                                                if(result.userType === "普通用户")
+                                                	parent.location.href = contextPath + "/";
+                                                else if(result.userType === "发布者")
+                                                    parent.location.href = contextPath + "/index";
+                                                else if(result.userType === "管理员")
+                                                    parent.location.href = contextPath + "/";
                                             }else{
                                                 vm.error = true;
                                                 vm.errorMsg = result.msg;
