@@ -49,7 +49,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-envelope"></span>
-											<input type="text" class="form-control" placeholder=""  disabled="disabled"/>
+											<input type="text" class="form-control" placeholder=""  disabled="disabled" v-model="userAccount.allEmail"/>
 										</div>
 									</div>
 								</div>
@@ -57,7 +57,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-user"></span>
-											<input type="text" class="form-control" placeholder="用户名" id="name" name="name" v-model="name"/>
+											<input type="text" class="form-control" placeholder="用户名" id="name" name="name" v-model="userInfo.promName"/>
 										</div>
 									</div>
 								</div>
@@ -65,7 +65,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-lock"></span>
-											<input type="text" class="form-control" placeholder="登陆密码" id="password" name="password" v-model="password"/>
+											<input type="text" class="form-control" placeholder="登陆密码" id="password" name="password" v-model="userAccount.allPwd"/>
 										</div>
 									</div>
 								</div>
@@ -73,7 +73,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-phone"></span>
-											<input type="text" class="form-control" placeholder="手机号码" id="phone" name="phone" v-model="phone"/>
+											<input type="text" class="form-control" placeholder="手机号码" id="phone" name="phone" v-model="userInfo.promPhone"/>
 										</div>
 									</div>
 								</div>
@@ -81,23 +81,23 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-yen"></span>
-											<input type="text" class="form-control" placeholder="支付宝账号" id="pay" name="pay" v-model="pay"/>
+											<input type="text" class="form-control" placeholder="支付宝账号" id="pay" name="pay" v-model="userInfo.promAbipay"/>
 										</div>
 									</div>
 								</div>
-								<div class="form-group">
-									<div class="col-md-5">
-										<div class="input-group">
-											<span class="input-group-addon glyphicon glyphicon-lock"></span>
-											<input type="text" class="form-control" placeholder="6位支付密码" id="paypwd" name="paypwd" v-model="paypwd"/>
-										</div>
-									</div>
-								</div>
+								<!--<div class="form-group">-->
+									<!--<div class="col-md-5">-->
+										<!--<div class="input-group">-->
+											<!--<span class="input-group-addon glyphicon glyphicon-lock"></span>-->
+											<!--<input type="text" class="form-control" placeholder="6位支付密码" id="paypwd" name="paypwd" v-model="userInfo.promPaypwd"/>-->
+										<!--</div>-->
+									<!--</div>-->
+								<!--</div>-->
 								<div class="form-group">
 								<div class="col-sm-5">
 									<div class="checkbox">
 										<label>
-                                            <input type="checkbox" class="checkbox" id="agree" name="agree"> 我已经认真阅读并同意《创客网使用协议》
+                                            <input type="checkbox" class="checkbox" id="agree" name="agree" style="margin-top: -4px;"> 我已经认真阅读并同意《创客网使用协议》
                                         </label>
 									</div>
 								</div>
@@ -119,21 +119,15 @@
                                 el:'#register',
                                 data:{
                                     userId: "",
-                                    email: '',
-                                    code:'',
-									user:'',
-									name:'',
-									password:'',
-									phone:'',
-									pay:'',
-									paypwd:''
+                                    userAccount:'',
+									userInfo:''
                                 },
                                 beforeCreate: function () {
                                 },
                                 created: function () {
+                                    this.getUser();
                                 },
                                 beforeMount: function () {
-                                    this.getUser();
                                 },
                                 mounted: function () {
                                 },
@@ -189,8 +183,9 @@
                                             dataType: "json",
                                             success: function(result){
                                                 if(result.code === 0){
-                                                    vm.user = result.user;
-                                                    console.log(vm.user);
+                                                    vm.userAccount = result.userAccount;
+                                                    vm.userInfo = result.userInfo;
+                                                    console.log(vm.userAccount);
                                                 }else{
                                                     alert("出现错误");
                                                 }
@@ -198,22 +193,23 @@
                                         });
 									},
                                     register: function () {
-                                        var data = vm.user;
+                                        var data1 = vm.userAccount;
+                                        var data2 = vm.userInfo;
                                         $.ajax({
                                             type: "POST",
-                                            url: "/registered/getUserMessage",
-                                            data:  JSON.stringify(data),
-                                            contentType:"application/json",
+                                            url: "/registered/setUserInfo",
+                                            data:  JSON.stringify({data1, data2}),
+                                            contentType:"application/json;charset=utf-8",
                                             dataType: "json",
                                             success: function(result){
                                                 if(result.code === 0){
-                                                    alert("success");
+                                                    window.location.href = "/registered/third";
                                                 }else{
                                                     alert("出现错误");
                                                 }
                                             },
                                             error: function () {
-                                                alert("asdasdas");
+                                                alert("出现错误");
                                             }
                                         });
                                     },

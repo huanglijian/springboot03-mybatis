@@ -24,7 +24,7 @@ public interface AlluserService extends IService<Alluser> {
     /**
      * 保存用户
      */
-    void save(Alluser user);
+    void encodePwd(Alluser user);
 
     /**
      * 查询邮箱是否已注册
@@ -41,9 +41,9 @@ public interface AlluserService extends IService<Alluser> {
     Alluser setUserUUID(Alluser user);
 
     /**
-     * 根据UUID查找user
-     * @param UUID
+     * 根据查找user
+     * @param email
      * @return
      */
-    Alluser selectByUUID(String UUID);
+    Alluser selectByEmail(String email);
 }

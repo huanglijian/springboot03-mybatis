@@ -90,11 +90,6 @@
                                 errorMsg: '',
                                 src: 'captcha.jpg'
                             },
-                            // beforeCreate: function(){
-                            //     if(self !== top){
-                            //         top.location.href = self.location.href;
-                            //     }
-                            // },
                             methods: {
                                 refreshCode: function(){
                                     this.src = "captcha.jpg?t=" + $.now();
