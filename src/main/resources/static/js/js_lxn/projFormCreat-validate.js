@@ -40,6 +40,7 @@ $(function() {
 	},"请输入6位支付密码");
 })
 
+
 //以下为官方示例
 $().ready(function() {
 	// validate the comment form when it is submitted
@@ -50,22 +51,22 @@ $().ready(function() {
 		rules: {
 			firstname: "required",
 			lastname: "required",
-			proj_name: {
+            projName: {
 				required: true,
 				minlength: 2
 			},
-			proj_type: {
+            projType: {
 				required: true,
 			},
-			proj_money: {
+            projMoney: {
 				required: true
 			},
-			proj_cycletime: {
+            projCycletime: {
 				required: true,
 				digits: true,
 				range: [1, 9999]
 			},
-			proj_intro: {
+            projIntro: {
 				required: true,
 				minlength: 50,
 				maxlength: 500
@@ -102,22 +103,22 @@ $().ready(function() {
 		messages: {
 			firstname: icon + "请输入你的姓",
 			lastname: icon + "请输入您的名字",
-			proj_name: {
+            projName: {
 				required: icon + "请输入您的项目名",
 				minlength: icon + "项目名必须2个字符以上"
 			},
-			proj_type: {
+            projType: {
 				required: icon + "请选择您的项目类型"
 			},
-			proj_money: {
+            projMoney: {
 				required: icon + "请输入项目的费用",
 			},
-			proj_cycletime: {
+            projCycletime: {
 				required: icon + "请输入项目开发周期",
 				digits: icon + "您输入的数额不是整数，请重新输入",
 				range: icon + "您输入的时间不在范围内"
 			},
-			proj_intro: {
+            projIntro: {
 				required: icon + "请输入项目详细描述",
 				minlength: icon + "您输入的字数少于50个字，请重新输入",
 				maxlength: icon + "您输入的字数多于500个字，请重新输入"
@@ -153,7 +154,22 @@ $().ready(function() {
 				required: icon + "确认密码不能为空，请重新输入",
 				equalTo: icon + "两次密码输入不一致"
 			},
-		}
+		},
+        // submitHandler: function (form) {
+        //     // var formDate=new formDate($("#signupForm")[0]);
+        //     alert("2222");
+        //     $(form).ajaxSubmit({
+        //         type: 'post',
+        //         url: '/promcenter/projectcreat',
+        //         // data : formDate ,
+        //         // processData : false,  //必须false才会避开jQuery对 formdata 的默认处理   
+        //         // contentType : false,
+        //         success: function (result) {
+        //             alert(result);
+        //         },
+        //     })
+        // }
+
 
 	});
 
