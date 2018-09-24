@@ -15,4 +15,10 @@
         <result column="job_studio" property="jobStudio" />
     </resultMap>
 
+    <select id="findById" resultMap="BaseResultMap">
+        select *
+        from jobs
+        where job_id = #{id}
+    </select>
+
 </mapper>
