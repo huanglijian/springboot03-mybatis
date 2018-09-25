@@ -15,5 +15,8 @@ import java.util.List;
  * @since 2018-09-19
  */
 public interface RoleMapper extends BaseMapper<Role> {
-    List<Role> findByUserEmail(@Param("email") String email);
+
+
+    List<Role> findByUserUUID(@Param("uuid") String uuid);
+
 }

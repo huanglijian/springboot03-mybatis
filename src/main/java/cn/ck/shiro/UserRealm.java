@@ -42,23 +42,27 @@ public class UserRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
-		String email = user.getAllEmail();
+		String uuid = user.getAllId();
 
-		System.out.println("用户" + email + "获取权限-----ShiroRealm.doGetAuthorizationInfo");
+		System.out.println("用户" + uuid + "获取权限-----ShiroRealm.doGetAuthorizationInfo");
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
 		// 获取用户角色集
-		List<Role> roleList = roleMapper.findByUserEmail(email);
+		List<Role> roleList = roleMapper.findByUserUUID(uuid);
 		Set<String> roleSet = new HashSet<String>();
 		for (Role r : roleList) {
+			if(r == null)
+				break;
 			roleSet.add(r.getRoName());
 		}
 		simpleAuthorizationInfo.setRoles(roleSet);
 
 		// 获取用户权限集
-		List<Permission> permissionList = permissionMapper.findByUserEmail(email);
+		List<Permission> permissionList = permissionMapper.findByUserUUID(uuid);
 		Set<String> permissionSet = new HashSet<String>();
 		for (Permission p : permissionList) {
+			if(p == null)
+				break;
 			permissionSet.add(p.getPerName());
 		}
 		simpleAuthorizationInfo.setStringPermissions(permissionSet);

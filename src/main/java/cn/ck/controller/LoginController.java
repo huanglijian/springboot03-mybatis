@@ -110,4 +110,13 @@ public class LoginController extends AbstractController{
 		ShiroUtils.logout();
 		return "redirect:login.html";
 	}
+
+	@RequestMapping("getLoginUser")
+	@ResponseBody
+	public ResponseBo getLoginUser(){
+		Alluser loginUser = getUser();
+		if(loginUser == null)
+			return ResponseBo.error(404, "no login");
+		return ResponseBo.ok().put("loginUser", loginUser);
+	}
 }
