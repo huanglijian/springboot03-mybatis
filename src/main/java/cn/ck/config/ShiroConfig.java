@@ -83,6 +83,7 @@ public class ShiroConfig {
 		//配置不会被拦截的链接
 		chains.put("/", "anon");
 		chains.put("/ckadmin/**", "anon");
+		chains.put("/ForJob/**", "anon");
 		// 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		chains.put("/logout", "logout");
 		// 剩余请求需要身份认证
