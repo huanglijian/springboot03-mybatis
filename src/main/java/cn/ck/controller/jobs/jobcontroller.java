@@ -15,19 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/ForJob")
 public class jobcontroller extends AbstractController {
 
+    @Autowired
     private JobsService jobsService;
 
-    @GetMapping(value = "/search/jobs/{id}")
-    public Jobs findJobsById(@PathVariable("id") int id){
-        System.out.println("123123");
-//      return jobsService.selectById(id);
-
-        return null;
-    }
 
     @RequestMapping("/search")
     public String search() {
-
         return "/jobs/search";
     }
 }
