@@ -27,4 +27,11 @@ public interface ProjectService extends IService<Project> {
      */
     List<Project> projBidTimefalse(String id);
 
+    /**
+     *
+     * @param id 项目id
+     * @return 竞标剩余天数
+     */
+    Integer projBidTimeNum(int id);
+
 }
