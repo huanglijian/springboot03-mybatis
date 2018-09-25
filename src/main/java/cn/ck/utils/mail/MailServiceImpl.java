@@ -19,7 +19,6 @@ import java.io.File;
  */
 @Component
 public class MailServiceImpl implements MailService{
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired

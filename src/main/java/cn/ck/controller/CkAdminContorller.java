@@ -18,11 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/ckadmin")
 public class CkAdminContorller extends AbstractController {
     private JobsService jobsService;
-
     @RequestMapping("/cwh")
-    public String cwhTest() {
+    public String cwhTest(){
         return "resource/resource_player";
     }
+
+
 
 
 
@@ -65,6 +66,7 @@ public class CkAdminContorller extends AbstractController {
 //        System.out.println("++");
 //        System.out.println(jobs);
 //        return jobsService.selectById(id);
+        return null;
 
     }
 

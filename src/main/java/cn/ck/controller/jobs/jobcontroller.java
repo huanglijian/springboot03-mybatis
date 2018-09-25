@@ -20,7 +20,9 @@ public class jobcontroller extends AbstractController {
     @GetMapping(value = "/search/jobs/{id}")
     public Jobs findJobsById(@PathVariable("id") int id){
         System.out.println("123123");
-        return jobsService.selectById(id);
+//      return jobsService.selectById(id);
+
+        return null;
     }
 
     @RequestMapping("/search")

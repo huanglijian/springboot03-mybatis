@@ -14,5 +14,5 @@ import com.baomidou.mybatisplus.service.IService;
 public interface JobsService extends IService<Jobs> {
 
 //    查找招聘表
-    boolean selectById(int id);
+//    boolean selectById(int id);
 }
