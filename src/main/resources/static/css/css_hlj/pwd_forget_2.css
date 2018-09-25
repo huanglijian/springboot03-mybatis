@@ -98,6 +98,14 @@
 		margin-left: 350px;
 		background:#1ab394;
 		}
+
+.BgPit .mid .major .down .mess .NextStep button{
+	border: 0px;
+	width: 100px;
+	float: left;
+	margin-left: 350px;
+	background:#1ab394;
+}
 .BgPit .mid .major .down .mess .NextStep {
 	height: 30px;
 	width: 842px;
@@ -193,7 +201,7 @@
 	margin-right: 10px;
 	font: 12px/1.3 'Arial', 'Microsoft YaHei';
 	color: #444444;
-	padding-bottom:
+	/*padding-bottom:*/
 }
 
 .BgPit .mid .major .head .home .last {

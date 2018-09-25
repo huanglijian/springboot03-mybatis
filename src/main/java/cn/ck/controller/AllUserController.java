@@ -36,7 +36,6 @@ public class AllUserController extends AbstractController{
         if(!flag){
             return ResponseBo.error("原密码不正确");
         }
-
         return ResponseBo.ok();
     }
 }
