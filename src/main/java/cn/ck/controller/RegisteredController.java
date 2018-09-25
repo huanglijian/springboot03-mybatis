@@ -6,6 +6,7 @@ import cn.ck.entity.Users;
 import cn.ck.service.AlluserService;
 import cn.ck.service.PromulgatorService;
 import cn.ck.service.UsersService;
+import cn.ck.shiro.AuthorityManager;
 import cn.ck.utils.*;
 import cn.ck.utils.mail.HtmlMailContent;
 import cn.ck.utils.mail.MailService;
@@ -29,6 +30,8 @@ public class RegisteredController extends AbstractController{
     private UsersService usersService;
     @Autowired
     private PromulgatorService promulgatorService;
+    @Autowired
+    private AuthorityManager authorityManager;
     @Autowired
     private MailService mailService;
 
@@ -88,7 +91,7 @@ public class RegisteredController extends AbstractController{
      */
     @RequestMapping("/validateEmail")
     @ResponseBody
-    public ResponseBo validateEmail(String email, String code, String userType){
+    public ResponseBo validateEmail(String email, String code, String userType) throws Exception {
         if (code == null || code.equals(""))
             return ResponseBo.error(1, "验证码错误");
 
@@ -99,25 +102,27 @@ public class RegisteredController extends AbstractController{
             return ResponseBo.error(1, "验证码错误");
 
         //持久化用户数据
-        Alluser user = new Alluser();
+        Alluser user = getBlankAlluser();
         user.setAllEmail(email);
         user.setAllType(userType);
-        user.setAllSalt("not set");
-        user.setAllPwd("not set");
-        user.setAllState("2");
+        user.setAllState("未注册完成");
         alluserService.insert(user);
 
-//        //生成该用户类型的记录，并持久化
-//        if(userType.equals("普通用户")){
-//            Users userInfo = new Users();
-//            userInfo.setUserId(user.getAllId());
-//            usersService.insert(userInfo);
-//        }
-//        else if(userType.equals("发布者")){
-//            Promulgator promulgator = new Promulgator();
-//            promulgator.setPromId(user.getAllId());
-//            promulgatorService.insert(promulgator);
-//        }
+        //为用户添加角色
+        authorityManager.addRoleToUser(userType, user.getAllId());
+
+        //生成该用户类型的记录, 并持久化
+        if(userType.equals("普通用户")){
+            Users userInfo = getBlankUsers();
+            userInfo.setUserId(user.getAllId());
+            usersService.insert(userInfo);
+        }
+        else if(userType.equals("发布者")){
+            Promulgator promulgator = getBlankProm();
+            promulgator.setPromId(user.getAllId());
+            promulgatorService.insert(promulgator);
+        }
+        else return ResponseBo.error("发生不明错误, 请重新注册");
 
         return ResponseBo.ok().put("UUID", user.getAllId());
     }
@@ -177,23 +182,21 @@ public class RegisteredController extends AbstractController{
         Promulgator promulgator = JsonUtils.map2obj((Map<String, Object>)data.get("data2"), Promulgator.class);
         //如果是普通用户，取出信息
         if(userAccount.getAllType().equals("普通用户")){
-            Users userInfo = new Users();
+            Users userInfo = getBlankUsers();
             userInfo.setUserId(promulgator.getPromId());
             userInfo.setUserPhone(promulgator.getPromPhone());
             userInfo.setUserAbipay(promulgator.getPromAbipay());
             userInfo.setUserName(promulgator.getPromName());
-            userInfo.setUserLogintime(new Date());
-            userInfo.setUserImg("no");
-//            usersService.updateById(userInfo);
-            usersService.insert(userInfo);
+            usersService.updateById(userInfo);
+//            usersService.insert(userInfo);
         }
 
         else if(userAccount.getAllType().equals("发布者")){
-            promulgator.setPromPaypwd("no");
+            promulgator.setPromPaypwd("");
             promulgator.setPromLogintime(new Date());
-            promulgator.setPromImg("no");
-//            promulgatorService.updateById(promulgator);
-            promulgatorService.insert(promulgator);
+            promulgator.setPromImg("");
+            promulgatorService.updateById(promulgator);
+//            promulgatorService.insert(promulgator);
         }
 
         else return ResponseBo.error("出现不明错误，请重新注册");
@@ -228,4 +231,36 @@ public class RegisteredController extends AbstractController{
         return "login/register_third";
     }
 
+
+    public Alluser getBlankAlluser(){
+        Alluser user = new Alluser();
+        user.setAllEmail("");
+        user.setAllType("");
+        user.setAllSalt("");
+        user.setAllPwd("");
+        user.setAllState("");
+        return  user;
+    }
+
+    public Users getBlankUsers(){
+        Users user = new Users();
+        user.setUserImg("");
+        user.setUserLogintime(new Date());
+        user.setUserName("");
+        user.setUserAbipay("");
+        user.setUserPaypwd("");
+        user.setUserPhone("");
+        return user;
+    }
+
+    public Promulgator getBlankProm(){
+        Promulgator promulgator = new Promulgator();
+        promulgator.setPromImg("");
+        promulgator.setPromLogintime(new Date());
+        promulgator.setPromPaypwd("");
+        promulgator.setPromAbipay("");
+        promulgator.setPromName("");
+        promulgator.setPromPhone("");
+        return promulgator;
+    }
 }
