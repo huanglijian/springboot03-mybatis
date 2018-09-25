@@ -1,0 +1,249 @@
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	
+	.content {
+		height: auto;
+	}
+	
+	.clearfix {
+		zoom: 1;
+	}
+	
+	.container {
+		width: 1080px;
+		margin: 0 auto;
+	}
+	
+	.good-works {
+		margin-top: 20px;
+		border: 1px solid #f4f4f4;
+		margin-bottom: 80px;
+	}
+	
+	.good-works .top {
+		width: 1080px;
+		height: 120px;
+		position: relative;
+		background: url(../../img/img_hhm/top-bg-b.jpg);
+	}
+	
+	.good-works .thead {
+		width: 1079px;
+		height: 50px;
+		line-height: 50px;
+		background: #f4f4f4;
+		font-size: 18px;
+	}
+	
+	.goods-list {
+		height: 1210px;
+		overflow: hidden;
+	}
+	
+	.good-works .thead span:first-child {
+		width: 100px;
+		text-align: center;
+	}
+	
+	.good-works .thead span {
+		display: block;
+		float: left;
+	}
+	
+	.good-works .thead span:nth-child(2) {
+		width: 260px;
+		text-align: center;
+	}
+	
+	.good-works .thead span:nth-child(3) {
+		width: 200px;
+		margin-right: 50px;
+		text-align: center;
+	}
+	
+	.good-works .thead span:nth-child(4) {
+		width: 120px;
+		text-align: center;
+		margin-right: 20px;
+	}
+	
+	.good-works .thead span:nth-child(5) {
+		width: 158px;
+		margin-right: 0;
+		text-align: center;
+	}
+	
+	.good-works .thead span:last-child {
+		width: 140px;
+		text-align: center;
+	}
+	
+	.goods-list ul li .rank {
+		width: 140px;
+		margin-top: 40px;
+		padding-left: 35px;
+		box-sizing: border-box;
+	}
+	
+	.goods-list ul li>div {
+		float: left;
+		text-align: left;
+	}
+	
+	.goods-list ul li {
+		height: 120px;
+		line-height: 120px;
+		border-bottom: 1px solid #f4f4f4;
+		font-size: 18px;
+		clear: both;
+	}
+	
+	.goods-list li {
+		list-style: none;
+	}
+	
+	.goods-list ul li .money span {
+		position: relative;
+		user-select: none;
+	}
+	
+	.goods-list ul li .score span {
+		position: relative;
+		user-select: none;
+	}
+	
+	.goods-list ul li .rank i {
+		width: 32px;
+		height: 40px;
+		line-height: 50px;
+		text-align: center;
+		display: block;
+		color: #666;
+	}
+	
+	.goods-list ul li .thumb img {
+		width: 200px;
+		height: 100px;
+		margin: 10px auto;
+		display: block;
+		border: none;
+	}
+	
+	.goods-list ul li .score img {
+		float: left;
+	}
+	
+	.goods-list ul li .money img {
+		float: left;
+	}
+	
+	.goods-list ul li .score i {
+		width: 24px;
+		height: 24px;
+		margin-right: 5px;
+		vertical-align: middle;
+		display: inline-block;
+	}
+	
+	.goods-list ul li .money i {
+		width: 24px;
+		height: 24px;
+		margin-right: 5px;
+		vertical-align: middle;
+		display: inline-block;
+	}
+	
+	.goods-list ul li .score span b {
+		position: relative;
+		top: 3px;
+	}
+	
+	.goods-list ul li .money span b {
+		position: relative;
+		top: 3px;
+	}
+	
+	.goods-list ul li .name {
+		width: 180px;
+		text-align: center;
+	}
+	
+	.goods-list ul li>div {
+		float: left;
+		text-align: left;
+	}
+	
+	.goods-list ul li .thumb {
+		width: 240px;
+		margin-left: 30px;
+	}
+	
+	a {
+		cursor: pointer;
+	}
+	
+	a {
+		text-decoration: none;
+		outline: none;
+	}
+	
+	.goods-list ul li .amount {
+		width: 120px;
+		text-align: center;
+		margin-right: 20px;
+		margin-left: 20px;
+	}
+	
+	.goods-list ul li .score {
+		width: 120px;
+		text-align: center;
+		margin-right: 20px;
+		color: #e60012;
+		margin-left: 10px;
+	}
+	
+	.goods-list ul li .benefit {
+		width: 158px;
+		text-align: center;
+		font-weight: 700;
+	}
+	
+	.goods-list {
+		height: 1310px;
+		overflow: hidden;
+	}
+	
+	.good-works .more {
+		height: 50px;
+		line-height: 50px;
+		text-align: center;
+	}
+	
+	.goods-list ul li:hover {
+		background: lightgoldenrodyellow;
+	}
+	
+	.goods-list ul li .rank i {
+		width: 32px;
+		height: 40px;
+		line-height: 50px;
+		text-align: center;
+		display: block;
+		color: #666;
+		background: url(../../img/img_hhm/rank-i-bg.png) no-repeat;
+		font-style: normal;
+	}
+	
+	.goods-list ul li .rank i.first {
+		background: url(../../img/img_hhm/rank-1.png) no-repeat;
+	}
+	
+	.goods-list ul li .rank i.second {
+		background: url(../../img/img_hhm/rank-2.png) no-repeat;
+	}
+	
+	.goods-list ul li .rank i.third {
+		background: url(../../img/img_hhm/rank-3.png) no-repeat;
+	}

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>原创中心</title>
+		<script src="../../static/js/jquery.min.js"></script>
+		
+		<script src="../../static/js/js_hhm/jquery.pagination.js"></script>
+		<link href="../../static/css/bootstrap.min.css" rel="stylesheet"/>
+		<link href="../../static/css/css_hhm/pagination.css" rel="stylesheet" />
+		<script type="text/javascript" src="../../static/js/js_hhm/jquery.raty.js"></script>
+		<script src="../../static/js/bootstrap.min.js"></script>
+		<link href="../../static/css/css_psw/style_head.css" rel="stylesheet" />
+		<link href="../../static/css/css_hhm/original.css" rel="stylesheet" />
+	
+		
+	</head>
+
+	<body>
+		<header>
+			<div class="container-fluid container-fluid_up">
+				<div class="row_up">
+					<ul class="list-unstyled">
+						<li>
+							<a href="#">帮助中心</a>
+						</li>
+						<li>
+							<a href="#">注册</a>
+						</li>
+						<li>
+							<a href="#">登录</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="container-fluid container-fluid_main">
+				<div class="row_main">
+					<div class="main_logo">
+						<img class="img-responsive img-rounded" src="../../static/img/img_psw/logo2.png" />
+					</div>
+					<div class="main_right">
+						<ul class="nav_psw list-unstyled">
+							<li>
+								<a>首 页</a>
+							</li>
+							<li>
+								<a>项目大厅</a>
+							</li>
+							<li>
+								<a>服务大厅</a>
+							</li>
+							<li>
+								<a>创客讲堂</a>
+							</li>
+							<li class="active">
+								<a>原创中心</a>
+							</li>
+							<li>
+								<a>荣誉中心</a>
+							</li>
+							<li>
+								<a>在线求职</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="content">
+			<div class="search">
+				<form id="hesernform">
+					<i></i>
+					<input type="text" placeholder="搜索项目，代码片段..." />
+					<button type="button" id="hserNeeds">搜索</button>
+				</form>
+
+			</div>
+			<div class='ui container'>
+				<div class='project-lang-categories'>
+					<div class='sort-select-segment'>
+						<div class='sort-section1'>
+
+							<div class='categories-title'>项目分类：</div>
+							<div class='code-tab border-dashed' id='categories-tab'>
+								<ul>
+									<li>
+										<a href="original.html" class="item active">全部
+										</a>
+									</li>
+									<li>
+										<a href="###" class="item ">微信开发
+										</a>
+									</li>
+									<li>
+										<a href="#" class="item ">区块链/比特币
+										</a>
+									</li>
+									<li>
+										<a href="#" class="item ">手机/移动开发
+										</a>
+									</li>
+									<li>
+										<a href="###" class="item ">WEB应用开发
+										</a>
+									</li>
+									<li>
+										<a href="" class="item ">建站系统
+										</a>
+									</li>
+									<li>
+										<a href="" class="item ">企业应用
+										</a>
+									</li>
+									<li>
+										<a href="" class="item ">游戏/娱乐
+										</a>
+									</li>
+									<li>
+										<a href="" class="item ">应用工具
+										</a>
+									</li>
+									<li>
+										<a href="" class="item ">管理和监控
+										</a>
+									</li>
+									<li>
+										<a href="" class="item ">服务器应用
+										</a>
+									</li>
+									<li>
+										<a href="" class="item ">插件和扩展
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred/database-related" class="item ">数据库相关
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred/Artificial-Intelligence" class="item ">人工智能
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred/develop-tools" class="item ">开发工具
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred/program-develop" class="item ">程序开发
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred/other-open-source" class="item ">其他开源
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class='sort-section'>
+							<div class='languages-title'>编程语言：</div>
+							<div class='code-tab border-dashed' id='languages-tab'>
+								<ul>
+									<li>
+										<a href="/explore" class="item active">全部
+										</a>
+									</li>
+									<li>
+										<a href="###" class="item ">Java
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=PHP" class="item ">PHP
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=JavaScript" class="item ">JavaScript
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Objective-C" class="item ">Objective-C
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Android" class="item ">Android
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Go" class="item ">Go
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=csharp" class="item ">C#
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Python" class="item ">Python
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=cpp" class="item ">C++
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Html" class="item ">HTML
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=C" class="item ">C
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=NodeJS" class="item ">NodeJS
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Swift" class="item ">Swift
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Ruby" class="item ">Ruby
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=weixin" class="item ">微信
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=TypeScript" class="item ">TypeScript
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=html-css" class="item ">HTML/CSS
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Docker" class="item ">Docker
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Shell" class="item ">Shell
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=CSS" class="item ">CSS
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Lua" class="item ">Lua
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=c-cpp" class="item ">C/C++
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Scala" class="item ">Scala
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Kotlin" class="item ">Kotlin
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Matlab" class="item ">Matlab
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=Delphi" class="item ">Delphi
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=ActionScript" class="item ">ActionScript
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=tex-latex" class="item ">TeX/LaTeX
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=ASP" class="item ">ASP
+										</a>
+									</li>
+									<li>
+										<a href="/explore/starred?lang=others" class="item ">其他</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<script>
+					$(function() {
+						$(".sort-section1 a").click(function() {
+
+							$(".sort-section1 a[class='item active']").each(function() {
+								$(this).removeClass();
+								$(this).addClass("item ");
+							});
+							$(this).removeClass();
+							$(this).addClass("item active");
+						})
+						$(".sort-section a").click(function() {
+							$(".sort-section a[class='item active']").each(function() {
+								$(this).removeClass();
+								$(this).addClass("item ");
+							});
+							$(this).removeClass();
+							$(this).addClass("item active");
+						})
+					})
+				</script>
+				<div class='ui grid page git-discover-content'>
+					<div class='eleven wide column git-discover-projects'>
+						<div class='projects-container'>
+							<div class='ui secondary pointing menu' id='git-discover-menu'>
+								<h2 class='explore-menu-header'>最新推荐项目</h2>
+
+							</div>
+
+							<div class='ui relaxed divided items' id='git-discover-list'>
+								<div class='item'>
+									<a href="/shuzheng" class="project-creator-link ui avatar image pull-left"><img src="../../static/img/img_hhm/renren.png" />
+									</a>
+									<div class='project-content'>
+										<div class='project-title' >
+											<div style="display: flex;float: left;">
+											<h3>
+<a  class="title project-namespace-path" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
+</h3><div id="star" style="margin: 4px 10px;"></div>
+						<script>
+							$('#star').raty({
+								readOnly: true,
+								score: 5,
+								hints: ["1", "2", "3", "4", "5"]
+							});
+						</script>
+</div>
+											<div class='git-project-header-actions'>
+												<span id="collection" style="margin-right: 12px;">
+<a href="##" class="ui button" ><img isImg="0" src="../../static/img/img_hhm/xing.png"/>
+收藏
+</a></span>
+												<span><a href="###" class="ui button" ><img src="../../static/img/img_hhm/download.png"/>下载</a></span></div>
+<div class="clearfix"></div>
+										</div>
+										<div class='project-desc'>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</div>
+										<div class='project-meta'>
+											<a href="/explore/starred?lang=Java" class="ui small  lang-label">Java</a>
+											<a href="/explore/starred/webframework" class="ui small  lang-label">Web开发框架</a>
+											<a href="/explore/starred?license=MIT" class="ui small  lang-label">MIT</a>
+											<div class='pull-right'>
+												<a href="##" class="ui small  lang-label" style="font-size: 14px; margin-right: 5px;">人人工作室</a>
+												<span class='timeago' title='2个月前'>
+2个月前
+</span>
+											</div>
+										</div>
+									</div>
+								</div>
+																<div class='item'>
+									<a href="/shuzheng" class="project-creator-link ui avatar image pull-left"><img src="../../static/img/img_hhm/renren.png" />
+									</a>
+									<div class='project-content'>
+										<div class='project-title' >
+											<div style="display: flex;float: left;">
+											<h3>
+<a  class="title project-namespace-path" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
+</h3><div id="star2" style="margin: 4px 10px;"></div>
+						<script>
+							$('#star2').raty({
+								readOnly: true,
+								score: 5,
+								hints: ["1", "2", "3", "4", "5"]
+							});
+						</script>
+</div>
+											<div class='git-project-header-actions'>
+												<span id="collection" style="margin-right: 12px;">
+<a href="##" class="ui button" ><img isImg="0" src="../../static/img/img_hhm/xing.png"/>
+收藏
+</a></span>
+												<span><a href="###" class="ui button" ><img src="../../static/img/img_hhm/download.png"/>下载</a></span></div>
+<div class="clearfix"></div>
+										</div>
+										<div class='project-desc'>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</div>
+										<div class='project-meta'>
+											<a href="/explore/starred?lang=Java" class="ui small  lang-label">Java</a>
+											<a href="/explore/starred/webframework" class="ui small  lang-label">Web开发框架</a>
+											<a href="/explore/starred?license=MIT" class="ui small  lang-label">MIT</a>
+											<div class='pull-right'>
+												<a href="##" class="ui small  lang-label" style="font-size: 14px; margin-right: 5px;">人人工作室</a>
+												<span class='timeago' title='2个月前'>
+2个月前
+</span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<script language="javascript">
+									$(function() {
+										$(".item span").click(function() {
+											if($(this).find("img").attr("isImg") == 1) {
+
+												$(this).find("img").attr("src", "../../static/img/img_hhm/xing.png");
+												$(this).find("img").attr("isImg", "0");
+											} else {
+												$(this).find("img").attr("src", "../../static/img/img_hhm/xing1.png");
+												$(this).find("img").attr("isImg", "1");
+											}
+
+										});
+									})
+								</script>
+							</div>
+						</div>
+					</div>
+				</div>
+				<footer class='ui grid'>
+					
+    <div class="pages">
+        <div id="Pagination"></div>
+        <div class="searchPage">
+          <span class="page-sum">共<strong class="allPage">15</strong>页</span>
+          <span class="page-go">跳转<input type="text">页</span>
+          <a href="javascript:;" class="page-btn">GO</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+$(document).ready(function() {
+	$("#Pagination").pagination("15");
+});
+</script>
+				</footer>
+			</div>
+			</div>
+			<footer>
+				<div class="container-fluid_foot">
+					<div class="foot_panel">
+						<div class="foot_panel_left">
+							<div class="img">
+								<a href="#">
+									<img src="../../static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+								</a>
+							</div>
+							<div class="beian">
+								<p>创客网 © 2018－
+									<br>肇庆学院东软实训班第三组版权所有
+									<br>[粤ICP备xxxxxxx号-x] 标识
+									<br> 粤公网安备xxxxxxxxxx号</p>
+							</div>
+						</div>
+						<div class="foot_panel_right">
+							<div class="foot_panel_right_row">
+								<ul class="list-unstyled">
+									<li>
+										<h4>新手指南</h4>
+										<a href="/help/register">注册登录问题</a><br />
+										<a href="/help/process">项目交易流程</a><br />
+										<a href="/help/fund">充值提款问题</a><br />
+										<a href="help/about_agreement">用户注册协议</a><br />
+										<a href="/help/bid_payings">为何付费竞标</a>
+									</li>
+									<li>
+										<h4>特色服务</h4>
+										<a href="/help/renzheng">实名认证</a><br />
+										<a href="/help/searchs">精准搜索</a><br />
+										<a href="/help/workhour">小时报价</a><br />
+										<a href="/help/bumanyituikuan">不满意退款</a><br />
+										<a href="/help/bid_card">竞标卡规则</a>
+									</li>
+									<li>
+										<h4>评价信誉</h4>
+										<a href="/help/pingjiadengm">操作演示</a><br />
+										<a href="/help/service_payings">服务收费</a><br />
+										<a href="/help/evaluations">用户评价</a><br />
+										<a href="/help/jifens">积分体系</a><br />
+										<a href="/help/controversy">争议解决</a>
+									</li>
+									<li>
+										<h4>答疑中心</h4>
+										<a href="/help/pro_relase">项目发布问题</a><br />
+										<a href="/help/bid_joinings">参与竞标问题</a><br />
+										<a href="/help/pro_runnings">项目开发问题</a><br />
+										<a href="/help/pro_done">项目完工问题</a><br />
+										<a href="/help/it_realse">信息发布问题</a>
+									</li>
+									<li>
+										<h4>联系我们</h4>
+										<a href="/help/about_us">关于SXSOFT</a><br />
+										<a href="/help/about_company">公司概况</a><br />
+										<a href="/help/contact_us">联系方式</a><br />
+										<a href="/help/about_advertising">广告投放</a><br />
+										<a href="/help/links">友情链接</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+	</body>
+
+</html>
