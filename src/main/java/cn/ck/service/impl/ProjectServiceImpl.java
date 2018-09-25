@@ -35,4 +35,9 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         List<Project> projectList=projectMapper.projBidTimefalse(id);
         return projectList;
     }
+
+    @Override
+    public Integer projBidTimeNum(int id) {
+        return projectMapper.projBidTimeNum(id);
+    }
 }

@@ -34,4 +34,10 @@
                   WHERE DATEDIFF(NOW(),proj_creattime) &gt;10 AND proj_state="竞标中" AND proj_prom=#{id}
     </select>
 
+    <select id="projBidTimeNum" resultMap="BaseResultMap">
+        SELECT DATEDIFF(NOW(),proj_creattime)
+                  from project
+                          WHERE proj_id=#{id}
+    </select>
+
 </mapper>

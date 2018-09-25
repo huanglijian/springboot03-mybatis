@@ -1,14 +1,8 @@
 package cn.ck;
 
-import cn.ck.entity.Admin;
-import cn.ck.entity.Alluser;
-import cn.ck.entity.Project;
-import cn.ck.entity.Promulgator;
+import cn.ck.entity.*;
 import cn.ck.entity.bean.ProjectBid;
-import cn.ck.service.AdminService;
-import cn.ck.service.AlluserService;
-import cn.ck.service.ProjectService;
-import cn.ck.service.PromulgatorService;
+import cn.ck.service.*;
 import cn.ck.utils.DateUtils;
 import cn.ck.utils.IPUtils;
 import cn.ck.utils.ShiroUtils;
@@ -37,6 +31,8 @@ public class ChuangApplicationTests {
     PromulgatorService promservice;
     @Autowired
     ProjectService projectService;
+    @Autowired
+    BiddingService biddingService;
 
     @Test
     public void contextLoads() {
@@ -58,7 +54,7 @@ public class ChuangApplicationTests {
     @Test
     public void promtest(){
         String id="af8cfc18-b84d-4825-a49c-e0f6cb527858";
-        Map<String,Object> bidmap=new HashMap<>();
+//        Map<String,Object> bidmap=new HashMap<>();
 
         //匹配当前时间，更改目前项目竞标状态
         List<Project> proBidding=projectService.projBidTimefalse(id);
@@ -70,20 +66,31 @@ public class ChuangApplicationTests {
         }
 
         //查询更新后竞标中的项目
-        List<Project> projectList1=projectService.projBidTimetrue(id);
+//        List<Project> projectList1=projectService.projBidTimetrue(id);
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标中").eq("proj_prom",id));
+        List<Project> projectList2=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标结束").eq("proj_prom",id));
+        projectList1.addAll(projectList2);
 
         List<ProjectBid> bidList1=new ArrayList<ProjectBid>();
 
         for (Project project1:projectList1) {
             ProjectBid projectBid = new ProjectBid();
             projectBid.setProject(project1);
-            String creatdate=DateUtils.format(project1.getProjCreattime(),DateUtils.DATE_TIME_PATTERN);
+            //转换时间格式
+            String creatdate=DateUtils.format(project1.getProjCreattime(),DateUtils.DATE_PATTERN);
             projectBid.setCreatdate(creatdate);
+            //竞标剩余时间
+            projectBid.setBidday(projectService.projBidTimeNum(project1.getProjId()));
+            //竞标人数
+            int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",project1.getProjId()));
+            projectBid.setBidnum(count);
             bidList1.add(projectBid);
+
         }
-        for (ProjectBid projectBid1:bidList1) {
-            System.out.println(bidList1);
+        for (ProjectBid projectBid:bidList1) {
+            System.out.println(projectBid);
         }
+
 
     }
 }

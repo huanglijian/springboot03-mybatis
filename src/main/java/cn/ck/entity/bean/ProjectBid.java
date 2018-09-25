@@ -7,8 +7,8 @@ public class ProjectBid {
     private String creatdate;
     private String startdate;
     private String enddate;
-    private String bidday;//竞标剩余天数
-    private String bidnum;//竞标人数
+    private Integer bidday;//竞标剩余天数
+    private Integer bidnum;//竞标人数
 
     public Project getProject() {
         return project;
@@ -42,19 +42,19 @@ public class ProjectBid {
         this.enddate = enddate;
     }
 
-    public String getBidday() {
+    public Integer getBidday() {
         return bidday;
     }
 
-    public void setBidday(String bidday) {
+    public void setBidday(Integer bidday) {
         this.bidday = bidday;
     }
 
-    public String getBidnum() {
+    public Integer getBidnum() {
         return bidnum;
     }
 
-    public void setBidnum(String bidnum) {
+    public void setBidnum(Integer bidnum) {
         this.bidnum = bidnum;
     }
 

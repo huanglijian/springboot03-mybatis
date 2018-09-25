@@ -1,11 +1,15 @@
 package cn.ck.controller.promcenter;
 
+import cn.ck.entity.Bidding;
+import cn.ck.entity.bean.ProjectBid;
+import cn.ck.service.BiddingService;
 import cn.ck.utils.FileController;
 import cn.ck.entity.Alluser;
 import cn.ck.entity.Project;
 import cn.ck.service.ProjectService;
 import cn.ck.utils.DateUtils;
 import cn.ck.utils.ResponseBo;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,16 +23,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/promcenter")
 public class ProjectController {
     @Autowired
     ProjectService projectService;
+    @Autowired
+    BiddingService biddingService;
 
 
     @PostMapping("/projectcreat")
@@ -69,25 +72,44 @@ public class ProjectController {
 
     @PostMapping("/projectbid")
     @ResponseBody
-    public Map<String,Object> projectbid(){
-        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+    public List projectbid(){
         Map<String,Object> bidmap=new HashMap<>();
-        Project project=new Project();
-       //匹配当前时间，更改目前项目竞标状态
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        //匹配当前时间，更改目前项目竞标状态
         List<Project> proBidding=projectService.projBidTimefalse(user.getAllId());
         for (Project project1:proBidding) {
             project1.setProjState("竞标结束");
         }
-        if(proBidding.size()!=0){
+        if(!proBidding.isEmpty()){
             projectService.updateAllColumnBatchById(proBidding);
         }
+
         //查询更新后竞标中的项目
-        List<Project> proBiddinglist=projectService.projBidTimetrue(user.getAllId());
-        for (Project project2:proBiddinglist) {
-            String date=DateUtils.format(project2.getProjCreattime(),DateUtils.DATE_TIME_PATTERN);
-            project2.getProjCreattime();
+//        List<Project> projectList1=projectService.projBidTimetrue(id);
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标中").eq("proj_prom",user.getAllId()));
+        List<Project> projectList2=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标结束").eq("proj_prom",user.getAllId()));
+        projectList1.addAll(projectList2);
+
+        List<ProjectBid> bidList1=new ArrayList<ProjectBid>();
+
+        for (Project project1:projectList1) {
+            ProjectBid projectBid = new ProjectBid();
+            projectBid.setProject(project1);
+            //转换时间格式
+            String creatdate=DateUtils.format(project1.getProjCreattime(),DateUtils.DATE_PATTERN);
+            projectBid.setCreatdate(creatdate);
+            //竞标剩余时间
+            projectBid.setBidday(projectService.projBidTimeNum(project1.getProjId()));
+            //竞标人数
+            int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",project1.getProjId()));
+            projectBid.setBidnum(count);
+            bidList1.add(projectBid);
         }
 
-        return bidmap;
+        for (ProjectBid projectBid:bidList1) {
+            System.out.println(projectBid);
+        }
+
+        return bidList1;
     }
 }
