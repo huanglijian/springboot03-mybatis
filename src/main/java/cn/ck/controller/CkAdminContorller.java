@@ -25,6 +25,9 @@ public class CkAdminContorller {
     }
     @RequestMapping("/search")
     public String search(){
+
+
+
         return "/jobs/search";
     }
 

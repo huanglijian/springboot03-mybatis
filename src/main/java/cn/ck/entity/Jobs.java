@@ -22,13 +22,13 @@ public class Jobs implements Serializable {
     private Integer jobId;
     private Date jobCreattime;
     private String jobMoney;
+    private String jobName;
+    private String jobStudio;
     private String jobIntro;
     private String jobRequire;
     private String jobState;
     private Integer jobNum;
     private String jobType;
-    private String jobName;
-    private String jobStudio;
 
 
     public Integer getJobId() {
@@ -104,7 +104,7 @@ public class Jobs implements Serializable {
     }
 
     public String getJobStudio() {
-        return jobStudio;
+            return jobStudio;
     }
 
     public void setJobStudio(String jobStudio) {
