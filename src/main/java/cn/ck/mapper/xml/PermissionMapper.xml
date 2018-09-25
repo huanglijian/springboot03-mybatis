@@ -8,14 +8,22 @@
         <result column="per_url" property="perUrl" />
         <result column="per_name" property="perName" />
     </resultMap>
-    <select id="findByUserEmail" resultMap="BaseResultMap">
+    <select id="findByUserUUID" resultMap="BaseResultMap">
         select p.per_id,p.per_url,p.per_name
         from role r
         left join userrole ur on(r.ro_id = ur.ur_roid)
         left join alluser u on(u.all_id = ur.ur_allid)
         left join rolepermission rp on(rp.rp_roid = r.ro_id)
         left join permission p on(p.per_id = rp.rp_perid )
-        where u.all_email = #{email}
+        where u.all_id = #{uuid}
+    </select>
+
+    <select id="findByRole" resultType="cn.ck.entity.Permission">
+        select p.per_id,p.per_url,p.per_name
+        from role r
+        left join rolepermission rp on(rp.rp_roid = r.ro_id)
+        left join permission p on(p.per_id = rp.rp_perid )
+        where r.ro_id = #{roleId}
     </select>
 
 </mapper>

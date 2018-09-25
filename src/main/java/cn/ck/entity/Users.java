@@ -1,8 +1,5 @@
 package cn.ck.entity;
 
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.enums.IdType;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,21 +9,20 @@ import java.util.Date;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-21
+ * @since 2018-09-25
  */
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(type = IdType.UUID)
     private String userId;
-
     private String userName;
     private String userPhone;
     private String userSex;
     private Integer userAge;
     private String userIntro;
     private String userAbipay;
+    private String userPaypwd;
     private Date userLogintime;
     private String userImg;
     private String userStudio;
@@ -88,6 +84,14 @@ public class Users implements Serializable {
         this.userAbipay = userAbipay;
     }
 
+    public String getUserPaypwd() {
+        return userPaypwd;
+    }
+
+    public void setUserPaypwd(String userPaypwd) {
+        this.userPaypwd = userPaypwd;
+    }
+
     public Date getUserLogintime() {
         return userLogintime;
     }
@@ -122,6 +126,7 @@ public class Users implements Serializable {
         ", userAge=" + userAge +
         ", userIntro=" + userIntro +
         ", userAbipay=" + userAbipay +
+        ", userPaypwd=" + userPaypwd +
         ", userLogintime=" + userLogintime +
         ", userImg=" + userImg +
         ", userStudio=" + userStudio +

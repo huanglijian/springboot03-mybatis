@@ -88,7 +88,7 @@
                                 error: false,
 								userType:'',
                                 errorMsg: '',
-                                src: 'captcha.jpg'
+                                src: '/captcha.jpg'
                             },
                             methods: {
                                 refreshCode: function(){
@@ -104,11 +104,11 @@
                                         success: function(result){
                                             if(result.code === 0){//登录成功
                                                 if(result.userType === "普通用户")
-                                                	parent.location.href = contextPath + "/";
+                                                	window.location.href = contextPath + "/";
                                                 else if(result.userType === "发布者")
-                                                    parent.location.href = contextPath + "/index";
+                                                    window.location.href = contextPath + "/index";
                                                 else if(result.userType === "管理员")
-                                                    parent.location.href = contextPath + "/";
+                                                    window.location.href = contextPath + "/";
                                             }else{
                                                 vm.error = true;
                                                 vm.errorMsg = result.msg;

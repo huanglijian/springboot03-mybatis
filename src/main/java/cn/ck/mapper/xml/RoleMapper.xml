@@ -8,12 +8,13 @@
         <result column="ro_name" property="roName" />
         <result column="ro_description" property="roDescription" />
     </resultMap>
-    <select id="findByUserEmail" resultMap="BaseResultMap">
+
+    <select id="findByUserUUID" resultMap="BaseResultMap">
         select r.ro_id,r.ro_name
         from role r
         left join userrole ur on(r.ro_id = ur.ur_roid)
         left join alluser u on(u.all_id = ur.ur_allid)
-        where u.all_email = #{email}
+        where u.all_id = #{uuid}
     </select>
 
 </mapper>

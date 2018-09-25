@@ -12,7 +12,7 @@ import java.util.Date;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-21
+ * @since 2018-09-25
  */
 public class Jobs implements Serializable {
 
@@ -27,6 +27,7 @@ public class Jobs implements Serializable {
     private String jobState;
     private Integer jobNum;
     private String jobType;
+    private String jobName;
     private String jobStudio;
 
 
@@ -94,6 +95,14 @@ public class Jobs implements Serializable {
         this.jobType = jobType;
     }
 
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
     public String getJobStudio() {
         return jobStudio;
     }
@@ -113,6 +122,7 @@ public class Jobs implements Serializable {
         ", jobState=" + jobState +
         ", jobNum=" + jobNum +
         ", jobType=" + jobType +
+        ", jobName=" + jobName +
         ", jobStudio=" + jobStudio +
         "}";
     }
