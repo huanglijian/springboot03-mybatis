@@ -1,20 +1,24 @@
 package cn.ck;
 
-import cn.ck.entity.Alluser;
-import cn.ck.entity.Jobs;
-import cn.ck.entity.Promulgator;
-import cn.ck.mapper.JobsMapper;
-import cn.ck.service.AlluserService;
-import cn.ck.service.PromulgatorService;
+import cn.ck.entity.*;
+import cn.ck.mapper.PermissionMapper;
+import cn.ck.service.*;
+import cn.ck.utils.IPUtils;
 import cn.ck.utils.ShiroUtils;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RunWith(SpringRunner.class)
@@ -24,26 +28,24 @@ public class ChuangApplicationTests {
     @Autowired
     AlluserService alluserService;
     @Autowired
+    AdminService adminService;
+    @Autowired
+    UsersService usersService;
+    @Autowired
     PromulgatorService promservice;
+    @Autowired
+    ProjectService projectService;
 
     @Test
     public void contextLoads() {
-        Alluser user = new Alluser();
 
-        String userID = UUID.randomUUID().toString();
-        user.setAllId(userID);
+    }
 
-        String salt = RandomStringUtils.randomAlphanumeric(20);
-        user.setAllSalt(salt);
-
-        String pwd = ShiroUtils.sha256("123456", user.getAllSalt());
-        user.setAllPwd(pwd);
-
-        user.setAllEmail("2");
-        user.setAllState("1");
-        user.setAllType("发布者");
-
-        alluserService.insert(user);
+    @Test
+    public void selectUser(){
+        String id="e9ae842a-e70f-49b8-a9b5-bee24a13c8bb";
+        Users users = usersService.selectById(id);
+        System.out.println(users);
     }
 
     @Test
@@ -53,11 +55,4 @@ public class ChuangApplicationTests {
         prom=promservice.selectID(id);
         System.out.println(prom);
     }
-
-//    @Test
-//    public void testHlj(){
-//
-//        List<Jobs> jobsList =
-//    }
-
 }
