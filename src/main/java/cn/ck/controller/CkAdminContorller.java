@@ -1,5 +1,6 @@
 package cn.ck.controller;
 
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CkAdminContorller {
 
     @RequestMapping("/cwh")
+    @RequiresRoles("admin")
     public String cwhTest(){
         return "resource/resource_player";
     }

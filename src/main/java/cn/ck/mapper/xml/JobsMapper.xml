@@ -12,6 +12,7 @@
         <result column="job_state" property="jobState" />
         <result column="job_num" property="jobNum" />
         <result column="job_type" property="jobType" />
+        <result column="job_name" property="jobName" />
         <result column="job_studio" property="jobStudio" />
     </resultMap>
 

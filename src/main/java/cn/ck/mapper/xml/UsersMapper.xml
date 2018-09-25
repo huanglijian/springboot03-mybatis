@@ -11,6 +11,7 @@
         <result column="user_age" property="userAge" />
         <result column="user_intro" property="userIntro" />
         <result column="user_abipay" property="userAbipay" />
+        <result column="user_paypwd" property="userPaypwd" />
         <result column="user_logintime" property="userLogintime" />
         <result column="user_img" property="userImg" />
         <result column="user_studio" property="userStudio" />

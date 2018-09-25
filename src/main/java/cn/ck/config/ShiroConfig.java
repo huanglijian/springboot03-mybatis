@@ -74,6 +74,7 @@ public class ShiroConfig {
 		// 拦截器。匹配原则是最上面的最优先匹配
 		Map<String, String> chains = Maps.newHashMap();
 		chains.put("/login", "anon");
+		chains.put("/registered/**", "anon");
 		//配置静态文件不会被拦截
 		chains.put("/static/**", "anon");
 		chains.put("/403", "anon");

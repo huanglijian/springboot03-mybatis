@@ -10,13 +10,8 @@
 		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/static/js/vue.js"></script>
-		<title></title>
+		<title>创客登录</title>
 
-        <script type="text/javascript">
-            // function verify() {
-            //     alert("ok");
-            // }
-        </script>
 	</head>
 	<body>
 		<!--背景图-->
@@ -91,14 +86,10 @@
                                 password: '',
                                 captcha: '',
                                 error: false,
+								userType:'',
                                 errorMsg: '',
-                                src: 'captcha.jpg'
+                                src: '/captcha.jpg'
                             },
-                            // beforeCreate: function(){
-                            //     if(self !== top){
-                            //         top.location.href = self.location.href;
-                            //     }
-                            // },
                             methods: {
                                 refreshCode: function(){
                                     this.src = "captcha.jpg?t=" + $.now();
@@ -111,8 +102,13 @@
                                         data: data,
                                         dataType: "json",
                                         success: function(result){
-                                            if(result.code == 0){//登录成功
-                                                parent.location.href = contextPath + "/";
+                                            if(result.code === 0){//登录成功
+                                                if(result.userType === "普通用户")
+                                                	window.location.href = contextPath + "/";
+                                                else if(result.userType === "发布者")
+                                                    window.location.href = contextPath + "/index";
+                                                else if(result.userType === "管理员")
+                                                    window.location.href = contextPath + "/";
                                             }else{
                                                 vm.error = true;
                                                 vm.errorMsg = result.msg;

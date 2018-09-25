@@ -24,5 +24,26 @@ public interface AlluserService extends IService<Alluser> {
     /**
      * 保存用户
      */
-    void save(Alluser user);
+    void encodePwd(Alluser user);
+
+    /**
+     * 查询邮箱是否已注册
+     * @param email 用户邮箱
+     * @return true 已存在
+     */
+    boolean isExist(String email);
+
+    /**
+     * 为user生成UUID
+     * @param user 传入user实体
+     * @return 设置了UUID的user实体
+     */
+    Alluser setUserUUID(Alluser user);
+
+    /**
+     * 根据查找user
+     * @param email
+     * @return
+     */
+    Alluser selectByEmail(String email);
 }

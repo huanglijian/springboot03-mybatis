@@ -8,6 +8,7 @@
     <!-- 全局js -->
     <script src="/static/js/jquery.min.js?v=2.1.4"></script>
     <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/js/vue.js"></script>
 
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/font-awesome.min.css" rel="stylesheet">
@@ -87,6 +88,10 @@
 
     <!-- 页面滚动样式 -->
     <style>
+        body{
+            overflow: hidden;
+        }
+
         *{
             padding: 0;
             margin: 0;
@@ -200,18 +205,31 @@
 
 <body>
     <div class="sonp-section sonp-full" id="first">
+
         <header>
+            <div id="headVue">
             <div class="container-fluid container-fluid_up">
                 <div class="row_up">
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled" v-if="isLogined">
                         <li>
                             <a href="#">帮助中心</a>
                         </li>
-                        <li>
-                            <a href="#">注册</a>
+                        <li >
+                            <a href="/logout">注销</a>
                         </li>
                         <li>
-                            <a th:href="@{/login}">登录</a>
+                            <a href="/login">{{loginUser.allEmail}}</a>
+                        </li>
+                    </ul>
+                    <ul class="list-unstyled" v-else>
+                        <li>
+                            <a href="#">帮助中心</a>
+                        </li>
+                        <li >
+                            <a href="/registered/select/new">注册</a>
+                        </li>
+                        <li>
+                            <a href="/login">登录</a>
                         </li>
                     </ul>
                 </div>
@@ -248,6 +266,89 @@
                     </div>
                 </div>
             </div>
+            </div>
+            <script type="text/javascript">
+                var vm = new Vue({
+                    el:'#headVue',
+                    data:{
+                        loginUser: '',
+                        isLogined: '',
+                    },
+                    beforeCreate: function () {
+                    },
+                    created: function () {
+                        this.getUser();
+                    },
+                    beforeMount: function () {
+                    },
+                    mounted: function () {
+                    },
+                    beforeUpdate: function () {
+                    },
+                    updated: function () {
+                    },
+                    beforeDestroy: function () {
+                    },
+                    destroyed: function () {
+                    },
+                    methods: {
+                        urlparse: function(){
+                            var url = window.location.href;
+                            var a = document.createElement('a');
+                            a.href = url;
+                            var obj = {
+                                source: url,
+                                protocol: a.protocol.replace(':', ''),
+                                host: a.hostname,
+                                port: a.port,
+                                query: a.search,
+                                file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                                hash: a.hash.replace('#', ''),
+                                path: a.pathname.replace(/^([^\/])/, '/$1'),
+                                relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                                segments: a.pathname.replace(/^\//, '').split('/'),
+                                params: (function() {
+                                    var ret = {};
+                                    var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
+                                        if (v!==''&&v.indexOf('=')) {
+                                            return true;
+                                        }
+                                    });
+                                    seg.forEach( function(element, index) {
+                                        var idx = element.indexOf('=');
+                                        var key = element.substring(0, idx);
+                                        var val = element.substring(idx+1);
+                                        ret[key] = val;
+                                    });
+                                    return ret;
+                                })()
+                            };
+                            return obj;
+                        },
+                        getUser: function(){
+                            $.ajax({
+                                type: "POST",
+                                url: "/getLoginUser",
+                                // data: data,
+                                dataType: "json",
+                                success: function(result){
+                                    if(result.code === 404){
+                                        vm.isLogined = false;
+                                    }
+                                    else if(result.code === 0){
+                                        vm.isLogined = true;
+                                        vm.loginUser = result.loginUser;
+                                        console.log(vm.loginUser);
+                                    }
+                                    else{
+                                        alert("出现错误");
+                                    }
+                                }
+                            });
+                        },
+                    }
+                });
+            </script>
         </header>
 
         <div style="height: 100px;background: #ffffff;margin-bottom:20px;"></div>

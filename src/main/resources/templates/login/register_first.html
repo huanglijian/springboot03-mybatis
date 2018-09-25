@@ -10,10 +10,12 @@
 		<link rel="stylesheet" href="/static/css/animate.css" />
 		<link rel="stylesheet" href="/static/css/font-awesome.css" />
 
+
 		<!-- jQuery Validation plugin javascript-->
 		<script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
 		<script src="/static/js/plugins/validate/messages_zh.min.js"></script>
 		<script type="text/javascript" src="/static/js/js_lxn/register_validate.js"></script>
+		<script src="/static/js/vue.js"></script>
 	</head>
 
 	<body>
@@ -24,14 +26,14 @@
 						<img src="/static/img/img_hlj/logo2.png" alt="" />
 					</div>
 					<div class="topmeg col-md-1">
-						<span><a href="#">首页</a></span>
+						<span><a href="/">首页</a></span>
 						<span>|</span>
 						<span><a href="#">帮助</a></span>
 					</div>
 				</div>
-				<div class="conbottom col-md-12">
+				<div class="conbottom col-md-12" id="register">
 					<div class="bottop text-center">
-						<p>注册新用户</p>
+						<p>成为{{userType}}</p>
 					</div>
 					<div class="botimg text-center col-md-12">
 						<img src="/static/img/img_hlj/process_bg_1.png" alt="" />
@@ -48,26 +50,26 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-envelope"></span>
-											<input type="text" class="form-control" placeholder="常用邮箱（将作为登录账号）" id="email" name="email" />
+											<input type="text" class="form-control" placeholder="常用邮箱（将作为登录账号）" id="email" name="email" v-model="email"/>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-md-3">
 										<div class="input-group">
-											<input type="text" class="form-control" placeholder="邮箱验证码" name="code" id="code" />
+											<input type="text" class="form-control" placeholder="邮箱验证码" name="code" id="code" v-model="code"/>
 										</div>
 									</div>
 									<div class="col-md-2" style="padding: 0;">
 										<div class="input-group">
-											<input type="button" id="btn" class="btn btn_mark" value="获取验证码" onclick="settime(this)" />
+											<input type="button" id="btn" class="btn btn_mark" value="获取验证码" onclick="sentcode(this)" />
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-md-5">
 										<div class="input-group">
-											<button type="submit" class="btn sub_email">验证邮箱验证码</button>
+											<button type="button" class="btn sub_email" onclick="validate()">验证邮箱验证码</button>
 										</div>
 									</div>
 								</div>
@@ -75,14 +77,135 @@
 						</div>
 					</div>
 				</div>
+				<script type="text/javascript">
+                    /*<![CDATA[*/
+                    contextPath = /*[[@{/}]]*/ '';
+                    /*]]>*/
+					var vm = new Vue({
+                        el:'#register',
+                        data:{
+                            userType: "",
+							email: '',
+							code:''
+                        },
+                        beforeCreate: function () {
+                        },
+                        created: function () {
+                        },
+                        beforeMount: function () {
+                        },
+                        mounted: function () {
+                            var obj = this.urlparse();
+                            if(obj.file === "promulgator")
+                            	this.userType = "发布者";
+                            else if(obj.file === "user")
+                                this.userType = "普通用户";
+							else this.userType = "";
+                        },
+                        beforeUpdate: function () {
+                        },
+                        updated: function () {
+                        },
+                        beforeDestroy: function () {
+                        },
+                        destroyed: function () {
+                        },
+                        methods: {
+                            urlparse: function(){
+                                var url = window.location.href;
+                                var a = document.createElement('a');
+                                a.href = url;
+                                var obj = {
+                                    source: url,
+                                    protocol: a.protocol.replace(':', ''),
+                                    host: a.hostname,
+                                    port: a.port,
+                                    query: a.search,
+                                    file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                                    hash: a.hash.replace('#', ''),
+                                    path: a.pathname.replace(/^([^\/])/, '/$1'),
+                                    relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                                    segments: a.pathname.replace(/^\//, '').split('/'),
+                                    params: (function() {
+                                        var ret = {};
+                                        var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
+                                            if (v!==''&&v.indexOf('=')) {
+                                                return true;
+                                            }
+                                        });
+                                        seg.forEach( function(element, index) {
+                                            var idx = element.indexOf('=');
+                                            var key = element.substring(0, idx);
+                                            var val = element.substring(idx+1);
+                                            ret[key] = val;
+                                        });
+                                        return ret;
+                                    })()
+                                };
+                                return obj;
+							},
+                            sentCode: function () {
+                                var data = "email="+vm.email;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/registered/sentCode",
+                                    data: data,
+                                    dataType: "json",
+                                    success: function(result){
+                                        if(result.code === 0){
+											alert("success");
+                                        }else{
+											alert("出现错误");
+                                        }
+                                    }
+                                });
+                            },
+							validateEmail: function () {
+                                var data = "email="+vm.email + "&code=" + vm.code + "&userType=" + vm.userType;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/registered/validateEmail",
+                                    data: data,
+                                    dataType: "json",
+                                    success: function(result){
+                                        if(result.code === 0){
+                                            window.location.href = "/registered/second?UUID=" + result.UUID;
+                                        }else{
+                                            alert(result.msg);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+				</script>
 			</div>
 		</div>
 
 		<script type="text/javascript">
-			var countdown = 60;
-
+            var countdown = 90;
+            function sentcode(obj) {
+				if($("#signupForm").validate().element("#email")){
+                    settime(obj);
+                    var data = "email="+vm.email;
+                    $.ajax({
+                        type: "POST",
+                        url: "/registered/isExist",
+                        data: data,
+                        dataType: "json",
+                        success: function(result){
+                            if(result.code === 0){
+                                console.log("not exist");
+                                vm.sentCode();
+                            }else{
+                                alert(result.msg);
+                            }
+                        }
+                    });
+				}
+            }
 			function settime(obj) {
-				if(countdown == 0) {
+				if(countdown === 0) {
 					obj.removeAttribute("disabled");
 					obj.value = "获取邮箱验证码";
 					countdown = 60;
@@ -98,9 +221,15 @@
 				}, 1000)
 			}
 
-			$(".sub_email").click(function() {
-				window.location.href = "#";
-			})
+			function validate(){
+                if($("#signupForm").valid()){
+                    vm.validateEmail();
+				}
+			}
+
+			// $(".sub_email").click(function() {
+			// 	window.location.href = "#";
+			// })
 		</script>
 	</body>
 

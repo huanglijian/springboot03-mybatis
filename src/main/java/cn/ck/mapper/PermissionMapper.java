@@ -16,5 +16,7 @@ import java.util.List;
  */
 public interface PermissionMapper extends BaseMapper<Permission> {
 
-    List<Permission> findByUserEmail(@Param("email") String email);
+    List<Permission> findByUserUUID(@Param("uuid") String uuid);
+
+    List<Permission> findByRole(@Param("roleId") Integer roleId);
 }

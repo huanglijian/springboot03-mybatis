@@ -20,4 +20,10 @@ public class JumpController {
         return "/promulgator/prom_projCreat";
     }
 
+    /*跳转发布者竞标管理页面*/
+    @RequestMapping("/proBid")
+    public String projBidding(){
+        return "/promulgator/prom_projBidding";
+    }
+
 }
