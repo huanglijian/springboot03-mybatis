@@ -178,7 +178,7 @@
 								</div>
 								<div class="pBUnfinish_right">
 									<a class="pB_a1" href="#">邀请竞标</a>
-									<a class="pB_a2" href="/pcjump/proBiddetail">管理项目</a>
+									<a class="pB_a2" :href="'/pcjump/proBiddetail?id='+bidun.project.projId">管理项目</a>
 								</div>
 							</div>
 						</div>
@@ -289,6 +289,7 @@
 				data:{
 					projectbid:'',
 					nosee:false,
+
 				},
 				created:function () {
 					$.ajax({

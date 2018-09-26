@@ -1,8 +1,10 @@
 package cn.ck.controller.promcenter;
 
 import cn.ck.entity.Bidding;
+import cn.ck.entity.Studio;
 import cn.ck.entity.bean.ProjectBid;
 import cn.ck.service.BiddingService;
+import cn.ck.service.StudioService;
 import cn.ck.utils.FileController;
 import cn.ck.entity.Alluser;
 import cn.ck.entity.Project;
@@ -29,6 +31,8 @@ public class ProjectController {
     ProjectService projectService;
     @Autowired
     BiddingService biddingService;
+    @Autowired
+    StudioService studioService;
 
     /**
      * 发布项目controller
@@ -64,7 +68,7 @@ public class ProjectController {
         project.setProjTag(request.getParameter("label"));
         project.setProjState("竞标中");
 
-        System.out.println(project);
+//        System.out.println(project);
 
         if(projectService.insertAllColumn(project)){
             return ResponseBo.ok("发布成功");
@@ -103,7 +107,7 @@ public class ProjectController {
             projectBid.setCreatdate(creatdate);
             //竞标剩余时间
             projectBid.setBidday(10-projectService.projBidTimeNum(project1.getProjId()));
-            //竞标人数
+            //竞标个数
             int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",project1.getProjId()));
             projectBid.setBidnum(count);
             bidList1.add(projectBid);
@@ -121,7 +125,7 @@ public class ProjectController {
      */
     @GetMapping("/projectbidfinish")
     @ResponseBody
-    public List projectbidfinish(){
+    public List projectbidunfinish(){
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
         //匹配当前时间，更改目前项目竞标状态
         List<Project> proBidding=projectService.projBidTimefalse(user.getAllId());
@@ -150,9 +154,43 @@ public class ProjectController {
             bidList1.add(projectBid);
         }
 
-        for (ProjectBid projectBid:bidList1) {
-            System.out.println(projectBid);
-        }
+//        for (ProjectBid projectBid:bidList1) {
+//            System.out.println(projectBid);
+//        }
         return bidList1;
     }
+
+    /**
+     * 竞标中项目及竞标详细信息
+     * @param id 项目id
+     * @return
+     */
+    @PostMapping("/projbiddetail/{id}")
+    @ResponseBody
+    public ResponseBo probidunfinish(@PathVariable("id") String id){
+        Project project=projectService.selectById(id);
+        //竞标剩余时间
+        int day=10-projectService.projBidTimeNum(project.getProjId());
+        //竞标个数
+        int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
+        List<Bidding> biddingList=biddingService.selectList(new EntityWrapper<Bidding>().eq("bid_proj",id));
+        List<ProjectBid> projectBidList=new ArrayList<>();
+
+        for (Bidding bidding:biddingList) {
+            ProjectBid projectBid=new ProjectBid();
+            projectBid.setBidding(bidding);
+            Studio studio=new Studio();
+            studio=studioService.selectById(bidding.getBidStudio());
+            projectBid.setStudio(studio);
+            projectBidList.add(projectBid);
+        }
+        for (ProjectBid projectBid:projectBidList) {
+            System.out.println(projectBid);
+        }
+        return ResponseBo.ok().put("project",project).put("day",day).put("count",count).put("probid",projectBidList);
+    }
+
+
+
+
 }
