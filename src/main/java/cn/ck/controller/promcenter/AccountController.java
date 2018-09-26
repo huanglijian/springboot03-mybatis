@@ -53,7 +53,7 @@ public class AccountController {
         prommap.put("num","1");
         prommap.put("prom",promulgator);
         prommap.put("account",account);
-        String json = JSON.toJSONString(prommap,true);
+//        String json = JSON.toJSONString(prommap,true);
 //        System.out.println(json);
 //        System.out.println(prommap);
         return prommap;
