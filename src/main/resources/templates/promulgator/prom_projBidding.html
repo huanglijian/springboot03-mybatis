@@ -154,80 +154,59 @@
 					</div>
 					<div class="tab-content c_r_c_bottom">
 						<div class="tab-pane fade in active" id="projBidUnfinish">
-							<div class="pBUnfinish_contest">
-								<div class="pBUnfinish_left">
-									<p class="pB_p1">
-										<img src="/static/img/img_lxn/proj_secret.png" alt="" />
-										创客中心项目
-										<span>竞标中：还剩5天</span>
-									</p>
-									<p class="pB_p2">
-										<span>创建时间：2018-09-07</span>
-										<span>竞标数</span>
-										<span class="pB_p2_font-color">1</span>
-										<span>人</span>
-									</p>
-								</div>
-								<div class="pBUnfinish_right">
-									<a class="pB_a1" href="#">邀请竞标</a>
-									<a class="pB_a2" href="prom_projBidDetails.html">管理项目</a>
-								</div>
+							<div class="pBUnfinish_contest" v-if="nosee">
+								<p class="pB_p1">暂无未结束的竞标项目</p>
 							</div>
-							<div class="pBUnfinish_contest">
+							<div class="pBUnfinish_contest" v-for="bidun in projectbid">
 								<div class="pBUnfinish_left">
-									<p class="pB_p1">
+									<p class="pB_p1"v-if="bidun.project.projSecret=='公开'" >
 										<img src="/static/img/img_lxn/proj_open.png" alt="" />
-										创客中心项目
-										<span>竞标中：还剩5天</span>
+										{{bidun.project.projName}}
+										<span>竞标中：还剩{{bidun.bidday}}天</span>
+									</p>
+									<p class="pB_p1"v-if="bidun.project.projSecret=='保密'" >
+										<img src="/static/img/img_lxn/proj_secret.png" alt=""/>
+										{{bidun.project.projName}}
+										<span>竞标中：还剩{{bidun.bidday}}天</span>
 									</p>
 									<p class="pB_p2">
-										<span>创建时间：2018-09-07</span>
+										<span>创建时间：{{bidun.creatdate}}</span>
 										<span>竞标数</span>
-										<span class="pB_p2_font-color">1</span>
+										<span class="pB_p2_font-color">{{bidun.bidnum}}</span>
 										<span>人</span>
 									</p>
 								</div>
 								<div class="pBUnfinish_right">
 									<a class="pB_a1" href="#">邀请竞标</a>
-									<a class="pB_a2" href="#">管理项目</a>
+									<a class="pB_a2" href="/pcjump/proBiddetail">管理项目</a>
 								</div>
 							</div>
 						</div>
 						<div class="tab-pane fade" id="projBidfinish">
-							<div class="pBFinish_contest">
+							<div class="pBFinish_contest" v-if="nosee">
+								<p class="pB_p3">暂无竞标结束的项目</p>
+							</div>
+							<div class="pBFinish_contest" v-for="bidun in projectbid">
 								<div class="pBFinish_left">
-									<p class="pB_p3">
+									<p class="pB_p3"v-if="bidun.project.projSecret=='公开'">
 										<img src="/static/img/img_lxn/proj_open.png" alt="" />
-										创客中心项目
-										<span>已结束竞标</span>
+										{{bidun.project.projName}}
+										<span>{{bidun.project.projState}}</span>
+									</p>
+									<p class="pB_p3"v-if="bidun.project.projSecret=='保密'">
+										<img src="/static/img/img_lxn/proj_secret.png" alt="" />
+										{{bidun.project.projName}}
+										<span>{{bidun.project.projState}}</span>
 									</p>
 									<p class="pB_p4">
-										<span>创建时间：2018-09-07</span>
+										<span>创建时间：{{bidun.creatdate}}</span>
 										<span>竞标数</span>
-										<span class="pB_p4_font-color">1</span>
+										<span class="pB_p4_font-color">{{bidun.bidnum}}</span>
 										<span>人</span>
 									</p>
 								</div>
 								<div class="pBFinish_right">
 									<a class="pB_a3" href="prom_projBidFinDetail.html">管理项目</a>
-								</div>
-							</div>
-							<div class="pBFinish_contest">
-								<div class="pBFinish_left">
-									<p class="pB_p3">
-										<img src="/static/img/img_lxn/proj_secret.png" alt="" />
-										创客中心项目
-										<span>已结束竞标</span>
-									</p>
-									<p class="pB_p4">
-										<span>创建时间：2018-09-07</span>
-										<span>竞标数</span>
-										<span class="pB_p4_font-color">10</span>
-										<span>人</span>
-									</p>
-								</div>
-								<div class="pBFinish_right">
-									<a class="pB_a3" href="#">管理项目</a>
 								</div>
 							</div>
 						</div>
@@ -305,7 +284,48 @@
 
 		<script type="text/javascript" src="/static/js/js_lxn/prom-jquery.js" ></script>
 		<script type="text/javascript">
+			var bidding=new Vue({
+				el:'#projBidUnfinish',
+				data:{
+					projectbid:'',
+					nosee:false,
+				},
+				created:function () {
+					$.ajax({
+						type:'get',
+						url:'/promcenter/projectbidding',
+						success:function (result) {
+						    if(result==''){
+						        bidding.nosee=true;
+							}else{
+                                bidding.projectbid=result;
+							}
 
+                        }
+					})
+                }
+			});
+            var bidfinish=new Vue({
+                el:'#projBidfinish',
+                data:{
+                    projectbid:'',
+                    nosee:false,
+                },
+                created:function () {
+                    $.ajax({
+                        type:'get',
+                        url:'/promcenter/projectbidfinish',
+                        success:function (result) {
+                            if(result==''){
+                                bidfinish.nosee=true;
+                            }else{
+                                bidfinish.projectbid=result;
+                            }
+
+                        }
+                    })
+                }
+            });
 		</script>
 
 	</body>

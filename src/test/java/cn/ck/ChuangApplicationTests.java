@@ -68,8 +68,8 @@ public class ChuangApplicationTests {
         //查询更新后竞标中的项目
 //        List<Project> projectList1=projectService.projBidTimetrue(id);
         List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标中").eq("proj_prom",id));
-        List<Project> projectList2=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标结束").eq("proj_prom",id));
-        projectList1.addAll(projectList2);
+//        List<Project> projectList2=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标结束").eq("proj_prom",id));
+//        projectList1.addAll(projectList2);
 
         List<ProjectBid> bidList1=new ArrayList<ProjectBid>();
 
