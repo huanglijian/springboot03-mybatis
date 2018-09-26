@@ -2,7 +2,6 @@ package cn.ck.config;
 
 import cn.ck.shiro.RedisShiroSessionDAO;
 import cn.ck.shiro.UserRealm;
-import com.google.common.collect.Maps;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -18,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Configuration
@@ -72,7 +72,7 @@ public class ShiroConfig {
 //		bean.setFilters(filters);
 
 		// 拦截器。匹配原则是最上面的最优先匹配
-		Map<String, String> chains = Maps.newHashMap();
+		Map<String, String> chains = new LinkedHashMap<>();
 		chains.put("/login", "anon");
 		chains.put("/registered/**", "anon");
 		//配置静态文件不会被拦截
