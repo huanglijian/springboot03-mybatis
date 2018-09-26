@@ -1,7 +1,9 @@
 package cn.ck.controller.promcenter;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /*prom跳转controller*/
 @Controller
@@ -28,7 +30,8 @@ public class JumpController {
 
     /*跳转竞标项目详细信息*/
     @RequestMapping("/proBiddetail")
-    public String projBiddetail(){
+    public String projBiddetail(@RequestParam("id") String id, Model model){
+        model.addAttribute("id",id);
         return "/promulgator/prom_projBidDetails";
     }
 

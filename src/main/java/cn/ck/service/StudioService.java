@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface StudioService extends IService<Studio> {
 
+     public String insertStudio(Studio studio,String yhid);
 }

@@ -1,9 +1,13 @@
 package cn.ck.entity.bean;
 
+import cn.ck.entity.Bidding;
 import cn.ck.entity.Project;
+import cn.ck.entity.Studio;
 
 public class ProjectBid {
     private Project project;
+    private Bidding bidding;
+    private Studio studio;
     private String creatdate;
     private String startdate;
     private String enddate;
@@ -58,15 +62,33 @@ public class ProjectBid {
         this.bidnum = bidnum;
     }
 
+    public Bidding getBidding() {
+        return bidding;
+    }
+
+    public void setBidding(Bidding bidding) {
+        this.bidding = bidding;
+    }
+
+    public Studio getStudio() {
+        return studio;
+    }
+
+    public void setStudio(Studio studio) {
+        this.studio = studio;
+    }
+
     @Override
     public String toString() {
         return "ProjectBid{" +
                 "project=" + project +
+                ", bidding=" + bidding +
+                ", studio=" + studio +
                 ", creatdate='" + creatdate + '\'' +
                 ", startdate='" + startdate + '\'' +
                 ", enddate='" + enddate + '\'' +
-                ", bidday='" + bidday + '\'' +
-                ", bidnum='" + bidnum + '\'' +
+                ", bidday=" + bidday +
+                ", bidnum=" + bidnum +
                 '}';
     }
 }

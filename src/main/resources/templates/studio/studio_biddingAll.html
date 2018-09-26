@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	    <title>工作室</title>
+        <!--H+-->
+	    <link rel="shortcut icon" href="favicon.ico"> 
+	    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+	    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+	    <link href="/static/css/animate.css" rel="stylesheet">
+	    <link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
+	    
+	    <!--mzb style-->
+        <link href="/static/css/css_mzb/style2.css" rel="stylesheet">
+        <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
+        <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
+        
+ 		<link rel="stylesheet" href="/static/css/css_mzb/prom_updatephoto.css" />
+		<link rel="stylesheet" href="/static/css/css_mzb/cropper.min.css" />
+		<link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css" />
+		<link rel="stylesheet" href="/static/css/css_mzb/标签/title.css" />
+        
+        <!--  头部，尾部，菜单栏-->
+		
+		<link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
+		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
+		<script type="text/javascript" src="js/js_lxn/jquery-3.0.0.js" ></script>
+		
+	</head>
+	
+	
+	<body>
+	<!--header-->
+		<header>
+			<div class="container-fluid container-fluid_up">
+				<div class="row_up">
+					<ul class="list-unstyled">
+						<li>
+							<a href="#">帮助中心</a>
+						</li>
+						<li>
+							<a href="#">注册</a>
+						</li>
+						<li>
+							<a href="#">登录</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="container-fluid container-fluid_main">
+				<div class="row_main">
+					<div class="main_logo">
+						<img class="img-responsive img-rounded" src="img/img_psw/logo2.png" />
+					</div>
+					<div class="main_right">
+						<ul class="nav_psw list-unstyled">
+							<li class="active">
+								<a>首 页</a>
+							</li>
+							<li>
+								<a>项目大厅</a>
+							</li>
+							<li>
+								<a>服务大厅</a>
+							</li>
+							<li>
+								<a>创客讲堂</a>
+							</li>
+							<li>
+								<a>原创中心</a>
+							</li>
+							<li>
+								<a>荣誉中心</a>
+							</li>
+							<li>
+								<a>在线求职</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</header>
+		<br/>
+	<!--content-->
+	<div class="content container-fluid">
+		<!--左侧导航栏-->
+		<div class="navL">
+			<div class="col_left">
+				<div class="ul_contest">
+					<ul class="lefthead">
+						<li class="lefthead_li">
+							<a href="studio_index.html" style="line-height:60px;font-size:17px;color: black;">
+								我的工作室
+							</a>
+						</li>
+						<li class="lefthead_li">
+							<a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo" onclick="selectimg(this.id)">
+								项目管理
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</a>
+							<ul id="projectmanage" class="panel-collapse collapse in">
+								<li>
+									<a href="studio_bidding.html">竞标项目</a>
+								</li>
+								<li>
+									<a href="studio_service.html">服务订单</a>
+								</li>
+								<li>
+									<a href="studio_biddingAll.html">竞标一览</a>
+								</li>
+							</ul>
+						</li>
+						<li class="lefthead_li">
+							<a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree" onclick="selectimg(this.id)">
+								资金管理
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</a>
+							<ul id="pricemanage" class="panel-collapse collapse in">
+								<li>
+									<a href="studio_funds.html">资金记录</a>
+								</li>
+							</ul>
+						</li>
+						<li class="lefthead_li">
+							<a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
+								招聘管理
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</a>
+							<ul id="safemanage" class="panel-collapse collapse in">
+								<li>
+									<a href="studio_jobInfo.html">招聘信息</a>
+								</li>
+								<li>
+									<a href="studio_jobReview.html">招聘审核</a>
+								</li>
+							</ul>
+						</li>
+						<li class="lefthead_li">
+							<a href="#membermanage" data-toggle="collapse" class="lefthead_li_a" id="five" onclick="selectimg(this.id)">
+								成员管理
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</a>
+							<ul id="membermanage" class="panel-collapse collapse in">
+								<li>
+									<a href="studio_memberInfo.html">成员信息</a>
+								</li>
+								<li>
+									<a href="studio_memberReview.html">退出审核</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<!--右侧内容-->
+		<div class="main">
+			<div class="mainTop">
+				<div class="logo">
+					 <!--头像大小220x170-->
+					<img src="img/img_mzb/tx.png" />
+					<div class="settingimg">
+						<a style="color:white" href="studio_headUpdate.html">
+							修 改 头 像
+						</a>
+					</div>
+				</div>
+				<div class="intro" >
+					<div class="introTop">
+					<ul style="list-style-type:none;position: relative;top:10px;left:5%;font-family: Lantinghei SC;;">
+						<li style="margin-bottom: 13px;"> 
+							<span style="font-size: 30px;">轩辕阁工作室&nbsp;&nbsp;&nbsp;</span>
+							<img src="img/img_mzb/renzheng.png" >
+							&nbsp;已认证	
+							
+							<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#myModal" style="position: relative;right: -20%;top:-5px;">
+								修改信息
+							</button>
+			                <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+				            <div class="col-sm-8" style="position: relative;left:18%;top:12%;">
+				                <div class="ibox float-e-margins">
+				                    <div class="ibox-title">
+				                        <h5>工作室信息</h5>
+				                        <div class="ibox-tools">
+				                            <a class="close-link">
+				                            	<i class="fa fa-times" data-dismiss="modal"></i>           
+				                            </a>
+				                        </div>
+				                    </div>
+				                    <div class="ibox-content_mzb1">
+				                        <form style="position: relative;left:-8%;" class="form-horizontal m-t" id="signupForm">
+				                            <div class="form-group">
+				                                <label class="col-sm-3 control-label" >工作室名称：</label>
+				                                <div class="col-sm-8">
+				                                    <input  style="width: 680.33px;" name="studioName" class="form-control" type="text" value="轩辕阁工作室">
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label class="col-sm-3 control-label">所属地区：</label>
+				                                <div class="col-sm-8">
+							                        <span style="position: relative;left:0%;" >
+														<select id="s_province" name="s_province" class="studioSelect1" >
+															
+														</select>  
+														<select id="s_city" name="s_city" class="studioSelect1" >
+															
+														</select>  
+														<select id="s_county" name="s_county" class="studioSelect2">
+															
+														</select>	     		
+											     	</span>
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label class="col-sm-3 control-label">成员数量：</label>
+				                                <div class="col-sm-8">
+				                                    <input  style="width: 680.33px;" name="memberNum" class="form-control" type="text" value="20" disabled="disabled">
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label class="col-sm-3 control-label">擅长领域：</label>
+				                                <div class="col-sm-8">      
+					                                <div style=""  id="mySelect" class="mySelect">
+					                                	
+					                                </div>
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label class="col-sm-3 control-label">技能标签：</label>
+				                                <div class="col-sm-8">      
+													<div class="wrap">
+														<div class="label-selected" style="width: 680.33px;">
+															<a href="javascript:;" class="btn btn-primary btn-xs show-labelitem" style="background-color:#1ab394;float: right; margin: 1px; display: block;line-height: 30px;">展开标签库 </a>
+															<a href="javascript:;" class="btn btn-primary btn-xs hide-labelitem" style="background-color:#1ab394;float: right; margin: 1px; display: none;line-height: 30px;">收起标签库 </a>
+															<input type="hidden" name="label">
+														</div>
+														
+														<div class="layui-col-md12" id="labelItem">
+														  <div class="label-item">
+														  	<div class="changeone">	
+															<li data="1"><span>java 教程</span></li>
+															<li data="2"><span>SEM</span></li>
+															<li data="3"><span>SEM基础</span></li>
+															<li data="4"><span>柚说</span></li>
+															<li data="5"><span>关键词</span></li>
+															<li data="6"><span>创意</span></li>
+															<li data="7"><span>公众号</span></li>
+															<li data="8"><span>排名</span></li>
+															<li data="9"><span>网络营销</span></li>
+															<li data="10"><span>SEM</span></li>
+															<li data="11"><span>网络推广</span></li>
+															</div>
+															<hr/>
+															<a href="javascript:void(0)">
+													    		<span class="huan" style="position: relative;float: right;right: 1%;">
+													    		    换一批
+													    	   </span>
+													    	</a> 												
+														  </div>
+														</div>	
+														<!--<a href="javascript:;" class="layui-btn" id="cell">获取</a>-->
+													</div>
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label class="col-sm-3 control-label">工作室简介：</label>
+				                                <div class="col-sm-8">      
+				                                    <textarea name="studioIntro" rows="5" style="width: 680.33px;border:1px solid gainsboro"></textarea>
+				                                </div>
+				                            </div>				                            
+				                            
+				                            <div class="form-group">
+				                                <div class="col-sm-8 col-sm-offset-3" style="margin-bottom: 20px;">
+				                                    <button class="btn btn-primary" type="submit" style="margin-right: 10px;">提交</button>
+				                                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+				                                </div>
+				                            </div>
+				                        </form>
+				                    </div>
+				                </div>
+				            </div> 
+			                </div>							
+							
+						</li>
+						<li style="position: relative;top:3px;left:-1%;">
+							<img src="img/img_mzb/ditu.png" />
+							广东省&nbsp;&nbsp;深圳市 &nbsp;&nbsp;南山区
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span style="font-size:14px">
+								<span style="margin-right: 30px;margin-left: 10px;">成员数量：20</span>
+							    <span>创建时间:&nbsp;2017年05月20日</span>
+							</span>
+						</li>
+
+					</ul>					
+					</div>
+					<div class="introBottom">
+						<div class="ibLeft" style="">
+							<ul style="position: relative;top:10px;left:-7%">
+								<li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">20</li>
+								<li style="text-align:center;list-style-type:none;font-size:15px;">承接项目数</li>
+							</ul>
+							
+						</div>
+					
+						<div class="ibRight">
+							<div class="ibRleft" style="">
+							    <ul style="position: relative;top:10px;left:-9%	">
+								    <li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">97</li>
+								    <li style="text-align:center;list-style-type:none;font-size:15px;">荣誉积分</li>
+							    </ul>
+						
+							</div>
+							<div class="ibRright">
+							    <ul style="position: relative;top:10px;left:-4%;">
+								    <li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">18000</li>
+								    <li style="text-align:center;list-style-type:none;font-size:15px;">总收入</li>
+							    </ul>
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
+			
+			<!-- 竞标一览-->
+			<div class="mainContent container-fluid">
+			    <div class="row">
+					<h2 class="col-md-12 row_h2">竞标一览</h2>
+				</div>	
+	            <div class="bidAllTop">
+	            	<form>
+	            	<p>	
+	            		<input type="text" name="bidSearch" placeholder="关键词" class="bidInput"/>
+	            		<select name="xiangmuyusuan" class="bidSelect">
+	            			<option value="" selected="">按预算筛选</option>
+	            			<option value="1000">1千以下</option>
+	            			<option value="5000">1千~5千</option>
+	            			<option value="10000">5千~1万</option>
+	            			<option value="50000">1万~5万</option>
+	            			<option value="100000">5万~10万</option>
+	            			<option value="100001">10万以上</option>
+	            			<option value="0">待商议</option>
+	            		</select>
+	            		<select name="xiangmuzhuangtai" class="bidSelect" style="margin-right: 30px;">
+	            			<option value="" selected="">按状态筛选</option>
+	            			<option value="jbz">竞标中</option>
+	            			<option value="jbcs">竞标超时</option>
+	            			<option value="kfz">开发中</option>
+	            			<option value="wg">完工</option>
+	            			<option value="qbxm">弃标项目</option>
+	            			<option value="tkxm">退款项目</option>
+	            		</select>
+	            		<span>日期从</span> 
+	            		<span> 
+                          <input id="hello" class="bidInput" name="startTime" placeholder="开始时间">
+                        </span>
+                        <span>至</span>
+                        <span>
+                        <input  id="hello1" class="bidInput" name="endTime" placeholder="结束时间">
+                        <button type="button" class="bidaButton">
+                        	<img src="img/img_mzb/搜索.png"/>
+                        </button>
+                        </span>
+	            	</p>
+	            	</form>
+	            </div>
+	            <div class="bidAllBottom">
+		            <div class="col-sm-14">
+		                <div class="ibox float-e-margins" style="position: relative;top:40px;">
+
+		                    <div class="ibox-content_mzb">
+		
+		                        <table class="table table-hover">
+		                            <thead>
+		                                <tr>
+		                                    <th>项目名称</th>
+		                                    <th>发包方</th>
+		                                    <th>发布时间</th>
+		                                    <th>竞标时间</th>
+		                                    <th>竞标数</th>
+		                                    <th>项目预算</th>
+		                                    <th>项目状态</th>
+		                                </tr>
+		                            </thead>
+		                            <tbody>
+		                                <tr>
+                                            <td>创客平台</td>
+                                            <td>mzb17876253511</td>
+                                            <td>2018-9-5</td>
+                                            <td>2018-9-8</td>
+                                            <td>15</td>
+                                            <td>20000</td>
+                                            <td>竞标中</td>                
+		                                </tr>
+		                                <tr>
+                                            <td>创客平台</td>
+                                            <td>mzb17876253511</td>
+                                            <td>2018-9-5</td>
+                                            <td>2018-9-8</td>
+                                            <td>15</td>
+                                            <td>20000</td>
+                                            <td>竞标超时</td>    
+		                                </tr>
+		                                <tr>
+                                            <td>创客平台</td>
+                                            <td>mzb17876253511</td>
+                                            <td>2018-9-5</td>
+                                            <td>2018-9-8</td>
+                                            <td>15</td>
+                                            <td>20000</td>
+                                            <td>开发中</td>    
+		                                </tr>
+		                            </tbody>
+		                        </table>
+		                    </div>
+		                </div>
+		            </div>	            	
+	            </div>
+			</div>			
+		</div>
+	</div>
+	<!--footer-->
+		<footer>
+			<div class="container-fluid_foot">
+				<div class="foot_panel">
+					<div class="foot_panel_left">
+						<div class="img">
+							<a href="#">
+								<img src="img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+							</a>
+						</div>
+						<div class="beian">
+							<p>创客网 © 2018－
+								<br>肇庆学院东软实训班第三组版权所有
+								<br>[粤ICP备xxxxxxx号-x] 标识
+								<br> 粤公网安备xxxxxxxxxx号</p>
+						</div>
+					</div>
+					<div class="foot_panel_right">
+						<div class="foot_panel_right_row">
+							<ul class="list-unstyled">
+								<li>
+									<h4>新手指南</h4>
+									<a href="/help/register">注册登录问题</a>
+									<br />
+									<a href="/help/process">项目交易流程</a>
+									<br />
+									<a href="/help/fund">充值提款问题</a>
+									<br />
+									<a href="help/about_agreement">用户注册协议</a>
+									<br />
+									<a href="/help/bid_payings">为何付费竞标</a>
+								</li>
+								<li>
+									<h4>特色服务</h4>
+									<a href="/help/renzheng">实名认证</a>
+									<br />
+									<a href="/help/searchs">精准搜索</a>
+									<br />
+									<a href="/help/workhour">小时报价</a>
+									<br />
+									<a href="/help/bumanyituikuan">不满意退款</a>
+									<br />
+									<a href="/help/bid_card">竞标卡规则</a>
+								</li>
+								<li>
+									<h4>评价信誉</h4>
+									<a href="/help/pingjiadengm">操作演示</a>
+									<br />
+									<a href="/help/service_payings">服务收费</a>
+									<br />
+									<a href="/help/evaluations">用户评价</a>
+									<br />
+									<a href="/help/jifens">积分体系</a>
+									<br />
+									<a href="/help/controversy">争议解决</a>
+								</li>
+								<li>
+									<h4>答疑中心</h4>
+									<a href="/help/pro_relase">项目发布问题</a>
+									<br />
+									<a href="/help/bid_joinings">参与竞标问题</a>
+									<br />
+									<a href="/help/pro_runnings">项目开发问题</a>
+									<br />
+									<a href="/help/pro_done">项目完工问题</a>
+									<br />
+									<a href="/help/it_realse">信息发布问题</a>
+								</li>
+								<li>
+									<h4>联系我们</h4>
+									<a href="/help/about_us">关于SXSOFT</a>
+									<br />
+									<a href="/help/about_company">公司概况</a>
+									<br />
+									<a href="/help/contact_us">联系方式</a>
+									<br />
+									<a href="/help/about_advertising">广告投放</a>
+									<br />
+									<a href="/help/links">友情链接</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="js/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="js/hplus.js?v=4.1.0"></script>
+    <script type="text/javascript" src="js/contabs.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="js/plugins/pace/pace.min.js"></script>
+    
+    <!-- 自定义js -->
+    <script src="js/content.js?v=1.0.0"></script>
+
+	<!-- 林晓能导航栏JS效果-->
+    <script type="text/javascript" src="js/js_lxn/PersonCenter-jquery.js" ></script>
+
+    <!-- layerDate plugin javascript -->
+    <script src="js/plugins/layer/laydate/laydate.js"></script>
+    <script>
+        //外部js调用
+        laydate({
+            elem: '#hello', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+            event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+        });
+        laydate({
+            elem: '#hello1', 
+            event: 'focus'        	
+        });
+
+    </script>
+    
+    <!--省级联动-->
+    <script class="resources library" src="js/js_mzb/area.js" type="text/javascript"></script>
+    <script type="text/javascript">_init_area();</script>
+	<script type="text/javascript">
+	var Gid  = document.getElementById ;
+	var showArea = function(){
+		Gid('show').innerHTML = "<h3>省" + Gid('s_province').value + " - 市" + 	
+		Gid('s_city').value + " - 县/区" + 
+		Gid('s_county').value + "</h3>"
+	   }
+	
+	function close(){
+		javascript:window.opener=null;
+		window.open('','_self');
+		window.close();
+	}
+	</script>    
+
+   <!--下拉框-->
+   <script src="js/hplus.js?v=1.10.2"></script>
+   <script type="text/javascript" src="js/js_mzb/select.js"></script>
+   <script type="text/javascript" src="js/js_mzb/xlk.js"></script>
+	
+	<!--标签-->
+	<!--<script type="text/javascript" src="js/js_mzb/title/jquery.min.js"></script>-->
+	<script type="text/javascript" src="js/js_mzb/title/layer.js"></script>
+	<script type="text/javascript" src="js/js_mzb/title/title.js"></script>
+	<script type="text/javascript" src="js/js_mzb/title/huanyihuan.js"></script>    
+	</body>
+</html>
