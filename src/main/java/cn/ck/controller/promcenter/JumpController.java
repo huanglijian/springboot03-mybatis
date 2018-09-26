@@ -28,11 +28,18 @@ public class JumpController {
         return "/promulgator/prom_projBidding";
     }
 
-    /*跳转竞标项目详细信息*/
+    /*跳转竞标中项目详细信息*/
     @RequestMapping("/proBiddetail")
     public String projBiddetail(@RequestParam("id") String id, Model model){
         model.addAttribute("id",id);
         return "/promulgator/prom_projBidDetails";
     }
 
+    /*跳转竞标结束项目详细信息*/
+    @RequestMapping("/proBidfindetail")
+    public String proBidfindetail(@RequestParam("finishid") String id, Model model){
+        model.addAttribute("id",id);
+        System.out.println(id);
+        return "/promulgator/prom_projBidFinDetail";
+    }
 }

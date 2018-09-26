@@ -19,15 +19,15 @@
 	text-align: center;
 	color: #999999;
 	float: left;
-    width: 150px;
-    height:50px;
-    padding: 15px 10px;
+	width: 150px;
+	height:50px;
+	padding: 15px 10px;
 }
 
 
 #projBidul li.current{
 	border-bottom: 3px solid #1ab394;
-	
+
 }
 
 #projBidul li a.current{
@@ -105,7 +105,7 @@
 .pBUnfinish_right{
 	width:300px;
 	float: left;
-	padding: 35px 0 0 100px;
+	padding: 35px 0 0 30px;
 }
 .pBFinish_right{
 	width:300px;
@@ -114,6 +114,11 @@
 }
 .pB_a1{
 	background-color:#FD4C5D;
+	color: #FFFFFF;
+	text-align:center;
+}
+.pB_a4{
+	background-color:#1890d2;
 	color: #FFFFFF;
 	text-align:center;
 }
@@ -130,19 +135,19 @@
 	text-align:center;
 }
 
-.pB_a1:link,.pB_a2:link,.pB_a3:link{
+.pB_a1:link,.pB_a2:link,.pB_a3:link,.pB_a4:link{
 	text-decoration: none;
 	color: #FFFFFF;
 }
-.pB_a1:visited,.pB_a2:visited,.pB_a3:visited{
+.pB_a1:visited,.pB_a2:visited,.pB_a3:visited,.pB_a4:visited{
 	text-decoration: none;
 	color: #FFFFFF;
 }
-.pB_a1:hover,.pB_a2:hover,.pB_a3:hover{
+.pB_a1:hover,.pB_a2:hover,.pB_a3:hover,.pB_a4:hover{
 	text-decoration: none;
 	color: #FFFFFF;
 }
-.pB_a1:active,.pB_a2:active,.pB_a3:active{
+.pB_a1:active,.pB_a2:active,.pB_a3:active,.pB_a4:active{
 	text-decoration: none;
 	color: #FFFFFF;
 }
