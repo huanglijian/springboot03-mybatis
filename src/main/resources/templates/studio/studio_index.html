@@ -21,6 +21,9 @@
 		<link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
 
+		<script src="http://how2j.cn/study/vue.min.js"></script>
+		<script src="http://how2j.cn/study/axios.min.js"></script>
+
 		
 	</head>
 	
@@ -162,11 +165,11 @@
 						</a>
 					</div>
 				</div>
-				<div class="intro" >
+				<div class="intro" id="studioVue">
 					<div class="introTop">
 					<ul style="list-style-type:none;position: relative;top:10px;left:5%;font-family: Lantinghei SC;;">
 						<li style="margin-bottom: 13px;"> 
-							<span style="font-size: 30px;">轩辕阁工作室&nbsp;&nbsp;&nbsp;</span>
+							<span style="font-size: 30px;">{{studio.stuName}}&nbsp;&nbsp;&nbsp;</span>
 							<img src="/static/img/img_mzb/renzheng.png" >
 							&nbsp;已认证	
 							
@@ -236,11 +239,11 @@
 						</li>
 						<li style="position: relative;top:3px;left:-1%;">
 							<img src="/static/img/img_mzb/ditu.png" />
-							广东省&nbsp;&nbsp;深圳市 &nbsp;&nbsp;南山区
+							{{studio.stuProvince}}&nbsp;&nbsp;{{studio.stuCity}}&nbsp;&nbsp;{{studio.stuArea}}
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<span style="font-size:14px">
-								<span style="margin-right: 30px;margin-left: 10px;">成员数量：20</span>
-							    <span>创建时间:&nbsp;2017年05月20日</span>
+								<span style="margin-right: 30px;margin-left: 10px;">成员数量：{{studio.stuMembernum}}</span>
+							    <span>创建时间:&nbsp;{{studio.stuCreattime}}</span>
 							</span>
 						</li>
 
@@ -249,7 +252,7 @@
 					<div class="introBottom">
 						<div class="ibLeft" style="">
 							<ul style="position: relative;top:10px;left:-7%">
-								<li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">20</li>
+								<li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">{{studio.stuProjectnum}}</li>
 								<li style="text-align:center;list-style-type:none;font-size:15px;">承接项目数</li>
 							</ul>
 							
@@ -258,14 +261,14 @@
 						<div class="ibRight">
 							<div class="ibRleft" style="">
 							    <ul style="position: relative;top:10px;left:-9%	">
-								    <li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">97</li>
+								    <li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">{{studio.stuGrade}}</li>
 								    <li style="text-align:center;list-style-type:none;font-size:15px;">荣誉积分</li>
 							    </ul>
 						
 							</div>
 							<div class="ibRright">
 							    <ul style="position: relative;top:10px;left:-4%;">
-								    <li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">18000</li>
+								    <li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">{{studio.stuIncome}}</li>
 								    <li style="text-align:center;list-style-type:none;font-size:15px;">总收入</li>
 							    </ul>
 							</div>
@@ -643,5 +646,23 @@
 	</script>    
    <!-- 林晓能导航栏JS效果-->
    <script type="text/javascript" src="/static/js/js_lxn/PersonCenter-jquery.js" ></script>
+
+	<script>
+		var url = "/studio/studioList"
+		new Vue({
+			el:'#studioVue',
+			data:{
+			    studio:''
+			},
+			mounted:function(){
+			    var self = this;
+			    axios.get(url).then(function (response){
+			        self.studio = response.data.studio;
+				})
+			}
+		})
+	</script>
+
+
 	</body>
 </html>
