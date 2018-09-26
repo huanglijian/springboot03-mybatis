@@ -12,239 +12,254 @@
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 	<link href="/static/css/css_psw/pc_ifm.css" rel="stylesheet" />
+	<script src="http://how2j.cn/study/vue.min.js"></script>
+	<script src="http://how2j.cn/study/axios.min.js"></script>
 </head>
 
 <body>
-	<header>
-		<div class="container-fluid container-fluid_up">
-			<div class="row_up">
-				<ul class="list-unstyled">
-					<li>
-						<a href="#">帮助中心</a>
+<header>
+	<div class="container-fluid container-fluid_up">
+		<div class="row_up">
+			<ul class="list-unstyled">
+				<li>
+					<a href="#">帮助中心</a>
+				</li>
+				<li>
+					<a href="#">注册</a>
+				</li>
+				<li>
+					<a href="#">登录</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid container-fluid_main">
+		<div class="row_main">
+			<div class="main_logo">
+				<img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
+			</div>
+			<div class="main_right">
+				<ul class="nav_psw list-unstyled">
+					<li class="active">
+						<a>首 页</a>
 					</li>
 					<li>
-						<a href="#">注册</a>
+						<a>项目大厅</a>
 					</li>
 					<li>
-						<a href="#">登录</a>
+						<a>服务大厅</a>
+					</li>
+					<li>
+						<a>创客讲堂</a>
+					</li>
+					<li>
+						<a>原创中心</a>
+					</li>
+					<li>
+						<a>荣誉中心</a>
+					</li>
+					<li>
+						<a>在线求职</a>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<div class="container-fluid container-fluid_main">
-			<div class="row_main">
-				<div class="main_logo">
-					<img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
+	</div>
+</header>
+<div class="container-fluid contest">
+	<div class="col_left">
+		<div class="ul_contest">
+			<ul class="lefthead">
+				<li class="lefthead_li">
+					<a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone">
+						个人中心
+						<span class="glyphicon glyphicon-chevron-up"></span>
+					</a>
+					<ul id="personcenter" class="panel-collapse collapse in">
+						<li class="current">
+							<a href="pc_information.html">个人资料</a>
+						</li>
+						<li>
+							<a href="pc_mfy_information.html">修改资料</a>
+						</li>
+						<li>
+							<a href="pc_sysn.html">系统通知</a>
+						</li>
+					</ul>
+				</li>
+				<li class="lefthead_li">
+					<a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo">
+						我的收藏
+						<span class="glyphicon glyphicon-chevron-up"></span>
+					</a>
+					<ul id="projectmanage" class="panel-collapse collapse in">
+						<li>
+							<a href="pc_xiangmu_collection.html">项目收藏</a>
+						</li>
+						<li>
+							<a href="pc_video_collection.html">视频收藏</a>
+						</li>
+						<li>
+							<a href="pc_code_collection.html">代码收藏</a>
+						</li>
+					</ul>
+				</li>
+				<li class="lefthead_li">
+					<a href="#pricspananage" data-toggle="collapse" class="lefthead_li_a" id="athree">
+						我的上传
+						<span class="glyphicon glyphicon-chevron-up"></span>
+					</a>
+					<ul id="pricspananage" class="panel-collapse collapse in">
+						<li>
+							<a href="pc_code_yuanchuang.html">原创</a>
+						</li>
+					</ul>
+				</li>
+				<li class="lefthead_li">
+					<a href="#safspananage" data-toggle="collapse" class="lefthead_li_a" id="four">
+						安全管理
+						<span class="glyphicon glyphicon-chevron-up"></span>
+					</a>
+					<ul id="safspananage" class="panel-collapse collapse in">
+						<li>
+							<a href="pc_updpwd.html">修改登录密码</a>
+						</li>
+						<li>
+							<a href="pc_updpyp.html">修改支付密码</a>
+						</li>
+						<li>
+							<a href="pc_zhuxiao.html">注销账户</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="col_right">
+		<div class="col_right_ifm_up">
+			<div class="col_right_ifm_up_1">
+			</div>
+		</div>
+		<div class="col_right_ifm_down" style="padding-bottom: 50px;" id="items">
+			<div class="col_right_ifm_down_left">
+				<div class="r_c_t_left">
+					<div class="r_c_t_l_img">
+						<div class="r_c_t_l_updateimg">
+							<a href="pc_updphoto.html" target="_blank">更换头像</a>
+						</div>
+						<img src="/static/img/a8.jpg" alt="" class="imgsize" />
+					</div>
+					<div class="r_c_t_l_pcData">
+						<a class="pcDatabtn" href="pc_mfy_information.html">修改资料</a>
+					</div>
 				</div>
-				<div class="main_right">
-					<ul class="nav_psw list-unstyled">
-						<li class="active">
-							<a>首 页</a>
-						</li>
-						<li>
-							<a>项目大厅</a>
-						</li>
-						<li>
-							<a>服务大厅</a>
-						</li>
-						<li>
-							<a>创客讲堂</a>
-						</li>
-						<li>
-							<a>原创中心</a>
-						</li>
-						<li>
-							<a>荣誉中心</a>
-						</li>
-						<li>
-							<a>在线求职</a>
+			</div>
+			<div class="col_right_ifm_down_right" id="info">
+				<div class="col_right_ifm_down_right_1">
+					<span class="username">用户名：{{user.userName}}</span>
+					<a href="pc_homepage.html" target="_blank" style="float: right;">个人主页></a>
+				</div>
+				<div class="col_right_ifm_down_right_2">
+					<span style="margin-right: 16px; color: rgb(77, 77, 77); font-size: 14px;">关注 0</span>
+					<span style="margin-right: 16px; color: rgb(77, 77, 77); font-size: 14px;">粉丝 0</span>
+				</div>
+				<div class="col_right_ifm_down_right_3">
+					<ul class="list-unstyled">
+						<li class="comon">年龄：{{user.userAge}}</li>
+						<li class="comon">性别：{{user.userSex}}</li>
+						<li class="comon">联系电话：{{user.userPhone}}</li>
+						<li class="comon">注册时间：{{user.userLogintime}}</li>
+						<li class="intro">
+							<span class="noWid">简介：</span>
+							<span class="cont">{{user.userIntro}}</span>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-	</header>
-	<div class="container-fluid contest">
-		<div class="col_left">
-			<div class="ul_contest">
-				<ul class="lefthead">
-					<li class="lefthead_li">
-						<a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone">
-							个人中心
-							<span class="glyphicon glyphicon-chevron-up"></span>
-						</a>
-						<ul id="personcenter" class="panel-collapse collapse in">
-							<li class="current">
-								<a href="pc_information.html">个人资料</a>
-							</li>
-							<li>
-								<a href="pc_mfy_information.html">修改资料</a>
-							</li>
-							<li>
-								<a href="pc_sysn.html">系统通知</a>
-							</li>
-						</ul>
-					</li>
-					<li class="lefthead_li">
-						<a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo">
-							我的收藏
-							<span class="glyphicon glyphicon-chevron-up"></span>
-						</a>
-						<ul id="projectmanage" class="panel-collapse collapse in">
-							<li>
-								<a href="pc_xiangmu_collection.html">项目收藏</a>
-							</li>
-							<li>
-								<a href="pc_video_collection.html">视频收藏</a>
-							</li>
-							<li>
-								<a href="pc_code_collection.html">代码收藏</a>
-							</li>
-						</ul>
-					</li>
-					<li class="lefthead_li">
-						<a href="#pricspananage" data-toggle="collapse" class="lefthead_li_a" id="athree">
-							我的上传
-							<span class="glyphicon glyphicon-chevron-up"></span>
-						</a>
-						<ul id="pricspananage" class="panel-collapse collapse in">
-							<li>
-								<a href="pc_code_yuanchuang.html">原创</a>
-							</li>
-						</ul>
-					</li>
-					<li class="lefthead_li">
-						<a href="#safspananage" data-toggle="collapse" class="lefthead_li_a" id="four">
-							安全管理
-							<span class="glyphicon glyphicon-chevron-up"></span>
-						</a>
-						<ul id="safspananage" class="panel-collapse collapse in">
-							<li>
-								<a href="pc_updpwd.html">修改登录密码</a>
-							</li>
-							<li>
-								<a href="pc_updpyp.html">修改支付密码</a>
-							</li>
-							<li>
-								<a href="pc_zhuxiao.html">注销账户</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<div class="col_right">
-			<div class="col_right_ifm_up">
-				<div class="col_right_ifm_up_1">
+	</div>
+</div>
+<footer>
+	<div class="container-fluid_foot">
+		<div class="foot_panel">
+			<div class="foot_panel_left">
+				<div class="img">
+					<a href="#">
+						<img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+					</a>
+				</div>
+				<div class="beian">
+					<p>创客网 © 2018－
+						<br>肇庆学院东软实训班第三组版权所有
+						<br>[粤ICP备xxxxxxx号-x] 标识
+						<br> 粤公网安备xxxxxxxxxx号</p>
 				</div>
 			</div>
-			<div class="col_right_ifm_down" style="padding-bottom: 50px;" id="items">
-				<div class="col_right_ifm_down_left">
-					<div class="r_c_t_left">
-						<div class="r_c_t_l_img">
-							<div class="r_c_t_l_updateimg">
-								<a href="pc_updphoto.html" target="_blank">更换头像</a>
-							</div>
-							<img src="/static/img/a8.jpg" alt="" class="imgsize" />
-						</div>
-						<div class="r_c_t_l_pcData">
-							<a class="pcDatabtn" href="pc_mfy_information.html">修改资料</a>
-						</div>
-					</div>
-				</div>
-				<div class="col_right_ifm_down_right">
-					<div class="col_right_ifm_down_right_1">
-						<span class="username">用户名：m0_37153744</span>
-						<a href="pc_homepage.html" target="_blank" style="float: right;">个人主页></a>
-					</div>
-					<div class="col_right_ifm_down_right_2">
-						<span style="margin-right: 16px; color: rgb(77, 77, 77); font-size: 14px;">关注 0</span>
-						<span style="margin-right: 16px; color: rgb(77, 77, 77); font-size: 14px;">粉丝 0</span>
-					</div>
-					<div class="col_right_ifm_down_right_3">
-						<ul class="list-unstyled">
-							<li class="comon">实名：fitch</li>
-							<li class="comon">性别：男</li>
-							<li class="comon">生日：2008-08-08</li>
-							<li class="comon">地区：中国 广东省 广州市</li>
-							<li class="comon">行业：</li>
-							<li class="comon last">职位：学生</li>
-							<li class="intro">
-								<span class="noWid">简介：</span>
-								<span class="cont">吴彦祖（Daniel Wu），1974年9月30日出生于美国旧金山，祖籍上海，华语影视男演员、导演，毕业于美国俄勒冈大学。</span>
-							</li>
-						</ul>
-					</div>
+			<div class="foot_panel_right">
+				<div class="foot_panel_right_row">
+					<ul class="list-unstyled">
+						<li>
+							<h4>新手指南</h4>
+							<a href="/help/register">注册登录问题</a><br />
+							<a href="/help/process">项目交易流程</a><br />
+							<a href="/help/fund">充值提款问题</a><br />
+							<a href="help/about_agreement">用户注册协议</a><br />
+							<a href="/help/bid_payings">为何付费竞标</a>
+						</li>
+						<li>
+							<h4>特色服务</h4>
+							<a href="/help/renzheng">实名认证</a><br />
+							<a href="/help/searchs">精准搜索</a><br />
+							<a href="/help/workhour">小时报价</a><br />
+							<a href="/help/bumanyituikuan">不满意退款</a><br />
+							<a href="/help/bid_card">竞标卡规则</a>
+						</li>
+						<li>
+							<h4>评价信誉</h4>
+							<a href="/help/pingjiadengm">操作演示</a><br />
+							<a href="/help/service_payings">服务收费</a><br />
+							<a href="/help/evaluations">用户评价</a><br />
+							<a href="/help/jifens">积分体系</a><br />
+							<a href="/help/controversy">争议解决</a>
+						</li>
+						<li>
+							<h4>答疑中心</h4>
+							<a href="/help/pro_relase">项目发布问题</a><br />
+							<a href="/help/bid_joinings">参与竞标问题</a><br />
+							<a href="/help/pro_runnings">项目开发问题</a><br />
+							<a href="/help/pro_done">项目完工问题</a><br />
+							<a href="/help/it_realse">信息发布问题</a>
+						</li>
+						<li>
+							<h4>联系我们</h4>
+							<a href="/help/about_us">关于SXSOFT</a><br />
+							<a href="/help/about_company">公司概况</a><br />
+							<a href="/help/contact_us">联系方式</a><br />
+							<a href="/help/about_advertising">广告投放</a><br />
+							<a href="/help/links">友情链接</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
-	<footer>
-		<div class="container-fluid_foot">
-			<div class="foot_panel">
-				<div class="foot_panel_left">
-					<div class="img">
-						<a href="#">
-							<img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
-						</a>
-					</div>
-					<div class="beian">
-						<p>创客网 © 2018－
-							<br>肇庆学院东软实训班第三组版权所有
-							<br>[粤ICP备xxxxxxx号-x] 标识
-							<br> 粤公网安备xxxxxxxxxx号</p>
-					</div>
-				</div>
-				<div class="foot_panel_right">
-					<div class="foot_panel_right_row">
-						<ul class="list-unstyled">
-							<li>
-								<h4>新手指南</h4>
-								<a href="/help/register">注册登录问题</a><br />
-								<a href="/help/process">项目交易流程</a><br />
-								<a href="/help/fund">充值提款问题</a><br />
-								<a href="help/about_agreement">用户注册协议</a><br />
-								<a href="/help/bid_payings">为何付费竞标</a>
-							</li>
-							<li>
-								<h4>特色服务</h4>
-								<a href="/help/renzheng">实名认证</a><br />
-								<a href="/help/searchs">精准搜索</a><br />
-								<a href="/help/workhour">小时报价</a><br />
-								<a href="/help/bumanyituikuan">不满意退款</a><br />
-								<a href="/help/bid_card">竞标卡规则</a>
-							</li>
-							<li>
-								<h4>评价信誉</h4>
-								<a href="/help/pingjiadengm">操作演示</a><br />
-								<a href="/help/service_payings">服务收费</a><br />
-								<a href="/help/evaluations">用户评价</a><br />
-								<a href="/help/jifens">积分体系</a><br />
-								<a href="/help/controversy">争议解决</a>
-							</li>
-							<li>
-								<h4>答疑中心</h4>
-								<a href="/help/pro_relase">项目发布问题</a><br />
-								<a href="/help/bid_joinings">参与竞标问题</a><br />
-								<a href="/help/pro_runnings">项目开发问题</a><br />
-								<a href="/help/pro_done">项目完工问题</a><br />
-								<a href="/help/it_realse">信息发布问题</a>
-							</li>
-							<li>
-								<h4>联系我们</h4>
-								<a href="/help/about_us">关于SXSOFT</a><br />
-								<a href="/help/about_company">公司概况</a><br />
-								<a href="/help/contact_us">联系方式</a><br />
-								<a href="/help/about_advertising">广告投放</a><br />
-								<a href="/help/links">友情链接</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
-	<script type="text/javascript" src="js/js_psw/PersonCenter-jquery.js"></script>
+</footer>
+<script type="text/javascript" src="/static/js/js_psw/PersonCenter-jquery.js"></script>
+<script>
+    var url="/user/get_info";
+    new Vue({
+        el:'#info',
+        data:{
+            user:''
+        },
+        mounted:function () {
+            var self=this;
+            axios.get(url).then(function (response) {
+                self.user=response.data.user;
+            })
+        }
+    })
+</script>
 </body>
 
 </html>

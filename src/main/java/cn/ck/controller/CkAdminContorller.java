@@ -21,16 +21,28 @@ public class CkAdminContorller {
 
     @RequestMapping("/hlj")
     public String test(){
-        return "search";
+        return "jobs/search";
+    }
+    @RequestMapping("/search")
+    public String search(){
+
+
+
+        return "/jobs/search";
+    }
+
+    @RequestMapping("login")
+    public String login(){
+        return "login/login";
     }
 
     @RequestMapping("/lxn")
     public String lxntest(){
-        return "promulgator/prom_uppaypwd";
+        return "promulgator/prom_Account";
     }
 
-    @RequestMapping("/mzb")
-    public String test1(){
-        return "studio/studio_index";
+    @RequestMapping("/psw")
+    public String pswtest(){
+        return "users/pc_mfy_information";
     }
 }

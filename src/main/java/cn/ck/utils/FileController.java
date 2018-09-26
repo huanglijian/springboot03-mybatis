@@ -1,4 +1,4 @@
-package cn.ck.controller.common;
+package cn.ck.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +10,7 @@ import java.util.Date;
 public class FileController {
 
     /*上传文件，返回文件路径*/
-    public String fileupload(MultipartFile file,String path){
+    public static String fileupload(MultipartFile file,String path){
 //      String path = "G:/ck/project/img";
 
         String entryName = file.getOriginalFilename();

@@ -1,0 +1,72 @@
+package cn.ck.entity.bean;
+
+import cn.ck.entity.Project;
+
+public class ProjectBid {
+    private Project project;
+    private String creatdate;
+    private String startdate;
+    private String enddate;
+    private Integer bidday;//竞标剩余天数
+    private Integer bidnum;//竞标人数
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public String getCreatdate() {
+        return creatdate;
+    }
+
+    public void setCreatdate(String creatdate) {
+        this.creatdate = creatdate;
+    }
+
+    public String getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(String startdate) {
+        this.startdate = startdate;
+    }
+
+    public String getEnddate() {
+        return enddate;
+    }
+
+    public void setEnddate(String enddate) {
+        this.enddate = enddate;
+    }
+
+    public Integer getBidday() {
+        return bidday;
+    }
+
+    public void setBidday(Integer bidday) {
+        this.bidday = bidday;
+    }
+
+    public Integer getBidnum() {
+        return bidnum;
+    }
+
+    public void setBidnum(Integer bidnum) {
+        this.bidnum = bidnum;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectBid{" +
+                "project=" + project +
+                ", creatdate='" + creatdate + '\'' +
+                ", startdate='" + startdate + '\'' +
+                ", enddate='" + enddate + '\'' +
+                ", bidday='" + bidday + '\'' +
+                ", bidnum='" + bidnum + '\'' +
+                '}';
+    }
+}

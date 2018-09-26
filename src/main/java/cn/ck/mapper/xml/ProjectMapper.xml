@@ -22,4 +22,22 @@
         <result column="proj_prom" property="projProm" />
     </resultMap>
 
+    <select id="projBidTimetrue" resultMap="BaseResultMap">
+        SELECT *
+              from project
+                  WHERE DATEDIFF(NOW(),proj_creattime) &lt;=10 AND proj_state="竞标中" AND proj_prom=#{id}
+    </select>
+
+    <select id="projBidTimefalse" resultMap="BaseResultMap">
+        SELECT *
+              from project
+                  WHERE DATEDIFF(NOW(),proj_creattime) &gt;10 AND proj_state="竞标中" AND proj_prom=#{id}
+    </select>
+
+    <select id="projBidTimeNum" resultType="Integer">
+        SELECT DATEDIFF(NOW(),proj_creattime)
+                  from project
+                          WHERE proj_id=#{id}
+    </select>
+
 </mapper>

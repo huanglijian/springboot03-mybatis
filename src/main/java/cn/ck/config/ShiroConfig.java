@@ -27,7 +27,7 @@ public class ShiroConfig {
 	public SessionManager sessionManager(RedisShiroSessionDAO redisShiroSessionDAO){
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 		//设置session过期时间为1小时(单位：毫秒)，默认为30分钟
-		sessionManager.setGlobalSessionTimeout(60 * 60 * 1000);
+		sessionManager.setGlobalSessionTimeout(30 * 60 * 1000);
 		sessionManager.setSessionValidationSchedulerEnabled(true);
 		sessionManager.setSessionIdUrlRewritingEnabled(false);
 
@@ -83,6 +83,7 @@ public class ShiroConfig {
 		//配置不会被拦截的链接
 		chains.put("/", "anon");
 		chains.put("/ckadmin/**", "anon");
+		chains.put("/ForJob/**", "anon");
 		// 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		chains.put("/logout", "logout");
 		// 剩余请求需要身份认证

@@ -1,8 +1,10 @@
 package cn.ck.controller;
 
+import cn.ck.entity.Account;
 import cn.ck.entity.Alluser;
 import cn.ck.entity.Promulgator;
 import cn.ck.entity.Users;
+import cn.ck.service.AccountService;
 import cn.ck.service.AlluserService;
 import cn.ck.service.PromulgatorService;
 import cn.ck.service.UsersService;
@@ -30,6 +32,8 @@ public class RegisteredController extends AbstractController{
     private UsersService usersService;
     @Autowired
     private PromulgatorService promulgatorService;
+    @Autowired
+    private AccountService accountService;
     @Autowired
     private AuthorityManager authorityManager;
     @Autowired
@@ -108,21 +112,30 @@ public class RegisteredController extends AbstractController{
         user.setAllState("未注册完成");
         alluserService.insert(user);
 
-        //为用户添加角色
-        authorityManager.addRoleToUser(userType, user.getAllId());
+//        //创建资金账户记录
+//        Account account = getBlankAccount();
+//        account.setAccForeid(user.getAllId());
+//        account.setAccType(userType);
+//        accountService.insert(account);
+//
+//        //为用户添加角色
+//        authorityManager.addRoleToUser(userType, user.getAllId());
+//
+//        //生成该用户类型的记录, 并持久化
+//        if(userType.equals("普通用户")){
+//            Users userInfo = getBlankUsers();
+//            userInfo.setUserId(user.getAllId());
+//            usersService.insert(userInfo);
+//        }
+//        else if(userType.equals("发布者")){
+//            Promulgator promulgator = getBlankProm();
+//            promulgator.setPromId(user.getAllId());
+//            promulgatorService.insert(promulgator);
+//        }
+//        else return ResponseBo.error("发生不明错误, 请重新注册");
 
-        //生成该用户类型的记录, 并持久化
-        if(userType.equals("普通用户")){
-            Users userInfo = getBlankUsers();
-            userInfo.setUserId(user.getAllId());
-            usersService.insert(userInfo);
-        }
-        else if(userType.equals("发布者")){
-            Promulgator promulgator = getBlankProm();
-            promulgator.setPromId(user.getAllId());
-            promulgatorService.insert(promulgator);
-        }
-        else return ResponseBo.error("发生不明错误, 请重新注册");
+        InsertRunnable insertRunnable = new InsertRunnable(user);
+        insertRunnable.start();
 
         return ResponseBo.ok().put("UUID", user.getAllId());
     }
@@ -177,22 +190,21 @@ public class RegisteredController extends AbstractController{
     public ResponseBo test(@RequestBody Map<String, Object> data) throws Exception {
         //根据json数据转化成map，再转成对应的类
         Alluser userAccount = JsonUtils.map2obj((Map<String, Object>)data.get("data1"), Alluser.class);
-
-        //<待修改>
         Promulgator promulgator = JsonUtils.map2obj((Map<String, Object>)data.get("data2"), Promulgator.class);
+
         //如果是普通用户，取出信息
         if(userAccount.getAllType().equals("普通用户")){
             Users userInfo = getBlankUsers();
             userInfo.setUserId(promulgator.getPromId());
             userInfo.setUserPhone(promulgator.getPromPhone());
             userInfo.setUserAbipay(promulgator.getPromAbipay());
+            userInfo.setUserPaypwd(promulgator.getPromPaypwd());
             userInfo.setUserName(promulgator.getPromName());
             usersService.updateById(userInfo);
 //            usersService.insert(userInfo);
         }
 
         else if(userAccount.getAllType().equals("发布者")){
-            promulgator.setPromPaypwd("");
             promulgator.setPromLogintime(new Date());
             promulgator.setPromImg("");
             promulgatorService.updateById(promulgator);
@@ -263,4 +275,59 @@ public class RegisteredController extends AbstractController{
         promulgator.setPromPhone("");
         return promulgator;
     }
+
+    public Account getBlankAccount(){
+        Account account = new Account();
+        account.setAccMoney((double) 0);
+        account.setAccType("");
+        account.setAccForeid("");
+        return account;
+    }
+
+    class InsertRunnable implements Runnable {
+
+        private Thread t;
+        private Alluser user;
+
+        InsertRunnable(Alluser alluser) {
+            this.user = alluser;
+        }
+
+        public void run() {
+            //创建资金账户记录
+            Account account = getBlankAccount();
+            account.setAccForeid(user.getAllId());
+            account.setAccType(user.getAllType());
+            accountService.insert(account);
+
+            String userType = user.getAllType();
+            //为用户添加角色
+            try {
+                authorityManager.addRoleToUser(userType, user.getAllId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //生成该用户类型的记录, 并持久化
+            if(userType.equals("普通用户")){
+                Users userInfo = getBlankUsers();
+                userInfo.setUserId(user.getAllId());
+                usersService.insert(userInfo);
+            }
+            else if(userType.equals("发布者")){
+                Promulgator promulgator = getBlankProm();
+                promulgator.setPromId(user.getAllId());
+                promulgatorService.insert(promulgator);
+            }
+        }
+
+        public void start () {
+            if (t == null) {
+                t = new Thread (this);
+                t.start ();
+            }
+        }
+    }
 }
+
+

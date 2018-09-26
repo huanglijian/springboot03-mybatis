@@ -26,6 +26,9 @@ import java.util.Set;
 @Component
 public class UserRealm extends AuthorizingRealm {
 
+	/**
+	 *
+	 */
 	@Autowired
 	private AlluserMapper alluserMapper;
 	@Autowired
