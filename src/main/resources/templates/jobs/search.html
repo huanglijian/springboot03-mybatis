@@ -244,6 +244,7 @@
                             var vm = new Vue({
                                 el:'#jobsNum',
                                 data:{
+
                                     num: 0,
                                 },
                                 beforeCreate: function () {
@@ -273,7 +274,7 @@
 											// date: jNum,
 											dataType: "json",
                                             success: function(result){
-                                                alert("yes");
+                                                // alert("yes");
                                                 vm.num = result.jNum;
 												// alert(vm.num);
                                                 // $("#test").text("test Hello world!");
@@ -301,34 +302,23 @@
 				</div>
 				<div class="line">
 					<div class="lineR">
-						<!--<div class="line_02 long"></div><br />-->									
+						<!--<div class="line_02 long"></div><br />-->
 					</div>
 				</div>
-				
-				<ul class="list-unstyled">
-					<li>
-						<!--<div claonmouseover="this.style.backgroundColor='#F4F9FD'"  onmouseout="this.style.backgroundColor='#FFFFFF'">-->
+
+				<ul class="list-unstyled" id="jobsul">
+					<li >
 						<div class="DownLi" onmouseover="this.style.backgroundColor='#F4F9FD'" onmouseout="this.style.backgroundColor='#FFFFFF'">
 							<div class="piture">
 								<img src="/static/img/img_hlj/alibaba2.png" />
 							</div>
 							<div class="studioIntro">
 								<h4><a href="detail.html" class="color">小虎队工作室</a></h4>
-								<!--<label class="white">职位</label>	<label>&nbsp;Java工程师</label><br />
-								<label class="white">发布时间:</label>	<label>&nbsp;7小时前</label><br />
-								<label class="white">工资</label>	<label>&nbsp;5k</label>
-								<label class="white">人数</label>	<label>&nbsp;8人</label><br />
-								<label class="white">职位简介</label>	<label>&nbsp;简介简介简介简介简介简介简介简介简介简介简</label>-->
-								
-								
 								<p class="white" style="float:left;" >职位: </p> <p >&nbsp;&nbsp;java工程师</p>
 								<p class="white" style="float:left;" >发布时间:</p><p>&nbsp;&nbsp;7小时前</p>
 								<p class="white" style="float:left;">工资:</p><p style="float:left;">&nbsp;&nbsp;5k</p>
 								<p class="white" style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;人数:</p><p >&nbsp;&nbsp;8人</p>
 								<p class="white" style="float:left;">职位简介: </p><p>&nbsp;&nbsp;简介简介简介简介简介简介简介简介简介简介简介简介简介</p>
-								<!--<div style="height:250px ;width: 150px;background: peru;">
-									999
-								</div>-->
 							</div>
 
 							<div class="join">
@@ -340,58 +330,106 @@
 								<div class="joinD"></div>
 
 							</div>
-							<!--1<br />1<br />1<br />1<br />1<br />-->
 						</div>
 					</li>
-					
-					<li>
-						<!--<div claonmouseover="this.style.backgroundColor='#F4F9FD'"  onmouseout="this.style.backgroundColor='#FFFFFF'">-->
-						<div class="DownLi" onmouseover="this.style.backgroundColor='#F4F9FD'" onmouseout="this.style.backgroundColor='#FFFFFF'">
-							<div class="piture">
-								<img src="/static/img/img_hlj/alibaba2.png" />
-							</div>
-							<div class="studioIntro">
-								<h4>小虎队工作室</h4>
-								<!--<label class="white">职位</label>	<label>&nbsp;Java工程师</label><br />
-								<label class="white">发布时间:</label>	<label>&nbsp;7小时前</label><br />
-								<label class="white">工资</label>	<label>&nbsp;5k</label>
-								<label class="white">人数</label>	<label>&nbsp;8人</label><br />
-								<label class="white">职位简介</label>	<label>&nbsp;简介简介简介简介简介简介简介简介简介简介简</label>-->
-
-
-								<p class="white" style="float:left;" >职位: </p> <p >&nbsp;&nbsp;java工程师</p>
-								<p class="white" style="float:left;" >发布时间:</p><p>&nbsp;&nbsp;7小时前</p>
-								<p class="white" style="float:left;">工资:</p><p style="float:left;">&nbsp;&nbsp;5k</p>
-								<p class="white" style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;人数:</p><p >&nbsp;&nbsp;8人</p>
-								<p class="white" style="float:left;">职位简介: </p><p>&nbsp;&nbsp;简介简介简介简介简介简介简介简介简介简介简介简介简介</p>
-								<!--<div style="height:250px ;width: 150px;background: peru;">
-									999
-								</div>-->
-							</div>
-
-							<div class="join">
-								<div class="joinUp"></div>
-								<div class="joinM">
-									<!--<a class="btn btn-block btn-primary compose-mail" href="mail_compose.html" data-toggle="modal" data-target="#myModal">申请加入</a>-->
-									<a class="btn btn-block btn-primary compose-mail but" href="detail.html" target="_blank">申请加入</a>
-								</div>
-								<div class="joinD"></div>
-
-							</div>
-							<!--1<br />1<br />1<br />1<br />1<br />-->
-						</div>
-					</li>
-					
-					
-
-					<!--<li>
-						<div class="piture">
-							
-						</div>
-						<div class="studioIntro"></div>
-						<div class="join"></div>
-					</li>-->
 				</ul>
+				<!--vue渲染-->
+				<script type="text/javascript">
+                    var vm = new Vue({
+                        el:'#jobsul',
+                        data:{
+                            // num: 0,
+							jobs:'',
+
+                        },
+                        beforeCreate: function () {
+                        },
+                        created: function () {
+                            // this.getUser();
+                            this.getJNum();
+                        },
+
+                        methods: {
+                            // 定义从ajax获取数据的方法
+                            getJNum:function(){
+                                $.ajax({
+                                    type:"Post",
+                                    url: "search/jobs",
+                                    // date: jNum,
+                                    dataType: "json",
+                                    success: function(result){
+                                        vm.jobs=result.jobs;
+                                    }
+                                })
+                            },
+                        }
+                    });
+				</script>
+
+
+				<!--备份模块-->
+				<!--<ul class="list-unstyled">-->
+					<!--<li>-->
+						<!--&lt;!&ndash;<div claonmouseover="this.style.backgroundColor='#F4F9FD'"  onmouseout="this.style.backgroundColor='#FFFFFF'">&ndash;&gt;-->
+						<!--<div class="DownLi" onmouseover="this.style.backgroundColor='#F4F9FD'" onmouseout="this.style.backgroundColor='#FFFFFF'">-->
+							<!--<div class="piture">-->
+								<!--<img src="/static/img/img_hlj/alibaba2.png" />-->
+							<!--</div>-->
+							<!--<div class="studioIntro">-->
+								<!--<h4><a href="detail.html" class="color">小虎队工作室</a></h4>-->
+								<!--&lt;!&ndash;<label class="white">职位</label>	<label>&nbsp;Java工程师</label><br />-->
+								<!--<label class="white">发布时间:</label>	<label>&nbsp;7小时前</label><br />-->
+								<!--<label class="white">工资</label>	<label>&nbsp;5k</label>-->
+								<!--<label class="white">人数</label>	<label>&nbsp;8人</label><br />-->
+								<!--<label class="white">职位简介</label>	<label>&nbsp;简介简介简介简介简介简介简介简介简介简介简</label>&ndash;&gt;-->
+								<!---->
+								<!---->
+								<!--<p class="white" style="float:left;" >职位: </p> <p >&nbsp;&nbsp;java工程师</p>-->
+								<!--<p class="white" style="float:left;" >发布时间:</p><p>&nbsp;&nbsp;7小时前</p>-->
+								<!--<p class="white" style="float:left;">工资:</p><p style="float:left;">&nbsp;&nbsp;5k</p>-->
+								<!--<p class="white" style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;人数:</p><p >&nbsp;&nbsp;8人</p>-->
+								<!--<p class="white" style="float:left;">职位简介: </p><p>&nbsp;&nbsp;简介简介简介简介简介简介简介简介简介简介简介简介简介</p>-->
+							<!--</div>-->
+
+							<!--<div class="join">-->
+								<!--<div class="joinUp"></div>-->
+								<!--<div class="joinM">-->
+									<!--&lt;!&ndash;<a class="btn btn-block btn-primary compose-mail" href="mail_compose.html" data-toggle="modal" data-target="#myModal">申请加入</a>&ndash;&gt;-->
+									<!--<a class="btn btn-block btn-primary compose-mail but" href="detail.html" target="_blank">申请加入</a>-->
+								<!--</div>-->
+								<!--<div class="joinD"></div>-->
+
+							<!--</div>-->
+						<!--</div>-->
+					<!--</li>-->
+					<!---->
+					<!--<li>-->
+						<!--&lt;!&ndash;<div claonmouseover="this.style.backgroundColor='#F4F9FD'"  onmouseout="this.style.backgroundColor='#FFFFFF'">&ndash;&gt;-->
+						<!--<div class="DownLi" onmouseover="this.style.backgroundColor='#F4F9FD'" onmouseout="this.style.backgroundColor='#FFFFFF'">-->
+							<!--<div class="piture">-->
+								<!--<img src="/static/img/img_hlj/alibaba2.png" />-->
+							<!--</div>-->
+							<!--<div class="studioIntro">-->
+								<!--<h4>小虎队工作室</h4>-->
+								<!--<p class="white" style="float:left;" >职位: </p> <p >&nbsp;&nbsp;java工程师</p>-->
+								<!--<p class="white" style="float:left;" >发布时间:</p><p>&nbsp;&nbsp;7小时前</p>-->
+								<!--<p class="white" style="float:left;">工资:</p><p style="float:left;">&nbsp;&nbsp;5k</p>-->
+								<!--<p class="white" style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;人数:</p><p >&nbsp;&nbsp;8人</p>-->
+								<!--<p class="white" style="float:left;">职位简介: </p><p>&nbsp;&nbsp;简介简介简介简介简介简介简介简介简介简介简介简介简介</p>-->
+							<!--</div>-->
+
+							<!--<div class="join">-->
+								<!--<div class="joinUp"></div>-->
+								<!--<div class="joinM">-->
+									<!--&lt;!&ndash;<a class="btn btn-block btn-primary compose-mail" href="mail_compose.html" data-toggle="modal" data-target="#myModal">申请加入</a>&ndash;&gt;-->
+									<!--<a class="btn btn-block btn-primary compose-mail but" href="detail.html" target="_blank">申请加入</a>-->
+								<!--</div>-->
+								<!--<div class="joinD"></div>-->
+
+							<!--</div>-->
+						<!--</div>-->
+					<!--</li>-->
+				<!--</ul>-->
 				
 				
 			</div>

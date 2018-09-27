@@ -23,8 +23,8 @@ public class jobcontroller extends AbstractController {
     @Autowired
     private JobsService jobsService;
 
-    @RequestMapping("/search")
-//    @GetMapping("/serch")
+//    @RequestMapping("/search")
+    @GetMapping("/serch")
     public String search() {
         Jobs jobs = new Jobs();
 //        获得所有的招聘信息
@@ -37,15 +37,16 @@ public class jobcontroller extends AbstractController {
         return "jobs/search";
     }
 
-    @PostMapping("/search")
+
+    @PostMapping("/search/jobs")
     @ResponseBody
-    public List<Jobs> searchJson(){
-        Jobs jobs = new Jobs();
+    public ResponseBo searchJson(){
         //        获得所有的招聘信息
-        List<Jobs> jobss = jobsService.selectList(new EntityWrapper<Jobs>());
-        System.out.println("===========all jobs "+jobss);
-        return jobss;
+        List<Jobs> jobs = jobsService.selectList(new EntityWrapper<Jobs>());
+        System.out.println("===========all jobs "+jobs);
+        return ResponseBo.ok().put("jobs",jobs);
     }
+
     @PostMapping("/search/jNum")
     @ResponseBody
     public ResponseBo jNum(){
@@ -53,10 +54,8 @@ public class jobcontroller extends AbstractController {
         //        获得招聘的个数
         int jNum = jobsService.selectCount(new EntityWrapper<Jobs>());
         System.out.println("=========jNum "+jNum);
-        return ResponseBo.ok().put("jNum", 3);
+        return ResponseBo.ok().put("jNum", jNum);
     }
-
-
 
 
 }

@@ -21,7 +21,7 @@ public class CkAdminContorller {
 
     @RequestMapping("/search")
     public String search(){
-        return "jobs/search";
+        return "/jobs/search";
     }
 
     @RequestMapping("/aa")
@@ -31,7 +31,7 @@ public class CkAdminContorller {
 
     @RequestMapping("login")
     public String login(){
-        return "login/login";
+        return "/login/login";
     }
 
     @RequestMapping("/lxn")
@@ -43,4 +43,9 @@ public class CkAdminContorller {
     public String pswtest(){
         return "users/pc_mfy_information";
     }
+    @RequestMapping("/mzb")
+    public String mzbtest(){
+        return "studio/studio_creat";
+    }
+
 }
