@@ -21,4 +21,7 @@
         <result column="stu_creatid" property="stuCreatid" />
     </resultMap>
 
+    <select id="selectByzzid" resultType="cn.ck.entity.Studio">
+        select * from studio where stu_creatid = #{0}
+    </select>
 </mapper>

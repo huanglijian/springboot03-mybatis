@@ -10,8 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author 马圳彬
@@ -30,6 +35,7 @@ public class studioController extends AbstractController {
     @RequestMapping("/studioNone")
     public String test1(){
         Users u = usersService.selectById(getUser().getAllId());
+        System.out.println(getUser().getAllId());
         if(u.getUserStudio() == null)
             return "studio/studio_creat";
         else
@@ -37,8 +43,14 @@ public class studioController extends AbstractController {
     }
 
     @RequestMapping("/studioList")
-    public Object list(){
-        Studio studio = studioService.selectById(getUser().getAllId());
+    @ResponseBody
+    public Map<String, Object> list(){
+
+        Map<String,Object> studio = new HashMap<>();
+        Studio stu = studioService.selectByzzid(getUser().getAllId());
+
+        System.out.println(stu.getStuField());
+        studio.put("studio",stu);
         return studio;
     }
 

@@ -36,4 +36,9 @@ public class StudioServiceImpl extends ServiceImpl<StudioMapper, Studio> impleme
         return  studio.getStuId();
 
     }
+
+    public Studio selectByzzid(String zzid){
+        Studio stu = studioMapper.selectByzzid(zzid);
+        return stu;
+    }
 }
