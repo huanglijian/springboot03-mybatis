@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 		<script src="/static/js/jquery.min.js"></script>
 		<script src="/static/js/bootstrap.min.js"></script>
+		<script src="/static/js/vue.js"></script>
 
 		<link href="/static/css/css_hlj/sea.css" rel="stylesheet" />
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
@@ -44,32 +45,6 @@
 				color: #004974;
 				text-decoration: none;
 			}
-			/*a{
-				/*background: #FFFF77;*/
-			/*color: #555;*/
-			/*}*/
-			/*<a>*/
-			/* 未访问的链接 		黑色*/
-			/*a:link {
-				color: #AAAAAA;*/
-			/*background: pink;*/
-			/*}*/
-			/* 已访问的链接 		红色*/
-			/*a:visited {
-				color: #FF3333;
-				background: pink;	
-				
-			}*/
-			/* 当有鼠标悬停在链接上	黄色 */
-			/*a:hover {
-				color: #FFFF00
-			}*/
-			/* 被选择的链接 		绿色*/
-			/*a:active {
-				color: #00FF00
-			}*/
-			
-			
 		</style>
 
 
@@ -143,7 +118,7 @@
 						<div class="input-group">
 							<input type="text" placeholder="请输入工作室名称或标签" class="input-sm form-control">
 							<span class="input-group-btn">
-                			<button type="button" class="btn btn-sm btn-primary but" > 搜索</button> </span>
+                			<button type="button" class="btn btn-sm btn-primary but" > 搜索</button></span>
 						</div>
 					</div>
 					<div class="searchR"></div>
@@ -260,8 +235,67 @@
 					<div class="numberR">
 						<div class="kong"></div>
 						<p class="white" style="float: left;">共搜索到</p>
-						<p class="red" style="float: left;">&nbsp;&nbsp;2&nbsp;&nbsp;</p>
-						<p class="white">相关职位</p>							
+						<div id = "jobsNum">
+							<p class="red" style="float: left;">&nbsp;&nbsp;{{num}}&nbsp;&nbsp;	</p>
+						</div>
+
+						<!--vue渲染-->
+						<script type="text/javascript">
+                            var vm = new Vue({
+                                el:'#jobsNum',
+                                data:{
+                                    num: 0,
+                                },
+                                beforeCreate: function () {
+                                },
+                                created: function () {
+                                    // this.getUser();
+									this.getJNum();
+                                },
+                                beforeMount: function () {
+                                },
+                                mounted: function () {
+                                },
+                                beforeUpdate: function () {
+                                },
+                                updated: function () {
+                                },
+                                beforeDestroy: function () {
+                                },
+                                destroyed: function () {
+                                },
+                                methods: {
+									// 定义从ajax获取数据的方法
+									getJNum:function(){
+									    $.ajax({
+											type:"Post",
+											url: "search/jNum",
+											// date: jNum,
+											dataType: "json",
+                                            success: function(result){
+                                                alert("yes");
+                                                vm.num = result.jNum;
+												// alert(vm.num);
+                                                // $("#test").text("test Hello world!");
+                                            }
+										})
+									},
+
+                                    getUser: function(){
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/ForJob/serach",
+                                            dataType: "json",
+                                            success: function(result){
+                                            }
+                                        });
+                                    },
+                                }
+                            });
+						</script>
+
+
+						<p class="white">相关职位</p>
 						<div class="line_02 long"></div><br />		
 					</div>
 				</div>
