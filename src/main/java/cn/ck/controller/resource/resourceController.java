@@ -38,6 +38,11 @@ public class resourceController extends AbstractController {
         return "resource/resource_player";
     }
 
+    @RequestMapping("index")
+    public String index(){
+        return "resource/index";
+    }
+
     @RequestMapping(value ="/getFileSrc",method = RequestMethod.GET)
     @ResponseBody
     public void getFileSrc(HttpServletRequest request , HttpServletResponse response) throws IOException {

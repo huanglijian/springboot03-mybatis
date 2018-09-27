@@ -12,7 +12,7 @@ import java.util.Date;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-25
+ * @since 2018-09-27
  */
 public class Users implements Serializable {
 
@@ -20,7 +20,6 @@ public class Users implements Serializable {
 
     @TableId(type = IdType.UUID)
     private String userId;
-
     private String userName;
     private String userPhone;
     private String userSex;
@@ -31,6 +30,7 @@ public class Users implements Serializable {
     private Date userLogintime;
     private String userImg;
     private String userStudio;
+    private Date userEntrytime;
 
 
     public String getUserId() {
@@ -121,6 +121,14 @@ public class Users implements Serializable {
         this.userStudio = userStudio;
     }
 
+    public Date getUserEntrytime() {
+        return userEntrytime;
+    }
+
+    public void setUserEntrytime(Date userEntrytime) {
+        this.userEntrytime = userEntrytime;
+    }
+
     @Override
     public String toString() {
         return "Users{" +
@@ -135,6 +143,7 @@ public class Users implements Serializable {
         ", userLogintime=" + userLogintime +
         ", userImg=" + userImg +
         ", userStudio=" + userStudio +
+        ", userEntrytime=" + userEntrytime +
         "}";
     }
 }
