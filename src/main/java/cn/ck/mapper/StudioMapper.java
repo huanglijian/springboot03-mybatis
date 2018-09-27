@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @since 2018-09-21
  */
 public interface StudioMapper extends BaseMapper<Studio> {
-
+        Studio selectByzzid(String zzid);
 }
