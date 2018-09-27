@@ -11,6 +11,7 @@
 		<script type="text/javascript" src="/static/js/jquery.min.js" ></script>
 		<script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>
 		<script type="text/javascript" src="/static/js/js_lxn/prom_BidDetail.js" ></script>
+		<script type="text/javascript" src="/static/js/vue.js"></script>
 	</head>
 
 	<body>
@@ -145,152 +146,84 @@
 					<div class="con_top col-md-12">
 						<div class="top_meg col-md-12">
 							<p>
-								<span class="megspan1">创客中心项目</span>
-								<span class="megspan5">停止竞标</span>
+								<span class="megspan1" v-if="biddetails.project && biddetails.project.projName">{{biddetails.project.projName}}</span>
+								<span class="megspan5" v-if="biddetails.project && biddetails.project.projState">{{biddetails.project.projState}}</span>
 							</p>
 							<p>
 								<span class="megspan3">发布时间</span>
-								<span class="megspan4">2018-08-30</span>
+								<span class="megspan4" v-if="biddetails.project && biddetails.project.projCreattime">{{biddetails.project.projCreattime|dateFormat}}</span>
 							</p>
 							<p>
 								<span class="megspan3">项目类型</span>
-								<span class="megspan4">网站开发</span>
+								<span class="megspan4"v-if="biddetails.project && biddetails.project.projType">{{biddetails.project.projType}}</span>
 								<span class="megspan3">&nbsp;&nbsp;&nbsp;&nbsp;项目预算</span>
-								<span class="megspan4">待商议</span>
+								<span class="megspan4" v-if="biddetails.project && biddetails.project.projMoney">{{biddetails.project.projMoney}}</span>
 								<span class="megspan3">&nbsp;&nbsp;&nbsp;&nbsp;开发周期</span>
-								<span class="megspan4">40天</span>
+								<span class="megspan4" v-if="biddetails.project && biddetails.project.projCycletime">{{biddetails.project.projCycletime}}天</span>
 							</p>
 						</div>
 						<div class="top_a col-md-12 text-center">
-							<a href="#" class="show topa1">查看全部信息&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-down"></span></a>
-							<a href="#" class="hide topa2">收起全部信息&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-up"></span></a>
+							<a href="javascript:;" class="show topa1">查看全部信息&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-down"></span></a>
+							<a href="javascript:;" class="hide topa2">收起全部信息&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-up"></span></a>
 						</div>
 						<div class="top_detail col-md-12 hide">
 							<p class="detp1">项目内容描述</p>
-							<p class="detp2">需求： 1、项目信息： 主要实现项目的发布，项目信息包括：项目的类型、项目的预算、项目的标题、项目的具体信息、
-								项目的时间、项目的状态，实现根据项目的标题搜索项目，可以根据不同项目的状态查看项目。 2、项目的承接：
-								主要实现在平台上承接外包项目，包括合同的签订、网上支付等功能 3、项目工作室：实现在平台上创建项目工作室、
-								可以申请加入工作室、工作室信息的呈现。 4、创客讲堂：提供在线视频、文字资源的分享 5、原创中心：
-								为原创作品提供一个发布平台 6、荣誉中心：对每个月的接包达人进行排名 7、在线求职：为企业提供职位信息的发布，
-								为个人提供就业的渠道。 验收标准： 面议
-							</p>
+							<p class="detp2" v-if="biddetails.project && biddetails.project.projIntro">{{biddetails.project.projIntro}}</p>
 						</div>
 					</div>
 					<div class="con_bottom col-md-12">
 						<p>
 							<span class="titspan1">竞标工作室个数：</span>
-							<span class="titspan2">2</span>
+							<span class="titspan2">{{biddetails.count}}</span>
 							<span class="titspan3">(沟通并选择合适承接人，填写相关信息并托管资金后，项目将进入开发状态。)</span>
 						</p>
-						<div class="botbid col-md-12">
+						<div class="botbid col-md-12"v-for="(value,index) in biddetails.probid">
 							<div class="bidnum col-md-2">
-								<div class="nummeg col-md-3">&nbsp;1</div>
+								<div class="nummeg col-md-3">&nbsp;{{index+1}}</div>
 								<div class="numimg col-md-9">
 									<img src="/static/img/a1.jpg" alt="" class="img_size"/>
 								</div>
 							</div>
 							<div class="bidleft col-md-8">
 								<div class="lefttop col-md-12">
-									<a href="#">咸鱼工作室</a>
+									<a href="#">{{value.studio.stuName}}</a>
 									<span>已承诺不满意退款</span>
 								</div>
 								<div class="leftmiddle col-md-12">
 									<ul class="col-md-12">
 										<li class="col-md-2">
 										<p>交付项目</p>
-										<p>2个</p>
+										<p>{{value.studio.stuProjectnum}}个</p>
 										</li>
 										<li class="col-md-2">
 										<p>总收入</p>
-										<p>￥10000</p>
+										<p>￥{{value.studio.stuIncome}}</p>
 										</li>
 										<li class="col-md-2">
 										<p>电话</p>
-										<p>17876251234</p>	
+										<p>{{value.bidding.bidPhone}}</p>
 										</li>
 										<li class="col-md-3">
 										<p>Email</p>
-										<p>123456789@qq.com</p>	
+										<p>{{value.bidding.bidEmail}}</p>
 										</li>
 										<li class="col-md-3">
 										<p>地址</p>
-										<p>广东省 肇庆市 端州区</p>	
+										<p>{{value.studio.stuProvince}} {{value.studio.stuCity}} {{value.studio.stuArea}}</p>
 										</li>
 									</ul>
 								</div>
 								<div class="leftbotttom col-md-12">
 									<p class="botp1">[竞标方案]</p>
-									<p class="botp2">创客平台主要实现发布项目、就业信息、外包项目的承接、资源的分享等功能。
-										致力于软件行业的项目外包、众包、项目承接和求职招聘等信息的提供，
-										为有IT相关需求的企事业单位、软件公司和各类软件开发人才提供了一个方便
-										快捷的网上信息交流、项目交易的平台，着力发展一批技术过硬、自我管理能力强、
-										沟通有效的独立程序员群体。的的的的 单位我我的 
-									</p>
+									<p class="botp2">{{value.bidding.bidScheme}}</p>
 								</div>
 							</div>
 							<div class="bidright col-md-2 text-center">
 								<p>
 									<span>￥</span>
-									<span>50000</span>
+									<span>{{value.bidding.bidMoney}}</span>
 									<span>/</span>
-									<span>20</span>
-									<span>天</span>
-								</p>
-							</div>
-						</div>
-						
-						<div class="botbid col-md-12">
-							<div class="bidnum col-md-2">
-								<div class="nummeg col-md-3">&nbsp;2</div>
-								<div class="numimg col-md-9">
-									<img src="/static/img/a1.jpg" alt="" class="img_size"/>
-								</div>
-							</div>
-							<div class="bidleft col-md-8">
-								<div class="lefttop col-md-12">
-									<a href="#">咸鱼工作室</a>
-									<span>已承诺不满意退款</span>
-								</div>
-								<div class="leftmiddle col-md-12">
-									<ul class="col-md-12">
-										<li class="col-md-2">
-										<p>交付项目</p>
-										<p>2个</p>
-										</li>
-										<li class="col-md-2">
-										<p>总收入</p>
-										<p>￥10000</p>
-										</li>
-										<li class="col-md-2">
-										<p>电话</p>
-										<p>17876251234</p>	
-										</li>
-										<li class="col-md-3">
-										<p>Email</p>
-										<p>123456789@qq.com</p>	
-										</li>
-										<li class="col-md-3">
-										<p>地址</p>
-										<p>广东省 肇庆市 端州区</p>	
-										</li>
-									</ul>
-								</div>
-								<div class="leftbotttom col-md-12">
-									<p class="botp1">[竞标方案]</p>
-									<p class="botp2">创客平台主要实现发布项目、就业信息、外包项目的承接、资源的分享等功能。
-										致力于软件行业的项目外包、众包、项目承接和求职招聘等信息的提供，
-										为有IT相关需求的企事业单位、软件公司和各类软件开发人才提供了一个方便
-										快捷的网上信息交流、项目交易的平台，着力发展一批技术过硬、自我管理能力强、
-										沟通有效的独立程序员群体。的的的的 单位我我的 
-									</p>
-								</div>
-							</div>
-							<div class="bidright col-md-2 text-center">
-								<p>
-									<span>￥</span>
-									<span>50000</span>
-									<span>/</span>
-									<span>20</span>
+									<span>{{value.bidding.bidCycle}}</span>
 									<span>天</span>
 								</p>
 							</div>
@@ -368,6 +301,38 @@
 		</footer>
 
 		<script type="text/javascript" src=/static/js/js_lxn/prom-jquery.js" ></script>
+		<script type="text/javascript">
+            var id = [[${id}]];
+            var vm=new Vue({
+                el:'#right',
+                data:{
+                    biddetails:'',
+                },
+                created:function () {
+                    alert(id);
+                    $.ajax({
+                        type:'post',
+                        url:'/promcenter/projbiddetail/'+id,
+                        success:function (result) {
+                            vm.biddetails=result;
+                        }
+                    })
+                },
+                filters:{
+                    dateFormat:function(val){
+                        var d = new Date(val);
+                        var year = d.getFullYear();
+                        var month = d.getMonth() + 1;
+                        var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                        var hour = d.getHours();
+                        var minutes = d.getMinutes();
+                        var seconds = d.getSeconds();
+                        return  year+ '-' + month + '-' + day ;
+                    }
+                }
+
+            })
+		</script>
 	</body>
 
 </html>

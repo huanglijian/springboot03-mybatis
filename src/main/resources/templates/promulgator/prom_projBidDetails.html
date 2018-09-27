@@ -148,14 +148,15 @@
 							<p>
 								<span class="megspan1"v-if="biddetails.project && biddetails.project.projName">{{biddetails.project.projName}}</span>
 								<span class="megspan2">竞标中：还剩{{biddetails.day}}天</span>
+								<span class="btn_span"><a class="btn pB_a1" href="#">中止竞标</a></span>
 							</p>
 							<p>
 								<span class="megspan3">发布时间</span>
 								<span class="megspan4" v-if="biddetails.project && biddetails.project.projCreattime">{{biddetails.project.projCreattime|dateFormat}}</span>
 							</p>
 							<p>
-								<span class="megspan3" v-if="biddetails.project && biddetails.project.projType">{{biddetails.project.projType}}</span>
-								<span class="megspan4">网站开发</span>
+								<span class="megspan3">项目类型</span>
+								<span class="megspan4"v-if="biddetails.project && biddetails.project.projType">{{biddetails.project.projType}}</span>
 								<span class="megspan3">&nbsp;&nbsp;&nbsp;&nbsp;项目预算</span>
 								<span class="megspan4" v-if="biddetails.project && biddetails.project.projMoney">{{biddetails.project.projMoney}}</span>
 								<span class="megspan3">&nbsp;&nbsp;&nbsp;&nbsp;开发周期</span>
