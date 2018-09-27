@@ -12,7 +12,7 @@ import java.util.Date;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-21
+ * @since 2018-09-27
  */
 public class Jobuser implements Serializable {
 
