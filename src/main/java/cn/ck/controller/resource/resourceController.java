@@ -34,11 +34,6 @@ public class resourceController extends AbstractController {
         return "resource/resource_video";
     }
 
-    @RequestMapping("test")
-    public String tste(){
-        return "resource/index";
-    }
-
     @RequestMapping("player")
     public String player(){
         return "resource/resource_player";
