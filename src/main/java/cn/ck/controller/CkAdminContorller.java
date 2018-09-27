@@ -30,7 +30,7 @@ public class CkAdminContorller {
 
     @RequestMapping("login")
     public String login(){
-        return "login/login";
+        return "/login/login";
     }
 
     @RequestMapping("/lxn")

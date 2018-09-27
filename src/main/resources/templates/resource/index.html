@@ -1,0 +1,41 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Red5 - OFLADemo</title>
+  <script src="/static/js/jquery.min.js?v=2.1.4" type="text/javascript"></script>
+  <script src="/static/css/css_cwh/player/jwplayer.js" type="text/javascript"></script>
+
+</head>
+<body>
+<div id='mediaspace'>This text will be replaced</div>
+<script type='text/javascript'>
+    jwplayer('mediaspace').setup({
+        flashplayer: '/static/css/css_cwh/player/player.swf',
+        file: "rtmp://localhost/oflaDemo//mp4:Avengers2.mp4",
+        //file:'Avengers2.mp4',
+        //streamer:'rtmp://192.168.1.29/oflaDemo/',
+        primary : 'flash',
+        width : '800',
+        height : '600',
+        autostart: true,
+        mute: false,
+        repeat: false
+    });
+</script>
+<div id='mediaspace2'>This text will be replaced</div>
+<script type='text/javascript'>
+    jwplayer('mediaspace2').setup({
+        flashplayer: '/static/css/css_cwh/player/player.swf',
+        file: 'rtmpt://localhost:1935/oflaDemo//mp4:Avengers2.mp4',
+        primary : 'flash',
+        width : '800',
+        height : '600',
+        autostart: true,
+        mute: false,
+        repeat: false
+    });
+</script>
+</body>
+</html>
