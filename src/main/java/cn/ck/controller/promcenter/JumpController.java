@@ -39,7 +39,12 @@ public class JumpController {
     @RequestMapping("/proBidfindetail")
     public String proBidfindetail(@RequestParam("finishid") String id, Model model){
         model.addAttribute("id",id);
-        System.out.println(id);
         return "/promulgator/prom_projBidFinDetail";
+    }
+
+    /*跳转项目订单管理界面*/
+    @RequestMapping("/projManage")
+    public String proManage(){
+        return "/promulgator/prom_projManage";
     }
 }

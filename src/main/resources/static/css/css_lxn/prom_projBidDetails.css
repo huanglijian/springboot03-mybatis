@@ -167,6 +167,22 @@
 	color: #FFFFFF;
 	text-align:center;
 }
+.pB_a1:link{
+	text-decoration: none;
+	color: #FFFFFF;
+}
+.pB_a1:visited{
+	text-decoration: none;
+	color: #FFFFFF;
+}
+.pB_a1:hover{
+	text-decoration: none;
+	color: #FFFFFF;
+}
+.pB_a1:active{
+	text-decoration: none;
+	color: #FFFFFF;
+}
 .btn_span{
 	margin-left: 50px;
 }

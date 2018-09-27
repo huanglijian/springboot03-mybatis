@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="/static/css/css_lxn/prom_projBidDetails.css" />
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
 		<link rel="stylesheet" href="/static/css/style.css" />
+		<link rel="stylesheet" href="/static/css/css_lxn/modal-lxn.css">
 		<script type="text/javascript" src="/static/js/jquery.min.js" ></script>
 		<script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>
 		<script type="text/javascript" src="/static/js/js_lxn/prom_BidDetail.js" ></script>
@@ -103,10 +104,10 @@
 									<a href="prom_projInvit.html">邀请列表</a>
 								</li>
 								<li class="current">
-									<a href="prom_projBidding.html">竞标项目</a>
+									<a href="/pcjump/proBid">竞标项目</a>
 								</li>
 								<li>
-									<a href="prom_projManage.html">项目订单</a>
+									<a href="/pcjump/projManage">项目订单</a>
 								</li>
 							</ul>
 						</li>
@@ -148,7 +149,7 @@
 							<p>
 								<span class="megspan1"v-if="biddetails.project && biddetails.project.projName">{{biddetails.project.projName}}</span>
 								<span class="megspan2">竞标中：还剩{{biddetails.day}}天</span>
-								<span class="btn_span"><a class="btn pB_a1" href="#">中止竞标</a></span>
+								<span class="btn_span"><a class="btn pB_a1" href="javascript:;" onclick="tipclick()">中止竞标</a></span>
 							</p>
 							<p>
 								<span class="megspan3">发布时间</span>
@@ -164,8 +165,8 @@
 							</p>
 						</div>
 						<div class="top_a col-md-12 text-center">
-							<a href="#" class="show topa1">查看全部信息&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-down"></span></a>
-							<a href="#" class="hide topa2">收起全部信息&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-up"></span></a>
+							<a href="javascript:;" class="show topa1">查看全部信息&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-down"></span></a>
+							<a href="javascript:;" class="hide topa2">收起全部信息&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-up"></span></a>
 						</div>
 						<div class="top_detail col-md-12 hide">
 							<p class="detp1">项目内容描述</p>
@@ -236,6 +237,23 @@
 				</div>				
 			</div>
 
+		</div>
+
+		<!-- 竞标提示（Modal） -->
+		<div class="modal fade" id="dangerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header header_danger">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						<span class="modal-title" id="myModalLabel">&nbsp;提&nbsp;&nbsp;示</span>
+					</div>
+					<div class="modal-body text-center">确认中止该项目竞标？</div>
+					<div class="modal-footer text-center">
+						<a href="javascript:;" class="btn btn-default modal_btn" data-dismiss="modal">取消</a>
+						<a href="javascript:;" class="btn modal_btn danger_btn" onclick="finishbid()">确认</a>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<footer>
@@ -335,6 +353,14 @@
                 }
 
             })
+
+			function tipclick() {
+				$("#dangerModal").modal("show");
+            }
+
+            function finishbid() {
+				window.location.href="/promcenter/projdiscontinueBid/"+id;
+            }
 		</script>
 	</body>
 

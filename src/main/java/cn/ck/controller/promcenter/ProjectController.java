@@ -15,6 +15,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -84,12 +85,12 @@ public class ProjectController {
      */
     @GetMapping("/projectbidding")
     @ResponseBody
-    public List projectbid(){
+    public List projectbidding(){
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
         //匹配当前时间，更改目前项目竞标状态
         List<Project> proBidding=projectService.projBidTimefalse(user.getAllId());
         for (Project project1:proBidding) {
-            project1.setProjState("竞标中止");
+            project1.setProjState("竞标超时");
         }
         if(!proBidding.isEmpty()){
             projectService.updateAllColumnBatchById(proBidding);
@@ -125,12 +126,12 @@ public class ProjectController {
      */
     @GetMapping("/projectbidfinish")
     @ResponseBody
-    public List projectbidunfinish(){
+    public List projectbidfinish(){
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
         //匹配当前时间，更改目前项目竞标状态
         List<Project> proBidding=projectService.projBidTimefalse(user.getAllId());
         for (Project project1:proBidding) {
-            project1.setProjState("竞标中止");
+            project1.setProjState("竞标超时");
         }
         if(!proBidding.isEmpty()){
             projectService.updateAllColumnBatchById(proBidding);
@@ -138,8 +139,10 @@ public class ProjectController {
 
         //查询更新后竞标中的项目
         List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标中止").eq("proj_prom",user.getAllId()));
-        List<Project> projectList2=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标结束").eq("proj_prom",user.getAllId()));
+        List<Project> projectList2=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标超时").eq("proj_prom",user.getAllId()));
+        List<Project> projectList3=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标成功").eq("proj_prom",user.getAllId()));
         projectList1.addAll(projectList2);
+        projectList1.addAll(projectList3);
         List<ProjectBid> bidList1=new ArrayList<ProjectBid>();
 
         for (Project project1:projectList1) {
@@ -161,18 +164,26 @@ public class ProjectController {
     }
 
     /**
-     * 竞标中项目及竞标详细信息
+     * 竞标项目及竞标详细信息
      * @param id 项目id
      * @return
      */
     @PostMapping("/projbiddetail/{id}")
     @ResponseBody
-    public ResponseBo probidunfinish(@PathVariable("id") String id){
+    public ResponseBo projbiddetail(@PathVariable("id") String id){
         Project project=projectService.selectById(id);
         //竞标剩余时间
         int day=10-projectService.projBidTimeNum(project.getProjId());
         //竞标个数
         int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
+        //竞标成功时承接工作室
+        String studioname="工作室";
+        if(project.getProjStudio()!=null){
+            Studio stu=new Studio();
+            stu=studioService.selectOne(new EntityWrapper<Studio>().eq("stu_id",project.getProjStudio()));
+            studioname=stu.getStuName();
+        }
+
         List<Bidding> biddingList=biddingService.selectList(new EntityWrapper<Bidding>().eq("bid_proj",id));
         List<ProjectBid> projectBidList=new ArrayList<>();
 
@@ -187,8 +198,63 @@ public class ProjectController {
         for (ProjectBid projectBid:projectBidList) {
             System.out.println(projectBid);
         }
-        return ResponseBo.ok().put("project",project).put("day",day).put("count",count).put("probid",projectBidList);
+        return ResponseBo.ok().put("project",project).put("day",day).put("count",count).put("studioname",studioname).put("probid",projectBidList);
     }
 
+    /**
+     * 中止项目竞标，将竞标状态改为“竞标中止”
+     * @param id 项目id
+     * @return
+     */
+    @RequestMapping("/projdiscontinueBid/{id}")
+    public String projdiscontinueBid(@PathVariable("id") String id, Model model){
+        Project project=projectService.selectById(id);
+        project.setProjState("竞标中止");
+        projectService.updateById(project);
+        int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
+        List<Bidding> biddingList=new ArrayList<>();
+        if(count!=0){
+            biddingList=biddingService.selectList(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
+            for (Bidding bidding:biddingList) {
+                bidding.setBidState("竞标终止");
+            }
+            biddingService.updateAllColumnBatchById(biddingList);
+        }
 
+
+        model.addAttribute("id",id);
+        return "/promulgator/prom_projBidFinDetail";
+    }
+
+    /**
+     * 未完成项目列表
+     * @return
+     */
+    @GetMapping("/projmangering")
+    @ResponseBody
+    public ResponseBo projmangering(){
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","开发中").eq("proj_prom",user.getAllId()));
+        List<Project> projectList2=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","发布者中止").eq("proj_prom",user.getAllId()));
+        List<Project> projectList3=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","承接方中止").eq("proj_prom",user.getAllId()));
+        projectList1.addAll(projectList2);
+        projectList1.addAll(projectList3);
+
+        return ResponseBo.ok().put("project",projectList1);
+    }
+
+    /**
+     * 已完成项目列表
+     * @return
+     */
+    @GetMapping("/projmangerfinsh")
+    @ResponseBody
+    public ResponseBo projmangerfinsh(){
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","项目中止").eq("proj_prom",user.getAllId()));
+        List<Project> projectList2=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","开发完成").eq("proj_prom",user.getAllId()));
+        projectList1.addAll(projectList2);
+
+        return ResponseBo.ok().put("project",projectList1);
+    }
 }
