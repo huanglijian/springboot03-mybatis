@@ -2,6 +2,7 @@ package cn.ck.config;
 
 import cn.ck.shiro.RedisShiroSessionDAO;
 import cn.ck.shiro.UserRealm;
+import com.google.common.collect.Maps;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
