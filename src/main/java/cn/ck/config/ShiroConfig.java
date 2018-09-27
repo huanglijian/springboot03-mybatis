@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Configuration
@@ -72,7 +73,7 @@ public class ShiroConfig {
 //		bean.setFilters(filters);
 
 		// 拦截器。匹配原则是最上面的最优先匹配
-		Map<String, String> chains = Maps.newHashMap();
+		Map<String, String> chains = new LinkedHashMap<>();
 		chains.put("/login", "anon");
 		chains.put("/registered/**", "anon");
 		//配置静态文件不会被拦截
