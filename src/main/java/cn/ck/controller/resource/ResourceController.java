@@ -6,25 +6,18 @@ import cn.ck.service.AlluserService;
 import cn.ck.service.DanmuService;
 import cn.ck.service.ResourceService;
 import cn.ck.utils.ResponseBo;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
+import java.io.*;
 
 @Controller
 @RequestMapping("/resource")
-public class resourceController extends AbstractController {
+public class ResourceController extends AbstractController {
 
     @Autowired
     private AlluserService alluserService;
@@ -33,11 +26,20 @@ public class resourceController extends AbstractController {
     @Autowired
     private DanmuService danmuService;
 
+    /**
+     * 创客讲堂首页跳转controller
+     * @return
+     */
     @RequestMapping("home")
     public String home(){
         return "resource/resource_video";
     }
 
+
+    /**
+     * 创客讲堂热门视频
+     * @return
+     */
     @RequestMapping("hotResource")
     @ResponseBody
     public ResponseBo getHotResource(){
@@ -45,6 +47,10 @@ public class resourceController extends AbstractController {
         return ResponseBo.ok().put("hotResource", resourcePage.getRecords());
     }
 
+    /**
+     * 创客讲堂推荐视频
+     * @return
+     */
     @RequestMapping("recommendResource")
     @ResponseBody
     public ResponseBo getRecommendResource(){
@@ -52,13 +58,26 @@ public class resourceController extends AbstractController {
         return ResponseBo.ok().put("recommendResource", resourcePage.getRecords());
     }
 
+    /**
+     * 搜索建议
+     * @return
+     */
     @RequestMapping("searchSuggest")
     @ResponseBody
-    public ResponseBo getSearchSuggest(){
-        Page<Resource> page = resourceService.selectPage(new Page<Resource>(1,100), new EntityWrapper<Resource>().orderBy("res_uploadtime"));
+    public ResponseBo getSearchSuggest(@RequestParam("key")String keyword){
+        Page<Resource> page = resourceService.getSuggestPage(new Page<Resource>(1, 10), keyword);
         return  ResponseBo.ok().put("resource", page.getRecords());
     }
 
+    @RequestMapping("searchResult")
+    public String getSearchResult(){
+        return "resource/res_search_results";
+    }
+
+    /**
+     * 视频播放页
+     * @return
+     */
     @RequestMapping("player")
     public String player(){
         return "resource/resource_player";

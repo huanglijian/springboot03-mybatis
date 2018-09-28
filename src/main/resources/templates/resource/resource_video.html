@@ -154,18 +154,18 @@
 
                         <div class="col-md-8">
                             <div class="ibox-content" style="background:#ffffff; border-width: 0px;">
-                                <form action="">
-                                    <span class="search">
-                                        <input type="text" id="search" name="word" baiduSug="1" placeholder="请输入关键词" />
-                                        <div class="input-group-btn">
-                                            <button style="opacity:0;"></button>
-                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                            </ul>
-                                        </div>
-                                    </span>
-                                    <!--注意以上为文本框设置的placeholder属性，为文本框默认显示的文字-->
-                                    <span class="button"><input type="submit" value="创客搜索" /></span>
-                                </form>
+
+                                <span class="search">
+                                    <input type="text" id="search" name="word" baiduSug="1" placeholder="请输入关键词" />
+                                    <div class="input-group-btn">
+                                        <button style="opacity:0;"></button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </span>
+                                <!--注意以上为文本框设置的placeholder属性，为文本框默认显示的文字-->
+                                <span class="button"><input type="submit" value="创客搜索" /></span>
+
                             </div>
                         </div>
                     </div>
@@ -285,7 +285,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-body" style="padding : 5px;"> 
                                     <div class="box">
-                                        <img :src="res.resImg" alt="">
+                                        <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
                                         <div class="box-content">
                                             <ul class="icon">
                                                 <li><a :href="res.resPath"><i class="fa fa-play"></i></a></li>
@@ -326,7 +326,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-body" style="padding : 5px;">
                                     <div class="box">
-                                        <img :src="res.resImg" alt="">
+                                        <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
                                         <div class="box-content">
                                             <ul class="icon">
                                                 <li><a :href="res.resPath"><i class="fa fa-play"></i></a></li>
@@ -353,7 +353,7 @@
                     </div>
                     </div>
                     <script type="text/javascript">
-                        var vm = new Vue({
+                        var res = new Vue({
                             el:'#resources',
                             data:{
                                 hotResource : '',
@@ -382,7 +382,7 @@
                                         dataType: "json",
                                         success: function(result){
                                             if(result.code === 0){
-                                                vm.hotResource = result.hotResource;
+                                                res.hotResource = result.hotResource;
                                             }
                                         }
                                     });
@@ -394,7 +394,7 @@
                                         dataType: "json",
                                         success: function(result){
                                             if(result.code === 0){
-                                                vm.recommendResource = result.recommendResource;
+                                                res.recommendResource = result.recommendResource;
                                                 // window.location.href = "/registered/second?UUID=" + result.UUID;
                                             }
                                         }
@@ -481,48 +481,68 @@
     <!-- suggest search -->
     <script src="/static/js/js_cwh/bootstrap-suggest/bootstrap-suggest.js"></script>
     <script type="text/javascript">
-        var dataList = {value: []}, i = 100;
-        while(i--) {
-            dataList.value.push({
-                id: i,
-                word: Math.random() * 100000,
-                description: 'http://lzw.me'
-            });
-        }
-        $.ajax({
-            type: "POST",
-            url: "/resource/searchSuggest",
-            dataType: "json",
-            success: function(result){
-                if(result.code === 0){
-                    dataList = result.resource;
-                }
-                else{
 
-                }
-            }
-        });
+        function checkName(name){
+            if(name.length <= 20)
+                return name;
+            else
+                return name.substring(0,20);
+        }
+
         $("#search").bsSuggest({
-            url: null,                      //请求数据的 URL 地址
-            jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
-            data: dataList,                              //提示所用的数据，注意格式
-            // indexId: 2,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
-            // indexKey: 1,                    //每组数据的第几个数据，作为input输入框的内容
-            idField: 'id',                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
-            keyField: 'word',                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+            //提示所用的数据，注意格式
+            data: '',
+            emptyTip: '未检索到匹配的数据',
+            //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
+            // idField: 'resId',
+            //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+            keyField: 'resName',
+            //获取数据的方式，总是从 URL 获取
+            // getDataMethod: "url",
+            // effectiveFieldsAlias: {
+            //     resName: "序号",
+            // },
+            //请求数据的 URL 地址
+            url: '/resource/searchSuggest?key=',
+            //设置此参数名，将开启jsonp功能，否则使用json数据结构
+            // jsonp: 'cb',
+            //格式化数据的方法，返回数据格式参考 data 参数
+            fnProcessData: function (json) {
+                var index, len, data = {value: []};
+                if (!json || !json.resource || json.resource.length === 0) {
+                    return false;
+                }
+
+                len = json.resource.length;
+                res = json.resource;
+                for (index = 0; index < len; index++) {
+                    data.value.push({
+                        resName: checkName(res[index].resName),
+                        resIntro: res[index].resIntro,
+                    });
+                }
+                // console.log(data);
+                //字符串转化为 js 对象
+                return data;
+            },
 
             /* 搜索相关 */
             // autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
-            // allowNoKeyword: true,           //是否允许无关键字时请求数据
+            allowNoKeyword: true,           //是否允许无关键字时请求数据
             // getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
             // delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
-            // ignorecase: false,              //前端搜索匹配时，是否忽略大小写
-            // effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
-            // effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
-            // searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
-            // twoWayMatch: true,              // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
+            //前端搜索匹配时，是否忽略大小写
+            ignorecase: true,
+            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
+            effectiveFields: ["resName"],
+            //有效字段的别名对象，用于 header 的显示
+            // effectiveFieldsAlias: {},
+            //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
+            searchFields: ["resName", "resIntro"],
+            // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
+            twoWayMatch: true,
 
-            multiWord: false,               //以分隔符号分割的多关键字支持
+            multiWord: true,               //以分隔符号分割的多关键字支持
             separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
             delay: 300,                     //搜索触发的延时时间间隔，单位毫秒
 
@@ -557,7 +577,6 @@
             keyEnter: 13,                   //回车键
 
             /* methods */
-            // fnProcessData: processData,     //格式化数据的方法，返回数据格式参考 data 参数
             // fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
             // fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
             // fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
