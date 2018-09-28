@@ -1,9 +1,13 @@
 package cn.ck.controller.resource;
 
 import cn.ck.controller.AbstractController;
+import cn.ck.entity.Resource;
 import cn.ck.service.AlluserService;
 import cn.ck.service.DanmuService;
 import cn.ck.service.ResourceService;
+import cn.ck.utils.ResponseBo;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 @Controller
 @RequestMapping("/resource")
@@ -31,6 +36,27 @@ public class resourceController extends AbstractController {
     @RequestMapping("home")
     public String home(){
         return "resource/resource_video";
+    }
+
+    @RequestMapping("hotResource")
+    @ResponseBody
+    public ResponseBo getHotResource(){
+        Page<Resource> resourcePage = resourceService.getMostLikeResPage(new Page<Resource>(1, 8));
+        return ResponseBo.ok().put("hotResource", resourcePage.getRecords());
+    }
+
+    @RequestMapping("recommendResource")
+    @ResponseBody
+    public ResponseBo getRecommendResource(){
+        Page<Resource> resourcePage = resourceService.getMostLikeResPage(new Page<Resource>(1, 8));
+        return ResponseBo.ok().put("recommendResource", resourcePage.getRecords());
+    }
+
+    @RequestMapping("searchSuggest")
+    @ResponseBody
+    public ResponseBo getSearchSuggest(){
+        Page<Resource> page = resourceService.selectPage(new Page<Resource>(1,100), new EntityWrapper<Resource>().orderBy("res_uploadtime"));
+        return  ResponseBo.ok().put("resource", page.getRecords());
     }
 
     @RequestMapping("player")

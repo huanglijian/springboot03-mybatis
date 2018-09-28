@@ -105,7 +105,7 @@
 									<a href="/pcjump/proBid">竞标项目</a>
 								</li>
 								<li>
-									<a href="prom_projManage.html">项目订单</a>
+									<a href="/pcjump/projManage">项目订单</a>
 								</li>
 							</ul>
 						</li>
@@ -161,12 +161,12 @@
 								<div class="pBUnfinish_left">
 									<p class="pB_p1"v-if="bidun.project.projSecret=='公开'" >
 										<img src="/static/img/img_lxn/proj_open.png" alt="" />
-										{{bidun.project.projName}}
+										{{bidun.project.projName|fontfilter}}
 										<span>竞标中：还剩{{bidun.bidday}}天</span>
 									</p>
 									<p class="pB_p1"v-if="bidun.project.projSecret=='保密'" >
 										<img src="/static/img/img_lxn/proj_secret.png" alt=""/>
-										{{bidun.project.projName}}
+										{{bidun.project.projName|fontfilter}}
 										<span>竞标中：还剩{{bidun.bidday}}天</span>
 									</p>
 									<p class="pB_p2">
@@ -177,7 +177,7 @@
 									</p>
 								</div>
 								<div class="pBUnfinish_right">
-									<a class="btn pB_a1" href="#">暂停项目</a>
+									<a class="btn pB_a1" href="#">邀请竞标</a>
 									<a class="btn pB_a2" :href="'/pcjump/proBiddetail?id='+bidun.project.projId">查看项目</a>
 								</div>
 							</div>
@@ -190,12 +190,12 @@
 								<div class="pBFinish_left">
 									<p class="pB_p3"v-if="bidun.project.projSecret=='公开'">
 										<img src="/static/img/img_lxn/proj_open.png" alt="" />
-										{{bidun.project.projName}}
+										{{bidun.project.projName|fontfilter}}
 										<span>{{bidun.project.projState}}</span>
 									</p>
 									<p class="pB_p3"v-if="bidun.project.projSecret=='保密'">
 										<img src="/static/img/img_lxn/proj_secret.png" alt="" />
-										{{bidun.project.projName}}
+										{{bidun.project.projName|fontfilter}}
 										<span>{{bidun.project.projState}}</span>
 									</p>
 									<p class="pB_p4">
@@ -304,7 +304,15 @@
 
                         }
 					})
-                }
+                },
+                filters: {
+                    fontfilter: function (value) {
+                        if(value&& value.length > 15) {
+                            value= value.substring(0,15)+ '...';
+                        }
+                        return value;
+                    }
+                },
 			});
             var bidfinish=new Vue({
                 el:'#projBidfinish',
@@ -325,8 +333,18 @@
 
                         }
                     })
-                }
+                },
+                filters: {
+                    fontfilter: function (value) {
+                        if(value&& value.length > 15) {
+                            value= value.substring(0,15)+ '...';
+                        }
+                        return value;
+                    }
+                },
             });
+
+
 		</script>
 
 	</body>

@@ -1,25 +1,13 @@
 package cn.ck;
 
 import cn.ck.entity.*;
-import cn.ck.mapper.PermissionMapper;
 import cn.ck.service.*;
-import cn.ck.utils.IPUtils;
-import cn.ck.utils.ShiroUtils;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import org.apache.commons.lang.RandomStringUtils;
+import com.baomidou.mybatisplus.plugins.Page;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -40,8 +28,11 @@ public class ChuangApplicationTests {
 
     @Test
     public void contextLoads() {
-        Jobs jobs = jobsService.selectById(321);
-        System.out.println(jobs);
+        Page<Alluser> p = alluserService.selectUserByPage(new Page<>(1,1));
+
+        System.out.println(p.getRecords().size());
+        System.out.println(p.toString());
+        System.out.println(p.getRecords().get(0));
     }
 
     @Test

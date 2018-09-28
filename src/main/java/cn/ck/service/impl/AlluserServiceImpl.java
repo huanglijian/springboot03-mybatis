@@ -5,6 +5,7 @@ import cn.ck.mapper.AlluserMapper;
 import cn.ck.service.AlluserService;
 import cn.ck.utils.ShiroUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -56,5 +57,10 @@ public class AlluserServiceImpl extends ServiceImpl<AlluserMapper, Alluser> impl
     public Alluser selectByEmail(String email) {
         Alluser user = this.selectOne(new EntityWrapper<Alluser>().eq("all_email", email));
         return user;
+    }
+
+    @Override
+    public Page<Alluser> selectUserByPage(Page<Alluser> page) {
+        return page.setRecords(baseMapper.selectUserByPage(page));
     }
 }

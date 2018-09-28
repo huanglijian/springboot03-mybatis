@@ -4,6 +4,7 @@ import cn.ck.entity.Jobs;
 import com.baomidou.mybatisplus.service.IService;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -15,9 +16,7 @@ import java.util.Date;
  */
 public interface JobsService extends IService<Jobs> {
 
-//    查找招聘表
-//    Jobs selectById(int job_id);
+//    查询招聘表
+    public List<Jobs> selectAll();
 
-//    修改招聘表job
-    boolean updateJobs(int job_id,String job_name);
 }

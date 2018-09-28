@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 		<script src="/static/js/jquery.min.js"></script>
 		<script src="/static/js/bootstrap.min.js"></script>
+		<script src="/static/js/vue.js"></script>
 
 		<link href="/static/css/css_hlj/sea.css" rel="stylesheet" />
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
@@ -44,32 +45,6 @@
 				color: #004974;
 				text-decoration: none;
 			}
-			/*a{
-				/*background: #FFFF77;*/
-			/*color: #555;*/
-			/*}*/
-			/*<a>*/
-			/* 未访问的链接 		黑色*/
-			/*a:link {
-				color: #AAAAAA;*/
-			/*background: pink;*/
-			/*}*/
-			/* 已访问的链接 		红色*/
-			/*a:visited {
-				color: #FF3333;
-				background: pink;	
-				
-			}*/
-			/* 当有鼠标悬停在链接上	黄色 */
-			/*a:hover {
-				color: #FFFF00
-			}*/
-			/* 被选择的链接 		绿色*/
-			/*a:active {
-				color: #00FF00
-			}*/
-			
-			
 		</style>
 
 
@@ -143,7 +118,7 @@
 						<div class="input-group">
 							<input type="text" placeholder="请输入工作室名称或标签" class="input-sm form-control">
 							<span class="input-group-btn">
-                			<button type="button" class="btn btn-sm btn-primary but" > 搜索</button> </span>
+                			<button type="button" class="btn btn-sm btn-primary but" > 搜索</button></span>
 						</div>
 					</div>
 					<div class="searchR"></div>
@@ -260,41 +235,90 @@
 					<div class="numberR">
 						<div class="kong"></div>
 						<p class="white" style="float: left;">共搜索到</p>
-						<p class="red" style="float: left;">&nbsp;&nbsp;2&nbsp;&nbsp;</p>
-						<p class="white">相关职位</p>							
+						<div id = "jobsNum">
+							<p class="red" style="float: left;">&nbsp;&nbsp;{{num}}&nbsp;&nbsp;	</p>
+						</div>
+
+						<!--vue渲染-->
+						<script type="text/javascript">
+                            var vm = new Vue({
+                                el:'#jobsNum',
+                                data:{
+
+                                    num: 0,
+                                },
+                                beforeCreate: function () {
+                                },
+                                created: function () {
+                                    // this.getUser();
+									this.getJNum();
+                                },
+                                beforeMount: function () {
+                                },
+                                mounted: function () {
+                                },
+                                beforeUpdate: function () {
+                                },
+                                updated: function () {
+                                },
+                                beforeDestroy: function () {
+                                },
+                                destroyed: function () {
+                                },
+                                methods: {
+									// 定义从ajax获取数据的方法
+									getJNum:function(){
+									    $.ajax({
+											type:"Post",
+											url: "search/jNum",
+											// date: jNum,
+											dataType: "json",
+                                            success: function(result){
+                                                // alert("yes");
+                                                vm.num = result.jNum;
+												// alert(vm.num);
+                                                // $("#test").text("test Hello world!");
+                                            }
+										})
+									},
+
+                                    getUser: function(){
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/ForJob/serach",
+                                            dataType: "json",
+                                            success: function(result){
+                                            }
+                                        });
+                                    },
+                                }
+                            });
+						</script>
+
+
+						<p class="white">相关职位</p>
 						<div class="line_02 long"></div><br />		
 					</div>
 				</div>
 				<div class="line">
 					<div class="lineR">
-						<!--<div class="line_02 long"></div><br />-->									
+						<!--<div class="line_02 long"></div><br />-->
 					</div>
 				</div>
-				
-				<ul class="list-unstyled">
-					<li>
-						<!--<div claonmouseover="this.style.backgroundColor='#F4F9FD'"  onmouseout="this.style.backgroundColor='#FFFFFF'">-->
+
+				<ul class="list-unstyled" id="jobsul">
+					<li >
 						<div class="DownLi" onmouseover="this.style.backgroundColor='#F4F9FD'" onmouseout="this.style.backgroundColor='#FFFFFF'">
 							<div class="piture">
 								<img src="/static/img/img_hlj/alibaba2.png" />
 							</div>
 							<div class="studioIntro">
 								<h4><a href="detail.html" class="color">小虎队工作室</a></h4>
-								<!--<label class="white">职位</label>	<label>&nbsp;Java工程师</label><br />
-								<label class="white">发布时间:</label>	<label>&nbsp;7小时前</label><br />
-								<label class="white">工资</label>	<label>&nbsp;5k</label>
-								<label class="white">人数</label>	<label>&nbsp;8人</label><br />
-								<label class="white">职位简介</label>	<label>&nbsp;简介简介简介简介简介简介简介简介简介简介简</label>-->
-								
-								
 								<p class="white" style="float:left;" >职位: </p> <p >&nbsp;&nbsp;java工程师</p>
 								<p class="white" style="float:left;" >发布时间:</p><p>&nbsp;&nbsp;7小时前</p>
 								<p class="white" style="float:left;">工资:</p><p style="float:left;">&nbsp;&nbsp;5k</p>
 								<p class="white" style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;人数:</p><p >&nbsp;&nbsp;8人</p>
 								<p class="white" style="float:left;">职位简介: </p><p>&nbsp;&nbsp;简介简介简介简介简介简介简介简介简介简介简介简介简介</p>
-								<!--<div style="height:250px ;width: 150px;background: peru;">
-									999
-								</div>-->
 							</div>
 
 							<div class="join">
@@ -306,58 +330,106 @@
 								<div class="joinD"></div>
 
 							</div>
-							<!--1<br />1<br />1<br />1<br />1<br />-->
 						</div>
 					</li>
-					
-					<li>
-						<!--<div claonmouseover="this.style.backgroundColor='#F4F9FD'"  onmouseout="this.style.backgroundColor='#FFFFFF'">-->
-						<div class="DownLi" onmouseover="this.style.backgroundColor='#F4F9FD'" onmouseout="this.style.backgroundColor='#FFFFFF'">
-							<div class="piture">
-								<img src="/static/img/img_hlj/alibaba2.png" />
-							</div>
-							<div class="studioIntro">
-								<h4>小虎队工作室</h4>
-								<!--<label class="white">职位</label>	<label>&nbsp;Java工程师</label><br />
-								<label class="white">发布时间:</label>	<label>&nbsp;7小时前</label><br />
-								<label class="white">工资</label>	<label>&nbsp;5k</label>
-								<label class="white">人数</label>	<label>&nbsp;8人</label><br />
-								<label class="white">职位简介</label>	<label>&nbsp;简介简介简介简介简介简介简介简介简介简介简</label>-->
-
-
-								<p class="white" style="float:left;" >职位: </p> <p >&nbsp;&nbsp;java工程师</p>
-								<p class="white" style="float:left;" >发布时间:</p><p>&nbsp;&nbsp;7小时前</p>
-								<p class="white" style="float:left;">工资:</p><p style="float:left;">&nbsp;&nbsp;5k</p>
-								<p class="white" style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;人数:</p><p >&nbsp;&nbsp;8人</p>
-								<p class="white" style="float:left;">职位简介: </p><p>&nbsp;&nbsp;简介简介简介简介简介简介简介简介简介简介简介简介简介</p>
-								<!--<div style="height:250px ;width: 150px;background: peru;">
-									999
-								</div>-->
-							</div>
-
-							<div class="join">
-								<div class="joinUp"></div>
-								<div class="joinM">
-									<!--<a class="btn btn-block btn-primary compose-mail" href="mail_compose.html" data-toggle="modal" data-target="#myModal">申请加入</a>-->
-									<a class="btn btn-block btn-primary compose-mail but" href="detail.html" target="_blank">申请加入</a>
-								</div>
-								<div class="joinD"></div>
-
-							</div>
-							<!--1<br />1<br />1<br />1<br />1<br />-->
-						</div>
-					</li>
-					
-					
-
-					<!--<li>
-						<div class="piture">
-							
-						</div>
-						<div class="studioIntro"></div>
-						<div class="join"></div>
-					</li>-->
 				</ul>
+				<!--vue渲染-->
+				<script type="text/javascript">
+                    var vm = new Vue({
+                        el:'#jobsul',
+                        data:{
+                            // num: 0,
+							jobs:'',
+
+                        },
+                        beforeCreate: function () {
+                        },
+                        created: function () {
+                            // this.getUser();
+                            this.getJNum();
+                        },
+
+                        methods: {
+                            // 定义从ajax获取数据的方法
+                            getJNum:function(){
+                                $.ajax({
+                                    type:"Post",
+                                    url: "search/jobs",
+                                    // date: jNum,
+                                    dataType: "json",
+                                    success: function(result){
+                                        vm.jobs=result.jobs;
+                                    }
+                                })
+                            },
+                        }
+                    });
+				</script>
+
+
+				<!--备份模块-->
+				<!--<ul class="list-unstyled">-->
+					<!--<li>-->
+						<!--&lt;!&ndash;<div claonmouseover="this.style.backgroundColor='#F4F9FD'"  onmouseout="this.style.backgroundColor='#FFFFFF'">&ndash;&gt;-->
+						<!--<div class="DownLi" onmouseover="this.style.backgroundColor='#F4F9FD'" onmouseout="this.style.backgroundColor='#FFFFFF'">-->
+							<!--<div class="piture">-->
+								<!--<img src="/static/img/img_hlj/alibaba2.png" />-->
+							<!--</div>-->
+							<!--<div class="studioIntro">-->
+								<!--<h4><a href="detail.html" class="color">小虎队工作室</a></h4>-->
+								<!--&lt;!&ndash;<label class="white">职位</label>	<label>&nbsp;Java工程师</label><br />-->
+								<!--<label class="white">发布时间:</label>	<label>&nbsp;7小时前</label><br />-->
+								<!--<label class="white">工资</label>	<label>&nbsp;5k</label>-->
+								<!--<label class="white">人数</label>	<label>&nbsp;8人</label><br />-->
+								<!--<label class="white">职位简介</label>	<label>&nbsp;简介简介简介简介简介简介简介简介简介简介简</label>&ndash;&gt;-->
+								<!---->
+								<!---->
+								<!--<p class="white" style="float:left;" >职位: </p> <p >&nbsp;&nbsp;java工程师</p>-->
+								<!--<p class="white" style="float:left;" >发布时间:</p><p>&nbsp;&nbsp;7小时前</p>-->
+								<!--<p class="white" style="float:left;">工资:</p><p style="float:left;">&nbsp;&nbsp;5k</p>-->
+								<!--<p class="white" style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;人数:</p><p >&nbsp;&nbsp;8人</p>-->
+								<!--<p class="white" style="float:left;">职位简介: </p><p>&nbsp;&nbsp;简介简介简介简介简介简介简介简介简介简介简介简介简介</p>-->
+							<!--</div>-->
+
+							<!--<div class="join">-->
+								<!--<div class="joinUp"></div>-->
+								<!--<div class="joinM">-->
+									<!--&lt;!&ndash;<a class="btn btn-block btn-primary compose-mail" href="mail_compose.html" data-toggle="modal" data-target="#myModal">申请加入</a>&ndash;&gt;-->
+									<!--<a class="btn btn-block btn-primary compose-mail but" href="detail.html" target="_blank">申请加入</a>-->
+								<!--</div>-->
+								<!--<div class="joinD"></div>-->
+
+							<!--</div>-->
+						<!--</div>-->
+					<!--</li>-->
+					<!---->
+					<!--<li>-->
+						<!--&lt;!&ndash;<div claonmouseover="this.style.backgroundColor='#F4F9FD'"  onmouseout="this.style.backgroundColor='#FFFFFF'">&ndash;&gt;-->
+						<!--<div class="DownLi" onmouseover="this.style.backgroundColor='#F4F9FD'" onmouseout="this.style.backgroundColor='#FFFFFF'">-->
+							<!--<div class="piture">-->
+								<!--<img src="/static/img/img_hlj/alibaba2.png" />-->
+							<!--</div>-->
+							<!--<div class="studioIntro">-->
+								<!--<h4>小虎队工作室</h4>-->
+								<!--<p class="white" style="float:left;" >职位: </p> <p >&nbsp;&nbsp;java工程师</p>-->
+								<!--<p class="white" style="float:left;" >发布时间:</p><p>&nbsp;&nbsp;7小时前</p>-->
+								<!--<p class="white" style="float:left;">工资:</p><p style="float:left;">&nbsp;&nbsp;5k</p>-->
+								<!--<p class="white" style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;人数:</p><p >&nbsp;&nbsp;8人</p>-->
+								<!--<p class="white" style="float:left;">职位简介: </p><p>&nbsp;&nbsp;简介简介简介简介简介简介简介简介简介简介简介简介简介</p>-->
+							<!--</div>-->
+
+							<!--<div class="join">-->
+								<!--<div class="joinUp"></div>-->
+								<!--<div class="joinM">-->
+									<!--&lt;!&ndash;<a class="btn btn-block btn-primary compose-mail" href="mail_compose.html" data-toggle="modal" data-target="#myModal">申请加入</a>&ndash;&gt;-->
+									<!--<a class="btn btn-block btn-primary compose-mail but" href="detail.html" target="_blank">申请加入</a>-->
+								<!--</div>-->
+								<!--<div class="joinD"></div>-->
+
+							<!--</div>-->
+						<!--</div>-->
+					<!--</li>-->
+				<!--</ul>-->
 				
 				
 			</div>

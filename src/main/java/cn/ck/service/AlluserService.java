@@ -1,6 +1,7 @@
 package cn.ck.service;
 
 import cn.ck.entity.Alluser;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 
 /**
@@ -46,4 +47,6 @@ public interface AlluserService extends IService<Alluser> {
      * @return
      */
     Alluser selectByEmail(String email);
+
+    Page<Alluser> selectUserByPage(Page<Alluser> page);
 }

@@ -15,4 +15,12 @@
         <result column="res_long" property="resLong" />
     </resultMap>
 
+    <select id="getMostLike" resultMap="BaseResultMap">
+        select *
+        from resource
+        left join (select likeres.likr_res, count(*) likenum from likeres group by likeres.likr_res) a
+        on a.likr_res = resource.res_id
+        order by a.likenum desc
+    </select>
+
 </mapper>

@@ -19,13 +19,14 @@ public class CkAdminContorller {
         return "resource/resource_player";
     }
 
-    @RequestMapping("/hlj")
-    public String test(){
-        return "jobs/search";
-    }
     @RequestMapping("/search")
     public String search(){
         return "/jobs/search";
+    }
+
+    @RequestMapping("/aa")
+    public String aa(){
+        return "nininin";
     }
 
     @RequestMapping("login")

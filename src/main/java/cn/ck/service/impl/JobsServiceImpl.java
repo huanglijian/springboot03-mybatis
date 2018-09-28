@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -19,18 +20,13 @@ import java.util.Date;
  */
 @Service
 public class JobsServiceImpl extends ServiceImpl<JobsMapper, Jobs> implements JobsService {
-//    @Override
-//    public Jobs selectById(int job_id) {
-//
-//        return null;
-//    }
+
 
     @Override
-//    public boolean updateJobs(int job_id, Date job_creattime, String job_money, String job_intro, String job_require, String job_state, int job_num, String job_type, String job_name, String job_studio) {
-    public boolean updateJobs(int job_id, String job_name) {
-        Jobs jobs = new Jobs();
-        jobs.setJobId(job_id);
-        return this.update(jobs,
-                new EntityWrapper<Jobs>().eq("job_id",job_id).eq("job_num",job_name));
+    public List<Jobs> selectAll() {
+        List<Jobs> jobs = this.selectList(new EntityWrapper<Jobs>());
+
+
+        return null;
     }
 }

@@ -103,10 +103,10 @@
 									<a href="prom_projInvit.html">邀请列表</a>
 								</li>
 								<li class="current">
-									<a href="prom_projBidding.html">竞标项目</a>
+									<a href="/pcjump/proBid">竞标项目</a>
 								</li>
 								<li>
-									<a href="prom_projManage.html">项目订单</a>
+									<a href="/pcjump/projManage">项目订单</a>
 								</li>
 							</ul>
 						</li>
@@ -152,6 +152,10 @@
 							<p>
 								<span class="megspan3">发布时间</span>
 								<span class="megspan4" v-if="biddetails.project && biddetails.project.projCreattime">{{biddetails.project.projCreattime|dateFormat}}</span>
+								<span v-if="biddetails.project && biddetails.project.projState && biddetails.project.projState=='竞标成功'">
+								<span class="megspan3">&nbsp;&nbsp;&nbsp;&nbsp;承接工作室</span>
+								<span class="megspan4" ><a href="">{{biddetails.studioname}}</a></span>
+								</span>
 							</p>
 							<p>
 								<span class="megspan3">项目类型</span>
@@ -300,7 +304,7 @@
 			</div>
 		</footer>
 
-		<script type="text/javascript" src=/static/js/js_lxn/prom-jquery.js" ></script>
+		<script type="text/javascript" src="/static/js/js_lxn/prom-jquery.js" ></script>
 		<script type="text/javascript">
             var id = [[${id}]];
             var vm=new Vue({
@@ -309,7 +313,6 @@
                     biddetails:'',
                 },
                 created:function () {
-                    alert(id);
                     $.ajax({
                         type:'post',
                         url:'/promcenter/projbiddetail/'+id,

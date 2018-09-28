@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="/static/css/style.css" />
 		<script type="text/javascript" src="/static/js/jquery.min.js" ></script>
 		<script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>
+		<script type="text/javascript" src="/static/js/vue.js"></script>
 
 	</head>
 
@@ -76,7 +77,7 @@
 							</a>
 							<ul id="personcenter" class="panel-collapse collapse in">
 								<li>
-									<a href="prom_Account.html">账户</a>
+									<a href="/pcjump/account">账户</a>
 								</li>
 								<li>
 									<a href="prom_homepage.html">个人主页</a>
@@ -96,16 +97,16 @@
 							</a>
 							<ul id="projectmanage" class="panel-collapse collapse in">
 								<li>
-									<a href="prom_projCreat.html">发布项目</a>
+									<a href="/pcjump/projectcreat">发布项目</a>
 								</li>
 								<li>
 									<a href="prom_projInvit.html">邀请列表</a>
 								</li>
 								<li>
-									<a href="prom_projBidding.html">竞标项目</a>
+									<a href="/pcjump/proBid">竞标项目</a>
 								</li>
 								<li class="current">
-									<a href="prom_projManage.html">项目订单</a>
+									<a href="/pcjump/projManage">项目订单</a>
 								</li>
 							</ul>
 						</li>
@@ -154,69 +155,61 @@
 					</div>
 					<div class="tab-content c_r_c_bottom">
 						<div class="tab-pane fade in active" id="projBidUnfinish">
-							<div class="pBUnfinish_contest">
+							<div class="pBFinish_contest" v-if="nosee">
+								<p class="pB_p3">暂无开发中的项目</p>
+							</div>
+							<div class="pBUnfinish_contest" v-for="proj in project.project">
 								<div class="pBUnfinish_left">
-									<p class="pB_p1">
+									<p class="pB_p1" v-if="proj.projSecret=='保密'">
 										<img src="/static/img/img_lxn/proj_secret.png" alt="" />
-										创客中心项目
-										<span>发开周期：100天</span>
+										{{proj.projName|fontfilter}}
+										<span>预计开发周期：{{proj.projCycletime}}天</span>
+									</p>
+									<p class="pB_p1" v-if="proj.projSecret=='公开'">
+										<img src="/static/img/img_lxn/proj_open.png" alt="" />
+										{{proj.projName|fontfilter}}
+										<span>预计开发周期：{{proj.projCycletime}}天</span>
 									</p>
 									<p class="pB_p2">
-										<span>开始时间：2018-09-07</span>
-										<span>项目状态：开发中</span>
+										<span>开始时间：{{proj.projStarttime|dateFormat}}</span>
+										<span>项目状态：{{proj.projState|statechange}}</span>
 									</p>
 								</div>
-								<div class="pBUnfinish_right">
+								<div class="pBUnfinish_right"v-if="proj.projState=='开发中'">
 									<a class="btn pB_a1" href="#">暂停项目</a>
 									<a class="btn pB_a4" href="#">确认完工</a>
 									<a class="btn pB_a2" href="#">查看项目</a>
 								</div>
-							</div>
-							<div class="pBUnfinish_contest">
-								<div class="pBUnfinish_left">
-									<p class="pB_p1">
-										<img src="/static/img/img_lxn/proj_open.png" alt="" />
-										创客中心项目
-										<span>发开周期：100天</span>
-									</p>
-									<p class="pB_p2">
-										<span>创建时间：2018-09-07</span>
-										<span>项目状态：我方发起暂止项目</span>
-									</p>
+								<div class="pBUnfinish_right"v-if="proj.projState=='发布者中止'">
+									<a class="btn pB_a1 disabled" href="#">暂停项目</a>
+									<a class="btn pB_a4 disabled" href="#">确认完工</a>
+									<a class="btn pB_a2" href="#">查看项目</a>
 								</div>
-								<div class="pBUnfinish_right">
-									<a class="btn disabled pB_a1" href="#">等待中止</a>
+								<div class="pBUnfinish_right"v-if="proj.projState=='承接方中止'">
+									<a class="btn pB_a1" href="#">确认暂停</a>
+									<a class="btn pB_a4 disabled" href="#">确认完工</a>
 									<a class="btn pB_a2" href="#">查看项目</a>
 								</div>
 							</div>
 						</div>
 						<div class="tab-pane fade" id="projBidfinish">
-							<div class="pBFinish_contest">
-								<div class="pBFinish_left">
-									<p class="pB_p3">
-										<img src="/static/img/img_lxn/proj_open.png" alt="" />
-										创客中心项目
-									</p>
-									<p class="pB_p4">
-										<span>开始时间：2017-09-07</span>
-										<span>结束时间：2018-09-07</span>
-										<span>项目状态：已结束</span>
-									</p>
-								</div>
-								<div class="pBFinish_right">
-									<a class="btn pB_a3" href="#">查看项目</a>
-								</div>
+							<div class="pBFinish_contest" v-if="nosee">
+								<p class="pB_p3">暂无已结束的项目</p>
 							</div>
-							<div class="pBFinish_contest">
-								<div class="pBFinish_left">
-									<p class="pB_p3">
+							<div class="pBFinish_contest" v-for="proj in project.project">
+								<div class="pBFinish_left" >
+									<p class="pB_p3"v-if="proj.projSecret=='公开'">
+										<img src="/static/img/img_lxn/proj_open.png" alt="" />
+										{{proj.projName|fontfilter}}
+									</p>
+									<p class="pB_p3"v-if="proj.projSecret=='保密'">
 										<img src="/static/img/img_lxn/proj_secret.png" alt="" />
-										创客中心项目
+										{{proj.projName|fontfilter}}
 									</p>
 									<p class="pB_p4">
-										<span>开始时间：2017-09-07</span>
-										<span>结束时间：2018-09-07</span>
-										<span>项目状态：已终止</span>
+										<span>开始时间：{{proj.projStarttime|dateFormat}}</span>
+										<span>结束时间：{{proj.projEndtime|dateFormat}}</span>
+										<span>项目状态：{{proj.projState}}</span>
 									</p>
 								</div>
 								<div class="pBFinish_right">
@@ -297,6 +290,96 @@
 		</footer>
 
 		<script type="text/javascript" src="/static/js/js_lxn/prom-jquery.js" ></script>
+		<script type="text/javascript">
+            var bidding=new Vue({
+                el:'#projBidUnfinish',
+                data:{
+                    project:'',
+                    nosee:false,
+                },
+                created:function () {
+                    $.ajax({
+                        type:'get',
+                        url:'/promcenter/projmangering',
+                        success:function (result) {
+                            if(result.project==''){
+                                bidding.nosee=true;
+                            }else{
+                                bidding.project=result;
+                            }
+
+                        }
+                    })
+                },
+                filters: {
+                    fontfilter: function (value) {
+                        if(value&& value.length > 15) {
+                            value= value.substring(0,15)+ '...';
+                        }
+                        return value;
+                    },
+                    dateFormat:function(val){
+                        var d = new Date(val);
+                        var year = d.getFullYear();
+                        var month = d.getMonth() + 1;
+                        var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                        var hour = d.getHours();
+                        var minutes = d.getMinutes();
+                        var seconds = d.getSeconds();
+                        return  year+ '-' + month + '-' + day ;
+                    },
+					statechange:function (vaule) {
+						if(vaule=='发布者中止'){
+							vaule='我方发起项目中止，等待对方确认...';
+						}
+						else if(vaule=='承接方中止'){
+						    vaule='对方发起项目中止，请确认...';
+						}
+						return vaule;
+            		},
+                },
+            });
+            var unfinishproject=new Vue({
+                el:'#projBidfinish',
+                data:{
+                    project:'',
+                    nosee:false,
+                },
+                created:function () {
+                    $.ajax({
+                        type:'get',
+                        url:'/promcenter/projmangerfinsh',
+                        success:function (result) {
+                            if(result.project==''){
+                                unfinishproject.nosee=true;
+                            }else{
+                                unfinishproject.project=result;
+                            }
+
+                        }
+                    })
+                },
+                filters: {
+                    fontfilter: function (value) {
+                        if(value&& value.length > 15) {
+                            value= value.substring(0,15)+ '...';
+                        }
+                        return value;
+                    },
+                    dateFormat:function(val){
+                        var d = new Date(val);
+                        var year = d.getFullYear();
+                        var month = d.getMonth() + 1;
+                        var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                        var hour = d.getHours();
+                        var minutes = d.getMinutes();
+                        var seconds = d.getSeconds();
+                        return  year+ '-' + month + '-' + day ;
+                    },
+                },
+            });
+
+		</script>
 	</body>
 
 </html>
