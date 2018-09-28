@@ -5,12 +5,14 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class FileController {
 
     /*上传文件，返回文件路径*/
-    public static String fileupload(MultipartFile file,String path){
+    public static List<String> fileupload(MultipartFile file, String path){
 //      String path = "G:/ck/project/img";
 
         String entryName = file.getOriginalFilename();
@@ -29,6 +31,10 @@ public class FileController {
         }
         String fileurl=path+"/"+fileName+indexName;
 
-        return fileurl;
+        List<String> list=new ArrayList<>();
+        list.add(fileurl);
+        list.add(entryName);
+
+        return list;
     }
 }
