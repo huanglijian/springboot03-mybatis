@@ -177,24 +177,9 @@
 									</p>
 								</div>
 								<div class="pBUnfinish_right"v-if="proj.projState=='开发中'">
-									<a class="btn pB_a1" href="javascript:;" @click="prompause(proj.projId)">暂停项目</a>
+									<a class="btn pB_a1" href="javascript:;" @click="prompause()">暂停项目</a>
 									<a class="btn pB_a4" href="javascript:;">确认完工</a>
 									<a class="btn pB_a2" href="#">查看项目</a>
-								</div>
-								<!--暂停项目成功提示-->
-								<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header header_danger">
-												<span class="glyphicon glyphicon-exclamation-sign"></span>
-												<span class="modal-title" id="myModalLabel">&nbsp;提&nbsp;&nbsp;示</span>
-											</div>
-											<div class="modal-body text-center">暂停项目成功</div>
-											<div class="modal-footer text-center">
-												<a :href="'/promcenter/prompauseproj?id'+proj.projId" class="btn modal_btn danger_btn">确认</a>
-											</div>
-										</div>
-									</div>
 								</div>
 								<div class="pBUnfinish_right"v-if="proj.projState=='发布者中止'">
 									<a class="btn pB_a1 disabled" href="#">暂停项目</a>
@@ -205,6 +190,22 @@
 									<a class="btn pB_a1" href="javascript:;">确认暂停</a>
 									<a class="btn pB_a4 disabled" href="#">确认完工</a>
 									<a class="btn pB_a2" href="#">查看项目</a>
+								</div>
+								<!-- 暂停项目提示-->
+								<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header header_danger">
+												<span class="glyphicon glyphicon-exclamation-sign"></span>
+												<span class="modal-title">&nbsp;提&nbsp;&nbsp;示</span>
+											</div>
+											<div class="modal-body text-center">确认暂停该项目开发？</div>
+											<div class="modal-footer text-center">
+												<a href="javascript:;" class="btn btn-default modal_btn" data-dismiss="modal">取消</a>
+												<a href="javascript:;" class="btn modal_btn danger_btn" @click="modal1(proj.projId)">确认</a>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -240,18 +241,17 @@
 		</div>
 
 
-		<!-- 暂停项目提示-->
-		<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<!--暂停项目成功提示-->
+		<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header header_danger">
 						<span class="glyphicon glyphicon-exclamation-sign"></span>
-						<span class="modal-title">&nbsp;提&nbsp;&nbsp;示</span>
+						<span class="modal-title" id="myModalLabel">&nbsp;提&nbsp;&nbsp;示</span>
 					</div>
-					<div class="modal-body text-center">确认暂停该项目开发？</div>
+					<div class="modal-body text-center">暂停项目成功</div>
 					<div class="modal-footer text-center">
-						<a href="javascript:;" class="btn btn-default modal_btn" data-dismiss="modal">取消</a>
-						<a href="javascript:;" class="btn modal_btn danger_btn" onclick="modal1()">确认</a>
+						<a href="javascript:;" class="btn modal_btn danger_btn" onclick="subsuccess()">确认</a>
 					</div>
 				</div>
 			</div>
@@ -347,6 +347,25 @@
                         }
                     })
                 },
+				methods:{
+                    prompause:function () {
+                        $("#modal1").modal("show");
+                    },
+                    modal1:function (id) {
+                        alert(id);
+                        $.ajax({
+                            type: 'post',
+                            url: '/promcenter/prompauseproj/' + id,
+                            success: function (result) {
+                                console.log(result);
+                                if(result.code==0){
+                                    $("#modal1").modal("hide");
+                                    $("#modal2").modal("show");
+                                }
+                            }
+                        })
+                    }
+				},
                 filters: {
                     fontfilter: function (value) {
                         if(value&& value.length > 15) {
@@ -375,6 +394,8 @@
             		},
                 },
             });
+
+
             var unfinishproject=new Vue({
                 el:'#projBidfinish',
                 data:{
@@ -415,16 +436,9 @@
                 },
             });
 
-			function prompause(value) {
-				$("#modal1").modal("show");
+			function subsuccess() {
+				window.location.href="/pcjump/projManage";
             }
-            function modal1() {
-                $("#modal1").modal("hide");
-                $("#modal2").modal("show");
-            }
-            // function modal2() {
-			// 	window.location.href="";
-            // }
 
 		</script>
 	</body>

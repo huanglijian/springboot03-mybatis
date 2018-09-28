@@ -120,9 +120,9 @@ public class ProjectController {
             bidList1.add(projectBid);
         }
 
-        for (ProjectBid projectBid:bidList1) {
-            System.out.println(projectBid);
-        }
+//        for (ProjectBid projectBid:bidList1) {
+//            System.out.println(projectBid);
+//        }
         return bidList1;
     }
 
@@ -161,9 +161,9 @@ public class ProjectController {
             bidList1.add(projectBid);
         }
 
-        for (ProjectBid projectBid:bidList1) {
-            System.out.println(projectBid);
-        }
+//        for (ProjectBid projectBid:bidList1) {
+//            System.out.println(projectBid);
+//        }
         return bidList1;
     }
 
