@@ -3,6 +3,8 @@ package cn.ck.service.impl;
 import cn.ck.entity.Resource;
 import cn.ck.mapper.ResourceMapper;
 import cn.ck.service.ResourceService;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -17,4 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> implements ResourceService {
 
+    @Override
+    public Page<Resource> getMostLikeResPage(Page<Resource> page) {
+        return page.setRecords(baseMapper.getMostLike(page));
+    }
 }

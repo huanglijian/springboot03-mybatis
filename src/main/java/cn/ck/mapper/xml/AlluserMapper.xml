@@ -17,5 +17,9 @@
         from alluser
         where all_email = #{email}
     </select>
+    <select id="selectUserByPage" resultType="cn.ck.entity.Alluser">
+        select *
+        from alluser
+    </select>
 
 </mapper>

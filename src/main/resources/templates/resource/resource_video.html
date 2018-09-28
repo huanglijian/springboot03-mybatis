@@ -8,6 +8,7 @@
     <!-- 全局js -->
     <script src="/static/js/jquery.min.js?v=2.1.4"></script>
     <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/js/vue.js"></script>
 
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/font-awesome.min.css" rel="stylesheet">
@@ -18,33 +19,7 @@
     <link href="/static/css/css_psw/style_head.css" rel="stylesheet">
     
     <!-- swiper styles -->
-    <link rel="stylesheet" href="/static/css/css_cwh/swiper/swiper.min.css">
-    <style>
-        .swiper-container {
-            width: 1000px;
-            height: 300px;
-
-        }
-        .swiper-slide {
-            text-align: center;
-            font-size: 18px;
-            background: #fff;
-
-            /* Center slide text vertically */
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-box-pack: center;
-            -ms-flex-pack: center;
-            -webkit-justify-content: center;
-            justify-content: center;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
-            -webkit-align-items: center;
-            align-items: center;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/css_cwh/trent-slider/trent-slider-main.css">
 
     <!-- 浮现播放按钮样式 -->
     <link rel="stylesheet" href="/static/css/css_cwh/videoBtn/videoBtnStyle.css">
@@ -168,11 +143,12 @@
         <div id="page-wrapper" class="gray-bg" style="background:#ffffff">
             <div class="wrapper wrapper-content">
                 <div class="container">
+
                     <!--logo和搜索框-->
                     <div class="row">
                         <div class="col-md-2 col-md-offset-2">
                             <div class="ibox float-e-margins">
-                                <a href="myindex.html"><img src="/static/img/img_chh/chuankerVideo1.png" alt="logo" style="height: 60px; width:180px"></a>
+                                <a href="myindex.html"><img src="/static/img/img_chh/chuangke.png" alt="logo" style="height: 80px; width:180px"></a>
                             </div>
                         </div>
 
@@ -198,21 +174,37 @@
 
                     <!-- 轮播 -->
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-1">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content" style="background:#ffffff;border-width: 0px;margin-left: -30px;">
-                                    <!-- Swiper -->
-                                    <div class="swiper-container">
-                                        <div class="swiper-wrapper">
-                                            <div class="swiper-slide"><img src="/static/img/p_big1.jpg" alt=""></div>
-                                            <div class="swiper-slide"><img src="/static/img/img_chh/banner-small02.jpg" alt=""></div>
-                                            <div class="swiper-slide"><img src="/static/img/img_chh/banner-small01.jpg" alt=""></div>
+                        <div class="col-md-12" style="padding-left: 5%">
+                            <div class="trent-slider">
+                                <div class="t-slide current-t-slide">
+                                    <img src="/static/img/img_chh/banner1.jpg" alt="" />
+                                </div>
+                                <div class="t-slide">
+                                    <img src="/static/img/img_chh/banner2.jpg" alt="" />
+                                </div>
+                                <div class="t-slide">
+                                    <img src="/static/img/img_chh/banner3.jpg" alt="" />
+                                </div>
+                                <div class="t-slider-controls">
+                                    <div class="arrow right-arrow">
+                                        <div class="arrow-container">
+                                            <div class="arrow-icon"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
                                         </div>
-                                        <!-- Add Pagination -->
-                                        <div class="swiper-pagination"></div>
-                                        <!-- Add Arrows -->
-                                        <div class="swiper-button-next"></div>
-                                        <div class="swiper-button-prev"></div>
+                                    </div>
+                                    <div class="arrow left-arrow">
+                                        <div class="arrow-container">
+                                            <div class="arrow-icon"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="t-load-bar">
+                                        <div class="inner-load-bar"></div>
+                                    </div>
+                                    <div class="t-dots-container">
+                                        <div class="t-slide-dots-wrap">
+                                            <div class="t-slide-dots">
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -220,7 +212,7 @@
                     </div>
 
                     <!-- 分类链接 -->
-                    <div class="row">
+                    <div class="row" style="padding-top: 5%">
                         <div class="col-xs-2 col-md-offset-1">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-content text-center" style="background:#ffffff; border-width: 0px">
@@ -278,68 +270,25 @@
                     </div>
 
                     <!-- 更多课程 -->
+                    <div id="resources">
                     <div class="row" style="margin-bottom:15px;">
                         <div class="col-md-12">
-                            <h2 style="font-weight:bold;">
+                            <h1 style="font-weight:bold;">
                                 热门课程&nbsp;&nbsp;&nbsp;
                                 <a href=""><small style="color: #1ab394;"> more>> </small></a>
-                            </h2>
-                        </div>
-                    </div>
-
-                    <div class="row" id="videos1">
-                        <div class="col-md-3">
-                            <div class="panel panel-default">
-                                <div class="panel-body" style="padding : 5px;"> 
-                                    <div class="box">
-                                        <img src="/static/img/img_chh/H5Picture.png" alt="">
-                                        <div class="box-content">
-                                            <ul class="icon">
-                                                <li><a href=""><i class="fa fa-play"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">                               
-                                    <a href="">
-                                        <p class="text-left">
-                                            【木鱼微剧场】《天之痕》P5最终话：天之痕、神州大地与惦记的人
-                                        </p>
-                                    </a>        
-                                    <p class="text-left text-muted">
-                                        <small><i class="fa fa-eye"></i>456</small>
-                                        &nbsp;|&nbsp;
-                                        <small><i class="fa fa-star"></i>1455万</small>
-                                        &nbsp;|&nbsp;
-                                        <small><i class="fa fa-check-circle-o"></i>80:99</small>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <script type="text/javascript">
-
-                    </script>
-
-                    <!-- 更多课程 -->
-                    <div class="row" style="margin-bottom:15px;">
-                        <div class="col-md-12 col-md-offset-0">
-                            <h2 style="font-weight:bold;">
-                                推荐课程&nbsp;&nbsp;&nbsp;
-                                <a href=""><small style="color: #1ab394;"> more>> </small></a>
-                            </h2>
+                            </h1>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-3" v-for="res in hotResource">
                             <div class="panel panel-default">
                                 <div class="panel-body" style="padding : 5px;"> 
                                     <div class="box">
-                                        <img src="/static/img/img_chh/H5Picture.png" alt="">
+                                        <img :src="res.resImg" alt="">
                                         <div class="box-content">
                                             <ul class="icon">
-                                                <li><a href=""><i class="fa fa-play"></i></a></li>
+                                                <li><a :href="res.resPath"><i class="fa fa-play"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -347,20 +296,113 @@
                                 <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">                               
                                     <a href="">
                                         <p class="text-left">
-                                            【木鱼微剧场】《天之痕》P5最终话：天之痕、神州大地与惦记的人
+                                            {{res.resName}}
                                         </p>
                                     </a>        
                                     <p class="text-left text-muted">
                                         <small><i class="fa fa-eye"></i>456</small>
                                         &nbsp;|&nbsp;
-                                        <small><i class="fa fa-star"></i>1455万</small>
+                                        <small><i class="fa fa-star"></i>{{res.resLikenum}}</small>
                                         &nbsp;|&nbsp;
-                                        <small><i class="fa fa-check-circle-o"></i>80:99</small>
+                                        <small><i class="fa fa-check-circle-o"></i>{{res.resLong}}</small>
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- 更多课程 -->
+                    <div class="row" style="margin-bottom:15px;">
+                        <div class="col-md-12 col-md-offset-0">
+                            <h1 style="font-weight:bold;">
+                                推荐课程&nbsp;&nbsp;&nbsp;
+                                <a href=""><small style="color: #1ab394;"> more>> </small></a>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3" v-for="res in recommendResource">
+                            <div class="panel panel-default">
+                                <div class="panel-body" style="padding : 5px;">
+                                    <div class="box">
+                                        <img :src="res.resImg" alt="">
+                                        <div class="box-content">
+                                            <ul class="icon">
+                                                <li><a :href="res.resPath"><i class="fa fa-play"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">
+                                    <a href="">
+                                        <p class="text-left">
+                                            {{res.resName}}
+                                        </p>
+                                    </a>
+                                    <p class="text-left text-muted">
+                                        <small><i class="fa fa-eye"></i>456</small>
+                                        &nbsp;|&nbsp;
+                                        <small><i class="fa fa-star"></i>{{res.resLikenum}}</small>
+                                        &nbsp;|&nbsp;
+                                        <small><i class="fa fa-check-circle-o"></i>{{res.resLong}}</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <script type="text/javascript">
+                        var vm = new Vue({
+                            el:'#resources',
+                            data:{
+                                hotResource : '',
+                                recommendResource : '',
+                            },
+                            beforeCreate: function () {
+                            },
+                            created: function () {
+                            },
+                            beforeMount: function () {
+                                this.hot();
+                                this.recomend();
+                            },
+                            mounted: function () {
+                            },
+                            beforeUpdate: function () {
+                            },
+                            updated: function () {
+                            },
+                            methods: {
+                                hot : function () {
+                                    // var data = "email="+vm.email;
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "hotResource",
+                                        dataType: "json",
+                                        success: function(result){
+                                            if(result.code === 0){
+                                                vm.hotResource = result.hotResource;
+                                            }
+                                        }
+                                    });
+                                },
+                                recomend : function () {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "recommendResource",
+                                        dataType: "json",
+                                        success: function(result){
+                                            if(result.code === 0){
+                                                vm.recommendResource = result.recommendResource;
+                                                // window.location.href = "/registered/second?UUID=" + result.UUID;
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -434,26 +476,8 @@
 
     <!-- 自定义js -->
     <!-- Swiper JS -->
-    <script src="/static/js/js_cwh/swiper/swiper.min.js"></script>
-    <!-- Initialize Swiper -->
-    <script>
-        var swiper = new Swiper('.swiper-container', {
-            spaceBetween: 30,
-            centeredSlides: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-        });
-    </script>
+    <script src="/static/js/js_cwh/trent-slider/trent-slider-main.js"></script>
+
     <!-- suggest search -->
     <script src="/static/js/js_cwh/bootstrap-suggest/bootstrap-suggest.js"></script>
     <script type="text/javascript">
@@ -465,6 +489,19 @@
                 description: 'http://lzw.me'
             });
         }
+        $.ajax({
+            type: "POST",
+            url: "/resource/searchSuggest",
+            dataType: "json",
+            success: function(result){
+                if(result.code === 0){
+                    dataList = result.resource;
+                }
+                else{
+
+                }
+            }
+        });
         $("#search").bsSuggest({
             url: null,                      //请求数据的 URL 地址
             jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
@@ -475,15 +512,15 @@
             keyField: 'word',                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
 
             /* 搜索相关 */
-            autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
-            allowNoKeyword: true,           //是否允许无关键字时请求数据
-            getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
-            delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
-            ignorecase: false,              //前端搜索匹配时，是否忽略大小写
-            effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
-            effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
-            searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
-            twoWayMatch: true,              // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
+            // autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
+            // allowNoKeyword: true,           //是否允许无关键字时请求数据
+            // getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+            // delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+            // ignorecase: false,              //前端搜索匹配时，是否忽略大小写
+            // effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
+            // effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
+            // searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
+            // twoWayMatch: true,              // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
 
             multiWord: false,               //以分隔符号分割的多关键字支持
             separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号

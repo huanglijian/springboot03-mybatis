@@ -15,6 +15,7 @@
         <result column="proj_cycletime" property="projCycletime" />
         <result column="proj_intro" property="projIntro" />
         <result column="proj_file" property="projFile" />
+        <result column="proj_filename" property="projFilename" />
         <result column="proj_state" property="projState" />
         <result column="proj_tag" property="projTag" />
         <result column="proj_img" property="projImg" />

@@ -1,6 +1,8 @@
 package cn.ck.service;
 
 import cn.ck.entity.Resource;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.baomidou.mybatisplus.service.IService;
 
 /**
@@ -13,4 +15,10 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface ResourceService extends IService<Resource> {
 
+    /**
+     * 分页查询点赞数最多的视频
+     * @param page 分页器
+     * @return
+     */
+    Page<Resource> getMostLikeResPage(Page<Resource> page);
 }

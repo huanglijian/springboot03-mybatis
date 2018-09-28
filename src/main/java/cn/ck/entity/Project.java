@@ -12,7 +12,7 @@ import java.util.Date;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-21
+ * @since 2018-09-28
  */
 public class Project implements Serializable {
 
@@ -30,6 +30,7 @@ public class Project implements Serializable {
     private Integer projCycletime;
     private String projIntro;
     private String projFile;
+    private String projFilename;
     private String projState;
     private String projTag;
     private String projImg;
@@ -125,6 +126,14 @@ public class Project implements Serializable {
         this.projFile = projFile;
     }
 
+    public String getProjFilename() {
+        return projFilename;
+    }
+
+    public void setProjFilename(String projFilename) {
+        this.projFilename = projFilename;
+    }
+
     public String getProjState() {
         return projState;
     }
@@ -179,6 +188,7 @@ public class Project implements Serializable {
         ", projCycletime=" + projCycletime +
         ", projIntro=" + projIntro +
         ", projFile=" + projFile +
+        ", projFilename=" + projFilename +
         ", projState=" + projState +
         ", projTag=" + projTag +
         ", projImg=" + projImg +
