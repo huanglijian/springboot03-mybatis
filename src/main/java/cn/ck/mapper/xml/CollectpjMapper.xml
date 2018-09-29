@@ -9,5 +9,8 @@
         <result column="colp_user" property="colpUser" />
         <result column="colp_pjid" property="colpPjid" />
     </resultMap>
+    <select id="selectColpj" resultType="cn.ck.entity.Collectpj">
+        SELECT * FROM collectpj WHERE colp_user=#{0} ORDER BY colp_time DESC
+    </select>
 
 </mapper>

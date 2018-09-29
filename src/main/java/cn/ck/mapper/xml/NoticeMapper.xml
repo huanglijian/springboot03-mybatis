@@ -10,5 +10,8 @@
         <result column="noti_time" property="notiTime" />
         <result column="noti_foreid" property="notiForeid" />
     </resultMap>
+    <select id="selectNoti" resultType="cn.ck.entity.Notice">
+        SELECT * FROM notice WHERE noti_foreid=#{0} ORDER BY noti_time DESC
+    </select>
 
 </mapper>

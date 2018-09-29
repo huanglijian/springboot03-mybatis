@@ -1,10 +1,12 @@
 package cn.ck.mapper;
 
 import cn.ck.entity.Project;
+import cn.ck.entity.bean.PjCol;
 import cn.ck.entity.bean.ProjectBid;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -33,4 +35,7 @@ public interface ProjectMapper extends BaseMapper<Project> {
      * @return 竞标剩余天数
      */
     Integer projBidTimeNum(int id);
+
+    //关联project表跟collectpj表
+    List<PjCol> selectPjCol(Map<String,Object> map);
 }

@@ -22,6 +22,15 @@
         <result column="proj_studio" property="projStudio" />
         <result column="proj_prom" property="projProm" />
     </resultMap>
+    
+    <resultMap id="ProjectCollection" type="cn.ck.entity.bean.PjCol" extends="BaseResultMap">
+        <collection property="collectpj" ofType="cn.ck.entity.Collectpj">
+            <id column="colp_id" property="colpId"></id>
+            <result column="colp_pjid" property="colpPjid"></result>
+            <result column="colp_time" property="colpTime"></result>
+            <result column="colp_user" property="colpUser"></result>
+        </collection>
+    </resultMap>
 
     <select id="projBidTimetrue" resultMap="BaseResultMap">
         SELECT *
@@ -35,10 +44,27 @@
                   WHERE DATEDIFF(NOW(),proj_creattime) &gt;10 AND proj_state="竞标中" AND proj_prom=#{id}
     </select>
 
-    <select id="projBidTimeNum" resultType="Integer">
+    <select id="projBidTimeNum" resultType="java.lang.Integer">
         SELECT DATEDIFF(NOW(),proj_creattime)
                   from project
                           WHERE proj_id=#{id}
+    </select>
+
+
+    <select id="selectPjCol" parameterType="java.util.Map" resultMap="ProjectCollection">
+        SELECT * FROM project p,collectpj co
+          <where>
+              <if test="id!=null">
+                 AND co.colp_user=#{id} AND co.colp_pjid=p.proj_id
+              </if>
+              <if test="state!=null and state=='1'.toString()">
+                 AND p.proj_state='竞标中'
+              </if>
+              <if test="state!=null and state=='2'.toString()">
+                  AND p.proj_state!='竞标中'
+              </if>
+          </where>
+        order by co.colp_time DESC
     </select>
 
 </mapper>

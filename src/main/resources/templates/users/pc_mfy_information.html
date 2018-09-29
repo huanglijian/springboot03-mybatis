@@ -145,7 +145,7 @@
 	<div class="col_right">
 		<div class="col_right_mfy_up">
 			<div class="col_right_mfy_up_1">
-				<button class="btn btn-primary">修改密码</button>
+				<button class="btn btn-primary" @click="deleteNotice">修改密码</button>
 				<button class="btn btn-primary">修改支付密码</button>
 			</div>
 		</div>
@@ -314,6 +314,11 @@
                 self.user=response.data.user;
                 self.alluser=response.data.alluser;
             })
+        },
+        methods:{
+            deleteNotice:function(){
+                alert("123");
+            }
         }
     })
 </script>

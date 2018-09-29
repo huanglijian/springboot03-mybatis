@@ -1,6 +1,7 @@
 package cn.ck.mapper;
 
 import cn.ck.entity.Resource;
+import cn.ck.entity.bean.ResCol;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 
@@ -17,4 +18,7 @@ import java.util.List;
 public interface ResourceMapper extends BaseMapper<Resource> {
 
     List<Resource> getMostLike(Pagination page);
+
+    //关联resource表跟collectres表
+    List<ResCol> selectDesc(String id);
 }

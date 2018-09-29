@@ -1,9 +1,9 @@
 $(function () {
-	$("#items #item").hover(function () {
+	/*$("#items #item").hover(function () {
 		$(this).find("button").animate({
 			width: 'toggle'
 		}, "fast");
-	});
+	});*/
 	var fheight = $('.container-fluid_foot').height() + 15; // 获取底部及底部上方边距的总高度
 	var boxfixed = $('.col_left'); // 获取固定容器的jquery对象
 	$(window).scroll(function () {
