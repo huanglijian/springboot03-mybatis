@@ -16,6 +16,8 @@ public class FileController {
      * 加载图片
      * 以字节数组的形式
      * 用response输出到页面
+     * 假设数据库的是文件的文件名和格式如"myImg.jgp"
+     * 若需要其他存储格式，自己定义处理方法，可以拿到File就可以使用responseFile输出
      * @param fileName 要加载的图片文件名
      * @param response
      */

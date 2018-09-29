@@ -2,7 +2,6 @@
 <html>
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>创客讲堂 - 搜索</title>
@@ -10,6 +9,7 @@
     <!-- 全局js -->
     <script src="/static/js/jquery.min.js?v=2.1.4"></script>
     <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/js/vue.js"></script>
 
     <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
@@ -20,67 +20,11 @@
     <!-- 导航条样式 -->
     <link href="/static/css/css_psw/style_head.css" rel="stylesheet">
 
+    <!-- 浮现播放按钮样式 -->
+    <link rel="stylesheet" href="/static/css/css_cwh/videoBtn/videoBtnStyle.css">
+
     <!-- 搜索框样式 -->
-    <style type="text/css">
-        input {
-            font-size: 14px;
-            font-family: arial;
-            border: none;
-            background: none;
-        }
-
-        /*--这里设置输入框文字字体，并设置输入框背景和边框为无--*/
-        span.search {
-            float: left;
-            /*--将输入框放在span中并设置浮动--*/
-            padding: 0;
-            margin: 0;
-            width: 500px;
-            height: 40px;
-            /*--设置输入框的外层元素宽度和高度--*/
-            background: #fafafa;
-            color: #000000;
-            /*--设置背景颜色和输入框文字颜色--*/
-            border: 2px solid #1ab394;
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-            /*--设置边框，并将左上角和左下角设置圆角--*/
-        }
-
-        span.search input {
-            width: 500px;
-            height: 36px;
-            /*--设置输入框本身的宽度和高度--*/
-            line-height: 36px;
-            /*--设置输入框行距和高度相等以便垂直居中--*/
-            padding: 0 5px;
-            /*--设置输入框本身离外层的内边距，输入文字更美观--*/
-            outline: none;
-            /*--为了美观，将获取焦点时的轮廓线去掉--*/
-        }
-
-        span.button {
-            float: left;
-            /*--设置提交按钮放在span中并设置浮动--*/
-            padding: 0;
-            margin: 0;
-            border: 2px solid #1ab394;
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
-            /*--设置边框，并将右上角和右下角设置圆角--*/
-        }
-
-        span.button input {
-            height: 36px;
-            line-height: 36px;
-            /*--设置按钮本身的高度，行距和高度相等以便垂直居中--*/
-            padding: 0 12px;
-            /*--为了美观，适当设置按钮文字的左右边距--*/
-            background: #1ab394;
-            color: #fff;
-            /*--将提交按钮的背景颜色设置与边框颜色相同--*/
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/css_cwh/searchBar/searchBar.css">
 </head>
 
 <body class="gray-bg">
@@ -139,101 +83,176 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="ibox float-e-margins">
+                    <div class="ibox float-e-margins" id="searchResult">
                         <div class="ibox-content">
-                            <h4>为您找到相关结果约100,000,000个： <span class="text-navy">“后台主题”</span></h4>
                             <!--搜索框-->
                             <div class="row">
-                                <div class="ibox-content" style="background:#ffffff; border-width: 0px;">
-                                    <span class="search">
-                                        <input type="text" id="search" name="word" baiduSug="1" placeholder="请输入关键词" />
-                                        <div class="input-group-btn">
-                                            <button style="opacity:0;"></button>
-                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                            </ul>
-                                        </div>
-                                    </span>
-                                    <!--注意以上为文本框设置的placeholder属性，为文本框默认显示的文字-->
-                                    <span class="button"><input type="submit" value="创客搜索" /></span>
+                                <div class="col-md-8 col-md-offset-3">
+                                    <form action="/resource/searchResult">
+                                        <input type="text" name="page" value="1" style="display: none"/>
+                                        <span class="search">
+                                            <input type="text" id="search" name="key" placeholder="请输入关键词" required="" v-model="keyWord"/>
+                                            <div class="input-group-btn">
+                                                <button style="opacity:0;"></button>
+                                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                </ul>
+                                            </div>
+                                        </span>
+                                        <!--注意以上为文本框设置的placeholder属性，为文本框默认显示的文字-->
+                                        <span class="button"><input type="submit" value="创客搜索" /></span>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="hr-line-dashed"></div>
 
-                            <div class="search-result">
-                                <h3><a href="res_search_results.html#">定制后台的主题目录(Theme)</a></h3>
-                                <a href="res_search_results.html#" class="search-link">koda.iteye.com/blog/10...</a>
-                                <p>
-                                    不像前台Theme目录的改变可以通过后台界面配置,后台的主题目录要自己修改相应的配置文件。 Theme目录的配置再Adminhtml模块,打开后台的配置文件 $MAGENO_DIR\app\code...
-                                </p>
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-3">
+                                    <h5 class="text-muted">为您找到相关结果约{{result.total}}个： <span class="text-navy">“{{keyWord}}”</span></h5>
+                                </div>
                             </div>
+
                             <div class="hr-line-dashed"></div>
 
-                            <div class="search-result">
-                                <h3><a href="res_search_results.html#">wordpress主题添加后台设置选项页面</a></h3>
-                                <a href="res_search_results.html#" class="search-link">www.ashuwp.com/courses...‎</a>
-                                <p>
-                                    如果你制作的主题,logo要用户自己去替换、首页调用了某个分类的文章,要更改的话得自己去改源码...这样不光用户用的不方便,有时候还得找你来帮忙,所以如果你的...
-                                </p>
+                            <div class="row">
+                                <div class="col-md-3" v-for="res in resource" :key="res.resId">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body" style="padding : 5px;">
+                                            <div class="box">
+                                                <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
+                                                <div class="box-content">
+                                                    <ul class="icon">
+                                                        <li><a :href="res.resPath"><i class="fa fa-play"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">
+                                            <a href="">
+                                                <p class="text-left">
+                                                    {{res.resName}}
+                                                </p>
+                                            </a>
+                                            <p class="text-left text-muted">
+                                                <small><i class="fa fa-eye"></i>456</small>
+                                                &nbsp;|&nbsp;
+                                                <small><i class="fa fa-star"></i>{{res.resLikenum}}</small>
+                                                &nbsp;|&nbsp;
+                                                <small><i class="fa fa-check-circle-o"></i>{{res.resLong}}</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="hr-line-dashed"></div>
 
-                            <div class="search-result">
-                                <h3><a href="res_search_results.html#">DiscuzX后台:主题回收站功能图文详解</a></h3>
-                                <a href="res_search_results.html#" class="search-link">www.moke8.com/article-...‎</a>
-                                <p>
-                                    主题回收站便能实现这个愿望,将前台删除的主题先放到主题回收站里,以便管理员进一步确认是否删除。 需要注意的是这个功能需要在后台开启才可以,首先这个功能是跟每个...
-                                </p>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-
-                            <div class="search-result">
-                                <h3><a href="res_search_results.html#">WordPress 主题后台选项简易添加(二) | 木木木木木</a></h3>
-                                <a href="res_search_results.html#" class="search-link">www.zi-han.net/wordpre... </a>
-                                <p>
-                                    此文接年初发的 《WordPress 主题选项简易添加》 ,那篇也仅放出了包含“统计代码”设置的functions代码。不过说回来,那段主题后台选项代码的扩展性还是相当不错的。...
-                                </p>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-
-                            <div class="search-result">
-                                <h3><a href="res_search_results.html#">[教程]wordpress主题后台设置框架Options Framework(中文版) </a></h3>
-                                <a href="res_search_results.html#" class="search-link">www.zi-han.net/wordpre... </a>
-                                <p>
-                                    对于很多刚开始写wordpress主题的新手来说,想给主题加上一些设置选项,方便使用者灵活选择和定制,这时候后台框架就成了一个绕不过的话题,一般方法无外乎两种,一种是...
-                                </p>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-
-                            <div class="search-result">
-                                <h3><a href="res_search_results.html#">WordPress后台主题插件:MP6 和 Bootstrap Admin | WordPress大学</a></h3>
-                                <a href="res_search_results.html#" class="search-link">www.wpdaxue.com/mp6-bo... ‎‎</a>
-                                <p>
-                                    2014年4月29日 - 倡萌之前推荐过 WordPress后台主题插件:WP Admin Theme lime ,今天在推荐两款 MP6 和 Bootstrap Admin。 MP6 MP6 是WordPress核心团队开发的Word...
-                                </p>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-
+                            <!--页号-->
                             <div class="text-center">
                                 <div class="btn-group">
-                                    <button class="btn btn-white" type="button"><i class="fa fa-chevron-left"></i>
+                                    <button class="btn btn-white" type="button" v-if="curPage != 1" @click="changePage(curPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                                    <!--v-for:循环页数, :class ：如果是当前页使其为激活， @click:触发事件参数-->
+                                    <button class="btn btn-white"
+                                            v-for="p in result.pages"
+                                            :class="[{ active: p == curPage }, '']"
+                                            @click="changePage(p)"
+                                    >
+                                        {{p}}
                                     </button>
-                                    <button class="btn btn-white">1</button>
-                                    <button class="btn btn-white  active">2</button>
-                                    <button class="btn btn-white">3</button>
-                                    <button class="btn btn-white">4</button>
-                                    <button class="btn btn-white">5</button>
-                                    <button class="btn btn-white">6</button>
-                                    <button class="btn btn-white">7</button>
-                                    <button class="btn btn-white" type="button"><i class="fa fa-chevron-right"></i>
-                                    </button>
+                                    <button class="btn btn-white" type="button" v-if="curPage != result.pages" @click="changePage(curPage + 1)"><i class="fa fa-chevron-right" ></i></button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <script type="text/javascript">
+                        var searchResult = new Vue({
+                            el:'#searchResult',
+                            data:{
+                                //搜索的关键字
+                                keyWord : '',
+                                //后台返回的结果集，应为Page<T>
+                                result : '',
+                                //从结果集获取的当前页
+                                curPage: 1,
+                                //从结果集获取的视频集合
+                                resource : [],
+                            },
+                            beforeCreate: function () {
+                            },
+                            created: function () {
+                                //解码url的参数，从utf-8转为中文
+                                this.keyWord  = decodeURIComponent(this.urlparse().params['key']);
+                                this.curPage = decodeURIComponent(this.urlparse().params['page']);
+                                //创建页面时搜索
+                                this.doSearch();
+                            },
+                            beforeMount: function () {
+                            },
+                            mounted: function () {
+                            },
+                            beforeUpdate: function () {
+                            },
+                            updated: function () {
+                            },
+                            methods: {
+                                //url转换方法
+                                urlparse: function(){
+                                    var url = window.location.href;
+                                    var a = document.createElement('a');
+                                    a.href = url;
+                                    var obj = {
+                                        source: url,
+                                        protocol: a.protocol.replace(':', ''),
+                                        host: a.hostname,
+                                        port: a.port,
+                                        query: a.search,
+                                        file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                                        hash: a.hash.replace('#', ''),
+                                        path: a.pathname.replace(/^([^\/])/, '/$1'),
+                                        relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                                        segments: a.pathname.replace(/^\//, '').split('/'),
+                                        params: (function() {
+                                            var ret = {};
+                                            var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
+                                                if (v!==''&&v.indexOf('=')) {
+                                                    return true;
+                                                }
+                                            });
+                                            seg.forEach( function(element, index) {
+                                                var idx = element.indexOf('=');
+                                                var key = element.substring(0, idx);
+                                                var val = element.substring(idx+1);
+                                                ret[key] = val;
+                                            });
+                                            return ret;
+                                        })()
+                                    };
+                                    return obj;
+                                },
+                                //搜索触发方法
+                                doSearch : function (page) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/resource/doSearch/" + this.keyWord + "/" + this.curPage,
+                                        data : '',
+                                        dataType: "json",
+                                        success: function(result){
+                                            if(result.code === 0){
+                                                searchResult.resource = result.result.records;
+                                                searchResult.curPage = result.result.current;
+                                                searchResult.result = result.result;
+                                            }
+                                        }
+                                    });
+                                },
+
+                                changePage : function (page) {
+                                    window.location.href = "/resource/searchResult?page=" + page + "&key=" + this.keyWord;
+                                }
+                            }
+                        });
+                    </script>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- suggest search -->
     <script src="/static/js/js_cwh/bootstrap-suggest/bootstrap-suggest.js"></script>
@@ -263,11 +282,11 @@
                 }
 
                 len = json.resource.length;
-                res = json.resource;
+                searchResult = json.resource;
                 for (index = 0; index < len; index++) {
                     data.value.push({
-                        resName: res[index].resName,
-                        resIntro: res[index].resIntro,
+                        resName: searchResult[index].resName,
+                        resIntro: searchResult[index].resIntro,
                     });
                 }
                 // console.log(data);
@@ -341,6 +360,7 @@
             console.log('onHideDropdown', e.target.value, data);
         });
     </script>
+
 </body>
 
 </html>

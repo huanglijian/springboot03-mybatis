@@ -69,9 +69,21 @@ public class ResourceController extends AbstractController {
         return  ResponseBo.ok().put("resource", page.getRecords());
     }
 
+    /**
+     * 搜索结果页面
+     * @param keyword
+     * @return
+     */
     @RequestMapping("searchResult")
-    public String getSearchResult(){
+    public String getSearchResult(@RequestParam("key")String keyword, @RequestParam("page")Integer page){
         return "resource/res_search_results";
+    }
+
+    @RequestMapping("doSearch/{key}/{page}")
+    @ResponseBody
+    public ResponseBo doSearch(@PathVariable("key")String keyword, @PathVariable("page")Integer curPage){
+        Page<Resource> page = resourceService.getSuggestPage(new Page<Resource>(curPage, 16), keyword);
+        return ResponseBo.ok().put("result", page);
     }
 
     /**
