@@ -71,7 +71,7 @@ var updatePhoto = function () {
         },
         dataType: 'json',
         success: function (data) {
-        	alert(data.msg);
+        	// alert(data.msg);
         	$("#tipModal").modal("show");
         }
     });

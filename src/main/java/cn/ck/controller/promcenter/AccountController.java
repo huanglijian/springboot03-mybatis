@@ -40,8 +40,8 @@ public class AccountController {
     PromulgatorService promulgatorService;
     @Autowired
     AccountService accountService;
-//    @Autowired
-//    ProjectService projectService;
+    @Autowired
+    ProjectService projectService;
 
 
 

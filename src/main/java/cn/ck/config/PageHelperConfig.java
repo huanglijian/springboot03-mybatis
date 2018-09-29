@@ -1,7 +1,7 @@
 package cn.ck.config;
 import java.util.Properties;
 
-import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
+//import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
