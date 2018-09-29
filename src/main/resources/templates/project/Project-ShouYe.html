@@ -9,7 +9,7 @@
 	<link href="/static/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/static/css/css_xwh/ProjectsShouYe.css" rel="stylesheet" />
 	<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
-	
+	<script src="/static/js/vue.js"></script>
 	<link href="/static/css/style.css" rel="stylesheet"/>
 	
 	<!--<script src="http://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>-->
@@ -259,85 +259,6 @@
 									
 								</div>
 							</li>
-							<li>
-								<div class="div-relative">  
-								<div class="projectBody2"><!--内容-->
-                 	<div class="divnew"><img src="img/img_xwh/lefttop-newicon.png"></div>
-                 <img src="img/img_xwh/wechat.png" />
-								
-								</div>
-								</div>
-								<div class="projectBody3">
-									
-										<a href="/project/show/83974" target="_blank">驱动级隐藏文件</a>
-										<span class="status">竞标中</span>
-										<br />
-									<span>预算
-										<em class="green">1千~5千</em>
-									</span>
-									<span>人气
-										<em>150</em>
-									</span>
-									<span>发布日期
-										<em>2018.09.04</em>
-									</span>
-									<span>截止日期
-										<em>2018.09.14</em>
-									</span>	
-									<div style="margin-top: 28px;">
-										<span>技能标签</span>
-										<span class='green'> 易语言</span>
-									</div>
-								</div>
-
-								<div class="projectBody4">
-									
-									<img isImg="0" onclick="changeImage()" src="img/img_xwh/selected1.png">
-									&nbsp;收藏
-									
-								</div>
-							</li>
-							<li>
-								<div class="div-relative">  
-								<div class="projectBody2"><!--内容-->
-									 <div class="divnew"><img src="img/img_xwh/lefttop-newicon.png"></div>
-									
-									<img src="img/img_xwh/wechat.png" />
-									
-								</div>
-								</div>
-								<div class="projectBody3">
-									
-										<a href="/project/show/83974" target="_blank">驱动级隐藏文件+禁止访问</a>
-								    <span class="status">竞标中</span>
-								    <br />
-									<span>预算
-										<em>1千~5千</em>
-									</span>
-									<span>人气
-									<em>150</em>
-									</span>
-									<span>发布日期
-									<em>2018.09.04</em>
-									</span>
-									<span>截止日期
-									<em>2018.09.18</em>
-									</span>
-									<div>
-										<span>技能标签</span>
-										<span class='green'> 易语言</span>
-										<span>类型</span>
-										<span class='green'> 桌面系统</span>
-									</div>
-								</div>
-
-								<div class="projectBody4">
-									
-									<img isImg="0" onclick="changeImage()" src="img/img_xwh/selected1.png">
-									&nbsp;收藏
-									
-								</div>
-							</li>
 						</ul>
 						<div class="FenYe">
 							<nav aria-label="Page navigation">
@@ -375,10 +296,10 @@
 
 
 					<div class="col-md-3 col-lg-3">
-						<div class="ProjectLike1">
+						<div class="ProjectLike1" id="ProjectLike1">
 							<ul class="list-group">
 								<li class="list-group-item">
-									<span class="ProjectLike1-top">
+									<span class="ProjectLike1-top" >
 										大家都在看的项目TOP10
 									</span>
 								</li>
@@ -397,50 +318,23 @@
 									<a class="nowrap" href="/project/show/83865" target="_blank">
 										安卓开发开开开11111</a>
 								</li>
-							</ul>ul
+							</ul>
 						</div>
 
-						<div class="ProjectLike2">
-
-
+						<div class="ProjectLike2" id="ProjectLike2">
 							<ul class="list-group">
 								<li class="list-group-item">
 									<span class="ProjectLike2-top">
-										
 										竞争最激烈的项目TOP10
 									</span>
 								</li>
-								<li class="list-group-item">
-									<b>01</b>
-									<a class="nowrap" href="/project/show/83865" target="_blank">
-										emmmmmm
+								<li class="list-group-item" v-for="(item,index) in resourse">
+									<b>{{index+1}}</b>
+									<a  :href="item.projId" target="_blank" class="nowrap">
+										{{item.projName}}
 									</a>
 								</li>
-								<li class="list-group-item">
-									<b>02</b>
-									<a class="nowrap" href="/project/show/83865" target="_blank">
-										新媒体网站开发</a>
-								</li>
-								<li class="list-group-item">
-									<b>03</b>
-									<a class="nowrap" href="/project/show/83865" target="_blank">
-										夏大爷</a>
-								</li>
-								<li class="list-group-item">
-									<b>04</b>
-									<a class="nowrap" href="/project/show/83865" target="_blank">
-										甘布尔出现</a>
-								</li>
-								<li class="list-group-item">
-									<b>05</b>
-									<a class="nowrap" href="/project/show/83865" target="_blank">
-										昴和昂</a>
-								</li>
-								<li class="list-group-item">
-									<b>06</b>
-									<a class="nowrap" href="/project/show/83861" target="_blank">
-										新媒体网站开发</a>
-								</li>
+
 							</ul>
 						</div>
 
@@ -448,11 +342,61 @@
 
 					</div>
 
+					<script type="text/javascript">
+                        new Vue({
+                            el: '#ProjectLike1',
+                            data:{
+                                resourse : "",
+                            },
+                            mounted: function () {
+                                var self=this;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/project/projectShouYeHtml",
+                                    dataType: "json",
+                                    success: function(result){
+                                        self.resourse = result;
+                                    }
+                                });
+                            },
+                            methods: {
+
+                            }
+                        });
+					</script>
+
+
+					<script type="text/javascript">
+                        var vm = new Vue({
+                            el: '#ProjectLike2',
+                            data:{
+                              resourse : "",
+                            },
+                            mounted: function () {
+                                var self=this;
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/project/projectShouYeHtml",
+                                        dataType: "json",
+                                        success: function(result){
+                                            self.resourse = result;
+                                        }
+                                    });
+                            },
+                            methods: {
+
+                            }
+                        });
+					</script>
+
 
 
 				</div>
 			</div>
 		</div>
+
+
+
 
 		<footer>
 			<div class="container-fluid_foot">
@@ -460,7 +404,7 @@
 					<div class="foot_panel_left">
 						<div class="img">
 							<a href="#">
-								<img src="img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+								<img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
 							</a>
 						</div>
 						<div class="beian">
