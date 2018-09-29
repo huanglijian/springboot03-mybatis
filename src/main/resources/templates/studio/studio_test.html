@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <title>工作室</title>
+	<!--	<script src="http://how2j.cn/study/vue.min.js"></script>
+		<script src="http://how2j.cn/study/axios.min.js"></script>-->
+	<!--	<script src="http://how2j.cn/study/vue.min.js"></script>
+		<script src="http://how2j.cn/study/axios.min.js"></script>-->
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/vue.js"></script>
+	</head>
+	
+	<body>
+		 <div id="juVue">
+			 <p v-for="dt in datas">
+				用户姓名：{{dt.users.userName}}
+				 岗位名称：{{dt.jobs.jobName}}
+				 时间：{{dt.users.userEntrytime|dateFormat}}
+			 </p>
+		 </div>
+
+
+<!--		<div id="userVue">
+			<p v-for="dt in users">
+				姓名：{{dt.userName}}
+			</p>
+		</div>-->
+
+<!--		<div id="mapVue">
+			<p v-for="dt1 in users" v-for="dt2 in promulgator">
+				姓名：{{dt1.userName}}
+                公司ID:{{dt2.promId}}
+			</p>
+		</div>-->
+
+	<script type="text/javascript">
+          var juList = new Vue({
+			 el:'#juVue',
+			 data:{
+			     datas:''
+			 } ,
+			  created:function () {
+                  $.ajax({
+                      type:'get',
+                      url:'/mtest/meList',
+                      success:function(result){
+                          juList.datas = result;
+                      }
+                  })
+              },
+              filters: {
+                  dateFormat:function(val){
+                      if(val==null)
+                          return null;
+                      var d = new Date(val);
+                      var year = d.getFullYear();
+                      var month = d.getMonth() + 1;
+                      var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                      var hour = d.getHours();
+                      var minutes = d.getMinutes();
+                      var seconds = d.getSeconds();
+                      return  year+ '-' + month + '-' + day ;
+                  },
+              }
+
+		  });
+
+
+/*        var listtest = new Vue({
+            el:'#userVue',
+            data:{
+                 users:''
+            },
+			created:function () {
+				$.ajax({
+					type:'get',
+					url:'/mtest/list',
+					success:function(result){
+					    listtest.users = result;
+					}
+				})
+            }
+        });*/
+
+/*        var maptest = new Vue({
+            el:'#mapVue',
+            data:{
+                users: '',
+				promulgator : ''
+            },
+            created:function () {
+                $.ajax({
+                    type:'get',
+                    url:'/mtest/map',
+                    success:function(result){
+                        console.log(result);
+                        maptest.users = result.users;
+                        maptest.promulgator = result.promulgator;
+                    }
+                })
+            }
+        });*/
+	</script>
+
+    </body>
+</html>

@@ -5,6 +5,7 @@ import cn.ck.mapper.JobsMapper;
 import cn.ck.service.JobsService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -20,7 +21,8 @@ import java.util.List;
  */
 @Service
 public class JobsServiceImpl extends ServiceImpl<JobsMapper, Jobs> implements JobsService {
-
+   @Autowired
+   private JobsMapper jobsMapper;
 
     @Override
     public List<Jobs> selectAll() {
@@ -28,5 +30,9 @@ public class JobsServiceImpl extends ServiceImpl<JobsMapper, Jobs> implements Jo
 
 
         return null;
+    }
+
+    public Jobs selectByJuId(int JuId ){
+        return jobsMapper.selectByJuId(JuId);
     }
 }

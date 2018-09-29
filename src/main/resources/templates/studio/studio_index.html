@@ -21,8 +21,9 @@
 		<link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
 
-		<script src="http://how2j.cn/study/vue.min.js"></script>
-		<script src="http://how2j.cn/study/axios.min.js"></script>
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/vue.js"></script>
+
 
 		
 	</head>
@@ -99,13 +100,13 @@
 							</a>
 							<ul id="projectmanage" class="panel-collapse collapse in">
 								<li>
-									<a href="studio_bidding.html">竞标项目</a>
+									<a href="/studioPage/bidding">竞标项目</a>
 								</li>
 								<li>
-									<a href="studio_service.html">服务订单</a>
+									<a href="/studioPage/service">服务订单</a>
 								</li>
 								<li>
-									<a href="studio_biddingAll.html">竞标一览</a>
+									<a href="/studioPage/biddingAll">竞标一览</a>
 								</li>
 							</ul>
 						</li>
@@ -116,7 +117,7 @@
 							</a>
 							<ul id="pricemanage" class="panel-collapse collapse in">
 								<li>
-									<a href="studio_funds.html">资金记录</a>
+									<a href="/studioPage/funds">资金记录</a>
 								</li>
 							</ul>
 						</li>
@@ -127,10 +128,10 @@
 							</a>
 							<ul id="safemanage" class="panel-collapse collapse in">
 								<li>
-									<a href="studio_jobInfo.html">招聘信息</a>
+									<a href="/studioPage/jobInfo">招聘信息</a>
 								</li>
 								<li>
-									<a href="studio_jobReview.html">招聘审核</a>
+									<a href="/studioPage/jobReview">招聘审核</a>
 								</li>
 							</ul>
 						</li>
@@ -141,10 +142,10 @@
 							</a>
 							<ul id="membermanage" class="panel-collapse collapse in">
 								<li>
-									<a href="studio_memberInfo.html">成员信息</a>
+									<a href="/studioPage/memberInfo">成员信息</a>
 								</li>
 								<li>
-									<a href="studio_memberReview.html">退出审核</a>
+									<a href="/studioPage/memberReview">退出审核</a>
 								</li>
 							</ul>
 						</li>
@@ -154,8 +155,8 @@
 		</div>
 		
 		<!--右侧内容-->
-		<div class="main" id="studioVue">
-			<div class="mainTop">
+		<div class="main" id="indexVue">
+			<div class="mainTop" >
 				<div class="logo">
 					 <!--头像大小220x170-->
 					<img src="/static/img/img_mzb/tx.png" />
@@ -243,7 +244,7 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<span style="font-size:14px">
 								<span style="margin-right: 30px;margin-left: 10px;">成员数量：{{studio.stuMembernum}}</span>
-							    <span>创建时间:&nbsp;{{studio.stuCreattime.toString().substring(0,10)}}</span>
+							    <span>创建时间:&nbsp;{{studio.stuCreattime|dateFormat}}</span>
 							</span>
 						</li>
 
@@ -320,102 +321,34 @@
 	                            <!--成员简介-->
 	                            <div id="tab-5" class="tab-pane">
 							    	<ul style="list-style: none;">
-								    	<li style="position: relative;">
-									        <div class="memberList">
+								    	<li style="position: relative;" id="juVue">
+									        <div class="memberList" v-for="dt in member">
 										       	<div class="mTop">
 										       		<!--图片像素 160 X 160-->
 										       		<img src="/static/img/img_mzb/160X160.png" />
 										       	</div>
 										       	<div class="mBottom">
 										       		<div class="mbLeft">
-										       			<h5 style="position: relative;top:0px;color: black;font-size: 15px;">前端开发</h5>
-										       			<span style="position: relative;top:-2px;color: black">小明</span>
-										       			<h5 style="position: relative;top:0px;color: black;font-size: 12px;">2018.9.7&nbsp;加入</h5>
+										       			<h5 style="position: relative;top:0px;color: black;font-size: 15px;">{{dt.jobs.jobName}}</h5>
+										       			<span style="position: relative;top:-2px;color: black">{{dt.users.userName}}</span>
+										       			<h5 style="position: relative;top:0px;color: black;font-size: 12px;">{{dt.users.userEntrytime|dateFormat}}&nbsp;加入</h5>
 										       		</div>
 										       		<div class="mbRight">
-										       			<button type="button" class="btn btn-primary btn-sm" style="position:relative;top:3px;">主 页</button>
+										       			<button type="button" class="btn btn-primary btn-sm" style="position:relative;top:3px;" onclick="personPage(dt.users.userId)">
+															主 页
+														</button>
 										       		</div>
 										       	 </div>
 									         </div>
 								        </li>
-								    	<li style="position: relative;">
-									        <div class="memberList">
-										       	<div class="mTop">
-										       		<!--图片像素 160 X 160-->
-										       		<img src="/static/img/img_mzb/160X160.png" />
-										       	</div>
-										       	<div class="mBottom">
-										       		<div class="mbLeft">
-										       			<h5 style="position: relative;top:0px;color: black;font-size: 15px;">前端开发</h5>
-										       			<span style="position: relative;top:-2px;color: black">小明</span>
-										       			<h5 style="position: relative;top:0px;color: black;font-size: 12px;">2018.9.7&nbsp;加入</h5>
-										       		</div>
-										       		<div class="mbRight">
-										       			<button type="button" class="btn btn-primary btn-sm" style="position:relative;top:3px;">主 页</button>
-										       		</div>
-										       	 </div>
-									         </div>
-								        </li>
-								    	<li style="position: relative;">
-									        <div class="memberList">
-										       	<div class="mTop">
-										       		<!--图片像素 160 X 160-->
-										       		<img src="/static/img/img_mzb/160X160.png" />
-										       	</div>
-										       	<div class="mBottom">
-										       		<div class="mbLeft">
-										       			<h5 style="position: relative;top:0px;color: black;font-size: 15px;">前端开发</h5>
-										       			<span style="position: relative;top:-2px;color: black">小明</span>
-										       			<h5 style="position: relative;top:0px;color: black;font-size: 12px;">2018.9.7&nbsp;加入</h5>
-										       		</div>
-										       		<div class="mbRight">
-										       			<button type="button" class="btn btn-primary btn-sm" style="position:relative;top:3px;">主 页</button>
-										       		</div>
-										       	 </div>
-									         </div>
-								        </li>
-								    	<li style="position: relative;">
-									        <div class="memberList">
-										       	<div class="mTop">
-										       		<!--图片像素 160 X 160-->
-										       		<img src="/static/img/img_mzb/160X160.png" />
-										       	</div>
-										       	<div class="mBottom">
-										       		<div class="mbLeft">
-										       			<h5 style="position: relative;top:0px;color: black;font-size: 15px;">前端开发</h5>
-										       			<span style="position: relative;top:-2px;color: black">小明</span>
-										       			<h5 style="position: relative;top:0px;color: black;font-size: 12px;">2018.9.7&nbsp;加入</h5>
-										       		</div>
-										       		<div class="mbRight">
-										       			<button type="button" class="btn btn-primary btn-sm" style="position:relative;top:3px;">主 页</button>
-										       		</div>
-										       	 </div>
-									         </div>
-								        </li>
-								    	<li style="position: relative;">
-									        <div class="memberList">
-										       	<div class="mTop">
-										       		<!--图片像素 160 X 160-->
-										       		<img src="/static/img/img_mzb/160X160.png" />
-										       	</div>
-										       	<div class="mBottom">
-										       		<div class="mbLeft">
-										       			<h5 style="position: relative;top:0px;color: black;font-size: 15px;">前端开发</h5>
-										       			<span style="position: relative;top:-2px;color: black">小明</span>
-										       			<h5 style="position: relative;top:0px;color: black;font-size: 12px;">2018.9.7&nbsp;加入</h5>
-										       		</div>
-										       		<div class="mbRight">
-										       			<button type="button" class="btn btn-primary btn-sm" style="position:relative;top:3px;">主 页</button>
-										       		</div>
-										       	 </div>
-									         </div>
-								        </li>
+
+
 							         </ul>
 	                            </div>
 	                            
 	                            <!--案例介绍-->
-	                            <div id="tab-6" class="tab-pane">
-							    	<ul style="list-style: none;">
+	                            <div id="tab-6" class="tab-pane" >
+							    	<ul style="list-style: none;" v-for="data in project">
 								    	<li style="position: relative;">
 									        <div class="projectList">
 										       	<div class="pTop">
@@ -425,86 +358,11 @@
 										       	<div class="pCenter">
 										       		 <p>
 	                                                     <p>
-	                                                     	<span style="font-size: 17px;margin-left: 5px;color: black;">创客平台</span>
+	                                                     	<span style="font-size: 17px;margin-left: 5px;color: black;">{{data.projName}}</span>
 	                                                     </p>
 	                                                     <p style="position: relative;top:-10px;margin-left: 5px;">
-	                                                        <span style="margin-right:60px;color: black;">网站开发</span>
-	                                                        <span style="font-size: 18px;color: orange;">10000/30天</span>
-	                                                     </p>
-                                                    </p>
-										       	 </div>
-										       	 <div class="pBottom">
-										       	 	<span style="position: relative;top: -17px;margin-right: 5px;">
-										       	 	 <a class="btn btn-primary" href="buttons.html#">详情</a>
-										       	 	 <a class="btn btn-danger" href="buttons.html#">删除</a>
-										       	 	</span>
-										       	 </div>
-									         </div>
-								        </li>
-								    	<li style="position: relative;">
-									        <div class="projectList">
-										       	<div class="pTop">
-										       		<!--图片像素 160 X 160-->
-										       		<img src="/static/img/img_mzb/220x220.png" />
-										       	</div>
-										       	<div class="pCenter">
-										       		 <p>
-	                                                     <p>
-	                                                     	<span style="font-size: 17px;margin-left: 5px;color: black;">创客平台</span>
-	                                                     </p>
-	                                                     <p style="position: relative;top:-10px;margin-left: 5px;">
-	                                                        <span style="margin-right:60px;color: black;">网站开发</span>
-	                                                        <span style="font-size: 18px;color: orange;">10000/30天</span>
-	                                                     </p>
-                                                    </p>
-										       	 </div>
-										       	 <div class="pBottom">
-										       	 	<span style="position: relative;top: -17px;margin-right: 5px;">
-										       	 	 <a class="btn btn-primary" href="buttons.html#">详情</a>
-										       	 	 <a class="btn btn-danger" href="buttons.html#">删除</a>
-										       	 	</span>
-										       	 </div>
-									         </div>
-								        </li>
-								    	<li style="position: relative;">
-									        <div class="projectList">
-										       	<div class="pTop">
-										       		<!--图片像素 160 X 160-->
-										       		<img src="/static/img/img_mzb/220x220.png" />
-										       	</div>
-										       	<div class="pCenter">
-										       		 <p>
-	                                                     <p>
-	                                                     	<span style="font-size: 17px;margin-left: 5px;color: black;">创客平台</span>
-	                                                     </p>
-	                                                     <p style="position: relative;top:-10px;margin-left: 5px;">
-	                                                        <span style="margin-right:60px;color: black;">网站开发</span>
-	                                                        <span style="font-size: 18px;color: orange;">10000/30天</span>
-	                                                     </p>
-                                                    </p>
-										       	 </div>
-										       	 <div class="pBottom">
-										       	 	<span style="position: relative;top: -17px;margin-right: 5px;">
-										       	 	 <a class="btn btn-primary" href="buttons.html#">详情</a>
-										       	 	 <a class="btn btn-danger" href="buttons.html#">删除</a>
-										       	 	</span>
-										       	 </div>
-									         </div>
-								        </li>
-								    	<li style="position: relative;">
-									        <div class="projectList">
-										       	<div class="pTop">
-										       		<!--图片像素 160 X 160-->
-										       		<img src="/static/img/img_mzb/220x220.png" />
-										       	</div>
-										       	<div class="pCenter">
-										       		 <p>
-	                                                     <p>
-	                                                     	<span style="font-size: 17px;margin-left: 5px;color: black;">创客平台</span>
-	                                                     </p>
-	                                                     <p style="position: relative;top:-10px;margin-left: 5px;">
-	                                                        <span style="margin-right:60px;color: black;">网站开发</span>
-	                                                        <span style="font-size: 18px;color: orange;">10000/30天</span>
+	                                                        <span style="margin-right:60px;color: black;">{{data.projType}}</span>
+	                                                        <span style="font-size: 18px;color: orange;">{{data.projMoney}}/{{data.projCycletime}}天</span>
 	                                                     </p>
                                                     </p>
 										       	 </div>
@@ -614,6 +472,7 @@
     <!-- 全局js -->
     <script src="/static/js/jquery.min.js?v=2.1.4"></script>
     <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+
     <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/static/js/plugins/layer/layer.min.js"></script>
@@ -630,37 +489,52 @@
     <!--省级联动-->
     <script class="resources library" src="/static/js/js_mzb/area.js" type="text/javascript"></script>
     <script type="text/javascript">_init_area();</script>
-	<script type="text/javascript">
-	var Gid  = document.getElementById ;
-	var showArea = function(){
-		Gid('show').innerHTML = "<h3>省" + Gid('s_province').value + " - 市" +
-		Gid('s_city').value + " - 县/区" +
-		Gid('s_county').value + "</h3>"
-	   }
 
-	function close(){
-		javascript:window.opener=null;
-		window.open('','_self');
-		window.close();
-	}
-	</script>
    <!-- 林晓能导航栏JS效果-->
-   <script type="text/javascript" src="/static/js/js_lxn/PersonCenter-jquery.js" ></script>
+   <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
 
 	<script>
-		var url = "/studio/studioList"
-		new Vue({
-			el:'#studioVue',
-			data:{
-			    studio:''
-			},
-			mounted:function(){
-			    var self = this;
-			    axios.get(url).then(function (response){
-			        self.studio = response.data.studio;
-				})
-			}
-		})
+        var indexList = new Vue({
+            el:'#indexVue',
+            data:{
+                studio:'',
+				member:'',
+				project:''
+            } ,
+            created:function () {
+                $.ajax({
+                    type:'get',
+                    url:'/studio/indexList',
+                    success:function(result){
+                        console.log(result);
+                        indexList.studio = result.studio;
+                        indexList.member = result.member;
+                        indexList.project = result.project;
+                    }
+                })
+            },
+            filters: {
+                dateFormat:function(val){
+                    if(val==null)
+                        return null;
+                    var d = new Date(val);
+                    var year = d.getFullYear();
+                    var month = d.getMonth() + 1;
+                    var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                    var hour = d.getHours();
+                    var minutes = d.getMinutes();
+                    var seconds = d.getSeconds();
+                    return  year+ '-' + month + '-' + day ;
+                },
+            }
+        });
+
+        /*跳转到个人主页*/
+        function personPage(userId) {
+
+        }
+        
+        
 	</script>
 
 

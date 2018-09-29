@@ -116,6 +116,7 @@
 				/*height:800px;*/
 			}
 			.content .main .mainTop{
+				margin-left: 20px;
 				width:830px;
 				height:202px;
 				margin-bottom: 20px;
@@ -227,6 +228,7 @@
 				/*height:600px;*/
 				/*border: 0.2px solid  #000000;*/
 				/*margin-left: 20px;*/
+				margin-left: 20px;
 				margin-bottom: 50px;
 				background-color: white;
 				/*background:skyblue;*/

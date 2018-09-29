@@ -22,4 +22,10 @@
         where job_id = #{id}
     </select>
 
+    <select id="selectByJuId" resultType="cn.ck.entity.Jobs">
+        select *
+        from jobs
+        where job_id = #{0};
+    </select>
+
 </mapper>

@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @since 2018-09-21
  */
 public interface JobuserMapper extends BaseMapper<Jobuser> {
-
+      public Jobuser selectByUserId(String userId);
 }

@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface UsersMapper extends BaseMapper<Users> {
       public void updateStuid(String stuId,String userId);
+
 }

@@ -15,4 +15,6 @@ import io.lettuce.core.dynamic.annotation.Param;
 public interface JobsMapper extends BaseMapper<Jobs> {
 //    Alluser findByEmail(@Param("email") String email);
     Jobs findById(@Param("job_id") String email);
+
+    public Jobs selectByJuId(int JuId);
 }
