@@ -12,4 +12,9 @@
         <result column="ju_jobs" property="juJobs" />
     </resultMap>
 
+    <select id="selectByUserId" resultType="cn.ck.entity.Jobuser">
+        select *
+        from jobuser
+        where ju_users = #{0};
+    </select>
 </mapper>

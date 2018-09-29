@@ -10,6 +10,7 @@
     <!-- 全局js -->
     <script src="/static/js/jquery.min.js?v=2.1.4"></script>
     <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/js/vue.js"></script>
 
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/font-awesome.min.css" rel="stylesheet">
@@ -59,67 +60,7 @@
     </style>
 
     <!-- 搜索框样式 -->
-    <style type="text/css">
-        input {
-            font-size: 14px;
-            font-family: arial;
-            border: none;
-            background: none;
-        }
-
-        /*--这里设置输入框文字字体，并设置输入框背景和边框为无--*/
-        span.search {
-            float: left;
-            /*--将输入框放在span中并设置浮动--*/
-            padding: 0;
-            margin: 0;
-            width: 400px;
-            height: 40px;
-            /*--设置输入框的外层元素宽度和高度--*/
-            background: #fafafa;
-            color: #000000;
-            /*--设置背景颜色和输入框文字颜色--*/
-            border: 2px solid #1ab394;
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-            /*--设置边框，并将左上角和左下角设置圆角--*/
-
-        }
-
-        span.search input {
-            width: 400px;
-            height: 36px;
-            /*--设置输入框本身的宽度和高度--*/
-            line-height: 36px;
-            /*--设置输入框行距和高度相等以便垂直居中--*/
-            padding: 0 5px;
-            /*--设置输入框本身离外层的内边距，输入文字更美观--*/
-            outline: none;
-            /*--为了美观，将获取焦点时的轮廓线去掉--*/
-        }
-
-        span.button {
-            float: left;
-            /*--设置提交按钮放在span中并设置浮动--*/
-            padding: 0;
-            margin: 0;
-            border: 2px solid #1ab394;
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
-            /*--设置边框，并将右上角和右下角设置圆角--*/
-        }
-
-        span.button input {
-            height: 36px;
-            line-height: 36px;
-            /*--设置按钮本身的高度，行距和高度相等以便垂直居中--*/
-            padding: 0 12px;
-            /*--为了美观，适当设置按钮文字的左右边距--*/
-            background: #1ab394;
-            color: #fff;
-            /*--将提交按钮的背景颜色设置与边框颜色相同--*/
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/css_cwh/searchBar/searchBar.css">
 
     <!-- 浮现播放按钮样式 -->
     <link rel="stylesheet" href="/static/css/css_cwh/videoBtn/videoBtnStyle.css">
@@ -197,31 +138,30 @@
                 <div class="container">
                     <!--logo和搜索框-->
                     <div class="row">
-                        <div class="col-md-2 col-md-offset-2">
-                            <div class="ibox float-e-margins">
-                                <a href=""><img src="/static/img/img_chh/chuankerVideo1.png" alt="logo" style="height: 60px; width:180px"></a>
-                            </div>
+                        <div class="col-md-6 col-md-offset-4">
+                            <img class="img-responsive img-rounded" src="/static/img/img_chh/chuangke2.png" style="height:120px;"/>
                         </div>
-
-                        <div class="col-md-7">
-                            <div class="ibox-content" style="background:#ffffff; border-width: 0px;">
-                                <form action="">
-                                    <span class="search">
-                                        <input type="text" id="search" name="word" baiduSug="1" placeholder="请输入关键词" />
-                                        <div class="input-group-btn">
-                                            <button style="opacity:0;"></button>
-                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                            </ul>
-                                        </div>
-                                    </span>
-                                    <!--注意以上为文本框设置的placeholder属性，为文本框默认显示的文字-->
-                                    <span class="button"><input type="submit" value="创客搜索" /></span>
-                                </form>
-                            </div>
+                    </div>
+                    <!--搜索框-->
+                    <div class="row">
+                        <div class="col-md-12" style="margin-left: 28%;padding-top: 1%;">
+                            <form action="/resource/searchResult">
+                                <input type="text" name="page" value="1" style="display: none"/>
+                                <span class="search">
+                                    <input type="text" id="search" name="key" placeholder="请输入关键词" required="" v-model="key"/>
+                                    <div class="input-group-btn">
+                                        <button style="opacity:0;"></button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </span>
+                                <!--注意以上为文本框设置的placeholder属性，为文本框默认显示的文字-->
+                                <span class="button"><input type="submit" value="创客搜索" /></span>
+                            </form>
                         </div>
                     </div>
 
-                    <div style="width: 130%;height: 40px;background: #1ab394;margin-bottom:20px;margin-left: -15%;"></div>
+                    <div style="width: 130%;height: 60px;background: #1ab394;margin-bottom:30px;margin-top:30px;margin-left: -15%;"></div>
 
                     <div class="row">
                         <div class="col-md-8">
@@ -444,6 +384,74 @@
                         </div>
                     </div>
                 </div>
+                <script type="text/javascript">
+                    var res = new Vue({
+                        el:'#resources',
+                        data:{
+                            hotResource : '',
+                            key : '',
+                        },
+                        beforeCreate: function () {
+                        },
+                        created: function () {
+                        },
+                        beforeMount: function () {
+                            this.hot();
+                            this.recomend();
+                        },
+                        mounted: function () {
+                        },
+                        beforeUpdate: function () {
+                        },
+                        updated: function () {
+                        },
+                        methods: {
+                            hot : function () {
+                                // var data = "email="+vm.email;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "hotResource",
+                                    dataType: "json",
+                                    success: function(result){
+                                        if(result.code === 0){
+                                            res.hotResource = result.hotResource;
+                                        }
+                                    }
+                                });
+                            },
+                            recomend : function () {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "recommendResource",
+                                    dataType: "json",
+                                    success: function(result){
+                                        if(result.code === 0){
+                                            res.recommendResource = result.recommendResource;
+                                            // window.location.href = "/registered/second?UUID=" + result.UUID;
+                                        }
+                                    }
+                                });
+                            },
+                            // doSearch : function () {
+                            //     $.ajax({
+                            //         type: "POST",
+                            //         url: "/resource/doSearch/" + searchResult.keyWord,
+                            //         data : '',
+                            //         dataType: "json",
+                            //         success: function(result){
+                            //             if(result.code === 0){
+                            //                 searchResult.result = result.result;
+                            //             }
+                            //             else{
+                            //                 alert(result.msg);
+                            //             }
+                            //         }
+                            //     });
+                            // }
+                        }
+                    });
+                </script>
+
             </div>
         </div>
     </div>

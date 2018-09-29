@@ -64,35 +64,17 @@ var updatePhoto = function () {
     }).toDataURL('image/png');
 
     $.ajax({
-        url: '上传地址', // 要上传的地址
+        url: '/promcenter/updatepromimg', // 要上传的地址
         type: 'post',
         data: {
-            'imgData': photo
+            'dataURL': photo,
         },
         dataType: 'json',
         success: function (data) {
-            if (data.status == 0) {
-                // 将上传的头像的地址填入，为保证不载入缓存加个随机数
-                $('.user-photo').attr('src', '头像地址?t=' + Math.random());
-                $('#changeModal').modal('hide');
-            } else {
-                alert(data.info);
-            }
+        	// alert(data.msg);
+        	$("#tipModal").modal("show");
         }
     });
 }
 
 
-//后台中，Java的主要代码如下：（使用了jdk8的Base64,，如果是低版本请自行替换）
-//
-//  /**
-//   * 将Base64位编码的图片进行解码，并保存到指定目录
-//   */
-//  public static void decodeBase64DataURLToImage(String dataURL, String path, String imgName) throws IOException {
-//      // 将dataURL开头的非base64字符删除
-//      String base64 = dataURL.substring(dataURL.indexOf(",") + 1);
-//      FileOutputStream write = new FileOutputStream(new File(path + imgName));
-//      byte[] decoderBytes = Base64.getDecoder().decode(base64);
-//      write.write(decoderBytes);
-//      write.close();
-//  }

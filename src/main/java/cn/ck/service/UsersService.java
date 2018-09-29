@@ -14,4 +14,5 @@ import com.baomidou.mybatisplus.service.IService;
 public interface UsersService extends IService<Users> {
 
     public void updateStuid(String userId,String stuId);
+
 }

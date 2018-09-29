@@ -11,9 +11,12 @@
 	<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-	<link href="/static/css/css_psw/pc_sysn2.css" rel="stylesheet" />
+	<link href="/static/css/css_psw/pc_sysn12.css" rel="stylesheet" />
+	<link href="/static/css/css_psw/toPage1.css" rel="stylesheet" />
+	<script type="text/javascript" src="/static/js/js_psw/toPage.js"></script>
 	<script src="http://how2j.cn/study/vue.min.js"></script>
 	<script src="http://how2j.cn/study/axios.min.js"></script>
+	<script src="https://cdn.bootcss.com/qs/6.5.2/qs.min.js"></script>
 </head>
 
 <body>
@@ -137,8 +140,8 @@
 	</div>
 	<div class="col_right">
 		<div class="col_right_sysn_up">
-			<div class="col_right_sysn_up_1">
-				<span>共 6 条</span>
+			<div class="col_right_sysn_up_1" id="total">
+				<span>共 {{total}} 条</span>
 			</div>
 		</div>
 		<div id="templeate" style="display: none">
@@ -149,16 +152,17 @@
 				<p class="c_r_c_time">
 					{{notice.notiTime}}
 				</p>
-				<button title="删除收藏" class="btn btn-delete">
-					<i class="fa fa-remove"></i>删除</button>
+				<a title="删除收藏" href="#nowhere" class="btn btn-delete" @click="deleteNotice(notice.notiId)">
+					<i class="fa fa-remove"></i>删除</a>
 				<div class="clearfix"></div>
 			</div>
 		</div>
-		<div class="col_right_sysn_down" style="padding-bottom: 50px;" id="items">
+		<div class="col_right_sysn_down" id="items">
 			<div class="c_r_contest" id="item">
 				<notice v-for="item in notices" v-bind:notice="item"></notice>
 			</div>
 		</div>
+		<div class="page_1"></div>
 	</div>
 </div>
 <footer>
@@ -251,22 +255,62 @@
     var templeateDiv=$("#templeate").html();
     var templeateObject={
         props:['notice'],
-        template:templeateDiv
+        template:templeateDiv,
+        methods:{
+            deleteNotice:function(id){
+                var postData={
+                    notiId:id
+				}
+				axios.post('/user/delete_sysn',window.Qs.stringify(postData), {headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function (response) {
+                       if(response.data)
+                           window.location.reload();
+				});
+            }
+        }
     }
     Vue.component('notice',templeateObject);
     var url="/user/get_sysn";
     new Vue({
-        el:"#item",
+        el:"#items",
         data: {
             notices: ''
         },
         mounted:function () {
             var self=this;
             axios.get(url).then(function (response) {
-                self.notices=response.data;
+                new Vue({
+					el:'#total',
+					data:{
+					    total:response.data.total
+					}
+				})
+                self.notices=response.data.list;
+                var obj_1={
+                    obj_box:'.page_1',//翻页容器
+                    total_item:response.data.total,//条目总数
+                    per_num:response.data.pageSize,//每页条目数*/
+                    current_page:response.data.pageNum//当前页
+                };
+                page_ctrl(obj_1);
+                $(' .page_ctrl').on('click','button',function () {
+                    var that=$(this);
+                    if(that.hasClass('prev_page')){
+                        window.location.href="/user/user_sysn?start="+response.data.prePage;
+                    }
+                    else if(that.hasClass('next_page')){
+                        window.location.href="/user/user_sysn?start="+response.data.nextPage;
+                    }
+                    else if(that.hasClass('page_num')&&!that.hasClass('current_page')){
+                        window.location.href="/user/user_sysn?start="+that.html();
+                    }
+                    else if(that.hasClass('to_page_num')){
+                        window.location.href="/user/user_sysn?start="+that.siblings('.input_page_num').val();
+                    }
+                });
             })
         }
-    })
+    });
 </script>
 </body>
 </html>

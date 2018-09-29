@@ -1,9 +1,7 @@
 package cn.ck.service.impl;
 
 import cn.ck.entity.Studio;
-import cn.ck.entity.Users;
 import cn.ck.mapper.StudioMapper;
-import cn.ck.mapper.UsersMapper;
 import cn.ck.service.StudioService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

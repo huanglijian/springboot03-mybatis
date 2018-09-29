@@ -19,4 +19,6 @@ public interface JobsService extends IService<Jobs> {
 //    查询招聘表
     public List<Jobs> selectAll();
 
+    public Jobs selectByJuId(int JuId );
+
 }

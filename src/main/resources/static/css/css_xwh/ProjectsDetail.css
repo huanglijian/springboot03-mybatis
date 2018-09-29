@@ -180,13 +180,13 @@ body{
 			margin-right: 15px;
 			margin-top: 10px;
 		}
-	.NoEnding-progress-dedtil{
-		margin-right: 85px;
-		margin-left: 66px;
-	}
-	.ending-progress-dedtil{
-		margin-left: 66px;;
-	}
+   .NoEnding-progress-dedtil{
+	margin-right: 115px;
+	margin-left:  115px;
+}
+   .ending-progress-dedtil{
+	margin-left: 102px;
+}
 	.ProjectMainAll{
 		width: 854px;
 	}

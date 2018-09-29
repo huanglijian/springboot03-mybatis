@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="renderer" content="webkit">
+
+	<title>后台主题--原创中心</title>
+
+	<meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+	<meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+	<!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+	<link rel="shortcut icon" href="favicon.ico">
+	<link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+	<link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+	<link href="css/animate.css" rel="stylesheet">
+
+	<link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+	<link href="css.css" rel="stylesheet" />
+	<link href="css/style.css?v=4.1.0" rel="stylesheet">
+	<script src="js/bootstrap.min.js"></script>
+	<script src="http://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+	
+		 
+           function allcheck(){
+            //先得到所有的checkbox
+            var ck=document.getElementsByName("ArticleCheckbox");//得到一组checkbox  相当于数组
+            //循环这一组checkbox让每一个checkbox选中
+            for(var i=0;i<ck.length;i++){
+                var c=ck[i];//得到一个checkbox
+                c.checked=true;//true代表选中
+            }
+        }
+		
+		
+	</script>
+	
+	<style type="text/css">
+		
+  textarea{
+  			font-family: "微软雅黑";
+  			font-size:15px;
+  	/* 	color: seagreen; */
+  		color: purple;
+  		
+  resize: none;
+  		}
+  		th{
+  			text-align: center;
+  		}
+  		td{
+  			text-align: center;
+  		}
+    .DelButton{
+  		
+  		font-size: 20px;
+  		margin: 40px;
+  		color: blue;
+  		outline:1;
+  
+  	}
+  	.CancelButton{
+  			font-size: 16px;
+  			margin: 40px;
+  			color: green;
+  			padding-bottom: 0px;
+  			
+  	
+  		}
+  	 button:focus{
+  		outline:0;
+  	}
+  	/* table 的颜色 */
+  	button{
+  	   border:0;
+  		 background: aliceblue;
+  	}
+  	</style>
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+	<div id="wrapper">
+		<!--左侧导航开始-->
+		<nav class="navbar-default navbar-static-side" role="navigation">
+			<div class="nav-close">
+				<i class="fa fa-times-circle"></i>
+			</div>
+			<div class="sidebar-collapse">
+				<ul class="nav" id="side-menu">
+					<li class="nav-header">
+						<div class="dropdown profile-element">
+							<span>
+								<img alt="image" class="img-circle" src="img/profile_small.jpg" />
+							</span>
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<span class="clear">
+									<span class="block m-t-xs">
+										<strong class="font-bold">Beaut-zihan</strong>
+									</span>
+									<span class="text-muted text-xs block">超级管理员
+										<b class="caret"></b>
+									</span>
+								</span>
+							</a>
+							<ul class="dropdown-menu animated fadeInRight m-t-xs">
+								<li>
+									<a class="J_menuItem" href="form_avatar.html">修改头像</a>
+								</li>
+								<li>
+									<a class="J_menuItem" href="profile.html">个人资料</a>
+								</li>
+								<li>
+									<a class="J_menuItem" href="contacts.html">联系我们</a>
+								</li>
+								<li>
+									<a class="J_menuItem" href="mailbox.html">信箱</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="login.html">安全退出</a>
+								</li>
+							</ul>
+						</div>
+						<div class="logo-element">H+
+						</div>
+					</li>
+					<li>
+						<a href="#">
+							<i class="fa fa-home"></i>
+							<span class="nav-label">主页</span>
+							<span class="fa arrow"></span>
+						</a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a class="J_menuItem" href="Backstage-Course.html" data-index="0">课程</a>
+							</li>
+							<li>
+								<a class="J_menuItem" href="Backstage-Article.html">原创中心</a>
+							</li>
+						</ul>
+
+					</li>
+
+				</ul>
+			</div>
+		</nav>
+		<!--左侧导航结束-->
+		<!--右侧部分开始-->
+		<div id="page-wrapper" class="gray-bg dashbard-1">
+			<div class="row border-bottom">
+				<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+					<div class="navbar-header">
+						<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#">
+							<i class="fa fa-bars"></i>
+						</a>
+						<form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+							<div class="form-group">
+								<input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search">
+							</div>
+						</form>
+					</div>
+					<ul class="nav navbar-top-links navbar-right">
+						<li class="dropdown">
+							<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+								<i class="fa fa-bell"></i>
+								<span class="label label-primary">8</span>
+							</a>
+							<ul class="dropdown-menu dropdown-alerts">
+								<li>
+									<a href="mailbox.html">
+										<div>
+											<i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
+											<span class="pull-right text-muted small">4分钟前</span>
+										</div>
+									</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="profile.html">
+										<div>
+											<i class="fa fa-qq fa-fw"></i> 3条新回复
+											<span class="pull-right text-muted small">12分钟钱</span>
+										</div>
+									</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<div class="text-center link-block">
+										<a class="J_menuItem" href="notifications.html">
+											<strong>查看所有 </strong>
+											<i class="fa fa-angle-right"></i>
+										</a>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="hidden-xs">
+							<a href="index_v1.html" class="J_menuItem" data-index="0">
+								<i class="fa fa-cart-arrow-down"></i> 购买</a>
+						</li>
+						<li class="dropdown hidden-xs">
+							<a class="right-sidebar-toggle" aria-expanded="false">
+								<i class="fa fa-tasks"></i> 主题
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<div class="row content-tabs">
+				<button class="roll-nav roll-left J_tabLeft">
+					<i class="fa fa-backward"></i>
+				</button>
+				<nav class="page-tabs J_menuTabs">
+					<div class="page-tabs-content">
+						<a href="javascript:;" class="active J_menuTab" data-id="index_v1.html">首页</a>
+					</div>
+				</nav>
+				<button class="roll-nav roll-right J_tabRight">
+					<i class="fa fa-forward"></i>
+				</button>
+				<div class="btn-group roll-nav roll-right">
+					<button class="dropdown J_tabClose" data-toggle="dropdown">关闭操作
+						<span class="caret"></span>
+
+					</button>
+					<ul role="menu" class="dropdown-menu dropdown-menu-right">
+						<li class="J_tabShowActive">
+							<a>定位当前选项卡</a>
+						</li>
+						<li class="divider"></li>
+						<li class="J_tabCloseAll">
+							<a>关闭全部选项卡</a>
+						</li>
+						<li class="J_tabCloseOther">
+							<a>关闭其他选项卡</a>
+						</li>
+					</ul>
+				</div>
+				<a href="login.html" class="roll-nav roll-right J_tabExit">
+					<i class="fa fa fa-sign-out"></i> 退出</a>
+			</div>
+			<div class="row J_mainContent" id="content-main">
+				<h2>原创中心</h2>
+				文章的id 文章的增查 文章的创建时间 分页
+				<br>
+
+				<br />
+				<select style="width: 150px; height: 25px; margin-right: 10px;" onchange="selectOnchang(this)">
+					<option>文章的iD</option>
+					<option>课程名称</option>
+					<option>文章的创建时间</option>
+					<option>简介</option>
+					<option>文章标签</option>
+          </select>
+					<input style="width: 150px; height: 25px; /> 查询
+					<a class="btn btn-success icon-glyphicon-search time-search  service-glyphicon-search" href="javascript:void(0);">
+						<i class="glyphicon glyphicon-search"></i>
+					</a>
+					<table class="table table-hover"  >
+						<tr>
+							<th><input type="checkbox" id="ArticleCheckboxAll" onclick="allcheck()" value="??"/>全选</th>
+							<th>文章的id</th>
+							<th>文章名称</th>
+							<th>文章的作者</th>
+							<th>文章标签</th>
+							<th>简介</th>
+							<th>文章的创建时间</th>
+							<th>操作</th>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="ArticleCheckbox" id="ArticleCheckbox1" /></td>
+							<td>10001</td>
+							<td>你知道吗.....</td>
+							<td>夏某人</td>
+							<td>2018-9-12 12:00:00</td>
+							<td>
+							<span>	
+							<button type="button" data-toggle="modal" data-target="#ArticleIntroduction">
+								<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;查看详情</button>
+							</span>
+							</td>
+							<td>无</td>
+							<td>
+								
+						<span><button  type="button" data-toggle="modal" data-target="#ArticleDelete">
+						<i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;删除</button> </span>
+						</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="ArticleCheckbox" id="ArticleCheckbox2"  /></td>
+							<td>10002</td>
+							<td>文章的id</td>
+							<td>课程iD</td>
+							<td>夏大爷</td>
+							<td>
+							<span>	
+							<button type="button" data-toggle="modal" data-target="#ArticleIntroduction">
+								<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;查看详情</button>
+							</span>
+							</td>
+							<td>养生</td>
+							<td><span><button  type="button" data-toggle="modal" data-target="#ArticleDelete">
+						<i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;删除</button> </span>
+						</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="ArticleCheckbox" id="ArticleCheckbox3" /></td>
+							<td>10103</td>
+							<td>文章的id</td>
+							<td>课程iD</td>
+							<td>大爷</td>
+							<td>
+							<span>	
+							<button type="button" data-toggle="modal" data-target="#ArticleIntroduction">
+								<i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;查看详情</button>
+							</span>
+							</td>
+							<td>无</td>
+							<td><span><button  type="button" data-toggle="modal" data-target="#ArticleDelete">
+						<i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;删除</button> </span>
+						</td>
+						</tr>
+					</table>
+					<button  data-toggle="modal" data-target="#ArticleDeleteMore"  class="btn btn-w-m btn-primary" >
+						<i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
+
+					<nav aria-label="Page navigation" style="float: right;">
+						<ul class="pagination">
+							<li class="disabled">
+								<a href="#" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">1</a>
+							</li>
+							<li>
+								<a href="#">2</a>
+							</li>
+							<li>
+								<a href="#">3</a>
+							</li>
+							<li>
+								<a href="#">4</a>
+							</li>
+							<li>
+								<a href="#">5</a>
+							</li>
+							<li>
+								<a href="#" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+			</div>
+	
+
+			<!--弹出删除狂  -->
+						<div class="modal fade" id="ArticleDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						<div class="modal-dialog" style="position: relative;left:10%;top:25%;">
+										<div class="modal-content" style="width: 300px;">
+											<div class="modal-header">
+												<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+												<h4 class="modal-title">删除提示</h4>
+											</div>
+											<div class="modal-body" >
+												<p>您正在进行删除操作！</p>
+											</div>
+											<div class="modal-footer">
+												<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+												<button class="btn btn-primary" type="button">删除</button>
+											</div>
+										</div><!-- /.modal-content -->
+									</div><!-- /.modal-dialog -->
+						</div>
+			<!--弹出简介详情  -->
+						<div class="modal inmoda1" id="ArticleIntroduction" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="col-sm-4" style="position: relative;left:40%;top:10%;">
+								<div class="ibox float-e-margins" style="display: table-cell; vertical-align: middle; text-align: center;">
+									<div class="ibox-title">
+											<h5>简介</h5>
+										<button data-dismiss="modal" class="close" type="button">
+											<span aria-hidden="true">×</span><span class="sr-only">Close</span>
+											</button>	
+											
+									</div>
+			
+									<div class="ibox-content">
+										<textarea rows="20" cols="50">
+											来给大家做一个本话登场的学校和重要的角色基本介绍吧【小电视_思索】 yanaginagi（やなぎなぎ）（1987年5月31日－）是一位多才的同人音乐创作歌手，除了作词、作曲和编曲之外， 还能演奏、混音以及专辑封面设计。关西出身，目前主要从事同人音乐活动。
+											於2011年11月尾开设了自己的个人官方网站（扩展阅读第一个）， 正式出道，成为了环球唱片旗下的商业歌手。在个人的音乐风格上，追求用音乐描绘出日常风景和怀旧景观，以及童话的幻想感。
+										</textarea>
+			
+									</div>
+			
+								</div>
+			
+							</div>
+						</div>
+<!--弹出批量删除框  -->
+														<div class="modal fade" id="ArticleDeleteMore" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+														<div class="modal-dialog" style="position: relative;left:10%;top:25%;">
+																		<div class="modal-content" style="width: 300px;">
+																			<div class="modal-header">
+																				<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+																				<h4 class="modal-title">删除提示</h4>
+																			</div>
+																			<div class="modal-body" >
+																				<p>您正在进行批量删除操作！</p>
+																			</div>
+																			<div class="modal-footer">
+																				<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+																				<button class="btn btn-primary" type="button">删除</button>
+																			</div>
+																		</div><!-- /.modal-content -->
+																	</div><!-- /.modal-dialog -->
+														</div>
+
+			<!-- 全局js -->
+			<script src="js/jquery.min.js?v=2.1.4"></script>
+			<script src="js/bootstrap.min.js?v=3.3.6"></script>
+			<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+			<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+			<script src="js/plugins/layer/layer.min.js"></script>
+
+			<!-- 自定义js -->
+			<script src="js/hplus.js?v=4.1.0"></script>
+			<script type="text/javascript" src="js/contabs.js"></script>
+
+			<!-- 第三方插件 -->
+			<script src="js/plugins/pace/pace.min.js"></script>
+			<script src="js/jquery.min.js?v=2.1.4"></script>
+
+
+			<!-- 自定义js -->
+			<script src="js/content.js?v=1.0.0"></script>
+
+
+			<!-- Bootstrap table -->
+			<script src="js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+			<script src="js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+			<script src="js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+			<!-- Peity -->
+			<script src="js/demo/bootstrap-table-demo.js"></script>
+
+			<script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+
+</body>
+
+</html>

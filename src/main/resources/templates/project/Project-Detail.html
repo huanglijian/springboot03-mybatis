@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html lang="en" xmlns:bottom="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>项目详情</title>
+	
+<script src="/static/js/bootstrap.min.js"></script>
+<link href="http://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css " rel="stylesheet">
+<link href="/static/css/bootstrap.css" rel="stylesheet">
+<script src="/static/js/bootstrap.min.js"></script>
+
+
+<link href="/static/css/css_xwh/bs-is-fun.css" rel="stylesheet" />
+<script src="/static/js/js_xwh/brush.js"></script>
+<!-- <link href="css/style.css" rel="stylesheet"/> -->
+<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
+	<link href="/static/css/css_xwh/ProjectsDetail.css" rel="stylesheet" />
+	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+
+	
+	
+	
+		<header>
+					<div class="container-fluid container-fluid_up">
+						<div class="row_up">
+							<ul class="list-unstyled">
+								<li>
+									<a href="#">帮助中心</a>
+								</li>
+								<li>
+									<a href="#">注册</a>
+								</li>
+								<li>
+									<a href="#">登录</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="container-fluid container-fluid_main">
+						<div class="row_main">
+							<div class="main_logo">
+								<img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
+							</div>
+							<div class="main_right">
+								<ul class="nav_psw list-unstyled">
+									<li class="active">
+										<a>首 页</a>
+									</li>
+									<li>
+										<a>项目大厅</a>
+									</li>
+									<li>
+										<a>服务大厅</a>
+									</li>
+									<li>
+										<a>创客讲堂</a>
+									</li>
+									<li>
+										<a>原创中心</a>
+									</li>
+									<li>
+										<a>荣誉中心</a>
+									</li>
+									<li>
+										<a>在线求职</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</header>
+	<body>	
+<div class="container-fluid_body" >
+		<div class="row">
+			<div class="ProjectProgress" id="ProgressAll">
+
+<ul class="nav nav-pills nav-justified step step-progress">
+    <li id="Progress-01li" v-bind:class="{active: progressState1}">
+
+        <a id="progress01" >发包方提交了项目</a>
+    </li>
+    <li id="Progress-03li"  v-bind:class="{active: progressState2}">
+        <a id="progress03">发包方选定承接人,项目进入开发</a>
+    </li>
+    <li id="Progress-04li"  v-bind:class="{active: progressState3}">
+        <a id="progress04">开发完成</a>
+    </li>
+</ul>
+
+				<div class="progress-dedtil">
+				<span class="NoEnding-progress-dedtil" id="progressSpan01">{{creattime}}</span>
+				<span class="NoEnding-progress-dedtil" id="progressSpan03" >{{strattime|dateFormat}}</span>
+				<span class="ending-progress-dedtil"   id="progressSpan04" >{{endtime|dateFormat}}</span>
+
+				</div>
+</div>
+			
+
+
+
+        <div class="col-xs-10 col-md-8 ProjectMainAll" id="ProjectMainAll">
+	<div class="ProjectMian">
+				
+		<div class="ProjectTitle" id="ProjectTitle">
+				<p class="title">{{title}}
+				<span class="status">{{State}}<span  v-if="State=='竞标中'">:剩余{{day}}天</span></span></p>
+				</div>
+				<div class="ProjectOwner" id="ProjectOwner">
+					<p>	发布方</span>
+						<a>{{promulgator}}</a>
+						<span>{{creattime}}</span>
+			    </p>
+			</div>
+				<div class="ProjectMes">
+					<div class="ProjectMes-1">
+						<span>{{ProjectType}}</span>
+						 <p>项目类型</p>
+					</div>
+					<div class="ProjectMes-1">
+					
+						<span>{{ProjectMoney}}</span>
+						<p>项目预算</p>
+					</div>
+					<div class="ProjectMes-1">
+						<span>{{ ProjectNeedDays }}天</span>
+						<p>项目预计开发时间</p>
+					</div>
+				</div>
+				<div class="ProjectBiaoqian">
+
+					<div class="single"  v-for="tag in tags" >
+						<div class="tag">
+						{{tag}}
+						</div>
+					    <div class="triangle">
+						</div>
+						</div>
+
+					</div>
+				<div class="ProjectDetail1" style="clear: both;">
+				<span>项目内容描述</span>
+				
+				<div class="ProjectDetail2">
+               &nbsp; &nbsp;
+				{{intro}}
+
+                <div v-if="file==null">
+
+				</div>
+				<div v-else>
+				相关文件下载
+					<br>
+					<a :href=file>123</a>
+				</div>
+
+				</div>
+				
+				</div>		
+			</div>
+
+			
+			<div class="ProjectJingbiao" id="ProjectJingbiao01" v-if="State=='竞标中'" >
+				<div class="col-sm-12">
+				<div class="col-sm-9  JingbiaoShow">
+				竞标人数：<span>{{people}}</span>   &nbsp;&nbsp;&nbsp;&nbsp;
+			  剩余竞标席位：<span>{{10-people}}</span>
+				</div>
+				<div class="col-sm-3 JingbiaoButton">
+				<div class="JingbiaoButton-inner">
+				<a href=""><span class="glyphicon glyphicon-king">我要竞标</span></a>
+				</div>
+				</div>
+				</div>
+			</div>
+			<div class="ProjectJingbiao" id="ProjectJingbiao02" v-if="State=='开发完成'" >
+				<div class="col-sm-12" style="text-align: center;
+				line-height: 45px; font-size: 20px; font-family: '微软雅黑'; font-weight: 100;">
+					竞标已结束，该项目已经由<a>{{studio}}</a>开发
+				</div>
+			</div>
+
+
+			
+				<div class="ProjectTuijian">
+				<span class="ProjectTuijian-Span">相关项目推荐</span>	
+				<div class="ProjectTuijian2">	
+				<ul class="list-unstyled">
+					<!--<li v-for="pro in pros">{{pro}}</li>-->
+					<!--<li v-for="x in pros"><a :href=x>{{x}}</a></li>-->
+
+		<li v-for="item,y in mags"> <a :href=item.href>{{item.name}}</a>&nbsp;&nbsp;
+			项目预算：<span class="ProjectYusuan">{{item.money}}</span>  技术要求
+			<span class="ProjectNeed">{{item.tag}}</span>   <span class="ProjectTuijian2-Span">
+				竞标中: 于{{item.restday}}天后截止竞标   </span></li>
+
+
+				</ul>
+				<p style="text-align: center;"><a style="">更多项目 > </a></p>
+				</div>
+				</div>
+		</div>
+		
+   <div class="col-xs-8 col-md-8 ProjectNoteAll">
+		
+		<div class="ProjectNote1">
+			<span>竞标须知</span>
+			<p><a href="#">为什么要付费竞标?</a></p>
+			<p><a href="#">付费竞标规则</a></p>
+			<p><a href="#">什么情况下竞标退费?</a></p>
+			<p><a href="#">如何提高竞标成功率?</a></p>
+		</div>
+		<div class="ProjectNote2">
+			如您有任何疑问 请咨询QQ客服<br/>
+			客服QQ<br/>
+			QQ客服1: &nbsp;&nbsp;<a href="#"><span class="glyphicon glyphicon-user">与我交流</span><br></a>
+			QQ客服2: &nbsp;&nbsp;<a href="#"><span class="glyphicon glyphicon-user">与我交流</span></a>
+		</div>
+		<div class="ProjectNote3">
+		  	<p>客服邮箱</p>
+			 <span>782788572@qq.com</span>
+		</div>
+		<div class="ProjectNote4">
+		    <p>客服电话</p>
+        <span>17876253455</span>
+		</div>
+		</div>
+		
+		</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON("/project/projectDetailHtml", function (result) {
+
+
+            new Vue({
+                el: '#ProgressAll',
+                data: {
+                    progressState1:result.progressState1,
+                    progressState2:result.progressState2,
+                    progressState3:result.progressState3,
+                    isactive:true,
+                    strattime: result.project.projStarttime,
+					endting:result.project.projEndtime,
+                    creattime: result.project.projCreattime.toString().substring(0,10),
+                    // endting:result.project.projEndtime.toString().substring(0,10),
+                    // strattime: result.project.projCreattime.toString().substring(0,10),
+					 // startday:result.startday,
+					 // endday:result.endday,
+                },
+                filters: {
+                    dateFormat:function(val){
+                        if(val==null)
+                            return null;
+                        var d = new Date(val);
+                        var year = d.getFullYear();
+                        var month = d.getMonth() + 1;
+                        var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                        var hour = d.getHours();
+                        var minutes = d.getMinutes();
+                        var seconds = d.getSeconds();
+                        return  year+ '-' + month + '-' + day ;
+                    },
+                }
+            })
+
+
+            // var project=reslut.project;
+            new Vue({
+                el: '#ProjectMainAll',
+                data: {
+                    title: result.project.projName,
+                    State: result.project.projState,
+                    day :result.restday,
+                    promulgator: result.promulgator,
+                    creattime: result.project.projCreattime.toString().substring(0,10),
+                    ProjectType:  result.project.projType,
+                    ProjectMoney:  result.project.projMoney,
+                    ProjectNeedDays: result.project.projCycletime,
+                    tags: result.tags,
+                    pros: result.pros,
+					intro:result.project.projIntro,
+					people:result.people,
+                    studio:result.studioname,
+                    States:"4",
+					// files:result.file,
+					file:result.project.projFile,
+                    ids: result.ids,
+                    pros:result.pros,
+
+
+                  mags:{
+					  object:{
+                            name: result.pros[0],
+						    tag : result.tag[0],
+						    href: result.ids[0],
+						    money:result.money[0],
+						    restday:result.restdays[0],
+						},
+                      object1:{
+                          name: result.pros[1],
+                          tag : result.tag[1],
+                          href: result.ids[1],
+                          money:result.money[1],
+                          restday:result.restdays[1],
+                      },
+                      object2:{
+                          name: result.pros[2],
+                          tag : result.tag[2],
+                          href: result.ids[2],
+                          money:result.money[2],
+                          restday:result.restdays[2],
+                      },
+                      object3:{
+                          name: result.pros[3],
+                          tag : result.tag[3],
+                          href: result.ids[3],
+                          money:result.money[3],
+                          restday:result.restdays[3],
+                      },
+                      object4:{
+                          name: result.pros[4],
+                          tag : result.tag[4],
+                          href: result.ids[4],
+                          money:result.money[4],
+                          restday:result.restdays[4],
+                      }
+
+				  }
+
+                }
+
+            })
+
+
+
+        });
+    });
+
+
+    // 加载进度条的判断方法
+    // function Process()
+    // {
+    //
+    //     // $("#ProjectJingbiao01").hide();
+    //     // $("#ProjectJingbiao02").hide();
+    //     // $("#ProjectJingbiao02").show();
+    //     var status = 1;
+    //     var str01 = '发包方提交了项目1';  var strSpan01 = '2018-8-8';
+    //     var str02 = '审批通过，项目发布'; var strSpan02 = '2018-8-13';
+    //     var str03 = '发包方选定承接人,项目进入开发'; var strSpan03 = '2018-8-19';
+    //     var str04 = '开发完成'; var strSpan04 = '2018-8-27';
+    //
+    //     document.getElementById('progress01').innerHTML=str01;
+    //     document.getElementById('progress02').innerHTML=str02;
+    //     document.getElementById('progress03').innerHTML=str03;
+    //     document.getElementById('progress04').innerHTML=str04;
+    //     document.getElementById('progressSpan01').innerHTML=strSpan01;
+    //     document.getElementById('progressSpan02').innerHTML=strSpan02;
+    //     document.getElementById('progressSpan03').innerHTML=strSpan03;
+    //     document.getElementById('progressSpan04').innerHTML=strSpan04;
+    //     if(status=1){
+    //         $("#Progress-01li").addClass("active");
+    //         $("#Progress-02li").addClass("active");
+    //         // $("#Progress-03li").addClass("active");
+    //         // $("#Progress-04li").addClass("active");
+    //     }
+    //
+    //
+    // }
+    // window.onload = Process;
+</script>
+
+
+
+
+
+
+
+</div>
+</body>
+			<footer>
+				<div class="container-fluid_foot">
+					<div class="foot_panel">
+						<div class="foot_panel_left">
+							<div class="img">
+								<a href="#">
+									<img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+								</a>
+							</div>
+							<div class="beian">
+								<p>创客网 © 2018－
+									<br>肇庆学院东软实训班第三组版权所有
+									<br>[粤ICP备xxxxxxx号-x] 标识
+									<br> 粤公网安备xxxxxxxxxx号</p>
+							</div>
+						</div>
+						<div class="foot_panel_right">
+							<div class="foot_panel_right_row">
+								<ul class="list-unstyled">
+									<li>
+										<h4>新手指南</h4>
+										<a href="/help/register">注册登录问题</a>
+										<br />
+										<a href="/help/process">项目交易流程</a>
+										<br />
+										<a href="/help/fund">充值提款问题</a>
+										<br />
+										<a href="help/about_agreement">用户注册协议</a>
+										<br />
+										<a href="/help/bid_payings">为何付费竞标</a>
+									</li>
+									<li>
+										<h4>特色服务</h4>
+										<a href="/help/renzheng">实名认证</a>
+										<br />
+										<a href="/help/searchs">精准搜索</a>
+										<br />
+										<a href="/help/workhour">小时报价</a>
+										<br />
+										<a href="/help/bumanyituikuan">不满意退款</a>
+										<br />
+										<a href="/help/bid_card">竞标卡规则</a>
+									</li>
+									<li>
+										<h4>评价信誉</h4>
+										<a href="/help/pingjiadengm">操作演示</a>
+										<br />
+										<a href="/help/service_payings">服务收费</a>
+										<br />
+										<a href="/help/evaluations">用户评价</a>
+										<br />
+										<a href="/help/jifens">积分体系</a>
+										<br />
+										<a href="/help/controversy">争议解决</a>
+									</li>
+									<li>
+										<h4>答疑中心</h4>
+										<a href="/help/pro_relase">项目发布问题</a>
+										<br />
+										<a href="/help/bid_joinings">参与竞标问题</a>
+										<br />
+										<a href="/help/pro_runnings">项目开发问题</a>
+										<br />
+										<a href="/help/pro_done">项目完工问题</a>
+										<br />
+										<a href="/help/it_realse">信息发布问题</a>
+									</li>
+									<li>
+										<h4>联系我们</h4>
+										<a href="/help/about_us">关于SXSOFT</a>
+										<br />
+										<a href="/help/about_company">公司概况</a>
+										<br />
+										<a href="/help/contact_us">联系方式</a>
+										<br />
+										<a href="/help/about_advertising">广告投放</a>
+										<br />
+										<a href="/help/links">友情链接</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		
+	
+	</html>
+					

@@ -76,10 +76,10 @@
                     </a>
                     <ul id="personcenter" class="panel-collapse collapse in">
                         <li class="current">
-                            <a href="prom_Account.html">账户</a>
+                            <a href="/pcjump/account">账户</a>
                         </li>
                         <li>
-                            <a href="prom_homepage.html">个人主页</a>
+                            <a href="/pcjump/projhomepage">个人主页</a>
                         </li>
                         <li>
                             <a href="prom_updateprom.html">修改资料</a>
@@ -147,11 +147,12 @@
         <div class="right_contest">
             <div class="r_c_top">
                 <div class="r_c_t_left">
-                    <div class="r_c_t_l_img">
+                    <div class="r_c_t_l_img" >
                         <div class="r_c_t_l_updateimg">
-                            <a href="prom_updatephoto.html">更换头像</a>
+                            <a href="/pcjump/projpromimg" >更换头像</a>
                         </div>
-                        <img :src="src" alt="" class="imgsize" />
+                        <!--<img v-if="num.prom && num.prom.promImg" :src="'/promcenter/previewsrc/' + num.prom.promImg" alt="" class="imgsize" />-->
+                        <img v-if="prom.promImg" :src="'/promcenter/previewsrc/' + prom.promImg" alt="" class="imgsize" />
                     </div>
                     <div class="r_c_t_l_pcData">
                         <a class="pcDatabtn" href="prom_updateprom.html">修改资料</a>
@@ -159,12 +160,12 @@
                 </div>
                 <div class="r_c_t_right">
                     <div class="r_c_t_r_top">
-                        <h4 v-if="account.prom && account.prom.promName">{{account.prom.promName}}</h4>
+                        <h4 >{{prom.promName}}</h4>
                     </div>
                     <div class="r_c_t_r_middle">
                         <div class="r_c_t_r_m_left">
                             <h3>账户余额</h3>
-                            <h4 v-if="account.account && account.account.accMoney">{{account.account.accMoney}}</h4>
+                            <h4 >{{account.accMoney}}</h4>
                         </div>
                         <div class="r_c_t_r_m_middle">
                             <a class="a1" href="prom_priManage.html">充值</a>
@@ -181,27 +182,27 @@
                         <ul class="r_c_t_r_b_ul">
                             <li class="">
                                 <span>发布总数</span>
-                                <h4>0</h4>
+                                <h4>{{num.allnum}}</h4>
                             </li>
                             <li>
-                                <span>完工项目</span>
-                                <h4>0</h4>
+                                <span>竞标中项目</span>
+                                <h4>{{num.bidnum}}</h4>
                             </li>
                             <li>
                                 <span>开发中项目</span>
-                                <h4>0</h4>
+                                <h4>{{num.beingnum}}</h4>
                             </li>
                             <li>
-                                <span>超时项目</span>
-                                <h4>0</h4>
+                                <span>中止项目</span>
+                                <h4>{{num.pausenum}}</h4>
+                            </li>
+                            <li>
+                                <span>完工项目</span>
+                                <h4>{{num.finishnum}}</h4>
                             </li>
                             <li>
                                 <span>失败项目</span>
-                                <h4>0</h4>
-                            </li>
-                            <li>
-                                <span>交易金额</span>
-                                <h4>0.00</h4>
+                                <h4>{{num.failnum}}</h4>
                             </li>
                         </ul>
                     </div>
@@ -215,16 +216,16 @@
                         <th>项目</th>
                         <th>项目状态</th>
                         <th>项目开始日期</th>
-                        <th>项目结束日期</th>
+                        <th>承接工作室</th>
                         <th>操作</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-for="p in project">
                     <tr>
-                        <td>创客中心项目设计</td>
-                        <td>待完成</td>
-                        <td>2018/09/06 20:00</td>
-                        <td>2018/09/16 20:00</td>
+                        <td>{{p.projName|fontfilter}}</td>
+                        <td>{{p.projState}}</td>
+                        <td>{{p.projStarttime|dateFormat}}</td>
+                        <td>{{p.projStudio}}</td>
                         <td>
                             <button type="button" class="btn btn-sm" id="table_btn">查看详情</button>
                         </td>
@@ -312,7 +313,10 @@
     var vm = new Vue({
         el: '#right',
         data: {
+            prom:'',
             account: '',
+            num:'',
+            project:'',
             src:'',
         },
         created: function () {
@@ -321,12 +325,42 @@
                 url: '/promcenter/account',
                 datatype:'json',
                 success: function (result) {
-                    vm.account = result;
+                    console.log(result);
+                    vm.num=result;
+                    vm.prom = result.prom
+                    vm.account = result.account;
+                    vm.project=result.project;
                     vm.src=result.prom.promImg;
                 }
             })
         },
-
+        filters: {
+            fontfilter: function (value) {
+                if(value&& value.length > 10) {
+                    value= value.substring(0,10)+ '...';
+                }
+                return value;
+            },
+            dateFormat:function(val){
+                var d = new Date(val);
+                var year = d.getFullYear();
+                var month = d.getMonth() + 1;
+                var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                var hour = d.getHours();
+                var minutes = d.getMinutes();
+                var seconds = d.getSeconds();
+                return  year+ '-' + month + '-' + day +' '+ hour + ':' +minutes ;
+            },
+            statechange:function (vaule) {
+                if(vaule=='发布者中止'){
+                    vaule='我方发起项目中止';
+                }
+                else if(vaule=='承接方中止'){
+                    vaule='对方发起项目中止';
+                }
+                return vaule;
+            },
+        },
     })
 
 </script>

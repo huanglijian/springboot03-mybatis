@@ -25,66 +25,7 @@
     <link rel="stylesheet" href="/static/css/css_cwh/videoBtn/videoBtnStyle.css">
 
     <!-- 搜索框样式 -->
-    <style type="text/css">
-        input {
-            font-size: 14px;
-            font-family: arial;
-            border: none;
-            background: none;
-        }
-
-        /*--这里设置输入框文字字体，并设置输入框背景和边框为无--*/
-        span.search {
-            float: left;
-            /*--将输入框放在span中并设置浮动--*/
-            padding: 0;
-            margin: 0;
-            width: 400px;
-            height: 40px;
-            /*--设置输入框的外层元素宽度和高度--*/
-            background: #fafafa;
-            color: #000000;
-            /*--设置背景颜色和输入框文字颜色--*/
-            border: 2px solid #1ab394;
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-            /*--设置边框，并将左上角和左下角设置圆角--*/
-        }
-
-        span.search input {
-            width: 400px;
-            height: 36px;
-            /*--设置输入框本身的宽度和高度--*/
-            line-height: 36px;
-            /*--设置输入框行距和高度相等以便垂直居中--*/
-            padding: 0 5px;
-            /*--设置输入框本身离外层的内边距，输入文字更美观--*/
-            outline: none;
-            /*--为了美观，将获取焦点时的轮廓线去掉--*/
-        }
-
-        span.button {
-            float: left;
-            /*--设置提交按钮放在span中并设置浮动--*/
-            padding: 0;
-            margin: 0;
-            border: 2px solid #1ab394;
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
-            /*--设置边框，并将右上角和右下角设置圆角--*/
-        }
-
-        span.button input {
-            height: 36px;
-            line-height: 36px;
-            /*--设置按钮本身的高度，行距和高度相等以便垂直居中--*/
-            padding: 0 12px;
-            /*--为了美观，适当设置按钮文字的左右边距--*/
-            background: #1ab394;
-            color: #fff;
-            /*--将提交按钮的背景颜色设置与边框颜色相同--*/
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/css_cwh/searchBar/searchBar.css">
 </head>     
 
 <body class="gray-bg top-navigation">
@@ -138,25 +79,24 @@
             </div>
         </div>
     </header>
-    
+
     <div id="wrapper">
         <div id="page-wrapper" class="gray-bg" style="background:#ffffff">
             <div class="wrapper wrapper-content">
                 <div class="container">
-
                     <!--logo和搜索框-->
                     <div class="row">
-                        <div class="col-md-2 col-md-offset-2">
-                            <div class="ibox float-e-margins">
-                                <a href="myindex.html"><img src="/static/img/img_chh/chuangke.png" alt="logo" style="height: 80px; width:180px"></a>
-                            </div>
+                        <div class="col-md-6 col-md-offset-4">
+                            <img class="img-responsive img-rounded" src="/static/img/img_chh/chuangke2.png" style="height:120px;"/>
                         </div>
-
-                        <div class="col-md-8">
-                            <div class="ibox-content" style="background:#ffffff; border-width: 0px;">
-
+                    </div>
+                    <!--搜索框-->
+                    <div class="row">
+                        <div class="col-md-12" style="margin-left: 28%;padding-top: 1%;">
+                            <form action="/resource/searchResult">
+                                <input type="text" name="page" value="1" style="display: none"/>
                                 <span class="search">
-                                    <input type="text" id="search" name="word" baiduSug="1" placeholder="请输入关键词" />
+                                    <input type="text" id="search" name="key" placeholder="请输入关键词" required="" v-model="key"/>
                                     <div class="input-group-btn">
                                         <button style="opacity:0;"></button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -165,16 +105,15 @@
                                 </span>
                                 <!--注意以上为文本框设置的placeholder属性，为文本框默认显示的文字-->
                                 <span class="button"><input type="submit" value="创客搜索" /></span>
-
-                            </div>
+                            </form>
                         </div>
                     </div>
 
-                    <div style="width: 130%;height: 40px;background: #1ab394;margin-bottom:20px;margin-left: -15%;"></div>
+                    <div style="width: 130%;height: 40px;background: #1ab394;margin-bottom:30px;margin-top:30px;margin-left: -15%;"></div>
 
                     <!-- 轮播 -->
                     <div class="row">
-                        <div class="col-md-12" style="padding-left: 5%">
+                        <div class="col-md-12" style="padding-left: 3%">
                             <div class="trent-slider">
                                 <div class="t-slide current-t-slide">
                                     <img src="/static/img/img_chh/banner1.jpg" alt="" />
@@ -306,6 +245,12 @@
                                         &nbsp;|&nbsp;
                                         <small><i class="fa fa-check-circle-o"></i>{{res.resLong}}</small>
                                     </p>
+                                    <p>
+                                        <span class="badge badge-primary">Html</span>
+                                        <span class="badge badge-warning">Java</span>
+                                        <span class="badge badge-success">C++</span>
+                                        <span class="badge">Css</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -347,6 +292,12 @@
                                         &nbsp;|&nbsp;
                                         <small><i class="fa fa-check-circle-o"></i>{{res.resLong}}</small>
                                     </p>
+                                    <p>
+                                        <span class="badge badge-primary">Html</span>
+                                        <span class="badge badge-warning">Java</span>
+                                        <span class="badge badge-success">C++</span>
+                                        <span class="badge">Css</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -358,6 +309,7 @@
                             data:{
                                 hotResource : '',
                                 recommendResource : '',
+                                key : '',
                             },
                             beforeCreate: function () {
                             },
@@ -399,7 +351,23 @@
                                             }
                                         }
                                     });
-                                }
+                                },
+                                // doSearch : function () {
+                                //     $.ajax({
+                                //         type: "POST",
+                                //         url: "/resource/doSearch/" + searchResult.keyWord,
+                                //         data : '',
+                                //         dataType: "json",
+                                //         success: function(result){
+                                //             if(result.code === 0){
+                                //                 searchResult.result = result.result;
+                                //             }
+                                //             else{
+                                //                 alert(result.msg);
+                                //             }
+                                //         }
+                                //     });
+                                // }
                             }
                         });
                     </script>
@@ -497,8 +465,6 @@
             // idField: 'resId',
             //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
             keyField: 'resName',
-            //获取数据的方式，总是从 URL 获取
-            // getDataMethod: "url",
             // effectiveFieldsAlias: {
             //     resName: "序号",
             // },
@@ -527,10 +493,14 @@
             },
 
             /* 搜索相关 */
-            // autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
-            allowNoKeyword: true,           //是否允许无关键字时请求数据
-            // getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
-            // delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+            //键盘向上/下方向键时，是否自动选择值
+            autoSelect: true,
+            //是否允许无关键字时请求数据
+            allowNoKeyword: true,
+            //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+            getDataMethod: 'url',
+            //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+            // delayUntilKeyup: false,
             //前端搜索匹配时，是否忽略大小写
             ignorecase: true,
             //有效显示于列表中的字段，非有效字段都会过滤，默认全部。

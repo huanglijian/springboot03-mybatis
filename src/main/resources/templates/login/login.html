@@ -48,7 +48,7 @@
 							<div class="welcome">
 								<span>欢迎登录创客网</span>
 							</div>
-							<form v-on:submit.prevent="login" type="post">
+							<form @submit.prevent="login" type="post">
 
 								<div class="email">
 									<input type="text" class="form-control" placeholder="邮箱" required="" v-model="email">

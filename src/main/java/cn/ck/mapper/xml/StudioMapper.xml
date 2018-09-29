@@ -22,6 +22,6 @@
     </resultMap>
 
     <select id="selectByzzid" resultType="cn.ck.entity.Studio">
-        select * from studio where stu_creatid = #{0}
+        select * from studio where stu_creatid = #{zzid}
     </select>
 </mapper>
