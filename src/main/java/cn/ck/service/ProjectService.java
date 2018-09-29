@@ -1,12 +1,10 @@
 package cn.ck.service;
 
 import cn.ck.entity.Project;
-import cn.ck.entity.bean.PjCol;
 import cn.ck.entity.bean.ProjectBid;
 import com.baomidou.mybatisplus.service.IService;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -36,6 +34,6 @@ public interface ProjectService extends IService<Project> {
      */
     Integer projBidTimeNum(int id);
 
-    List<PjCol> selectPjCol(Map<String,Object> map);
+
 
 }

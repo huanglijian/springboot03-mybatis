@@ -33,6 +33,8 @@ public class Users implements Serializable {
     private Date userEntrytime;
 
 
+
+
     public String getUserId() {
         return userId;
     }

@@ -88,6 +88,7 @@ public class ShiroConfig {
 		chains.put("/ForJob/**", "anon");
 		chains.put("/resource/**", "anon");
 		chains.put("/studio/**", "anon");
+		chains.put("/mtest/**", "anon");
 		// 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		chains.put("/logout", "logout");
 		// 剩余请求需要身份认证
