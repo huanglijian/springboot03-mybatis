@@ -1,5 +1,7 @@
 package cn.ck.controller.promcenter;
 
+import cn.ck.entity.Alluser;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,5 +48,11 @@ public class JumpController {
     @RequestMapping("/projManage")
     public String proManage(){
         return "/promulgator/prom_projManage";
+    }
+
+    /*跳转到头像修改页面*/
+    @RequestMapping("/projpromimg")
+    public String projpromimg(){
+        return "/promulgator/prom_updatephoto";
     }
 }

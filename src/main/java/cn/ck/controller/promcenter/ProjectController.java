@@ -1,11 +1,11 @@
 package cn.ck.controller.promcenter;
 
+import cn.ck.controller.FileController;
 import cn.ck.entity.*;
 import cn.ck.entity.bean.ProjectBid;
 import cn.ck.service.BiddingService;
 import cn.ck.service.NoticeService;
 import cn.ck.service.StudioService;
-import cn.ck.utils.FileController;
 import cn.ck.service.ProjectService;
 import cn.ck.utils.DateUtils;
 import cn.ck.utils.NoticeInsert;
@@ -49,13 +49,13 @@ public class ProjectController {
     public ResponseBo projectcreat(HttpServletRequest request, @RequestParam("img") MultipartFile img, @RequestParam("file") MultipartFile file, Project project){
 
         if(!file.isEmpty()){
-            String filepath="E:/ck/project/file";
-            List<String> filelist=FileController.fileupload(file,filepath);
+            String filepath="E:/ChuangKeFile/Project/file";
+            List<String> filelist= FileController.fileupload(file,filepath);
             project.setProjFile(filelist.get(0));
             project.setProjFilename(filelist.get(1));
         }
 
-        String imgpath = "E:/ck/project/img";
+        String imgpath = "E:/ChuangKeFile/Project/img";
         List<String> imglist=FileController.fileupload(img,imgpath);
         project.setProjImg(imglist.get(0));
 

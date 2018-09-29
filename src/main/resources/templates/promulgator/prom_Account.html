@@ -147,11 +147,11 @@
         <div class="right_contest">
             <div class="r_c_top">
                 <div class="r_c_t_left">
-                    <div class="r_c_t_l_img">
+                    <div class="r_c_t_l_img" >
                         <div class="r_c_t_l_updateimg">
-                            <a href="prom_updatephoto.html">更换头像</a>
+                            <a href="/pcjump/projpromimg" >更换头像</a>
                         </div>
-                        <img :src="src" alt="" class="imgsize" />
+                        <img v-if="account.prom && account.prom.promImg" :src="'/promcenter/previewsrc/' + account.prom.promImg" alt="" class="imgsize" />
                     </div>
                     <div class="r_c_t_l_pcData">
                         <a class="pcDatabtn" href="prom_updateprom.html">修改资料</a>
