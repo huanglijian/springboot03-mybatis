@@ -55,4 +55,10 @@ public class JumpController {
     public String projpromimg(){
         return "/promulgator/prom_updatephoto";
     }
+
+    /*跳转到发布者个人主页*/
+    @RequestMapping("/projhomepage")
+    public String projhomepage(){
+        return "/promulgator/prom_homepage";
+    }
 }

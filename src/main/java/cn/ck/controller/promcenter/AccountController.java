@@ -3,13 +3,11 @@ package cn.ck.controller.promcenter;
 
 import cn.ck.controller.AbstractController;
 import cn.ck.controller.FileController;
-import cn.ck.entity.Account;
-import cn.ck.entity.Alluser;
-import cn.ck.entity.Project;
-import cn.ck.entity.Promulgator;
+import cn.ck.entity.*;
 import cn.ck.service.AccountService;
 import cn.ck.service.ProjectService;
 import cn.ck.service.PromulgatorService;
+import cn.ck.service.StudioService;
 import cn.ck.utils.ConstCofig;
 import cn.ck.utils.ResponseBo;
 import com.alibaba.fastjson.JSON;
@@ -28,10 +26,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/promcenter")
@@ -42,25 +37,44 @@ public class AccountController {
     AccountService accountService;
     @Autowired
     ProjectService projectService;
+    @Autowired
+    StudioService studioService;
 
-
-
+    /**
+     * 发布者账户页面渲染
+     * @return
+     */
     @PostMapping("/account")
     @ResponseBody
-    public Map<String,Object> account() {
+    public ResponseBo account() {
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
-        Promulgator promulgator=new Promulgator();
-        promulgator=promulgatorService.selectID(user.getAllId());
-        Account account=new Account();
-        account=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid", user.getAllId()));
-        Map<String,Object> prommap=new HashMap<String, Object>();
-        prommap.put("num","1");
-        prommap.put("prom",promulgator);
-        prommap.put("account",account);
-//        String json = JSON.toJSONString(prommap,true);
-//        System.out.println(json);
-//        System.out.println(prommap);
-        return prommap;
+        Promulgator promulgator=promulgatorService.selectID(user.getAllId());
+        Account account=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid", user.getAllId()));
+        //项目总数
+        int allnum=projectService.selectCount(new EntityWrapper<Project>().eq("proj_prom",user.getAllId()));
+        //完工项目数量
+        int finishnum=projectService.selectCount(new EntityWrapper<Project>().eq("proj_prom",user.getAllId()).eq("proj_state","开发完成"));
+        //开发中项目数量
+        int beingnum=projectService.selectCount(new EntityWrapper<Project>().eq("proj_prom",user.getAllId()).eq("proj_state","开发中"));
+        //失败项目数量
+        int failnum=projectService.selectCount(new EntityWrapper<Project>().eq("proj_prom",user.getAllId()).eq("proj_state","项目中止"));
+        //中止项目数量
+        int pausenum=projectService.selectCount(new EntityWrapper<Project>().eq("proj_prom",user.getAllId()).eq("proj_state","发布者中止").eq("proj_state","承接方中止"));
+        //竞标中项目
+        int bidnum=projectService.selectCount(new EntityWrapper<Project>().eq("proj_prom",user.getAllId()).eq("proj_state","竞标中"));
+
+        Set<String> set = new HashSet<>();
+        set.add("proj_starttime");
+        List<Project> projectList=projectService.selectList(new EntityWrapper<Project>().eq("proj_prom",user.getAllId()).eq("proj_state","承接方中止").or().eq("proj_state","开发中").or().eq("proj_state","发布者中止").orderDesc(set));
+        for (Project project:projectList) {
+            Studio studio=studioService.selectById(project.getProjStudio());
+            String stuname=studio.getStuName();
+            project.setProjStudio(stuname);
+        }
+
+        return ResponseBo.ok().put("prom",promulgator).put("account",account).put("project",projectList)
+                .put("allnum",allnum).put("finishnum",finishnum).put("beingnum",beingnum).put("failnum",failnum)
+                .put("pausenum",pausenum).put("bidnum",bidnum);
     }
 
     /**
@@ -94,7 +108,7 @@ public class AccountController {
     /**
      * 更换头像
      * Base64位编码的图片进行解码，并保存到指定目录
-     * @param dataURL
+     * @param dataURL Base64位编码的图片
      * @return
      * @throws IOException
      */
