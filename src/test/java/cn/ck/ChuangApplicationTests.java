@@ -2,6 +2,7 @@ package cn.ck;
 
 import cn.ck.entity.*;
 import cn.ck.service.*;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,14 +26,16 @@ public class ChuangApplicationTests {
     JobsService jobsService;
     @Autowired
     ProjectService projectService;
+    @Autowired
+    ResourceService resourceService;
 
     @Test
     public void contextLoads() {
-        Page<Alluser> p = alluserService.selectUserByPage(new Page<>(1,1));
+//        Page<Alluser> p = alluserService.selectUserByPage(new Page<>(1,1));
+        String keyword = "Java";
+        Page<Resource> page = resourceService.selectPage(new Page<Resource>(1,10), new EntityWrapper<Resource>().like("res_name", keyword).or().like("res_intro", keyword).orderBy("res_uploadtime"));
+        System.out.println(page);
 
-        System.out.println(p.getRecords().size());
-        System.out.println(p.toString());
-        System.out.println(p.getRecords().get(0));
     }
 
     @Test

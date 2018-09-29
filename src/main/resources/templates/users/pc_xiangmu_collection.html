@@ -11,7 +11,12 @@
 	<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-	<link href="/static/css/css_psw/pc_xmc.css" rel="stylesheet" />
+	<link href="/static/css/css_psw/pc_xmc6.css" rel="stylesheet" />
+	<link href="/static/css/css_psw/toPage1.css" rel="stylesheet" />
+	<script type="text/javascript" src="/static/js/js_psw/toPage.js"></script>
+	<script src="http://how2j.cn/study/vue.min.js"></script>
+	<script src="http://how2j.cn/study/axios.min.js"></script>
+	<script src="https://cdn.bootcss.com/qs/6.5.2/qs.min.js"></script>
 </head>
 
 <body>
@@ -135,185 +140,48 @@
 		</div>
 		<div class="col_right">
 			<div class="col_right_xmc_up">
-				<div class="col_right_xmc_up_1">
+				<div class="col_right_xmc_up_1" id="state">
 					<div class="col_right_xmc_up_1_condition">
 						项目状态：&nbsp;
-						<a href="#">可竞标&nbsp;&nbsp;</a>
-						<a href="#">竞标结束</a>
+						<a :href="jumpToState('0')" :class="addClass2('0')">全部</a>&nbsp;&nbsp;
+						<a :href="jumpToState('1')" :class="addClass2('1')">可竞标</a>&nbsp;&nbsp;
+						<a :href="jumpToState('2')" :class="addClass2('2')">竞标中止</a>
 					</div>
-					<span>共 6 条</span>
+					<span>共 {{total}} 条</span>
 				</div>
 			</div>
-			<div class="col_right_xmc_down" style="padding-bottom: 50px;" id="items">
+			<div id="templeate" style="display: none">
 				<div class="col_right_xmc_down_items container-fluid" id="item">
 					<div class="col_right_xmc_down_item_left">
 						<div class='col_right_xmc_down_item_title container-fluid'>
 							<span class="channel" style="float: left;">项目</span>
-							<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
+							<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">{{project.projName}}</a>
 						</div>
 						<div class="col_right_xmc_down_item_2 container-fluid">
-							<a class='col_right_xmc_down_item_author' href="#">新垣结衣</a>
+							<a class='col_right_xmc_down_item_author' href="#">{{project.projProm}}</a>
 							&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-							<span class='col_right_xmc_down_item_date'>2018.08.08</span>
-							<span class="channel1">竞标结束</span>
+							<span class='col_right_xmc_down_item_date'>{{project.projCreattime}}</span>
+							<span :class="addClass(project.projState)">{{project.projState}}</span>
 						</div>
 						<div class='col_right_xmc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-							<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
+							<span>{{project.projIntro}}</span>
 						</div>
 						<div class='col_right_xmc_down_item_bq '>
-							<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
+							类型：<span>{{project.projType}}</span>
+							标签：<span>{{project.projTag}}</span>
+							<!--<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
 							<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-							<a href="/explore/starred?license=MIT" class="">MIT</a>
+							<a href="/explore/starred?license=MIT" class="">MIT</a>-->
 						</div>
-						<button title="删除收藏" class="btn btn-delete">
-							<i class="fa fa-remove"></i>删除收藏</button>
-					</div>
-				</div>
-				<div class="col_right_xmc_down_items container-fluid" id="item">
-					<div class="col_right_xmc_down_item_left ">
-						<div class='col_right_xmc_down_item_title container-fluid'>
-							<span class="channel" style="float: left;">项目</span>
-							<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-						</div>
-						<div class="col_right_xmc_down_item_2 container-fluid">
-							<a class='col_right_xmc_down_item_author' href="#">新垣结衣</a>
-							&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-							<span class='col_right_xmc_down_item_date'>2018.08.08</span>
-							<span class="channel2">可竞标</span>
-						</div>
-						<div class='col_right_xmc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-							<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
-						</div>
-						<div class='col_right_xmc_down_item_bq '>
-							<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
-							<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-							<a href="/explore/starred?license=MIT" class="">MIT</a>
-						</div>
-						<button title="删除收藏" class="btn btn-delete">
-							<i class="fa fa-remove"></i>删除收藏</button>
-					</div>
-				</div>
-				<div class="col_right_xmc_down_items container-fluid" id="item">
-					<div class="col_right_xmc_down_item_left ">
-						<div class='col_right_xmc_down_item_title container-fluid'>
-							<span class="channel" style="float: left;">项目</span>
-							<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-						</div>
-						<div class="col_right_xmc_down_item_2 container-fluid">
-							<a class='col_right_xmc_down_item_author' href="#">新垣结衣</a>
-							&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-							<span class='col_right_xmc_down_item_date'>2018.08.08</span>
-							<span class="channel2">可竞标</span>
-						</div>
-						<div class='col_right_xmc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-							<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
-						</div>
-						<div class='col_right_xmc_down_item_bq '>
-							<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
-							<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-							<a href="/explore/starred?license=MIT" class="">MIT</a>
-						</div>
-						<button title="删除收藏" class="btn btn-delete">
-							<i class="fa fa-remove"></i>删除收藏</button>
-					</div>
-				</div>
-				<div class="col_right_xmc_down_items container-fluid" id="item">
-					<div class="col_right_xmc_down_item_left ">
-						<div class='col_right_xmc_down_item_title container-fluid'>
-							<span class="channel" style="float: left;">项目</span>
-							<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-						</div>
-						<div class="col_right_xmc_down_item_2 container-fluid">
-							<a class='col_right_xmc_down_item_author' href="#">新垣结衣</a>
-							&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-							<span class='col_right_xmc_down_item_date'>2018.08.08</span>
-							<span class="channel1">竞标结束</span>
-						</div>
-						<div class='col_right_xmc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-							<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
-						</div>
-						<div class='col_right_xmc_down_item_bq '>
-							<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
-							<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-							<a href="/explore/starred?license=MIT" class="">MIT</a>
-						</div>
-						<button title="删除收藏" class="btn btn-delete">
-							<i class="fa fa-remove"></i>删除收藏</button>
-					</div>
-				</div>
-				<div class="col_right_xmc_down_items container-fluid" id="item">
-					<div class="col_right_xmc_down_item_left ">
-						<div class='col_right_xmc_down_item_title container-fluid'>
-							<span class="channel" style="float: left;">项目</span>
-							<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-						</div>
-						<div class="col_right_xmc_down_item_2 container-fluid">
-							<a class='col_right_xmc_down_item_author' href="#">新垣结衣</a>
-							&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-							<span class='col_right_xmc_down_item_date'>2018.08.08</span>
-							<span class="channel1">竞标结束</span>
-						</div>
-						<div class='col_right_xmc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-							<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
-						</div>
-						<div class='col_right_xmc_down_item_bq '>
-							<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
-							<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-							<a href="/explore/starred?license=MIT" class="">MIT</a>
-						</div>
-						<button title="删除收藏" class="btn btn-delete">
-							<i class="fa fa-remove"></i>删除收藏</button>
-					</div>
-				</div>
-				<div class="col_right_xmc_down_items container-fluid" id="item">
-					<div class="col_right_xmc_down_item_left ">
-						<div class='col_right_xmc_down_item_title container-fluid'>
-							<span class="channel" style="float: left;">项目</span>
-							<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-						</div>
-						<div class="col_right_xmc_down_item_2 container-fluid">
-							<a class='col_right_xmc_down_item_author' href="#">新垣结衣</a>
-							&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-							<span class='col_right_xmc_down_item_date'>2018.08.08</span>
-							<span class="channel1">竞标结束</span>
-						</div>
-						<div class='col_right_xmc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-							<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
-						</div>
-						<div class='col_right_xmc_down_item_bq '>
-							<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
-							<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-							<a href="/explore/starred?license=MIT" class="">MIT</a>
-						</div>
-						<button title="删除收藏" class="btn btn-delete">
-							<i class="fa fa-remove"></i>删除收藏</button>
-					</div>
-				</div>
-				<div class="col_right_xmc_down_items container-fluid" id="item">
-					<div class="col_right_xmc_down_item_left ">
-						<div class='col_right_xmc_down_item_title container-fluid'>
-							<span class="channel" style="float: left;">项目</span>
-							<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-						</div>
-						<div class="col_right_xmc_down_item_2 container-fluid">
-							<a class='col_right_xmc_down_item_author' href="#">新垣结衣</a>
-							&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-							<span class='col_right_xmc_down_item_date'>2018.08.08</span>
-							<span class="channel2">可竞标</span>
-						</div>
-						<div class='col_right_xmc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-							<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
-						</div>
-						<div class='col_right_xmc_down_item_bq '>
-							<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
-							<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-							<a href="/explore/starred?license=MIT" class="">MIT</a>
-						</div>
-						<button title="删除收藏" class="btn btn-delete">
-							<i class="fa fa-remove"></i>删除收藏</button>
+						<a title="删除收藏" class="btn btn-delete" @click="deleteColpj(project.collectpj.colpId)">
+							<i class="fa fa-remove"></i>删除收藏</a>
 					</div>
 				</div>
 			</div>
+			<div class="col_right_xmc_down" id="items">
+				<project v-for="item in pjs" v-bind:project="item"></project>
+			</div>
+			<div class="page_1"></div>
 		</div>
 	</div>
 	<footer>
@@ -402,6 +270,88 @@
 		</div>
 	</footer>
 	<script type="text/javascript" src="/static/js/js_psw/PersonCenter-jquery.js"></script>
+	<script type="text/javascript" src="/static/js/js_psw/js_con.js"></script>
+	<script>
+		var templeateDiv=$("#templeate").html();
+		var templeateObject={
+		    props:['project'],
+            template:templeateDiv,
+			methods:{
+		        addClass:function(state){
+					if(state=='竞标中')
+					    return "channel2";
+					else {
+
+                        return "channel1";
+                    }
+				},
+                deleteColpj:function (id) {
+                    var postData={
+                        pcid:id
+                    }
+                    axios.post('/user/delete_pjcol',window.Qs.stringify(postData), {headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                    }).then(function (response) {
+                        if(response.data)
+                            window.location.reload();
+                    });
+                }
+			}
+		}
+		Vue.component("project",templeateObject);
+		var url="/user/get_pjcol";
+		new Vue({
+			el:"#items",
+			data:{
+			    pjs:''
+			},
+			mounted:function () {
+				var self=this;
+				axios.get(url).then(function (response) {
+					self.pjs=response.data.list;
+					new Vue({
+						el:'#state',
+						data:{
+							state:response.data.list[0].projId,
+                            total:response.data.total
+						},
+						methods:{
+						    jumpToState:function(state){
+						        if(this.state==state)
+						            return "javascript:return false";
+						        else
+						        	return "/user/user_pjcol?state="+state;
+							},
+						    addClass2:function(state){
+						        if(this.state==state)
+						            return "channel3";
+							}
+						}
+					});
+                    var obj_1={
+                        obj_box:'.page_1',//翻页容器
+                        total_item:response.data.total,//条目总数
+                        per_num:response.data.pageSize,//每页条目数*/
+                        current_page:response.data.pageNum//当前页
+                    };
+                    page_ctrl(obj_1);
+                    $(' .page_ctrl').on('click','button',function () {
+                        var that=$(this);
+                        if(that.hasClass('prev_page')){
+                            window.location.href="/user/user_pjcol?state="+response.data.list[0].projId+"&start="+response.data.prePage;
+                        }
+                        else if(that.hasClass('next_page')){
+                            window.location.href="/user/user_pjcol?state="+response.data.list[0].projId+"&start="+response.data.nextPage;
+                        }
+                        else if(that.hasClass('page_num')&&!that.hasClass('current_page')){
+                            window.location.href="/user/user_pjcol?state="+response.data.list[0].projId+"&start="+that.html();
+                        }
+                        else if(that.hasClass('to_page_num')){
+                            window.location.href="/user/user_pjcol?state="+response.data.list[0].projId+"&start="+that.siblings('.input_page_num').val();
+                        }
+                    });
+                })
+            }
+		})
+	</script>
 </body>
-<script type="text/javascript" src="/static/js/js_psw/js_con.js"></script>
 </html>

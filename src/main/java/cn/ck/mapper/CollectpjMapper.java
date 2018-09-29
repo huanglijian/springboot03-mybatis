@@ -3,6 +3,8 @@ package cn.ck.mapper;
 import cn.ck.entity.Collectpj;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +15,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface CollectpjMapper extends BaseMapper<Collectpj> {
 
+    //按时间倒序获取用户收藏列表
+    List<Collectpj> selectColpj(String id);
 }

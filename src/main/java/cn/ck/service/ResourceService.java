@@ -1,9 +1,12 @@
 package cn.ck.service;
 
 import cn.ck.entity.Resource;
+import cn.ck.entity.bean.ResCol;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.baomidou.mybatisplus.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -21,4 +24,14 @@ public interface ResourceService extends IService<Resource> {
      * @return
      */
     Page<Resource> getMostLikeResPage(Page<Resource> page);
+
+    /**
+     * 获取搜索建议
+     * @param page 分页器
+     * @param keyword 搜索关键字
+     * @return
+     */
+    Page<Resource> getSuggestPage(Page<Resource> page, String keyword);
+
+    List<ResCol> selectDesc(String id);
 }

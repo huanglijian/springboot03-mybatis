@@ -1,6 +1,7 @@
 package cn.ck.service.impl;
 
 import cn.ck.entity.Project;
+import cn.ck.entity.bean.PjCol;
 import cn.ck.entity.bean.ProjectBid;
 import cn.ck.mapper.ProjectMapper;
 import cn.ck.service.ProjectService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -40,4 +42,12 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     public Integer projBidTimeNum(int id) {
         return projectMapper.projBidTimeNum(id);
     }
+
+    @Override
+    public List<PjCol> selectPjCol(Map<String,Object> map) {
+        return projectMapper.selectPjCol(map);
+    }
+
+
+
 }

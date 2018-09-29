@@ -14,6 +14,15 @@
         <result column="res_likenum" property="resLikenum" />
         <result column="res_long" property="resLong" />
     </resultMap>
+    
+    <resultMap id="ResourceCollection" type="cn.ck.entity.bean.ResCol" extends="BaseResultMap">
+        <collection property="collectres" ofType="cn.ck.entity.Collectres">
+            <id column="colr_id" property="colrId"></id>
+            <result column="colr_res" property="colrRes"></result>
+            <result column="colr_time" property="colrTime"></result>
+            <result column="colr_users" property="colrUsers"></result>
+        </collection>
+    </resultMap>
 
     <select id="getMostLike" resultMap="BaseResultMap">
         select *
@@ -21,6 +30,11 @@
         left join (select likeres.likr_res, count(*) likenum from likeres group by likeres.likr_res) a
         on a.likr_res = resource.res_id
         order by a.likenum desc
+    </select>
+
+
+    <select id="selectDesc" resultMap="ResourceCollection">
+        select * from resource r,collectres cr where r.res_id=cr.colr_res and cr.colr_users=#{0} order by cr.colr_time desc
     </select>
 
 </mapper>
