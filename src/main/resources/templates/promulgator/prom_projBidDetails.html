@@ -245,11 +245,27 @@
 				<div class="modal-content">
 					<div class="modal-header header_danger">
 						<span class="glyphicon glyphicon-exclamation-sign"></span>
-						<span class="modal-title" id="myModalLabel">&nbsp;提&nbsp;&nbsp;示</span>
+						<span class="modal-title">&nbsp;提&nbsp;&nbsp;示</span>
 					</div>
 					<div class="modal-body text-center">确认中止该项目竞标？</div>
 					<div class="modal-footer text-center">
 						<a href="javascript:;" class="btn btn-default modal_btn" data-dismiss="modal">取消</a>
+						<a href="javascript:;" class="btn modal_btn danger_btn" onclick="bidbtn()">确认</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--中止竞标成功提示-->
+		<div class="modal fade" id="danger2Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header header_danger">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						<span class="modal-title" id="myModalLabel">&nbsp;提&nbsp;&nbsp;示</span>
+					</div>
+					<div class="modal-body text-center">中止竞标成功</div>
+					<div class="modal-footer text-center">
 						<a href="javascript:;" class="btn modal_btn danger_btn" onclick="finishbid()">确认</a>
 					</div>
 				</div>
@@ -360,6 +376,11 @@
 
             function finishbid() {
 				window.location.href="/promcenter/projdiscontinueBid/"+id;
+            }
+
+            function bidbtn() {
+			    $("#dangerModal").modal("hide");
+				$("#danger2Modal").modal("show");
             }
 		</script>
 	</body>

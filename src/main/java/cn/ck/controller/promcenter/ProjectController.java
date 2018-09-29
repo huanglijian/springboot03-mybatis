@@ -1,15 +1,14 @@
 package cn.ck.controller.promcenter;
 
-import cn.ck.entity.Bidding;
-import cn.ck.entity.Studio;
+import cn.ck.entity.*;
 import cn.ck.entity.bean.ProjectBid;
 import cn.ck.service.BiddingService;
+import cn.ck.service.NoticeService;
 import cn.ck.service.StudioService;
 import cn.ck.utils.FileController;
-import cn.ck.entity.Alluser;
-import cn.ck.entity.Project;
 import cn.ck.service.ProjectService;
 import cn.ck.utils.DateUtils;
+import cn.ck.utils.NoticeInsert;
 import cn.ck.utils.ResponseBo;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.apache.shiro.SecurityUtils;
@@ -34,6 +33,8 @@ public class ProjectController {
     BiddingService biddingService;
     @Autowired
     StudioService studioService;
+    @Autowired
+    NoticeService noticeService;
 
     /**
      * 发布项目controller
@@ -49,17 +50,17 @@ public class ProjectController {
 
         if(!file.isEmpty()){
             String filepath="E:/ck/project/file";
-            String fileurl=FileController.fileupload(file,filepath);
-            project.setProjFile(fileurl);
+            List<String> filelist=FileController.fileupload(file,filepath);
+            project.setProjFile(filelist.get(0));
+            project.setProjFilename(filelist.get(1));
         }
 
         String imgpath = "E:/ck/project/img";
-        String imgurl=FileController.fileupload(img,imgpath);
-        project.setProjImg(imgurl);
-//        System.out.println(imgurl);
+        List<String> imglist=FileController.fileupload(img,imgpath);
+        project.setProjImg(imglist.get(0));
 
         Date date = new Date();//获得系统时间
-        String nowTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date);
+        String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
         Timestamp projcreattime = Timestamp.valueOf(nowTime);//把时间转换
         project.setProjCreattime(projcreattime);
 
@@ -72,6 +73,9 @@ public class ProjectController {
 //        System.out.println(project);
 
         if(projectService.insertAllColumn(project)){
+            String stumessage="您好，您所发布的项目"+project.getProjName()+"已在"+nowTime+"发布成功,如需查看详细信息，请查看项目管理相关功能";
+            Notice notice= NoticeInsert.insertNotice(stumessage,user.getAllId());
+            noticeService.insertAllColumn(notice);
             return ResponseBo.ok("发布成功");
         }else{
             return ResponseBo.error("发布失败");
@@ -97,7 +101,9 @@ public class ProjectController {
         }
 
         //查询更新后竞标中的项目
-        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标中").eq("proj_prom",user.getAllId()));
+        Set<String> set = new HashSet<>();
+        set.add("proj_creattime");
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标中").eq("proj_prom",user.getAllId()).orderDesc(set));
         List<ProjectBid> bidList1=new ArrayList<ProjectBid>();
 
         for (Project project1:projectList1) {
@@ -138,11 +144,9 @@ public class ProjectController {
         }
 
         //查询更新后竞标中的项目
-        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标中止").eq("proj_prom",user.getAllId()));
-        List<Project> projectList2=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标超时").eq("proj_prom",user.getAllId()));
-        List<Project> projectList3=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标成功").eq("proj_prom",user.getAllId()));
-        projectList1.addAll(projectList2);
-        projectList1.addAll(projectList3);
+        Set<String> set = new HashSet<>();
+        set.add("proj_creattime");
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标中止").or("proj_state='竞标超时'").eq("proj_prom",user.getAllId()).orderDesc(set));
         List<ProjectBid> bidList1=new ArrayList<ProjectBid>();
 
         for (Project project1:projectList1) {
@@ -210,17 +214,26 @@ public class ProjectController {
     public String projdiscontinueBid(@PathVariable("id") String id, Model model){
         Project project=projectService.selectById(id);
         project.setProjState("竞标中止");
-        projectService.updateById(project);
+        String nowdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        //更新成功则通知发布者
+        if(projectService.updateById(project)){
+            String projmessage="您好，您所发布的项目"+project.getProjName()+"已在"+nowdate+"中止竞标,如需查看详细信息，请查看竞标项目相关功能";
+            Notice projnotice= NoticeInsert.insertNotice(projmessage,project.getProjProm());
+            noticeService.insertAllColumn(projnotice);
+        }
+        //将与之相连竞标表中的状态改为“竞标中止”，并向工作室发送系统通知
         int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
         List<Bidding> biddingList=new ArrayList<>();
         if(count!=0){
             biddingList=biddingService.selectList(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
             for (Bidding bidding:biddingList) {
-                bidding.setBidState("竞标终止");
+                bidding.setBidState("竞标中止");
+                String stumessage="您好，您所竞标的项目"+project.getProjName()+"已在"+nowdate+"中止竞标,如需查看详细信息，请查看竞标项目相关功能";
+                Notice stunotice= NoticeInsert.insertNotice(stumessage,bidding.getBidStudio());
+                noticeService.insertAllColumn(stunotice);
             }
             biddingService.updateAllColumnBatchById(biddingList);
         }
-
 
         model.addAttribute("id",id);
         return "/promulgator/prom_projBidFinDetail";
@@ -233,13 +246,10 @@ public class ProjectController {
     @GetMapping("/projmangering")
     @ResponseBody
     public ResponseBo projmangering(){
+        Set<String> set = new HashSet<>();
+        set.add("proj_starttime");
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
-        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","开发中").eq("proj_prom",user.getAllId()));
-        List<Project> projectList2=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","发布者中止").eq("proj_prom",user.getAllId()));
-        List<Project> projectList3=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","承接方中止").eq("proj_prom",user.getAllId()));
-        projectList1.addAll(projectList2);
-        projectList1.addAll(projectList3);
-
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","开发中").or("proj_state='发布者中止'").or("proj_state='承接方中止'").eq("proj_prom",user.getAllId()).orderDesc(set));
         return ResponseBo.ok().put("project",projectList1);
     }
 
@@ -250,11 +260,10 @@ public class ProjectController {
     @GetMapping("/projmangerfinsh")
     @ResponseBody
     public ResponseBo projmangerfinsh(){
+        Set<String> set = new HashSet<>();
+        set.add("proj_endtime");
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
-        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","项目中止").eq("proj_prom",user.getAllId()));
-        List<Project> projectList2=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","开发完成").eq("proj_prom",user.getAllId()));
-        projectList1.addAll(projectList2);
-
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","项目中止").or("proj_state='开发完成'").eq("proj_prom",user.getAllId()).orderDesc(set));
         return ResponseBo.ok().put("project",projectList1);
     }
 }

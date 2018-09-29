@@ -83,6 +83,7 @@ public class ShiroConfig {
 		//配置不会被拦截的链接
 		chains.put("/", "anon");
 		chains.put("/ckadmin/**", "anon");
+		chains.put("/file/**", "anon");
 
 		chains.put("/ForJob/**", "anon");
 		chains.put("/resource/**", "anon");

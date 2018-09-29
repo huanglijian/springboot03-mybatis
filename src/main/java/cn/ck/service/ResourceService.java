@@ -21,4 +21,12 @@ public interface ResourceService extends IService<Resource> {
      * @return
      */
     Page<Resource> getMostLikeResPage(Page<Resource> page);
+
+    /**
+     * 获取搜索建议
+     * @param page 分页器
+     * @param keyword 搜索关键字
+     * @return
+     */
+    Page<Resource> getSuggestPage(Page<Resource> page, String keyword);
 }
