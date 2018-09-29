@@ -16,6 +16,7 @@
         <result column="user_img" property="userImg" />
         <result column="user_studio" property="userStudio" />
         <result column="user_entrytime" property="userEntrytime" />
+        <result column="user_quittme" property="userQuittme" />
     </resultMap>
 
 

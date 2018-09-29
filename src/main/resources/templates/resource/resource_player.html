@@ -136,7 +136,6 @@
         <div id="page-wrapper" class="gray-bg" style="background:#ffffff">
             <div class="wrapper wrapper-content">
                 <div class="container">
-
                     <!--logo和搜索框-->
                     <div class="row">
                         <div class="col-md-6 col-md-offset-4">
@@ -385,6 +384,74 @@
                         </div>
                     </div>
                 </div>
+                <script type="text/javascript">
+                    var res = new Vue({
+                        el:'#resources',
+                        data:{
+                            hotResource : '',
+                            key : '',
+                        },
+                        beforeCreate: function () {
+                        },
+                        created: function () {
+                        },
+                        beforeMount: function () {
+                            this.hot();
+                            this.recomend();
+                        },
+                        mounted: function () {
+                        },
+                        beforeUpdate: function () {
+                        },
+                        updated: function () {
+                        },
+                        methods: {
+                            hot : function () {
+                                // var data = "email="+vm.email;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "hotResource",
+                                    dataType: "json",
+                                    success: function(result){
+                                        if(result.code === 0){
+                                            res.hotResource = result.hotResource;
+                                        }
+                                    }
+                                });
+                            },
+                            recomend : function () {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "recommendResource",
+                                    dataType: "json",
+                                    success: function(result){
+                                        if(result.code === 0){
+                                            res.recommendResource = result.recommendResource;
+                                            // window.location.href = "/registered/second?UUID=" + result.UUID;
+                                        }
+                                    }
+                                });
+                            },
+                            // doSearch : function () {
+                            //     $.ajax({
+                            //         type: "POST",
+                            //         url: "/resource/doSearch/" + searchResult.keyWord,
+                            //         data : '',
+                            //         dataType: "json",
+                            //         success: function(result){
+                            //             if(result.code === 0){
+                            //                 searchResult.result = result.result;
+                            //             }
+                            //             else{
+                            //                 alert(result.msg);
+                            //             }
+                            //         }
+                            //     });
+                            // }
+                        }
+                    });
+                </script>
+
             </div>
         </div>
     </div>
