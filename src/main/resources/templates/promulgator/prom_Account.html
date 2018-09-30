@@ -64,7 +64,7 @@
         </div>
     </div>
 </header>
-<div class="container-fluid contest">
+<div class="container-fluid contest" id="contest">
     <div class="col_left">
         <div class="ul_contest">
             <ul class="lefthead">
@@ -147,11 +147,16 @@
         <div class="right_contest">
             <div class="r_c_top">
                 <div class="r_c_t_left">
-                    <div class="r_c_t_l_img" >
+                    <div class="r_c_t_l_img" v-if="prom.promImg==''">
                         <div class="r_c_t_l_updateimg">
                             <a href="/pcjump/projpromimg" >更换头像</a>
                         </div>
-                        <!--<img v-if="num.prom && num.prom.promImg" :src="'/promcenter/previewsrc/' + num.prom.promImg" alt="" class="imgsize" />-->
+                        <img  src="/static/img/img_lxn/default.jpg" alt="" class="imgsize" />
+                    </div>
+                    <div class="r_c_t_l_img" v-else>
+                        <div class="r_c_t_l_updateimg">
+                            <a href="/pcjump/projpromimg" >更换头像</a>
+                        </div>
                         <img v-if="prom.promImg" :src="'/promcenter/previewsrc/' + prom.promImg" alt="" class="imgsize" />
                     </div>
                     <div class="r_c_t_l_pcData">
@@ -307,9 +312,6 @@
 </footer>
 <script type="text/javascript" src="/static/js/js_lxn/prom-jquery.js"></script>
 <script type="text/javascript">
-    /*<![CDATA[*/
-    contextPath = /*[[@{/}]]*/ '';
-    /*]]>*/
     var vm = new Vue({
         el: '#right',
         data: {

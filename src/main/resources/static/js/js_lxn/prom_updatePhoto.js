@@ -39,7 +39,7 @@ var initCropper = function(img, input) {
 	}
 }
 var crop = function() {
-	var $image = $('#photo');
+	var $image = $('.photo');
 	var $target = $('#result');
 	$image.cropper('getCroppedCanvas', {
 		width: 125, // 裁剪后的长宽
@@ -50,7 +50,7 @@ var crop = function() {
 	});
 }
 $(function() {
-	initCropper($('#photo'), $('#input'));
+	initCropper($('.photo'), $('#input'));
 });
 
 
@@ -58,7 +58,7 @@ $(function() {
 //cropper上传图片到服务器
 var updatePhoto = function () {
     // 得到PNG格式的dataURL
-    var photo = $('#photo').cropper('getCroppedCanvas', {
+    var photo = $('.photo').cropper('getCroppedCanvas', {
         width: 300,
         height: 300
     }).toDataURL('image/png');

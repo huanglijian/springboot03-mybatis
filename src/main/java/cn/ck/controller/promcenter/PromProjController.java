@@ -26,7 +26,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/promcenter")
-public class ProjectController {
+public class PromProjController {
     @Autowired
     ProjectService projectService;
     @Autowired
