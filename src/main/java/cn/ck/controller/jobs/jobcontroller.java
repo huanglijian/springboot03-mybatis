@@ -14,6 +14,8 @@ import com.mysql.jdbc.SocketMetadata;
 import org.quartz.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/ForJob")
@@ -93,10 +96,32 @@ public class jobcontroller extends AbstractController {
         int jNum = jobsService.selectCount(new EntityWrapper<Jobs>());
         return ResponseBo.ok().put("jNum", jNum);
     }
+
+
     //    工作详情页面
-    @GetMapping("/mes")
-    public String mes() {
+    @GetMapping("/mes/{id}")
+    public String mes(@PathVariable("id") int id ,Model model) {
+//        System.out.println("======== id:"+id);
+        model.addAttribute("id",id);
         return "jobs/detail";
     }
+
+//    @GetMapping("/aa")
+//    public String aa(){
+//        return "jobs/detail";
+//    }
+
+
+//    返回渲染detail的json
+    @PostMapping("/mes/{id}")
+    @ResponseBody
+    public ResponseBo mes2(@PathVariable("id") int id ){
+//        获得jobs对象
+//        Jobs jobs = jobsService.selectList(new EntityWrapper<Jobs>().eq("jobId",jobId))
+        System.out.println(id);
+
+        return ResponseBo.ok();
+    }
+
 
 }

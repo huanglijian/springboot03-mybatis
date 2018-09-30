@@ -235,7 +235,7 @@
         </div>
 
         <div id="jobsul">
-            <ul class="list-unstyled" >
+            <ul class="list-unstyled">
                 <li v-for="j in job">
                     <div class="DownLi" onmouseover="this.style.backgroundColor='#F4F9FD'"
                          onmouseout="this.style.backgroundColor='#FFFFFF'">
@@ -243,7 +243,7 @@
                             <img src="/static/img/img_hlj/alibaba2.png"/>
                         </div>
                         <div class="studioIntro">
-                            <h4><a href="detail.html" class="color">{{j.studio.stuName}}</a></h4>
+                            <h4><a href="mes" class="color" target="_blank">{{j.studio.stuName}}</a></h4>
                             <p class="white" style="float:left;">职位: </p>
                             <p>&nbsp;&nbsp;{{j.jobs.jobName}}</p>
                             <p class="white" style="float:left;">发布时间:</p>
@@ -254,14 +254,13 @@
                             <p>&nbsp;&nbsp;{{j.jobs.jobNum}}人</p>
                             <p class="white" style="float:left;">职位简介: </p>
                             <p>&nbsp;&nbsp;{{j.jobs.jobIntro}}</p>
+                            <p id="ii">{{j.jobs.jobId}}</p>
                         </div>
-
                         <div class="join">
                             <div class="joinUp"></div>
                             <div class="joinM">
-                                <!--<a class="btn btn-block btn-primary compose-mail" href="mail_compose.html" data-toggle="modal" data-target="#myModal">申请加入</a>-->
-                                <a class="btn btn-block btn-primary compose-mail but" href="mes"
-                                   target="_blank">申请加入</a>
+                                <a class="btn btn-block btn-primary compose-mail but" :href="'/ForJob/mes/'+j.jobs.jobId"
+                                   target="_blank" >申请加入</a>
                             </div>
                             <div class="joinD"></div>
                         </div>
@@ -280,27 +279,43 @@
                 },
                 created: function () {
                     $.ajax({
-                        type: "Post",
-                        url: "search/jobs",
+                        type: 'Post',
+                        url: 'search/jobs',
                         success: function (result) {
-                            vm.job = result.jobsStudios
+                            vm.job = result.jobsStudios;
                         }
                     })
                 },
+                c: function () {
+                    $:ajax({
+                        type: "Get",
+                        url: 'dd',
+                        data: {
+                            name: '123',
+                        }
+                    })
+                }
+
+                // aa:function (jobid) {
+                //     $.ajax({
+                //         type:"Post",
+                //         url:'/mes'+jobid,
+                //     })
+                // },
             });
         </script>
         <!--搜索数量渲染-->
         <script type="text/javascript">
             var vm1 = new Vue({
-                el:'#vuenum',
+                el: '#vuenum',
                 data: {
                     n: 0,
                 },
-                created:function () {
+                created: function () {
                     $.ajax({
                         type: "Post",
-                        url:"search/jNum",
-                        success:function (result) {
+                        url: "search/jNum",
+                        success: function (result) {
                             vm1.n = result.jNum;
                         }
                     })
@@ -376,7 +391,7 @@
 </footer>
 <!--选择js样式-->
 <script>
-    $(".li1 .ATpye a").click(function() {
+    $(".li1 .ATpye a").click(function () {
         $(".li1 .ATpye").removeClass("current");
         $(this).parent().addClass("current");
 
@@ -390,7 +405,7 @@
     //			})
 
 
-    $(".li2 .ATpye a").click(function() {
+    $(".li2 .ATpye a").click(function () {
         $(".li2 .ATpye").removeClass("current");
         $(this).parent().addClass("current");
 
@@ -398,14 +413,14 @@
         $(this).addClass("current");
     })
 
-    $(".li3 .ATpye a").click(function() {
+    $(".li3 .ATpye a").click(function () {
         $(".li3 .ATpye").removeClass("current");
         $(this).parent().addClass("current");
 
         $(".li3 .ATpye a").removeClass("current");
         $(this).addClass("current");
     })
-    $(".li4 .ATpye a").click(function() {
+    $(".li4 .ATpye a").click(function () {
         $(".li4 .ATpye").removeClass("current");
         $(this).parent().addClass("current");
 
