@@ -146,16 +146,16 @@
                             <!--页号-->
                             <div class="text-center">
                                 <div class="btn-group">
-                                    <button class="btn btn-white" type="button" v-if="curPage != 1" @click="changePage(curPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                                    <button class="btn btn-white" type="button" v-if="result.hasPreviousPage" @click="changePage(curPage - 1)"><i class="fa fa-chevron-left"></i></button>
                                     <!--v-for:循环页数, :class ：如果是当前页使其为激活， @click:触发事件参数-->
                                     <button class="btn btn-white"
-                                            v-for="p in result.pages"
+                                            v-for="p in result.navigatepageNums"
                                             :class="[{ active: p == curPage }, '']"
                                             @click="changePage(p)"
                                     >
                                         {{p}}
                                     </button>
-                                    <button class="btn btn-white" type="button" v-if="curPage != result.pages" @click="changePage(curPage + 1)"><i class="fa fa-chevron-right" ></i></button>
+                                    <button class="btn btn-white" type="button" v-if="result.hasNextPage" @click="changePage(curPage + 1)"><i class="fa fa-chevron-right" ></i></button>
                                 </div>
                             </div>
                         </div>
@@ -234,9 +234,11 @@
                                         dataType: "json",
                                         success: function(result){
                                             if(result.code === 0){
-                                                searchResult.resource = result.result.records;
-                                                searchResult.curPage = result.result.current;
                                                 searchResult.result = result.result;
+                                                searchResult.resource = result.result.list;
+                                                searchResult.curPage = result.result.pageNum;
+                                                console.log( searchResult.curPage);
+                                                console.log(searchResult.result);
                                             }
                                         }
                                     });

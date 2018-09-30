@@ -6,7 +6,9 @@ import cn.ck.service.AlluserService;
 import cn.ck.service.DanmuService;
 import cn.ck.service.ResourceService;
 import cn.ck.utils.ResponseBo;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.List;
 
 
 @Controller
@@ -44,8 +47,15 @@ public class ResourceController extends AbstractController {
     @RequestMapping("hotResource")
     @ResponseBody
     public ResponseBo getHotResource(){
-        Page<Resource> resourcePage = resourceService.getMostLikeResPage(new Page<Resource>(1, 8));
-        return ResponseBo.ok().put("hotResource", resourcePage.getRecords());
+        //MP方式分页
+//        Page<Resource> resourcePage = resourceService.getMostLikeResPage(new Page<Resource>(1, 8));
+
+        //PageHelper方式分页
+        PageHelper.startPage(1, 8);
+        List<Resource> resources = resourceService.getMostLikeResPage();
+        PageInfo<Resource> pageInfo = new PageInfo<>(resources);
+
+        return ResponseBo.ok().put("hotResource", pageInfo.getList());
     }
 
     /**
@@ -55,8 +65,15 @@ public class ResourceController extends AbstractController {
     @RequestMapping("recommendResource")
     @ResponseBody
     public ResponseBo getRecommendResource(){
-        Page<Resource> resourcePage = resourceService.getMostLikeResPage(new Page<Resource>(1, 8));
-        return ResponseBo.ok().put("recommendResource", resourcePage.getRecords());
+        //MP方式分页
+//        Page<Resource> resourcePage = resourceService.getMostLikeResPage(new Page<Resource>(1, 8));
+
+        //PageHelper方式分页
+        PageHelper.startPage(1, 8);
+        List<Resource> resources = resourceService.getLatestResPage();
+        PageInfo<Resource> pageInfo = new PageInfo<>(resources);
+
+        return ResponseBo.ok().put("recommendResource", pageInfo.getList());
     }
 
     /**
@@ -66,8 +83,14 @@ public class ResourceController extends AbstractController {
     @RequestMapping("searchSuggest")
     @ResponseBody
     public ResponseBo getSearchSuggest(@RequestParam("key")String keyword){
-        Page<Resource> page = resourceService.getSuggestPage(new Page<Resource>(1, 10), keyword);
-        return  ResponseBo.ok().put("resource", page.getRecords());
+        //MP方式分页
+//        Page<Resource> page = resourceService.getSuggestPage(new Page<Resource>(1, 10), keyword);
+
+        PageHelper.startPage(1, 10);
+        List<Resource> resources = resourceService.selectList(new EntityWrapper<>());
+        PageInfo<Resource> pageInfo = new PageInfo<>(resources);
+
+        return  ResponseBo.ok().put("resource", pageInfo.getList());
     }
 
     /**
@@ -80,15 +103,27 @@ public class ResourceController extends AbstractController {
         return "resource/res_search_results";
     }
 
+    /**
+     * 搜索结果
+     * @param keyword 搜索的关键字
+     * @param curPage 页数
+     * @return
+     */
     @RequestMapping("doSearch/{key}/{page}")
     @ResponseBody
     public ResponseBo doSearch(@PathVariable("key")String keyword, @PathVariable("page")Integer curPage){
-        Page<Resource> page = resourceService.getSuggestPage(new Page<Resource>(curPage, 16), keyword);
-        return ResponseBo.ok().put("result", page);
+        //MP方式分页
+//        Page<Resource> page = resourceService.getSuggestPage(new Page<Resource>(curPage, 2), keyword);
+
+        PageHelper.startPage(curPage, 8);
+        List<Resource> resources = resourceService.getSuggestPage(keyword);
+        PageInfo<Resource> resourcePageInfo = new PageInfo<>(resources);
+
+        return ResponseBo.ok().put("result", resourcePageInfo);
     }
 
     /**
-     * 视频播放页
+     * 视频播放界面
      * @return
      */
     @RequestMapping("player")
@@ -101,6 +136,12 @@ public class ResourceController extends AbstractController {
         return "resource/index";
     }
 
+    /**
+     * 二进制流输出视频
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @RequestMapping(value ="/getFileSrc",method = RequestMethod.GET)
     @ResponseBody
     public void getFileSrc(HttpServletRequest request , HttpServletResponse response) throws IOException {

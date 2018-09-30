@@ -5,6 +5,7 @@ import cn.ck.entity.bean.ResCol;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.baomidou.mybatisplus.service.IService;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -25,6 +26,10 @@ public interface ResourceService extends IService<Resource> {
      */
     Page<Resource> getMostLikeResPage(Page<Resource> page);
 
+    List<Resource> getMostLikeResPage();
+
+    List<Resource> getLatestResPage();
+
     /**
      * 获取搜索建议
      * @param page 分页器
@@ -32,6 +37,8 @@ public interface ResourceService extends IService<Resource> {
      * @return
      */
     Page<Resource> getSuggestPage(Page<Resource> page, String keyword);
+
+    List<Resource> getSuggestPage(String keyword);
 
     List<ResCol> selectDesc(String id);
 }

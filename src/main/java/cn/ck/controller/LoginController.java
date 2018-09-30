@@ -1,6 +1,10 @@
 package cn.ck.controller;
 
 import cn.ck.entity.Alluser;
+import cn.ck.entity.Promulgator;
+import cn.ck.entity.Users;
+import cn.ck.service.PromulgatorService;
+import cn.ck.service.UsersService;
 import cn.ck.utils.ResponseBo;
 import cn.ck.utils.ShiroUtils;
 import com.google.code.kaptcha.Constants;
@@ -21,6 +25,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Date;
 
 
 @Controller
@@ -29,6 +34,10 @@ public class LoginController extends AbstractController{
 	//验证码产生bean
 	@Autowired
 	private Producer producer;
+	@Autowired
+	private PromulgatorService promulgatorService;
+	@Autowired
+	private UsersService usersService;
 
 	//显示主页
 	@RequestMapping("/")
@@ -80,9 +89,23 @@ public class LoginController extends AbstractController{
 		try {
 			//shiro的登录方法
 			subject.login(token);
+			//更新最后登录时间
+			String userType = getUser().getAllType();
+			String userId = getUser().getAllId();
+			if(userType.equals("普通用户")){
+				Users u = usersService.selectById(userId);
+				u.setUserLogintime(new Date());
+				usersService.updateById(u);
+			}
+			else if(userType.equals("发布者")){
+				Promulgator p = promulgatorService.selectById(userId);
+				p.setPromLogintime(new Date());
+				promulgatorService.updateById(p);
+			}
 			//向页面传递数据
 			ResponseBo rb = ResponseBo.ok();
 			rb.put("userType", getUser().getAllType());
+			rb.put("successnUrl", "/");
 			return rb;
 		} catch (UnknownAccountException e) {
 			return ResponseBo.error(e.getMessage());

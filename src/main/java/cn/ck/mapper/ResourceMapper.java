@@ -17,7 +17,12 @@ import java.util.List;
  */
 public interface ResourceMapper extends BaseMapper<Resource> {
 
-    List<Resource> getMostLike(Pagination page);
+    /**
+     * 获取最多人点赞的视频集合
+     * @return
+     */
+    List<Resource> getMostLike();
+//    List<Resource> getMostLike(Pagination page);
 
     //关联resource表跟collectres表
     List<ResCol> selectDesc(String id);

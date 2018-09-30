@@ -65,6 +65,11 @@
     <!-- 浮现播放按钮样式 -->
     <link rel="stylesheet" href="/static/css/css_cwh/videoBtn/videoBtnStyle.css">
     <style>
+        .box img {
+            width: 200px;
+            height: 120px;
+            transition: all 0.3s ease 0s;
+        }
         .box .icon li a {
             color: #fff;
             font-size: 25px;
@@ -135,7 +140,7 @@
     <div id="wrapper">
         <div id="page-wrapper" class="gray-bg" style="background:#ffffff">
             <div class="wrapper wrapper-content">
-                <div class="container">
+                <div class="container" id="resources">
                     <!--logo和搜索框-->
                     <div class="row">
                         <div class="col-md-6 col-md-offset-4">
@@ -347,16 +352,17 @@
                                     <div id="tab-2" class="tab-pane" style="height:470px">
                                         <div class="full-height-scroll">
                                             <div class="table-responsive">
-                                                <table class="table ">
+                                                <table class="table" style="overflow:hidden">
                                                     <tbody>
                                                         <tr>
                                                             <td>
+                                                                <div class="row" style="padding: 5px;overflow-x:hidden;" v-for="res in recommend">
                                                                 <div class="col-xs-6">
                                                                     <div class="box">
-                                                                        <img src="/static/img/img_chh/H5Picture.png" alt="">
+                                                                        <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
                                                                         <div class="box-content">
                                                                             <ul class="icon">
-                                                                                <li><a href=""><i class="fa fa-play"></i></a></li>
+                                                                                <li><a :href="res.resPath"><i class="fa fa-play"></i></a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -364,13 +370,15 @@
                                                                 <div class="col-xs-6">
                                                                     <div class="ibox-content" style="padding:0px;border-width:0px;">
                                                                         <a href="">
-                                                                            <p>【木鱼微剧场】《天之痕》P5最终话：天之痕、神州大地与惦记的人</p>
+                                                                            <p>{{res.resName|fontfilter}}</p>
                                                                         </a>
+                                                                        <p>{{res.resIntro|fontfilter}}</p>
                                                                         <small class="text-muted">
                                                                             <i class="fa fa-eye"></i>456
-                                                                            <i class="fa fa-star"></i>1455万
+                                                                            <i class="fa fa-star"></i>{{res.resLikenum}}
                                                                         </small>
                                                                     </div>
+                                                                </div>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -388,16 +396,16 @@
                     var res = new Vue({
                         el:'#resources',
                         data:{
-                            hotResource : '',
+                            recommend : '',
                             key : '',
                         },
                         beforeCreate: function () {
                         },
                         created: function () {
+                            this.getRecommend();
+                            console.log(this.recommend);
                         },
                         beforeMount: function () {
-                            this.hot();
-                            this.recomend();
                         },
                         mounted: function () {
                         },
@@ -406,49 +414,42 @@
                         updated: function () {
                         },
                         methods: {
-                            hot : function () {
-                                // var data = "email="+vm.email;
-                                $.ajax({
-                                    type: "POST",
-                                    url: "hotResource",
-                                    dataType: "json",
-                                    success: function(result){
-                                        if(result.code === 0){
-                                            res.hotResource = result.hotResource;
-                                        }
-                                    }
-                                });
-                            },
-                            recomend : function () {
+                            getRecommend : function () {
                                 $.ajax({
                                     type: "POST",
                                     url: "recommendResource",
                                     dataType: "json",
                                     success: function(result){
                                         if(result.code === 0){
-                                            res.recommendResource = result.recommendResource;
+                                            res.recommend = result.recommendResource;
+                                            console.log(result);
                                             // window.location.href = "/registered/second?UUID=" + result.UUID;
                                         }
                                     }
                                 });
                             },
-                            // doSearch : function () {
-                            //     $.ajax({
-                            //         type: "POST",
-                            //         url: "/resource/doSearch/" + searchResult.keyWord,
-                            //         data : '',
-                            //         dataType: "json",
-                            //         success: function(result){
-                            //             if(result.code === 0){
-                            //                 searchResult.result = result.result;
-                            //             }
-                            //             else{
-                            //                 alert(result.msg);
-                            //             }
-                            //         }
-                            //     });
-                            // }
-                        }
+                        },
+                        filters: {
+                            fontfilter: function (value) {
+                                if(value&& value.length > 15) {
+                                    value= value.substring(0,15)+ '...';
+                                }
+                                return value;
+                            },
+                            numfilter: function(value){
+                                if(value > 10000){
+                                    value = value / 10000;
+                                    return value + "万";
+                                }
+                                else if(value > 1000){
+                                    value = value /1000;
+                                    return value + "千";
+                                }
+                            },
+                            mintohour: function (value) {
+
+                            },
+                        },
                     });
                 </script>
 
