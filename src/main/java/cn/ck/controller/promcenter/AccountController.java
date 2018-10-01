@@ -79,7 +79,7 @@ public class AccountController {
     }
 
     /**
-     * 获取登录用户信息，用于用户头像更新界面渲染
+     * 获取登录用户信息，用于用户头像更新界面渲染和资料更新
      *
      * @return
      */
@@ -88,7 +88,7 @@ public class AccountController {
     public ResponseBo getpromimg() {
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
         Promulgator promulgator = promulgatorService.selectID(user.getAllId());
-        return ResponseBo.ok().put("prom", promulgator);
+        return ResponseBo.ok().put("prom", promulgator).put("user",user);
     }
 
     /**

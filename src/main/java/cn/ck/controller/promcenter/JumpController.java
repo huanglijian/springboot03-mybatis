@@ -63,5 +63,9 @@ public class JumpController {
         return "/promulgator/prom_homepage";
     }
 
+    @RequestMapping("/updateprom")
+    public String updateprom(){
+        return "/promulgator/prom_updateprom";
+    }
 
 }

@@ -82,7 +82,7 @@
                             <a href="/pcjump/projhomepage">个人主页</a>
                         </li>
                         <li>
-                            <a href="prom_updateprom.html">修改资料</a>
+                            <a href="/pcjump/updateprom">修改资料</a>
                         </li>
                         <li>
                             <a href="prom_Notice.html">系统通知</a>
@@ -160,7 +160,7 @@
                         <img v-if="prom.promImg" :src="'/promcenter/previewsrc/' + prom.promImg" alt="" class="imgsize" />
                     </div>
                     <div class="r_c_t_l_pcData">
-                        <a class="pcDatabtn" href="prom_updateprom.html">修改资料</a>
+                        <a class="pcDatabtn" href="/pcjump/updateprom">修改资料</a>
                     </div>
                 </div>
                 <div class="r_c_t_right">
@@ -215,6 +215,10 @@
             </div>
             <div class="r_c_middle">
                 <h2>待处理的项目动态</h2>
+                <div v-if="project==''">
+                    <p style="padding: 10px 20px;color: #999999;font-size: 14px">暂无待处理的项目</p>
+                </div>
+                <div v-else>
                 <table class="table">
                     <thead>
                     <tr>
@@ -237,6 +241,7 @@
                     </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
             <div class="r_c_bottom">
                 <h2>优秀工作室推荐</h2>
