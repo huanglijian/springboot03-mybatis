@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -164,4 +165,25 @@ public class AccountController {
                 .put("allnum",allnum).put("finishnum",finishnum).put("failnum",failnum).put("bidnum",bidnum);
     }
 
+    /**
+     * 更新发布者资料信息
+     * @param request
+     * @return
+     */
+    @PostMapping("/promupdate")
+    @ResponseBody
+    public ResponseBo promupdate(HttpServletRequest request){
+//        System.out.println("45454");
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        Promulgator promulgator=promulgatorService.selectID(user.getAllId());
+        promulgator.setPromName(request.getParameter("username"));
+        promulgator.setPromPhone(request.getParameter("mobile"));
+        promulgator.setPromIntro(request.getParameter("jianjie"));
+        promulgator.setPromAbipay(request.getParameter("zhifubao"));
+
+        if(promulgatorService.updateAllColumnById(promulgator))
+            return ResponseBo.ok().put("code","1");
+        else
+            return ResponseBo.ok().put("code","0");
+    }
 }

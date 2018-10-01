@@ -63,9 +63,16 @@ public class JumpController {
         return "/promulgator/prom_homepage";
     }
 
+    /*跳转资料更新界面*/
     @RequestMapping("/updateprom")
     public String updateprom(){
         return "/promulgator/prom_updateprom";
+    }
+
+    /*跳转资金管理界面*/
+    @RequestMapping("/priceprom")
+    public String priceprom(){
+        return "/promulgator/prom_priManage";
     }
 
 }

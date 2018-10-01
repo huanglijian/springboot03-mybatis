@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="/static/css/css_lxn/prom_updateprom-lxn.css" />
 		<link rel="stylesheet" href="/static/css/animate.css" />
 		<link rel="stylesheet" href="/static/css/font-awesome.css" />
+		<link rel="stylesheet" href="/static/css/css_lxn/modal-lxn.css">
 		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/static/js/vue.js"></script>
@@ -201,7 +202,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 col-md-3 col-lg-3 control-label">我的简介：</label>
 								<div class="col-sm-5 col-md-5 col-lg-5" style="padding-right: 0">
-									<textarea class="form-control" name="jianjie" cols="" rows="5" :value="prom.promIntro"></textarea>
+									<textarea class="form-control" id="jianjie" name="jianjie" cols="" rows="5" :value="prom.promIntro"></textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -215,7 +216,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
-									<button class="btn btn-primary" type="submit">提交</button>
+									<button class="btn btn-primary" type="button" onclick="tipbtn()">提交</button>
 								</div>
 							</div>
 						</form>
@@ -223,6 +224,52 @@
 				</div>
 			</div>
 
+			<!-- 确认框 -->
+			<div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header header_tip">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							<span class="modal-title" >&nbsp;提&nbsp;&nbsp;示</span>
+						</div>
+						<div class="modal-body text-center">确认提交更新信息？</div>
+						<div class="modal-footer text-center">
+							<a href="javascript:;" class="btn btn-default modal_btn" data-dismiss="modal">取消</a>
+							<a href="javascript:;" class="btn btn-primary modal_btn" onclick="subbtn()">确认</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 更新成功提示框 -->
+			<div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header header_tip">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							<span class="modal-title">&nbsp;提&nbsp;&nbsp;示</span>
+						</div>
+						<div class="modal-body text-center">更新成功</div>
+						<div class="modal-footer text-center">
+							<a href="javascript:;" class="btn btn-primary modal_btn"onclick="sucess()">确认</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 更新失败提示框 -->
+			<div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header header_danger">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							<span class="modal-title">&nbsp;提&nbsp;&nbsp;示</span>
+						</div>
+						<div class="modal-body text-center">更新失败</div>
+						<div class="modal-footer text-center">
+							<a href="javascript:;" class="btn modal_btn danger_btn"onclick="fail()">确认</a>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<footer>
@@ -304,13 +351,48 @@
 						type:'get',
 						url:'/promcenter/getpromimg',
 						success:function (result) {
-						    console.log(result);
+						    // console.log(result);
 							vm.prom=result.prom;
-							vm.email=result.user.email;
+							vm.email=result.user.allEmail;
                         }
 					})
                 },
 			});
+
+			function tipbtn() {
+			    if($("#signupForm").valid()){
+                    $("#Modal1").modal("show");
+                }
+            }
+            function subbtn() {
+                    var formData = new FormData($("#signupForm")[0]);
+                    $.ajax({
+                        type: 'post',
+                        url: '/promcenter/promupdate',
+                        data: formData,
+                        cache:false,
+                        async:false,
+                        processData: false,  //必须false才会避开jQuery对 formdata 的默认处理   
+                        contentType: false,
+                        success: function (result) {
+                            if (result.code==1){
+                                $("#Modal1").modal("hide");
+                                $("#Modal2").modal("show");
+                            }else{
+                                $("#Modal1").modal("hide");
+                                $("#Modal3").modal("show");
+							}
+                        },
+                    })
+            }
+
+            function sucess() {
+				window.location.href="/pcjump/account";
+            }
+
+            function fail() {
+                window.location.href="/pcjump/updateprom";
+            }
 		</script>
 	</body>
 
