@@ -10,11 +10,7 @@
 
     <link rel="stylesheet" href="/static/css/css_psw/style_head.css"/>
     <link rel="stylesheet" href="/static/css/css_hlj/detail.css"/>
-    <style>
-        body {
-            /*background: 	#F5F5F5 ;*/
-        }
-    </style>
+
 </head>
 <body>
 <header>
@@ -71,34 +67,35 @@
         <div id="vue1">
             <div class="mess">
                 <div class="messL">
-
-                    <h3>java工程师</h3>
-
+                    <h3>{{js.jobs.jobName}}</h3>
+                    <h3>123</h3>
                     <ul class="list-unstyled kong">
                         <li><p class="white" style="float:left;">&nbsp;&nbsp;工资: </p>
-                            <p style="float:left;">&nbsp;&nbsp;5k</p></li>
+                            <p style="float:left;">&nbsp;&nbsp;{{
+                                <js class="jobs jobMon"></js>
+                                ey}}
+                            </p>
+                        </li>
                         <li><p class="white" style="float:left;">&nbsp;&nbsp;人数: </p>
-                            <p>&nbsp;&nbsp;8人</p></li>
+                            <p>&nbsp;&nbsp;{{js.jobs.jobNum}}人</p></li>
                     </ul>
                     <br/>
                     <ul class="list-unstyled">
                         <li><p class="white" style="float:left;">&nbsp;&nbsp;发布时间: </p>
                             <p style="float:left;">&nbsp;&nbsp;2018-09-10</p></li>
                         <li><p class="white" style="float:left;">&nbsp;&nbsp;工作室人数: </p>
-                            <p>&nbsp;&nbsp;25人</p></li>
+                            <p>&nbsp;&nbsp;{{js.studio.stuMembernum}}人</p></li>
                     </ul>
                     <br/>
                     <div class="line_02"></div>
                     <br/>
                     <p class="white">&nbsp;&nbsp;职位简介: </p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;简介简介简介简介简介简介简介简介简介简介简介简介简介简介</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{js.jobs.jobIntro}}</p>
                     <!--职位要求-->
                     <div class="require">
                         <p class="white">&nbsp;&nbsp;职位要求：</p>
                         <div class="requAn">
-                            <p>1.要求一要求一要求一要求一要求一要求一要求一要求一要求一</p>
-                            <p>2.要求二要求二要求二要求二要求二要求二要求二要求二要求二</p>
-                            <p>2.要求三要求三要求三要求三要求三要求三要求三要求三要求三</p>
+                            <p>{{js.jobs.jobRequire}}</p>
                         </div>
                     </div>
 
@@ -108,9 +105,7 @@
                     <div class="intro">
                         <p class="white">&nbsp;&nbsp;工作室简介: </p>
                         <div class="introAn">
-                            <p>简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介</p>
-                            <p>简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介</p>
-                            <p>简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介</p>
+                            <p>{{js.studio.stuIntro}}</p>
                         </div>
                     </div>
 
@@ -120,7 +115,7 @@
                         <img src="/static/img/img_hlj/alibaba2.png"/>
                     </div>
                     <div class="name">
-                        <h3>小虎队工作室</h3>
+                        <h3>{{js.studio.stuName}}</h3>
                     </div>
                     <!--申请加入-->
                     <div class="join">
@@ -136,6 +131,7 @@
         </div>
     </div>
 </div>
+
 <!--模态窗-->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -153,46 +149,43 @@
                 </h4>
             </div>
 
-            <!--模态主题-->
+            <!--模态主体-->
             <div class="modal-body" id="ModalBody">
                 <form action="#">
                     请上传你的简历文件<br><br>
-                    <a href="/static/javascript:;" class="file">选择文件
+                    <div><a href="javascript:;" class="file">
                         <input type="file" name="" id="">
                     </a>
+                    </div>
+                    <!--尾栏-->
+                    <div class="modal-footer">
+                        <!--关闭按钮-->
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <!--提交按钮-->
+                        <button type="submit" class="btn btn-primary" onclick="sumbit()">确定提交</button>
+                    </div>
                 </form>
             </div>
         </div>
-
-        <!--尾栏-->
-        <div class="modal-footer">
-            <!--关闭按钮-->
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <!--提交按钮-->
-            <button type="submit" class="btn btn-primary">确定提交</button>
-            </form>
-        </div>
     </div>
-    <!-- /.modal-content -->
-</div>
-<!-- /.modal -->
 </div>
 
 <!--vue渲染-->
 <script type="text/javascript">
-    var id=[[${id}]];
+    var id = [[${id}]];
     var vm = new Vue({
         el: '#vue1',
         data: {
-            job:'',
+            js: '',
         },
         created: function () {
             console.log(id);
             $.ajax({
                 type: "Post",
-                url: "/ForJob/mes/"+id,
+                url: "/ForJob/mes/" + id,
                 success: function (result) {
-                    alert(result.msg);
+                    // alert(result.msg);
+                    vm.js = result.js;
                 }
             })
         },

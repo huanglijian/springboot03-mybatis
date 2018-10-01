@@ -102,9 +102,12 @@
         <div class="search2">
             <div class="searchM">
                 <div class="input-group">
-                    <input type="text" placeholder="请输入工作室名称或标签" class="input-sm form-control">
+                    <input type="text" placeholder="请输入职位或工作室名称" class="input-sm form-control" id="se">
                     <span class="input-group-btn">
-                			<button type="button" class="btn btn-sm btn-primary but"> 搜索</button></span>
+                        <div id="btnc">
+                        <button type="button" class="btn btn-sm btn-primary but" @click="cc()"> 搜索</button>
+                        </div>
+                    </span>
                 </div>
             </div>
             <div class="searchR"></div>
@@ -254,13 +257,13 @@
                             <p>&nbsp;&nbsp;{{j.jobs.jobNum}}人</p>
                             <p class="white" style="float:left;">职位简介: </p>
                             <p>&nbsp;&nbsp;{{j.jobs.jobIntro}}</p>
-                            <p id="ii">{{j.jobs.jobId}}</p>
                         </div>
                         <div class="join">
                             <div class="joinUp"></div>
                             <div class="joinM">
-                                <a class="btn btn-block btn-primary compose-mail but" :href="'/ForJob/mes/'+j.jobs.jobId"
-                                   target="_blank" >申请加入</a>
+                                <a class="btn btn-block btn-primary compose-mail but"
+                                   :href="'/ForJob/mes/'+j.jobs.jobId"
+                                   target="_blank">申请加入</a>
                             </div>
                             <div class="joinD"></div>
                         </div>
@@ -268,61 +271,90 @@
                 </li>
             </ul>
         </div>
+    </div>
 
-        <!--vue渲染-->
-        <!--招聘信息渲染-->
-        <script type="text/javascript">
-            var vm = new Vue({
-                el: '#jobsul',
-                data: {
-                    job: '',
-                },
-                created: function () {
+    <script type="text/javascript">
+        // // 搜索
+        // var sear = $("#se").val();          //se:搜索input里里面的内容
+        // $(function () {
+        //     $("#cc").click(function () {
+        //         alert("事件触发");
+        //         $.ajax({
+        //             url: '/ForJob/',
+        //             type: 'post',
+        //             data: {
+        //                 sear: sear,
+        //             },
+        //             success: function (result) {
+        //                 alert("fanhui");
+        //             }
+        //         })
+        //     })
+        // });
+
+        // 招聘信息渲染
+        var vm = new Vue({
+            el: '#jobsul',
+            data: {
+                job: '',
+            },
+            created: function () {
+                $.ajax({
+                    type: 'Post',
+                    url: '/ForJob/search/jobs',
+                    success: function (result) {
+                        vm.job = result.jobsStudios;
+                    }
+                })
+            },
+            methods: {
+
+            }
+        });
+
+        //根据查询的信息显示不同的招聘信息
+        var vue2 = new Vue({
+            el: '#btnc',
+            data:{
+                jobs:'',
+            },
+            methods: {
+                cc: function () {
+                    // 获取搜索框信息
+                    var nei = $("#se").val();
                     $.ajax({
                         type: 'Post',
-                        url: 'search/jobs',
+                        url: 'search/cha',
+                        data:{
+                            nei: nei,
+                        },
                         success: function (result) {
                             vm.job = result.jobsStudios;
                         }
                     })
                 },
-                c: function () {
-                    $:ajax({
-                        type: "Get",
-                        url: 'dd',
-                        data: {
-                            name: '123',
-                        }
-                    })
-                }
+            }
+        })
 
-                // aa:function (jobid) {
-                //     $.ajax({
-                //         type:"Post",
-                //         url:'/mes'+jobid,
-                //     })
-                // },
-            });
-        </script>
-        <!--搜索数量渲染-->
-        <script type="text/javascript">
-            var vm1 = new Vue({
-                el: '#vuenum',
-                data: {
-                    n: 0,
-                },
-                created: function () {
-                    $.ajax({
-                        type: "Post",
-                        url: "search/jNum",
-                        success: function (result) {
-                            vm1.n = result.jNum;
-                        }
-                    })
-                }
-            })
-        </script>
-    </div>
+    </script>
+    <!--搜索数量渲染-->
+    <script type="text/javascript">
+        var vm1 = new Vue({
+            el: '#vuenum',
+            data: {
+                n: 0,
+            },
+            created: function () {
+                $.ajax({
+                    type: "Post",
+                    url: "search/jNum",
+                    success: function (result) {
+                        vm1.n = result.jNum;
+                    }
+                })
+            }
+        })
+    </script>
 </div>
 <footer>
     <div class="container-fluid_foot">
