@@ -1,6 +1,5 @@
 package cn.ck.controller;
 
-import cn.ck.entity.Alluser;
 import cn.ck.service.AlluserService;
 import cn.ck.utils.ResponseBo;
 import cn.ck.utils.ShiroUtils;
@@ -16,12 +15,6 @@ public class AllUserController extends AbstractController{
 
     @Autowired
     AlluserService alluserService;
-
-    @RequestMapping("/saveuser")
-    public String saveUser(Alluser user){		//sha256加密
-        alluserService.encodePwd(user);
-        return "";
-    }
 
     @RequestMapping("/updatePassword")
     @ResponseBody

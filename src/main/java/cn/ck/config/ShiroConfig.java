@@ -27,7 +27,7 @@ public class ShiroConfig {
 	public SessionManager sessionManager(RedisShiroSessionDAO redisShiroSessionDAO){
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 		//设置session过期时间为1小时(单位：毫秒)，默认为30分钟
-		sessionManager.setGlobalSessionTimeout(30 * 60 * 1000);
+		sessionManager.setGlobalSessionTimeout(180 * 60 * 1000);
 		sessionManager.setSessionValidationSchedulerEnabled(true);
 		sessionManager.setSessionIdUrlRewritingEnabled(false);
 

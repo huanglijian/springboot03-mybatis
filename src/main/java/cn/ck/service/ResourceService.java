@@ -20,6 +20,7 @@ import java.util.List;
 public interface ResourceService extends IService<Resource> {
 
     /**
+     * MP分页方式，弃用
      * 分页查询点赞数最多的视频
      * @param page 分页器
      * @return
@@ -28,9 +29,14 @@ public interface ResourceService extends IService<Resource> {
 
     List<Resource> getMostLikeResPage();
 
+    /**
+     * 分页查询最后发布的视频
+     * @return
+     */
     List<Resource> getLatestResPage();
 
     /**
+     * MP分页方式，弃用
      * 获取搜索建议
      * @param page 分页器
      * @param keyword 搜索关键字

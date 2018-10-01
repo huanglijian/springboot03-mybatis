@@ -1,6 +1,8 @@
 package cn.ck;
 
 import cn.ck.entity.*;
+import cn.ck.entity.bean.DanmuJson;
+import cn.ck.mapper.DanmuMapper;
 import cn.ck.service.*;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -9,6 +11,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,14 +33,30 @@ public class ChuangApplicationTests {
     ProjectService projectService;
     @Autowired
     ResourceService resourceService;
+    @Autowired
+    DanmuService danmuService;
+    @Autowired
+    DanmuMapper danmuMapper;
+    @Autowired
+    CollectresService collectresService;
 
     @Test
-    public void contextLoads() {
+    public void contextLoads() throws Exception {
 //        Page<Alluser> p = alluserService.selectUserByPage(new Page<>(1,1));
-        String keyword = "Java";
-        Page<Resource> page = resourceService.selectPage(new Page<Resource>(1,10), new EntityWrapper<Resource>().like("res_name", keyword).or().like("res_intro", keyword).orderBy("res_uploadtime"));
-        System.out.println(page);
-
+//        Danmu danmu = new Danmu();
+//        for(int i = 0; i < 20; i++){
+//            danmu.setDmResource(1);
+//            danmu.setDmColor("white");
+//            danmu.setDmText("我是组成弹幕");
+//            danmu.setDmPosition(0);
+//            danmu.setDmSendtime(new Date());
+//            danmu.setDmTime(10);
+//            danmuService.insert(danmu);
+//        }
+//        List<DanmuJson> danmuJsons = danmuMapper.selectDanmuJsonByResId(1);
+//        danmuJsons = danmuService.sortListByTime(danmuJsons);
+//        System.out.println(danmuJsons);
+        System.out.println(collectresService.isCollected("e9ae842a-e70f-49b8-a9b5-bee24a13c8bb", 2));
     }
 
     @Test

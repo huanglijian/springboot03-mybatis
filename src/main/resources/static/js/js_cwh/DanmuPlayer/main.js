@@ -382,6 +382,10 @@
 
         //发送弹幕事件
         $(this.id + " .send-btn").on("click", {that: that}, function (e) {
+            if(!res.isLogined){
+                alert("登录后才能发送弹幕哦");
+                return;
+            }
             e.data.that.sendDanmu(e);
         });
 
