@@ -2,18 +2,32 @@
 <html>
 
 	<head>
+        <title>找回密码</title>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="/static/css/css_hlj/pwd_forget_3.css" />
+		<link rel="stylesheet" href="/static/css/font-awesome.css" />
 
 		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-		<title></title>
+
+        <!-- jQuery Validation plugin javascript-->
+        <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="/static/js/plugins/validate/messages_zh.min.js"></script>
+        <script type="text/javascript" src="/static/js/js_cwh/validatePwdForget.js"></script>
+        <script src="/static/js/vue.js"></script>
+
+		<style type="text/css">
+			.foget_input{
+				margin-top:2px;
+			}
+
+		</style>
 	</head>
 
 	<body>
 		<!--背景图-->
-		<div class="BgPit">
+		<div class="BgPit" id="pwdForget">
 
 			<!--中间区域-->
 			<div class="mid">
@@ -30,20 +44,20 @@
 						<div class="home" >
 							<div class="kong"></div>
 							<div class="homeD">
-								<a href="" class="txt1">首页</a>
+								<a href="/" class="txt1">首页</a>
 								<!--<a href="http://weibo.com/" class="txt1">微博</a>-->
 								<a href="" class="txt1 last">帮助</a>
 							</div>
 						</div>
 					</div>
-					
+
 					<!--找回密码-->
-					<div class="down">
+					<div class="down" style="height: 480px;">
 						<div class="up">
 							<div class="kong"></div>
 							<div class="mid">
 								<center>
-								<h3 class="title">通过邮箱验证码找回</h3>					
+								<h3 class="title">通过邮箱验证码找回</h3>
 								</center>
 							</div>
 							<!--进度涂片-->
@@ -59,24 +73,139 @@
 								<span class="finish">完成</span>
 							</div>
 						</div>
-						
+
 						<!--信息-->
-						<div class="mess">
-							<div class="inputpwd">
-								<input type="password" placeholder="输入新密码" class="input-sm form-control">
-							</div>
-							<div class="Reinputpwd">
-								<input type="password" placeholder="输入新密码" class="input-sm form-control">
-							</div>
-							<div class="confirm">
-								<a class="btn btn-block btn-primary compose-mail " href="pwd_forget_4.html">确认修改</a>
-							</div>
+						<div class="botform col-md-12" style="padding-top: 5%;padding-left: 8%;">
+							<form class="form-horizontal" id="pwdforgetform" @submit.prevent="updatePwd">
+								<input type="text" style="display: none;" name="uuid" v-model="userAccount.allId"/>
+								<div class="form-group ">
+									<div class="col-md-5 col-md-offset-3">
+										<div class="input-group">
+											<span class="input-group-addon glyphicon glyphicon-envelope"></span>
+											<input type="text" class="form-control foget_input" placeholder=""  disabled="disabled" v-model="userAccount.allEmail"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-5 col-md-offset-3">
+										<div class="input-group">
+											<span class="input-group-addon glyphicon glyphicon-lock"></span>
+											<input type="password" class="form-control foget_input" placeholder="登陆密码" id="newPwd" name="password" v-model="newPwd"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-5 col-md-offset-3">
+										<div class="input-group">
+											<span class="input-group-addon glyphicon glyphicon-lock"></span>
+											<input type="password" class="form-control foget_input" placeholder="确认密码" id="pwdConfirm" name="passwordConfirm"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-5 col-md-offset-4" style="padding-left: 7%;">
+										<div class="input-group">
+											<button type="submit" class="btn sub_register">&nbsp;&nbsp;修改密码&nbsp;&nbsp;</button>
+										</div>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
+
 				</div>
 			</div>
-
 		</div>
+		<script type="text/javascript">
+            var vm = new Vue({
+                el:'#pwdForget',
+                data:{
+                    userId: "",
+                    userAccount:'',
+                    newPwd : '',
+                },
+                beforeCreate: function () {
+                },
+                created: function () {
+                    this.getUser();
+                },
+                beforeMount: function () {
+                },
+                mounted: function () {
+                },
+                methods: {
+                    urlparse: function(){
+                        var url = window.location.href;
+                        var a = document.createElement('a');
+                        a.href = url;
+                        var obj = {
+                            source: url,
+                            protocol: a.protocol.replace(':', ''),
+                            host: a.hostname,
+                            port: a.port,
+                            query: a.search,
+                            file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                            hash: a.hash.replace('#', ''),
+                            path: a.pathname.replace(/^([^\/])/, '/$1'),
+                            relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                            segments: a.pathname.replace(/^\//, '').split('/'),
+                            params: (function() {
+                                var ret = {};
+                                var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
+                                    if (v!==''&&v.indexOf('=')) {
+                                        return true;
+                                    }
+                                });
+                                seg.forEach( function(element, index) {
+                                    var idx = element.indexOf('=');
+                                    var key = element.substring(0, idx);
+                                    var val = element.substring(idx+1);
+                                    ret[key] = val;
+                                });
+                                return ret;
+                            })()
+                        };
+                        return obj;
+                    },
+                    getUser: function(){
+                        var obj = this.urlparse();
+                        var data = "UUID="+obj.params.UUID;
+                        $.ajax({
+                            type: "POST",
+                            url: "/registered/getUserByID",
+                            data: data,
+                            dataType: "json",
+                            success: function(result){
+                                if(result.code === 0){
+                                    vm.userAccount = result.userAccount;
+                                    vm.userId = result.userAccount.allId;
+                                    console.log(vm.userAccount);
+                                }else{
+                                    alert("出现错误");
+                                }
+                            }
+                        });
+                    },
+                    updatePwd: function () {
+                        var obj = this.urlparse();
+                        var data = "UUID="+ this.userId + "&password=" + this.newPwd;
+                        $.ajax({
+                            type: "POST",
+                            url: "/registered/forgetUpdate",
+                            data: data,
+                            dataType: "json",
+                            success: function(result){
+                                if(result.code === 0){
+									window.location.href = result.next;
+                                }else{
+                                    alert("出现错误,请重新修改密码");
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+		</script>
 	</body>
 
 </html>

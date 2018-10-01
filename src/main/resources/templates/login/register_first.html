@@ -2,6 +2,7 @@
 <html>
 
 	<head>
+		<title>验证邮箱</title>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="/static/css/css_lxn/register-lxn.css" />
@@ -191,7 +192,6 @@
             }
             function sentcode(obj) {
 				if($("#signupForm").validate().element("#email")){
-                    settime(obj);
                     var data = "email="+vm.email;
                     $.ajax({
                         type: "POST",
@@ -200,7 +200,7 @@
                         dataType: "json",
                         success: function(result){
                             if(result.code === 0){
-                                console.log("not exist");
+                                settime(obj);
                                 vm.sentCode();
                             }else{
                                 alert(result.msg);

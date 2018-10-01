@@ -3,6 +3,7 @@ package cn.ck.controller;
 import cn.ck.service.AlluserService;
 import cn.ck.utils.ResponseBo;
 import cn.ck.utils.ShiroUtils;
+import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import static cn.ck.utils.ShiroUtils.getUserId;
 
-@Controller("/allUser")
+@Controller
+@RequestMapping("/allUser")
 public class AllUserController extends AbstractController{
 
     @Autowired

@@ -76,7 +76,7 @@ public class ResourceController extends AbstractController {
         //PageHelper方式分页
         PageHelper.startPage(1, 8);
         List<Resource> resources = resourceService.getLatestResPage();
-        PageInfo<Resource> pageInfo = new PageInfo<>(resources);
+        PageInfo<Resource> pageInfo = new PageInfo<Resource>(resources);
 
         return ResponseBo.ok().put("recommendResource", pageInfo.getList());
     }

@@ -11,6 +11,7 @@ import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,7 @@ public class LoginController extends AbstractController{
 	}
 
 	//显示登录页面
+	@RequiresGuest
 	@GetMapping("/login")
 	public String login() {
 		return "login/login";
@@ -103,10 +105,8 @@ public class LoginController extends AbstractController{
 				promulgatorService.updateById(p);
 			}
 			//向页面传递数据
-			ResponseBo rb = ResponseBo.ok();
-			rb.put("userType", getUser().getAllType());
-			rb.put("successnUrl", "/");
-			return rb;
+//			rb.put("userType", getUser().getAllType());
+			return ResponseBo.ok().put("next", "/");
 		} catch (UnknownAccountException e) {
 			return ResponseBo.error(e.getMessage());
 		} catch (IncorrectCredentialsException e) {
@@ -139,7 +139,7 @@ public class LoginController extends AbstractController{
 	public ResponseBo getLoginUser(){
 		Alluser loginUser = getUser();
 		if(loginUser == null)
-			return ResponseBo.error(404, "no login");
+			return ResponseBo.error(404, "没有登录");
 		return ResponseBo.ok().put("loginUser", loginUser);
 	}
 }
