@@ -9,6 +9,7 @@ import cn.ck.mapper.JobsMapper;
 import cn.ck.service.JobsService;
 import cn.ck.service.StudioService;
 import cn.ck.utils.ResponseBo;
+import cn.ck.utils.utils_hlj.fartime;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.mysql.jdbc.SocketMetadata;
 import org.quartz.Job;
@@ -149,34 +150,11 @@ public class jobcontroller extends AbstractController {
             jobsStudio.setJobs(jobs1);
             jobsStudio.setStudio(studio);
 
-            Date date1 = jobs1.getJobCreattime();
-            Date date = new Date();
-//            两个日期相减
-            long cha = date.getTime() - date1.getTime();
-//            拆分天数，小时，分钟
-            long day = cha / (24 * 60 * 60 * 1000);
-            long hour = (cha / (60 * 60 * 1000) - day * 24);
-            long min = ((cha / (60 * 1000)) - day * 24 * 60 - hour * 60);
-            String time = "出错";
-            int a = 0;
-            //显示天
-            if (day > 0) {
-                a = (int) day;
-                time = a + "天前";
-            } else if (day == 0) {
-//                显示小时
-                if (hour > 0) {
-                    a = (int) hour;
-                    time = a + "小时前";
-                }
-                //显示分钟
-                else if (hour == 0) {
-                    if (min > 0) {
-                        a = (int) min;
-                        time = a + "分钟前";
-                    }
-                }
-            }
+            //                调用自定义工具类
+            String time = "";
+            fartime f = new fartime();
+            time = f.far(jobs1.getJobCreattime());
+
             jobsStudio.setTime(time);
             jobsStudios.add(jobsStudio);
         }
@@ -195,34 +173,13 @@ public class jobcontroller extends AbstractController {
                 jobsStudio.setJobs(j2);
                 jobsStudio.setStudio(s2);
 
-                Date date1 = j2.getJobCreattime();
-                Date date = new Date();
-//            两个日期相减
-                long cha = date.getTime() - date1.getTime();
-//            拆分天数，小时，分钟
-                long day = cha / (24 * 60 * 60 * 1000);
-                long hour = (cha / (60 * 60 * 1000) - day * 24);
-                long min = ((cha / (60 * 1000)) - day * 24 * 60 - hour * 60);
-                String time = "出错";
-                int a = 0;
-                //显示天
-                if (day > 0) {
-                    a = (int) day;
-                    time = a + "天前";
-                } else if (day == 0) {
-//                显示小时
-                    if (hour > 0) {
-                        a = (int) hour;
-                        time = a + "小时前";
-                    }
-                    //显示分钟
-                    else if (hour == 0) {
-                        if (min > 0) {
-                            a = (int) min;
-                            time = a + "分钟前";
-                        }
-                    }
-                }
+
+                String time = "";
+//                调用自定义工具类
+                fartime f = new fartime();
+                time = f.far(j2.getJobCreattime());
+                System.out.println("------------+"+f.far(j2.getJobCreattime()));
+
 
                 jobsStudio.setTime(time);
                 jobsStudios.add(jobsStudio);
