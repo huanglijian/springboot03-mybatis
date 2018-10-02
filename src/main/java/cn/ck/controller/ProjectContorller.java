@@ -13,10 +13,14 @@ import cn.ck.service.PromulgatorService;
 import cn.ck.service.StudioService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.stream.Collectors;
@@ -35,7 +39,56 @@ public class ProjectContorller {
     @Autowired
     StudioService studioService;
 
-    String projectid = null;
+    String projectid = null; //记录项目详情页的项目id
+
+    int start=1;//记录当前页 默认为“0“
+    int size = 1; //记录每页条目数，默认为”10“
+    String state=null; //记录当前页状态
+    String conditions = "0"; //条件
+    String values     = "0";  //值
+
+    @RequestMapping("/pjpage")
+    public String pjpageset(
+            @RequestParam(value = "start", defaultValue = "1")  int start,
+            @RequestParam(value = "conditions", defaultValue = "0") String conditions,
+            @RequestParam(value = "values", defaultValue = "0") String values){
+
+        this.start=start;
+        if(conditions.equals("0"));
+        else
+        this.conditions = conditions;
+
+        if(values.equals("0"));
+        else
+        this.values = values;
+
+        return "project/Project-Shouye";
+    }
+    //获取当前项目
+    @RequestMapping("/projectpage")
+    @ResponseBody
+    public PageInfo<Project> get_projects(){
+        PageHelper.startPage(this.start,this.size);
+//        Map<String,Object> map=new HashMap<>();
+//        map.put("id",this.size);
+//        map.put("state",this.state);
+        EntityWrapper<Project>  wrappers = new EntityWrapper<Project>();
+//        conditions = "conditions"; values = "公开";
+//       if(this.conditions!=null){}
+//
+        System.out.println("start:"+ this.start);
+        System.out.println("size:"+ this.size);
+        System.out.println("conditions:"+ this.conditions);
+        System.out.println("values:"+ this.values);
+           if(!this.conditions.equals("0"))
+              wrappers.eq(conditions,values);
+
+        List<Project> List= projectService.selectList(wrappers);
+
+        PageInfo<Project> page = new PageInfo<>(List);
+        return page;
+    }
+
 
     @RequestMapping("/xwh")
     public String xia1(){
@@ -48,6 +101,24 @@ public class ProjectContorller {
 
         return "project/Project-Shouye";
     }
+    @RequestMapping("/projectShouYe")
+    @ResponseBody
+    public  List<Project> GetMeg3() {
+//        查询所有项目的记录
+        List<Project> projects = projectService.selectList(new EntityWrapper<>());
+
+
+        for(Project attribute : projects) {
+          //  System.out.println(attribute.toString());
+        }
+        System.out.println("in---project/projectShouYe");
+        return projects;
+    }
+
+
+
+
+
     @RequestMapping("/projectDetail")
     public  String gotos(HttpServletRequest request){
         String pid=request.getParameter("id");
@@ -59,16 +130,7 @@ public class ProjectContorller {
 
         return "project/Project-Detail";
     }
-    @RequestMapping("/projectShouYeHtmls")
-    @ResponseBody
-    public Map<String, String> GetMegTest() {
-        Map<String, String>   result = new HashMap<>();
-        result.put("xia","1");
-        result.put("wei","1");
-
-        System.out.println("1---------------------");
-        return  result;
-    }
+//
 
 
     //用于获取两个推荐单之一的一个   的数据
@@ -80,9 +142,9 @@ public class ProjectContorller {
         EntityWrapper<Project> wrapper = new EntityWrapper<Project>();
         wrapper.orderBy("proj_starttime").last("limit 5");
         List<Project> projects = projectService.selectList(wrapper);
-        for(Project p: projects){
-            System.out.println(p.toString());
-        }
+//        for(Project p: projects){
+//            System.out.println(p.toString());
+//        }
 
         return projects;
     }
@@ -95,7 +157,7 @@ public class ProjectContorller {
         Map<String, Integer> jingBiaomap = new HashMap<>();
         Map<String, String>   lastresult = new HashMap<>();
         Project projecttemp = new Project();
-        System.out.println("1---------------------++++++");
+
         // 1.竞争最激烈的top10 项目---->> 竞标人数最多的项目------>>先来五个
         // 2.首先查出所有的  项目！！！
         List<Project> projects = projectService.selectList(new EntityWrapper<Project>());
@@ -107,13 +169,14 @@ public class ProjectContorller {
         jingBiaomap.put( p.getProjId().toString(),count);
 
         }
+        System.out.println("1---------------------++++++");
         // -- 从网上找的对map 排序的方法
         Map<String, Integer> result = jingBiaomap.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
-
+        System.out.println("1---------------------++++++");
         System.out.println(jingBiaomap);
         System.out.println(result);
 
@@ -273,6 +336,16 @@ public class ProjectContorller {
 
         return map;
     }
+//    @RequestMapping("/projectShouYeHtmls")
+//    @ResponseBody
+//    public Map<String, String> GetMegTest() {
+//        Map<String, String>   result = new HashMap<>();
+//        result.put("xia","1");
+//        result.put("wei","1");
+//
+//        System.out.println("1---------------------");
+//        return  result;
+//    }
 
 
 }
