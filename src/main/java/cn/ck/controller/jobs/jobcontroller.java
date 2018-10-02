@@ -9,11 +9,14 @@ import cn.ck.mapper.JobsMapper;
 import cn.ck.service.JobsService;
 import cn.ck.service.StudioService;
 import cn.ck.utils.ResponseBo;
+import cn.ck.utils.utils_hlj.fartime;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.mysql.jdbc.SocketMetadata;
 import org.quartz.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +24,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/ForJob")
@@ -30,6 +34,7 @@ public class jobcontroller extends AbstractController {
     private JobsService jobsService;
     @Autowired
     private StudioService studioService;
+
     //    @RequestMapping("/search")
     @GetMapping("/search")
     public String search() {
@@ -40,6 +45,7 @@ public class jobcontroller extends AbstractController {
         int jNum = jobsService.selectCount(new EntityWrapper<Jobs>());
         return "jobs/search";
     }
+
     @PostMapping("/search/jobs")
     @ResponseBody
     public ResponseBo searchJson() {
@@ -86,6 +92,7 @@ public class jobcontroller extends AbstractController {
         }
         return ResponseBo.ok().put("jobsStudios", jobsStudios);
     }
+
     @PostMapping("/search/jNum")
     @ResponseBody
     public ResponseBo jNum() {
@@ -93,10 +100,106 @@ public class jobcontroller extends AbstractController {
         int jNum = jobsService.selectCount(new EntityWrapper<Jobs>());
         return ResponseBo.ok().put("jNum", jNum);
     }
+
     //    工作详情页面
-    @GetMapping("/mes")
-    public String mes() {
+    @GetMapping("/mes/{id}")
+    public String mes(@PathVariable("id") int id, Model model) {
+//        System.out.println("======== id:"+id);
+        model.addAttribute("id", id);
         return "jobs/detail";
     }
 
+    //    返回渲染detail的json
+    @PostMapping("/mes/{id}")
+    @ResponseBody
+    public ResponseBo mes2(@PathVariable("id") int id) {
+//        获得jobs对象
+//        Jobs jobs = jobsService.selectList(new EntityWrapper<Jobs>().eq("jobId",jobId))
+//        System.out.println(id);
+//        获取招聘表
+        Jobs jobs = jobsService.selectById(id);
+        System.out.println("========= " + jobs);
+//        根据招聘id获取工作室表
+        Studio studio = studioService.selectOne(new EntityWrapper<Studio>().eq("stu_id", jobs.getJobStudio()));
+        JobsStudio js = new JobsStudio();
+        js.setJobs(jobs);
+        js.setStudio(studio);
+        return ResponseBo.ok().put("js", js);
+    }
+
+    //    返回搜索到的Json数据
+    @PostMapping("/sear")
+    public ResponseBo sear(String sear) {
+        System.out.println("====== " + sear);
+
+        return ResponseBo.ok();
+    }
+
+
+    //根据搜索职位查找
+    @PostMapping("/search/cha")
+    @ResponseBody
+    public ResponseBo s(String nei) {
+        //根据职位搜索所有的招聘信息
+        List<Jobs> jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_name", nei));
+        List<JobsStudio> jobsStudios = new ArrayList<JobsStudio>();
+//        将值存入构建类
+        for (Jobs jobs1 : jobs) {
+            Studio studio = studioService.selectOne(new EntityWrapper<Studio>().eq("stu_id", jobs1.getJobStudio()));
+            JobsStudio jobsStudio = new JobsStudio();
+            jobsStudio.setJobs(jobs1);
+            jobsStudio.setStudio(studio);
+
+            //                调用自定义工具类
+            String time = "";
+            fartime f = new fartime();
+            time = f.far(jobs1.getJobCreattime());
+
+            jobsStudio.setTime(time);
+            jobsStudios.add(jobsStudio);
+        }
+
+//        根据工作室搜索招聘信息
+        Studio s2 = studioService.selectOne(new EntityWrapper<Studio>().like("stu_name",nei));
+        if(s2==null){
+            System.out.println("空");
+        }
+        else{
+            System.out.println("非空");
+//            jobs2: 查询某个工作室的全部招聘信息
+            List<Jobs> jobs2 = jobsService.selectList(new EntityWrapper<Jobs>().like("job_studio", s2.getStuId()));
+            for (Jobs j2:jobs2) {
+                JobsStudio jobsStudio = new JobsStudio();
+                jobsStudio.setJobs(j2);
+                jobsStudio.setStudio(s2);
+
+
+                String time = "";
+//                调用自定义工具类
+                fartime f = new fartime();
+                time = f.far(j2.getJobCreattime());
+                System.out.println("------------+"+f.far(j2.getJobCreattime()));
+
+
+                jobsStudio.setTime(time);
+                jobsStudios.add(jobsStudio);
+            }
+        }
+
+        return ResponseBo.ok().put("jobsStudios", jobsStudios);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

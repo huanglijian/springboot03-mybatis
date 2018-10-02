@@ -26,7 +26,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/promcenter")
-public class ProjectController {
+public class PromProjController {
     @Autowired
     ProjectService projectService;
     @Autowired
@@ -76,9 +76,9 @@ public class ProjectController {
             String stumessage="您好，您所发布的项目"+project.getProjName()+"已在"+nowTime+"发布成功,如需查看详细信息，请查看项目管理相关功能";
             Notice notice= NoticeInsert.insertNotice(stumessage,user.getAllId());
             noticeService.insertAllColumn(notice);
-            return ResponseBo.ok("发布成功");
+            return ResponseBo.ok().put("code","1");
         }else{
-            return ResponseBo.error("发布失败");
+            return ResponseBo.ok().put("code","0");
         }
 
     }
@@ -211,32 +211,37 @@ public class ProjectController {
      * @return
      */
     @RequestMapping("/projdiscontinueBid/{id}")
-    public String projdiscontinueBid(@PathVariable("id") String id, Model model){
+    @ResponseBody
+    public ResponseBo projdiscontinueBid(@PathVariable("id") String id){
         Project project=projectService.selectById(id);
-        project.setProjState("竞标中止");
         String nowdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        //更新成功则通知发布者
-        if(projectService.updateById(project)){
+        if(project.getProjState().equals("竞标中")){
+            project.setProjState("竞标中止");
+            projectService.updateById(project);
+            //更新成功则通知发布者
             String projmessage="您好，您所发布的项目"+project.getProjName()+"已在"+nowdate+"中止竞标,如需查看详细信息，请查看竞标项目相关功能";
             Notice projnotice= NoticeInsert.insertNotice(projmessage,project.getProjProm());
             noticeService.insertAllColumn(projnotice);
-        }
-        //将与之相连竞标表中的状态改为“竞标中止”，并向工作室发送系统通知
-        int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
-        List<Bidding> biddingList=new ArrayList<>();
-        if(count!=0){
-            biddingList=biddingService.selectList(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
-            for (Bidding bidding:biddingList) {
-                bidding.setBidState("竞标中止");
-                String stumessage="您好，您所竞标的项目"+project.getProjName()+"已在"+nowdate+"中止竞标,如需查看详细信息，请查看竞标项目相关功能";
-                Notice stunotice= NoticeInsert.insertNotice(stumessage,bidding.getBidStudio());
-                noticeService.insertAllColumn(stunotice);
+            //将与之相连竞标表中的状态改为“竞标中止”，并向工作室发送系统通知
+            int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
+            List<Bidding> biddingList=new ArrayList<>();
+            if(count!=0){
+                biddingList=biddingService.selectList(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
+                for (Bidding bidding:biddingList) {
+                    bidding.setBidState("竞标中止");
+                    bidding.setBidEndtime(new Date());
+                    String stumessage="您好，您所竞标的项目"+project.getProjName()+"已在"+nowdate+"中止竞标,如需查看详细信息，请查看竞标项目相关功能";
+                    Notice stunotice= NoticeInsert.insertNotice(stumessage,bidding.getBidStudio());
+                    noticeService.insertAllColumn(stunotice);
+                }
+                biddingService.updateAllColumnBatchById(biddingList);
             }
-            biddingService.updateAllColumnBatchById(biddingList);
+            return ResponseBo.ok().put("code","1");
+        }else{
+            return ResponseBo.ok().put("code","0");
         }
-
-        model.addAttribute("id",id);
-        return "/promulgator/prom_projBidFinDetail";
+//        model.addAttribute("id",id);
+//        return "/promulgator/prom_projBidFinDetail";
     }
 
     /**

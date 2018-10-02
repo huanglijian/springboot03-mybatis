@@ -16,11 +16,19 @@ public interface AlluserService extends IService<Alluser> {
 
     /**
      * 修改密码
-     * @param userUUId       用户UUID
+     * @param userUUID       用户UUID
      * @param oldPassword     原密码
      * @param newPassword  新密码
      */
-    boolean updatePassword(String userUUId, String oldPassword, String newPassword);
+    boolean updatePassword(String userUUID, String oldPassword, String newPassword);
+
+    /**
+     * 找回密码用的更新
+     * @param userUUID 用户UUID
+     * @param password 新密码
+     * @return
+     */
+    boolean updatePassword(String userUUID, String password);
 
     /**
      * 保存用户
@@ -47,6 +55,4 @@ public interface AlluserService extends IService<Alluser> {
      * @return
      */
     Alluser selectByEmail(String email);
-
-    Page<Alluser> selectUserByPage(Page<Alluser> page);
 }

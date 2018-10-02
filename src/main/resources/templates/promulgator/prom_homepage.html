@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="/static/css/style.css" />
 		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/static/js/vue.js"></script>
 	</head>
 
 	<body>
@@ -62,39 +63,39 @@
 			</div>
 		</header>
 
-		<div class="container-fluid contest">
+		<div class="container-fluid contest" id="contestlxn">
 			<div class="row">
 				<div class="col-md-12 col_top">
 					<img src="/static/img/img_psw/log.png" alt="" />
 				</div>
 				<div class="col-md-12 col_middle">
 					<div class="col-md-9 c_m_col c_m_boder">
-						<div class="col-md-2 c_m_col">
+						<div class="col-md-2 c_m_col" v-if="src==''">
 							<img src="/static/img/img_lxn/default.jpg" alt="" class="c_m_img"/>
 						</div>
+						<div class="col-md-2 c_m_col" v-else>
+							<img v-if="prom.promImg" :src="'/promcenter/previewsrc/' + prom.promImg" alt="" class="c_m_img"/>
+						</div>
 						<div class="col-md-9 c_m_col">						
-							<h3 class="c_m_h3">创业创客公司</h3>
-							<div class="col-md-12" >
+							<h3 class="c_m_h3">{{prom.promName}}</h3>
+							<div class="col-md-12">
 								<ul class="col-ma-12 c_m_ul">
-									<li class="col-md-3 c_m_li"><h4>8</h4>发布项目数</li>
-									<li class="col-md-3 c_m_li"><h4>8</h4>完工项目数</li>
-									<li class="col-md-3 c_m_li"><h4>8</h4>终止项目数</li>
-									<li class="col-md-3"><h4>8</h4>竞标中项目数</li>
+									<li class="col-md-3 c_m_li"><h4>{{num.allnum}}</h4>发布项目数</li>
+									<li class="col-md-3 c_m_li"><h4>{{num.finishnum}}</h4>完工项目数</li>
+									<li class="col-md-3 c_m_li"><h4>{{num.failnum}}</h4>中止项目数</li>
+									<li class="col-md-3"><h4>{{num.bidnum}}</h4>竞标中项目数</li>
 								</ul>
 								<div class="col-md-12 c_m_text">
-									<span class="col-md-12">联系方式&nbsp;&nbsp;&nbsp;手机号码：17876251234</span>
-									<span  class="col-md-12" style="text-indent:68px;">电子邮件：123456789@qq.com</span>
-									<span class="col-md-12">用户简介：栅格系统用于通过一系列的行与列的组合来创建页面布局，
-										你的内容就可以放入这些创建好的布局中。下面就介绍一下栅格系统的工作原理：
-										“行”必须包含在固定宽度或100% 宽度中，以便为其赋予合适的排列和内补。
-										通过“行”在水平方向创建一组“列（column）”。</span>
+									<span class="col-md-12">联系方式&nbsp;&nbsp;&nbsp;手机号码：{{prom.promPhone}}</span>
+									<span  class="col-md-12" style="text-indent:68px;" v-if="num.user&&num.user.allEmail">电子邮件：{{num.user.allEmail}}</span>
+									<span class="col-md-12">用户简介：{{prom.promIntro}}</span>
 								</div>
 							</div>						
 						</div>
 					</div>
 					<div class="col-md-3 c_m_col">
 						<div class="c_m_span">
-							<span> 最后登录时间：2018/09/11</span>
+							<span> 最后登录时间：{{prom.promLogintime|dateFormat}}</span>
 						</div>
 					</div>					
 				</div>
@@ -107,26 +108,28 @@
 							<li class="col-md-12 c_b_li">
 								<div class="col-md-2 c_b_lileft">竞标中</div>
 								<div class="col-md-8 c_b_liright">
-									<div class="col-md-12 c_b_projmag">
-										<a href="" class="c_b_a">创客平台项目</a><br/>
-										<span class="c_b_aspan">结束时间：2018-09-15</span>
+									<div v-if="bid==''">
+										<div class="col-md-12 c_b_projmag"><span>暂无正在竞标中的项目</span></div>
 									</div>
-									<div class="col-md-12 c_b_projmag">
-										<a href="" class="c_b_a">创客平台项目</a><br/>
-										<span class="c_b_aspan">结束时间：2018-09-15</span>
+									<div v-else>
+									<div class="col-md-12 c_b_projmag" v-for="b in bid">
+										<a href="" class="c_b_a">{{b.projName}}</a><br/>
+										<span class="c_b_aspan">创建时间：{{b.projCreattime|dateFormat}} &nbsp;&nbsp;竞标周期：10天</span>
+									</div>
 									</div>
 								</div>
 							</li>
 							<li class="col-md-12 c_b_li">
 								<div class="col-md-2 c_b_lileft">完工项目</div>
 								<div class="col-md-8 c_b_liright">
-									<div class="col-md-12 c_b_projmag">
-										<a href="" class="c_b_a">创客平台项目</a><br/>
-										<span class="c_b_aspan">承接方：咸鱼工作室</span>
+									<div v-if="project==''">
+										<div class="col-md-12 c_b_projmag"><span>暂无已完工的项目</span></div>
 									</div>
-									<div class="col-md-12 c_b_projmag">
-										<a href="" class="c_b_a">创客平台项目</a><br/>
-										<span class="c_b_aspan">承接方：咸鱼工作室</span>
+									<div v-else>
+										<div class="col-md-12 c_b_projmag"v-for="p in project">
+											<a href="" class="c_b_a">{{p.projName}}</a><br/>
+											<span class="c_b_aspan">结束时间：{{p.projEndtime|dateFormat}} &nbsp;&nbsp;承接方：{{p.projStudio}}</span>
+										</div>
 									</div>
 								</div>
 							</li>
@@ -202,6 +205,45 @@
 			</div>
 		</footer>
 
+	<script type="text/javascript">
+		var vm=new Vue({
+			el:'#contestlxn',
+			data:{
+			    num:'',
+				src:'',
+				project:'',
+				bid:'',
+				prom:'',
+			},
+			created:function (result) {
+			    $.ajax({
+					type:'post',
+                    url:'/promcenter/promhomepage',
+					success:function (result) {
+                        console.log(result);
+                        vm.num=result;
+                        vm.prom=result.prom;
+                        vm.project=result.project;
+                        vm.bid=result.bid;
+                        vm.src=result.prom.promImg;
+                    }
+                })
+            },
+            filters: {
+                dateFormat:function(val){
+                    var d = new Date(val);
+                    var year = d.getFullYear();
+                    var month = d.getMonth() + 1;
+                    var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                    var hour = d.getHours();
+                    var minutes = d.getMinutes();
+                    var seconds = d.getSeconds();
+                    return  year+ '-' + month + '-' + day ;
+                },
+            },
+		});
+
+	</script>
 	</body>
 
 </html>

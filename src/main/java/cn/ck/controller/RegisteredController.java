@@ -18,9 +18,11 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.apache.shiro.authz.annotation.RequiresGuest;
 
 import java.util.Date;
 import java.util.Map;
+
 
 @Controller
 @RequestMapping("/registered")
@@ -44,6 +46,7 @@ public class RegisteredController extends AbstractController{
      * @param type 用户类型，没选择之前必须有字符
      * @return
      */
+    @RequiresGuest
     @RequestMapping("/select/{type}")
     public String selectType(@PathVariable("type") String type){
         //通过modelmap将用户注册类型put到页面，用vue处理
@@ -68,7 +71,7 @@ public class RegisteredController extends AbstractController{
         if (alluserService.isExist(email))
             return ResponseBo.error(1, "该邮箱已被注册");
         else
-            return ResponseBo.ok();
+            return ResponseBo.ok("该邮箱未注册");
     }
 
     /**
@@ -99,6 +102,10 @@ public class RegisteredController extends AbstractController{
         if (code == null || code.equals(""))
             return ResponseBo.error(1, "验证码错误");
 
+        if(!checkUserType(userType)){
+            return ResponseBo.error(1, "发生不明错误，请重新注册");
+        }
+
         //解密验证码
         String decode = DESUtil.decodeBASE64(code);
         //与用户邮箱相同，则验证码正确
@@ -112,6 +119,7 @@ public class RegisteredController extends AbstractController{
         user.setAllState("未注册完成");
         alluserService.insert(user);
 
+        //换成用线程进行添加
 //        //创建资金账户记录
 //        Account account = getBlankAccount();
 //        account.setAccForeid(user.getAllId());
@@ -146,6 +154,7 @@ public class RegisteredController extends AbstractController{
      * @param uuid
      * @return
      */
+    @RequiresGuest
     @RequestMapping("/second")
     public String secondSetp(@RequestParam("UUID")String uuid){
         return "login/register_second";
@@ -160,22 +169,24 @@ public class RegisteredController extends AbstractController{
     @RequestMapping("/getUserByID")
     @ResponseBody
     public ResponseBo getUserByID(String UUID){
-        Alluser alluser = alluserService.selectById(UUID);
-        if(alluser == null)
+        Alluser newUser = alluserService.selectById(UUID);
+        if(newUser == null)
             return ResponseBo.error("发生不明错误, 请重新注册");
 
         //<待修改>
         //以发布者实体作为填写信息的载体
         Promulgator prom = new Promulgator();
         prom.setPromId(UUID);
-
-        alluser.setAllPwd("");
+        //隐蔽不必要的信息
+        Alluser alluser = getBlankAlluser();
+        alluser.setAllId(newUser.getAllId());
+        alluser.setAllEmail(newUser.getAllEmail());
+        alluser.setAllType(newUser.getAllType());
         //将两个实体以json数据传到页面，由vue处理
         return ResponseBo.ok().put("userAccount", alluser).put("userInfo", prom);
     }
 
     /**
-     *
      * 从页面得到用户密码等信息
      * 以发布者实体接受
      * 到此控制器再根据用户类型转化
@@ -187,7 +198,7 @@ public class RegisteredController extends AbstractController{
      */
     @RequestMapping("/setUserInfo")
     @ResponseBody
-    public ResponseBo test(@RequestBody Map<String, Object> data) throws Exception {
+    public ResponseBo updateUserInfo(@RequestBody Map<String, Object> data) throws Exception {
         //根据json数据转化成map，再转成对应的类
         Alluser userAccount = JsonUtils.map2obj((Map<String, Object>)data.get("data1"), Alluser.class);
         Promulgator promulgator = JsonUtils.map2obj((Map<String, Object>)data.get("data2"), Promulgator.class);
@@ -201,14 +212,12 @@ public class RegisteredController extends AbstractController{
             userInfo.setUserPaypwd(promulgator.getPromPaypwd());
             userInfo.setUserName(promulgator.getPromName());
             usersService.updateById(userInfo);
-//            usersService.insert(userInfo);
         }
 
         else if(userAccount.getAllType().equals("发布者")){
             promulgator.setPromLogintime(new Date());
             promulgator.setPromImg("");
             promulgatorService.updateById(promulgator);
-//            promulgatorService.insert(promulgator);
         }
 
         else return ResponseBo.error("出现不明错误，请重新注册");
@@ -220,7 +229,79 @@ public class RegisteredController extends AbstractController{
         alluserService.updateById(userAccount);
 
         //自动登录
-        UsernamePasswordToken token = new UsernamePasswordToken(userAccount.getAllEmail(), pw);
+        return doLogin(userAccount.getAllEmail(), pw).put("next", "/registered/third");
+    }
+
+    /**
+     * 注册第三步
+     * @return
+     */
+    @RequestMapping("third")
+    public String third(){
+        return "login/register_third";
+    }
+
+    /**
+     * 忘记密码第一步
+     * @return
+     */
+    @RequiresGuest
+    @RequestMapping("pwdforget")
+    public String forgetPwd(){
+        return "login/pwd_forget";
+    }
+
+    @RequestMapping("forget_validateEmail")
+    @ResponseBody
+    public ResponseBo forgetValidateEmail(String email, String code){
+        if (code == null || code.equals(""))
+            return ResponseBo.error(1, "验证码错误");
+
+        //解密验证码
+        String decode = DESUtil.decodeBASE64(code);
+        //与用户邮箱相同，则验证码正确
+        if(decode == null || !decode.equals(email))
+            return ResponseBo.error(1, "验证码错误");
+
+        Alluser alluser = alluserService.selectByEmail(email);
+        return ResponseBo.ok().put("next", "/registered/forgetSecond?UUID=" + alluser.getAllId());
+    }
+
+    @RequestMapping("forgetSecond")
+    public String pwdForgetSecond(){
+        return "login/pwd_forget_3";
+    }
+
+    @RequestMapping("forgetUpdate")
+    @ResponseBody
+    public ResponseBo pwdUpdate(String UUID, String password){
+        if(UUID == null || password == null || UUID.equals("") || password.equals(""))
+            return ResponseBo.error("出现不明错误,请再次修改");
+        //确保数据库有数据
+        Alluser alluser = alluserService.selectById(UUID);
+        if(alluser == null)
+            return ResponseBo.error("出现不明错误,请再次修改");
+        //更新
+        if(!alluserService.updatePassword(UUID, password))
+            return ResponseBo.error("出现不明错误,请再次修改");
+        //自动登录
+        return doLogin(alluser.getAllEmail(), password).put("next", "/registered/forgetComplete");
+    }
+
+    @RequestMapping("forgetComplete")
+    public String pwdForgetComolete(){
+        return "login/pwd_forget_4";
+    }
+
+    //一些小型方法
+
+    /**
+     * 自动登录
+     * @param email 用户邮箱
+     * @param pwd 密码
+     */
+    public ResponseBo doLogin(String email, String pwd){
+        UsernamePasswordToken token = new UsernamePasswordToken(email, pwd);
         Subject subject = SecurityUtils.getSubject();
         try {
             //shiro的登录方法
@@ -234,15 +315,23 @@ public class RegisteredController extends AbstractController{
         } catch (AuthenticationException e) {
             return ResponseBo.error("认证失败！");
         }
-
         return ResponseBo.ok();
     }
 
-    @RequestMapping("third")
-    public String third(){
-        return "login/register_third";
+    public boolean checkUserType(String userType){
+        if(userType == null)
+            return false;
+        switch (userType) {
+            case "发布者":
+                return true;
+            case "管理员":
+                return true;
+            case "普通用户":
+                return true;
+            default:
+                return false;
+        }
     }
-
 
     public Alluser getBlankAlluser(){
         Alluser user = new Alluser();

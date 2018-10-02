@@ -5,6 +5,7 @@ import cn.ck.entity.bean.ResCol;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.baomidou.mybatisplus.service.IService;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -19,19 +20,31 @@ import java.util.List;
 public interface ResourceService extends IService<Resource> {
 
     /**
+     * MP分页方式，弃用
      * 分页查询点赞数最多的视频
      * @param page 分页器
      * @return
      */
     Page<Resource> getMostLikeResPage(Page<Resource> page);
 
+    List<Resource> getMostLikeResPage();
+
     /**
+     * 分页查询最后发布的视频
+     * @return
+     */
+    List<Resource> getLatestResPage();
+
+    /**
+     * MP分页方式，弃用
      * 获取搜索建议
      * @param page 分页器
      * @param keyword 搜索关键字
      * @return
      */
     Page<Resource> getSuggestPage(Page<Resource> page, String keyword);
+
+    List<Resource> getSuggestPage(String keyword);
 
     List<ResCol> selectDesc(String id);
 }

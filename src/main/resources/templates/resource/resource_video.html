@@ -87,7 +87,7 @@
                     <!--logo和搜索框-->
                     <div class="row">
                         <div class="col-md-6 col-md-offset-4">
-                            <img class="img-responsive img-rounded" src="/static/img/img_chh/chuangke2.png" style="height:120px;"/>
+                            <img class="img-responsive img-rounded" src="/static/img/img_chh/chuangke2.png" style="height:130px;"/>
                         </div>
                     </div>
                     <!--搜索框-->
@@ -96,7 +96,7 @@
                             <form action="/resource/searchResult">
                                 <input type="text" name="page" value="1" style="display: none"/>
                                 <span class="search">
-                                    <input type="text" id="search" name="key" placeholder="请输入关键词" required="" v-model="key"/>
+                                    <input type="text" id="search" name="key" placeholder="请输入关键词" v-model="key"/>
                                     <div class="input-group-btn">
                                         <button style="opacity:0;"></button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -109,7 +109,7 @@
                         </div>
                     </div>
 
-                    <div style="width: 130%;height: 40px;background: #1ab394;margin-bottom:30px;margin-top:30px;margin-left: -15%;"></div>
+                    <div style="width: 130%;height: 50px;background: #1ab394;margin-bottom:30px;margin-top:30px;margin-left: -15%;"></div>
 
                     <!-- 轮播 -->
                     <div class="row">
@@ -227,29 +227,23 @@
                                         <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
                                         <div class="box-content">
                                             <ul class="icon">
-                                                <li><a :href="res.resPath"><i class="fa fa-play"></i></a></li>
+                                                <li><a :href="'/resource/player/' + res.resId" ><i class="fa fa-play"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">                               
-                                    <a href="">
+                                <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">
+                                    <a :href="'/resource/player/' + res.resId">
                                         <p class="text-left">
-                                            {{res.resName}}
+                                            {{res.resName | namefilter}}
                                         </p>
-                                    </a>        
+                                    </a>
                                     <p class="text-left text-muted">
-                                        <small><i class="fa fa-eye"></i>456</small>
+                                        <!--<small><i class="fa fa-thumbs-up"></i>{{res.resLikenum | numfilter}}</small>-->
+                                        <!--&nbsp;|&nbsp;-->
+                                        <small><i class="fa fa-thumbs-up"></i>&nbsp;{{res.resLikenum | numfilter}}</small>
                                         &nbsp;|&nbsp;
-                                        <small><i class="fa fa-star"></i>{{res.resLikenum}}</small>
-                                        &nbsp;|&nbsp;
-                                        <small><i class="fa fa-check-circle-o"></i>{{res.resLong}}</small>
-                                    </p>
-                                    <p>
-                                        <span class="badge badge-primary">Html</span>
-                                        <span class="badge badge-warning">Java</span>
-                                        <span class="badge badge-success">C++</span>
-                                        <span class="badge">Css</span>
+                                        <small><i class="fa fa-check-circle-o"></i>&nbsp;{{res.resLong | mintohour}}</small>
                                     </p>
                                 </div>
                             </div>
@@ -274,30 +268,27 @@
                                         <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
                                         <div class="box-content">
                                             <ul class="icon">
-                                                <li><a :href="res.resPath"><i class="fa fa-play"></i></a></li>
+                                                <li><a :href="'/resource/player/' + res.resId"><i class="fa fa-play"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">
-                                    <a href="">
+                                    <a :href="'/resource/player/' + res.resId">
                                         <p class="text-left">
-                                            {{res.resName}}
+                                            {{res.resName | namefilter}}
                                         </p>
                                     </a>
                                     <p class="text-left text-muted">
-                                        <small><i class="fa fa-eye"></i>456</small>
+                                        <!--<small><i class="fa fa-thumbs-up"></i>{{res.resLikenum | numfilter}}</small>-->
+                                        <!--&nbsp;|&nbsp;-->
+                                        <small><i class="fa fa-thumbs-up"></i>&nbsp;{{res.resLikenum | numfilter}}</small>
                                         &nbsp;|&nbsp;
-                                        <small><i class="fa fa-star"></i>{{res.resLikenum}}</small>
-                                        &nbsp;|&nbsp;
-                                        <small><i class="fa fa-check-circle-o"></i>{{res.resLong}}</small>
+                                        <small><i class="fa fa-check-circle-o"></i>&nbsp;{{res.resLong | mintohour}}</small>
                                     </p>
-                                    <p>
-                                        <span class="badge badge-primary">Html</span>
-                                        <span class="badge badge-warning">Java</span>
-                                        <span class="badge badge-success">C++</span>
-                                        <span class="badge">Css</span>
-                                    </p>
+                                    <!--<p>-->
+                                        <!--<span class="badge" v-for="t in tagSplit(res.resTag).slice(0, 5)" style="margin-right: 5px;margin-top: 3px;">{{t}}</span>-->
+                                    <!--</p>-->
                                 </div>
                             </div>
                         </div>
@@ -330,7 +321,7 @@
                                     // var data = "email="+vm.email;
                                     $.ajax({
                                         type: "POST",
-                                        url: "hotResource",
+                                        url: "/resource/hotResource",
                                         dataType: "json",
                                         success: function(result){
                                             if(result.code === 0){
@@ -342,33 +333,58 @@
                                 recomend : function () {
                                     $.ajax({
                                         type: "POST",
-                                        url: "recommendResource",
+                                        url: "/resource/recommendResource",
                                         dataType: "json",
                                         success: function(result){
                                             if(result.code === 0){
                                                 res.recommendResource = result.recommendResource;
-                                                // window.location.href = "/registered/second?UUID=" + result.UUID;
                                             }
                                         }
                                     });
                                 },
-                                // doSearch : function () {
-                                //     $.ajax({
-                                //         type: "POST",
-                                //         url: "/resource/doSearch/" + searchResult.keyWord,
-                                //         data : '',
-                                //         dataType: "json",
-                                //         success: function(result){
-                                //             if(result.code === 0){
-                                //                 searchResult.result = result.result;
-                                //             }
-                                //             else{
-                                //                 alert(result.msg);
-                                //             }
-                                //         }
-                                //     });
-                                // }
-                            }
+                                tagSplit : function (tags) {
+                                    return tags.split(",");
+                                },
+                            },
+                            filters: {
+                                namefilter: function (value) {
+                                    if (value && value.length > 10) {
+                                        value = value.substring(0, 10) + '...';
+                                    }
+                                    return value;
+                                },
+                                introfilter: function (value) {
+                                    if (value && value.length > 25) {
+                                        value = value.substring(0, 25) + '...';
+                                    }
+                                    return value;
+                                },
+                                numfilter: function(value){
+                                    if(value > 10000){
+                                        value = value / 10000;
+                                        return value + "万";
+                                    }
+                                    else if(value > 1000){
+                                        value = value /1000;
+                                        return value + "千";
+                                    }
+                                    else
+                                        return value;
+                                },
+                                mintohour: function (value) {
+                                    if(value >= 60){
+                                        var h = value / 60;
+                                        var min = value % 60;
+                                        return h + ":" + min;
+                                    }
+                                    else{
+                                        if(value < 10){
+                                            return "00:0" + value;
+                                        }
+                                        else return "00:" + value;
+                                    }
+                                },
+                            },
                         });
                     </script>
                 </div>

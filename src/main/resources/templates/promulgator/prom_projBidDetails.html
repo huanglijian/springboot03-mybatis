@@ -78,13 +78,13 @@
 							</a>
 							<ul id="personcenter" class="panel-collapse collapse in">
 								<li>
-									<a href="prom_Account.html">账户</a>
+									<a href="/pcjump/account">账户</a>
 								</li>
 								<li>
-									<a href="prom_homepage.html">个人主页</a>
+									<a href="/pcjump/projhomepage">个人主页</a>
 								</li>
 								<li>
-									<a href="prom_updateprom.html">修改资料</a>
+									<a href="/pcjump/updateprom">修改资料</a>
 								</li>
 								<li>
 									<a href="prom_Notice.html">系统通知</a>
@@ -98,7 +98,7 @@
 							</a>
 							<ul id="projectmanage" class="panel-collapse collapse in">
 								<li>
-									<a href="prom_projCreat.html">发布项目</a>
+									<a href="/pcjump/projectcreat">发布项目</a>
 								</li>
 								<li>
 									<a href="prom_projInvit.html">邀请列表</a>
@@ -266,7 +266,23 @@
 					</div>
 					<div class="modal-body text-center">中止竞标成功</div>
 					<div class="modal-footer text-center">
-						<a href="javascript:;" class="btn modal_btn danger_btn" onclick="finishbid()">确认</a>
+						<a href="javascript:;" class="btn modal_btn danger_btn" onclick="successbid()">确认</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--中止竞标失败提示-->
+		<div class="modal fade" id="danger3Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header header_danger">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						<span class="modal-title" >&nbsp;提&nbsp;&nbsp;示</span>
+					</div>
+					<div class="modal-body text-center">项目状态已被更改，中止竞标失败</div>
+					<div class="modal-footer text-center">
+						<a href="javascript:;" class="btn modal_btn danger_btn" onclick="successbid()">确认</a>
 					</div>
 				</div>
 			</div>
@@ -374,14 +390,26 @@
 				$("#dangerModal").modal("show");
             }
 
-            function finishbid() {
-				window.location.href="/promcenter/projdiscontinueBid/"+id;
+            function bidbtn() {
+			    $.ajax({
+					type:'GET',
+					url:'/promcenter/projdiscontinueBid/'+id,
+					success:function (result) {
+						if(result.code==1){
+                            $("#dangerModal").modal("hide");
+                            $("#danger2Modal").modal("show");
+						}else{
+                            $("#dangerModal").modal("hide");
+                            $("#danger3Modal").modal("show");
+						}
+                    }
+				})
             }
 
-            function bidbtn() {
-			    $("#dangerModal").modal("hide");
-				$("#danger2Modal").modal("show");
+            function successbid() {
+                window.location.href="/pcjump/proBidfindetail?finishid="+id;
             }
+
 		</script>
 	</body>
 

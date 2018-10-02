@@ -4,6 +4,7 @@ import cn.ck.entity.Alluser;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -61,4 +62,17 @@ public class JumpController {
     public String projhomepage(){
         return "/promulgator/prom_homepage";
     }
+
+    /*跳转资料更新界面*/
+    @RequestMapping("/updateprom")
+    public String updateprom(){
+        return "/promulgator/prom_updateprom";
+    }
+
+    /*跳转资金管理界面*/
+    @RequestMapping("/priceprom")
+    public String priceprom(){
+        return "/promulgator/prom_priManage";
+    }
+
 }

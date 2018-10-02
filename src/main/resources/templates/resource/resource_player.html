@@ -50,12 +50,12 @@
 
         .fixed_headers td:nth-child(2),
         .fixed_headers th:nth-child(2) {
-            min-width: 200px;
+            min-width: 190px;
         }
 
         .fixed_headers td:nth-child(3),
         .fixed_headers th:nth-child(3) {
-            min-width: 80px;
+            min-width: 100px;
         }
     </style>
 
@@ -64,7 +64,13 @@
 
     <!-- 浮现播放按钮样式 -->
     <link rel="stylesheet" href="/static/css/css_cwh/videoBtn/videoBtnStyle.css">
+    <!--此页面特有播放按钮样式-->
     <style>
+        .box img {
+            width: 200px;
+            height: 120px;
+            transition: all 0.3s ease 0s;
+        }
         .box .icon li a {
             color: #fff;
             font-size: 25px;
@@ -76,6 +82,40 @@
             border-radius: 50%;
             display: block;
             transition: all 0.3s;
+        }
+    </style>
+    <!--点赞收藏样式-->
+    <style>
+        .my_btn{
+            font-size: 20px;
+            border-width: 0px;
+            outline:none;
+            margin-right: 5%;
+        }
+        .my_btn a{
+            color: #888888;
+            text-decoration: none;
+        }
+        .my_btn a#like:hover{
+            color: #f25d8e;
+        }
+        .my_btn a#collect:hover{
+            color: #f5b23d;
+        }
+        .my_btn a#share:hover{
+            color: #5a55f5;
+        }
+        .liked{
+            color: #f25d8e;
+        }
+        .collected{
+            color: #f5b23d;
+        }
+        .disabled {
+            pointer-events: none;
+            filter: alpha(opacity=80); /*IE滤镜，透明度50%*/
+            -moz-opacity: 0.8; /*Firefox私有，透明度50%*/
+            opacity: 0.8; /*其他，透明度50%*/
         }
     </style>
 </head>
@@ -135,11 +175,11 @@
     <div id="wrapper">
         <div id="page-wrapper" class="gray-bg" style="background:#ffffff">
             <div class="wrapper wrapper-content">
-                <div class="container">
+                <div class="container" id="resources">
                     <!--logo和搜索框-->
                     <div class="row">
                         <div class="col-md-6 col-md-offset-4">
-                            <img class="img-responsive img-rounded" src="/static/img/img_chh/chuangke2.png" style="height:120px;"/>
+                            <img class="img-responsive img-rounded" src="/static/img/img_chh/chuangke2.png" style="height:130px;"/>
                         </div>
                     </div>
                     <!--搜索框-->
@@ -161,7 +201,7 @@
                         </div>
                     </div>
 
-                    <div style="width: 130%;height: 60px;background: #1ab394;margin-bottom:30px;margin-top:30px;margin-left: -15%;"></div>
+                    <div style="width: 130%;height: 50px;background: #1ab394;margin-bottom:30px;margin-top:30px;margin-left: -15%;"></div>
 
                     <div class="row">
                         <div class="col-md-8">
@@ -181,39 +221,40 @@
                             </div>
 
                             <div class="row">
-                                <h2 style="color:#000000; font-weight: 500;">微信小程序</h2>
-                                <small class="text-muted">40.3万次播放&nbsp;-&nbsp;2018-09-07</small>
+                                <h2 style="color:#000000; font-weight: 500;">{{curRes.resName}}</h2>
+                                <!--<small class="text-muted">{{curRes.resUploadtime|dateFormat}}</small>-->
                             </div>
 
+                            <!--点赞收藏分享-->
                             <div class="row">
-                                <div class="btn-group">
-                                    <small class="text-muted">
-                                        <button class="btn btn-white btn-xs" style="font-size: 20px;">
-                                            <i class="fa fa-thumbs-up"></i>1455万
-                                        </button>
+                                <div class="ontawesome-icon-list" >
+                                    <small class="text-muted my_btn">
+                                        <a id="like" @click="like" class="" :class="{ 'disabled ' : !isLogined||isLiked}">
+                                            <i class="fa" :class="{'fa-heart-o':!isLiked, 'fa-heart liked':isLiked}"></i>&nbsp;{{curRes.resLikenum|numfilter}}
+                                        </a>
                                     </small>
-                                    <small class="text-muted">
-                                        <button class="btn btn-white btn-xs" style="font-size: 20px;">
-                                            <i class="fa fa-star"></i>1455万
-                                        </button>
+                                    <small class="text-muted my_btn">
+                                        <a id="collect" @click="collect" :class="{ disabled : !isLogined||isCollected}" style="font-size: 22px;">
+                                            <i class="fa" :class="{'fa-star-o':!isCollected, 'fa-star collected':isCollected}"></i>&nbsp;{{collectedNum|numfilter}}
+                                        </a>
                                     </small>
-                                    <small class="text-muted">
-                                        <button class="btn btn-white btn-xs" style="font-size: 20px;">
-                                            <i class="fa fa-share"></i>分享
-                                        </button>
+                                    <small class="text-muted my_btn">
+                                        <a id="share" href=""><i class="fa fa-share"></i></a>
                                     </small>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-11" style="padding:0px;">
-                                    <div class="panel panel-default" style="border-width: 2px 0px 2px 0px;margin-top: 10px;">
-                                        <div class="panel-body">
+                                <div class="col-md-12" style="padding:0px;">
+                                    <div class="panel panel-default" style="border-width: 0px 0px 0px 0px;">
+                                        <div class="panel-body" style="padding-left: 0px;">
                                             <h2 style="margin-top:10px;">
                                                 视频简介：
                                             </h2>
-                                            <p>通过 .panel-heading 可以很简单地为面板加入一个标题容器。你也可以通过添加设置了 .panel-title 类的标签，添加一个预定义样式的标题。
-                                                为了给链接设置合适的颜色，务必将链接放到带有 .panel-title 类的标题标签内。</p>
+                                            <p>{{curRes.resIntro}}</p>
+                                            <p>
+                                                <span class="badge" v-for="t in tagSplit(curRes.resTag)" style="margin-right: 5px;margin-top: 3px;">{{t}}</span>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -234,7 +275,7 @@
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="full-height-scroll">
                                             <div class="table-responsive">
-                                                <table class="table table-condensed table-hover fixed_headers">
+                                                <table class="table table-condensed table-hover fixed_headers" >
                                                     <thead>
                                                         <tr>
                                                             <th><small class="text-muted">时间</small></th>
@@ -243,100 +284,10 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><small class="text-muted">11:11</small></td>
-                                                            <td><small class="text-muted">瑞安市海诚机械有限公司</small></td>
-                                                            <td><small class="text-muted">09-08 22:22</small></td>
+                                                        <tr v-for="dan in danmus">
+                                                            <td><small class="text-muted">{{dan.time|danmu_timefilter}}</small></td>
+                                                            <td><small class="text-muted">{{dan.text|danmu_textfilter}}</small></td>
+                                                            <td><small class="text-muted">{{dan.sendtime | timefilter}}</small></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -347,30 +298,33 @@
                                     <div id="tab-2" class="tab-pane" style="height:470px">
                                         <div class="full-height-scroll">
                                             <div class="table-responsive">
-                                                <table class="table ">
+                                                <table class="table" style="overflow:hidden">
                                                     <tbody>
                                                         <tr>
                                                             <td>
+                                                                <div class="row" style="padding: 5px;overflow-x:hidden;" v-for="res in hotResource">
                                                                 <div class="col-xs-6">
                                                                     <div class="box">
-                                                                        <img src="/static/img/img_chh/H5Picture.png" alt="">
+                                                                        <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
                                                                         <div class="box-content">
                                                                             <ul class="icon">
-                                                                                <li><a href=""><i class="fa fa-play"></i></a></li>
+                                                                                <li><a :href="'/resource/player/' + res.resId"><i class="fa fa-play"></i></a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xs-6">
                                                                     <div class="ibox-content" style="padding:0px;border-width:0px;">
-                                                                        <a href="">
-                                                                            <p>【木鱼微剧场】《天之痕》P5最终话：天之痕、神州大地与惦记的人</p>
+                                                                        <a :href="'/resource/player/' + res.resId">
+                                                                            <p>{{res.resName|namefilter}}</p>
                                                                         </a>
+                                                                        <p>{{res.resIntro|introfilter}}</p>
                                                                         <small class="text-muted">
-                                                                            <i class="fa fa-eye"></i>456
-                                                                            <i class="fa fa-star"></i>1455万
+                                                                            <i class="fa fa-thumbs-up"></i>&nbsp;{{res.resLikenum | numfilter}}
+                                                                            <i class="fa fa-check-circle-o"></i>&nbsp;{{res.resLong | mintohour}}
                                                                         </small>
                                                                     </div>
+                                                                </div>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -388,29 +342,78 @@
                     var res = new Vue({
                         el:'#resources',
                         data:{
+                            resId : '',
+                            curRes: '',
+                            danmus: '',
                             hotResource : '',
+                            collectedNum : 0,
+                            isLogined: false,
+                            isCollected: false,
+                            isLiked : false,
                             key : '',
                         },
                         beforeCreate: function () {
                         },
                         created: function () {
-                        },
-                        beforeMount: function () {
-                            this.hot();
-                            this.recomend();
-                        },
-                        mounted: function () {
-                        },
-                        beforeUpdate: function () {
-                        },
-                        updated: function () {
+                            this.resId = this.urlparse().file;
+                            this.getCurRes();
+                            this.getDanmus();
+                            this.getRecommend();
                         },
                         methods: {
-                            hot : function () {
-                                // var data = "email="+vm.email;
+                            //url转换方法
+                            urlparse: function(){
+                                var url = window.location.href;
+                                var a = document.createElement('a');
+                                a.href = url;
+                                var obj = {
+                                    source: url,
+                                    protocol: a.protocol.replace(':', ''),
+                                    host: a.hostname,
+                                    port: a.port,
+                                    query: a.search,
+                                    file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                                    hash: a.hash.replace('#', ''),
+                                    path: a.pathname.replace(/^([^\/])/, '/$1'),
+                                    relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                                    segments: a.pathname.replace(/^\//, '').split('/'),
+                                    params: (function() {
+                                        var ret = {};
+                                        var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
+                                            if (v!==''&&v.indexOf('=')) {
+                                                return true;
+                                            }
+                                        });
+                                        seg.forEach( function(element, index) {
+                                            var idx = element.indexOf('=');
+                                            var key = element.substring(0, idx);
+                                            var val = element.substring(idx+1);
+                                            ret[key] = val;
+                                        });
+                                        return ret;
+                                    })()
+                                };
+                                return obj;
+                            },
+                            getDanmus: function(){
+                                var data = "resId=" + this.resId;
                                 $.ajax({
                                     type: "POST",
-                                    url: "hotResource",
+                                    url: "/resource/getDanmuList",
+                                    data: data,
+                                    dataType: "json",
+                                    success: function(result){
+                                        if(result.code === 0){
+                                            res.danmus = result.danmus;
+                                            console.log(result);
+                                        }
+                                    }
+                                });
+                            },
+                            getRecommend : function () {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/resource/hotResource",
                                     dataType: "json",
                                     success: function(result){
                                         if(result.code === 0){
@@ -419,36 +422,154 @@
                                     }
                                 });
                             },
-                            recomend : function () {
+                            getCurRes:function () {
+                                var data = "resId=" + this.resId;
                                 $.ajax({
                                     type: "POST",
-                                    url: "recommendResource",
+                                    url: "/resource/getCurRes",
+                                    data: data,
                                     dataType: "json",
                                     success: function(result){
                                         if(result.code === 0){
-                                            res.recommendResource = result.recommendResource;
-                                            // window.location.href = "/registered/second?UUID=" + result.UUID;
+                                            res.curRes = result.curRes;
+                                            res.collectedNum = result.collectedNum;
+                                            res.isLogined = result.isLogined;
+                                            res.isCollected = result.isCollected;
+                                            res.isLiked = result.isLiked;
+                                            console.log(res.isLogined);
+                                            console.log(res.isCollected);
+                                            console.log(res.isLiked);
                                         }
                                     }
                                 });
                             },
-                            // doSearch : function () {
-                            //     $.ajax({
-                            //         type: "POST",
-                            //         url: "/resource/doSearch/" + searchResult.keyWord,
-                            //         data : '',
-                            //         dataType: "json",
-                            //         success: function(result){
-                            //             if(result.code === 0){
-                            //                 searchResult.result = result.result;
-                            //             }
-                            //             else{
-                            //                 alert(result.msg);
-                            //             }
-                            //         }
-                            //     });
-                            // }
-                        }
+                            tagSplit : function (tags) {
+                                return tags.split(",");
+                            },
+                            collect : function () {
+                                if(this.isCollected){
+                                    alert("您已经收藏过了");
+                                    return ;
+                                }
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/resource/collectRes/" + res.resId,
+                                    dataType: "json",
+                                    success: function(result){
+                                        if(result.code === 0){
+                                            res.isCollected = true;
+                                            ++res.collectedNum;
+                                        }
+                                        else{
+                                            alert(result.msg);
+                                        }
+                                    }
+                                });
+                            },
+                            like : function () {
+                                if(this.isLiked){
+                                    alert("您已经点过赞了");
+                                    return ;
+                                }
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/resource/likeRes/" + res.resId,
+                                    dataType: "json",
+                                    success: function(result){
+                                        if(result.code === 0){
+                                            res.isLiked = true;
+                                            ++res.curRes.resLikenum;
+                                        }
+                                        else{
+                                            alert(result.msg);
+                                        }
+                                    }
+                                });
+                            },
+                        },
+                        filters: {
+                            namefilter: function (value) {
+                                if (value && value.length > 10) {
+                                    value = value.substring(0, 10) + '...';
+                                }
+                                return value;
+                            },
+                            introfilter: function (value) {
+                                if (value && value.length > 25) {
+                                    value = value.substring(0, 25) + '...';
+                                }
+                                return value;
+                            },
+                            numfilter: function (value) {
+                                if (value > 10000) {
+                                    value = value / 10000;
+                                    return value + "万";
+                                }
+                                else if (value > 1000) {
+                                    value = value / 1000;
+                                    return value + "千";
+                                }
+                                else
+                                    return value;
+                            },
+                            mintohour: function (value) {
+                                if (value >= 60) {
+                                    var h = value / 60;
+                                    var min = value % 60;
+                                    return h + ":" + min;
+                                }
+                                else{
+                                    if(value < 10){
+                                        return "00:0" + value;
+                                    }
+                                    else return "00:" + value;
+                                }
+                            },
+                            dateFormat:function(val){
+                                var d = new Date(val);
+                                var year = d.getFullYear();
+                                var month = d.getMonth() + 1;
+                                var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                                var hour = d.getHours();
+                                var minutes = d.getMinutes();
+                                var seconds = d.getSeconds();
+                                return  year+ '年' + month + '月' + day + '日';
+                            },
+                            timefilter: function (val) {
+                                var d = new Date(val);
+                                var year = d.getFullYear();
+                                var month = d.getMonth() + 1;
+                                var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                                var hour = d.getHours();
+                                var minutes = d.getMinutes();
+                                var seconds = d.getSeconds();
+                                return  month + '月' + day + '日 '
+                                    + hour + ':' + minutes;
+                            },
+                            danmu_timefilter:function (value) {
+                                var second = value/10;
+                                var min = parseInt(second / 60);
+                                var sec = parseInt(second % 60);
+                                var minstr, secstr;
+                                // return parseInt(min) + ":" + parseInt(sec);
+                                if(min < 10)
+                                    minstr = "0" + min;
+                                else
+                                    minstr = min;
+                                if(sec < 10)
+                                    secstr = "0" + sec;
+                                else
+                                    secstr = sec;
+
+                                return minstr + ":" + secstr;
+                            },
+                            danmu_textfilter:function(value){
+                                if (value && value.length > 12) {
+                                    value = value.substring(0, 12) + '...';
+                                }
+                                return value;
+                            },
+                        },
                     });
                 </script>
 
@@ -531,7 +652,7 @@
     <script src="/static/js/js_cwh/DanmuPlayer/main.js"></script>
     <script>
         $("#danmup").DanmuPlayer({
-            src: "/resource/getFileSrc",
+            src: "/resource/getFileSrc/" + res.resId,
             height: "480px", //区域的高度
             width: "740px", //区域的宽度
             speed: 10000, //弹幕速度，这是数值指的是视频穿过672像素所需要的毫秒数
@@ -542,51 +663,17 @@
             FontSizeBig: 24, //大弹幕的字号
             opacity: "1", //弹幕默认透明度
             topBottonDanmuTime: 6000, //底部及顶部弹幕存留的时间
-            urlToGetDanmu: "", //用来接收弹幕信息的url  (稍后介绍)
-            urlToPostDanmu: "", //用来存储弹幕信息的url  (稍后介绍)
+            //用来接收弹幕信息的url
+            urlToGetDanmu: "",
+            //用来存储弹幕信息的url
+            urlToPostDanmu: "/resource/putDanmu/" + res.resId,
             maxCountInScreen: 40, //屏幕上的最大的显示弹幕数目,弹幕数量过多时,优先加载最新的。
             maxCountPerSec: 10 //每分秒秒钟最多的弹幕数目,弹幕数量过多时,优先加载最新的。
         });
 
-        $("#danmup .danmu-div").danmu("addDanmu", [{
-                "text": "这是滚动弹幕",  //text——弹幕文本内容。
-                color: "white",         //color——弹幕颜色。
-                size: 1,                //size——弹幕文字大小。 0为小字 1为大字
-                position: 0,            //position——弹幕位置 0为滚动 1 为顶部 2为底部
-                time: 2,                //time——弹幕所出现的时间。 单位为分秒（十分之一秒）
-                // isnew:1              //isnew——当出现该属性时（属性值可为任意），会认为这是用户新发的弹幕，从而弹幕在显示的时候会有边框。
-            }, {
-                "text": "我是帽子绿",
-                color: "green",
-                size: 1,
-                position: 0,
-                time: 3
-            }, {
-                "text": "哈哈哈啊哈",
-                color: "black",
-                size: 1,
-                position: 0,
-                time: 10
-            }, {
-                "text": "这是顶部弹幕",
-                color: "yellow",
-                size: 1,
-                position: 1,
-                time: 3
-            }, {
-                "text": "这是底部弹幕",
-                color: "red",
-                size: 1,
-                position: 2,
-                time: 9
-            }, {
-                "text": "大家好，我是伊藤橙",
-                color: "orange",
-                size: 1,
-                position: 1,
-                time: 3
-            }
-        ])
+        $("#danmup .danmu-div").danmu("addDanmu", res.danmus);
+
+
     </script>
 
     <!-- 折叠ibox -->
@@ -618,35 +705,70 @@
     <!-- suggest search -->
     <script src="/static/js/js_cwh/bootstrap-suggest/bootstrap-suggest.js"></script>
     <script type="text/javascript">
-        var dataList = {value: []}, i = 100;
-        while(i--) {
-            dataList.value.push({
-                id: i,
-                word: Math.random() * 100000,
-                description: 'http://lzw.me'
-            });
+
+        function checkName(name){
+            if(name.length <= 20)
+                return name;
+            else
+                return name.substring(0,20);
         }
+
         $("#search").bsSuggest({
-            url: null,                      //请求数据的 URL 地址
-            jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
-            data: dataList,                              //提示所用的数据，注意格式
-            // indexId: 2,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
-            // indexKey: 1,                    //每组数据的第几个数据，作为input输入框的内容
-            idField: 'id',                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
-            keyField: 'word',                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+            //提示所用的数据，注意格式
+            data: '',
+            emptyTip: '未检索到匹配的数据',
+            //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
+            // idField: 'resId',
+            //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+            keyField: 'resName',
+            // effectiveFieldsAlias: {
+            //     resName: "序号",
+            // },
+            //请求数据的 URL 地址
+            url: '/resource/searchSuggest?key=',
+            //设置此参数名，将开启jsonp功能，否则使用json数据结构
+            // jsonp: 'cb',
+            //格式化数据的方法，返回数据格式参考 data 参数
+            fnProcessData: function (json) {
+                var index, len, data = {value: []};
+                if (!json || !json.resource || json.resource.length === 0) {
+                    return false;
+                }
+
+                len = json.resource.length;
+                res = json.resource;
+                for (index = 0; index < len; index++) {
+                    data.value.push({
+                        resName: checkName(res[index].resName),
+                        resIntro: res[index].resIntro,
+                    });
+                }
+                // console.log(data);
+                //字符串转化为 js 对象
+                return data;
+            },
 
             /* 搜索相关 */
-            autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
-            allowNoKeyword: true,           //是否允许无关键字时请求数据
-            getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
-            delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
-            ignorecase: false,              //前端搜索匹配时，是否忽略大小写
-            effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
-            effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
-            searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
-            twoWayMatch: true,              // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
+            //键盘向上/下方向键时，是否自动选择值
+            autoSelect: true,
+            //是否允许无关键字时请求数据
+            allowNoKeyword: true,
+            //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+            getDataMethod: 'url',
+            //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+            // delayUntilKeyup: false,
+            //前端搜索匹配时，是否忽略大小写
+            ignorecase: true,
+            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
+            effectiveFields: ["resName"],
+            //有效字段的别名对象，用于 header 的显示
+            // effectiveFieldsAlias: {},
+            //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
+            searchFields: ["resName", "resIntro"],
+            // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
+            twoWayMatch: true,
 
-            multiWord: false,               //以分隔符号分割的多关键字支持
+            multiWord: true,               //以分隔符号分割的多关键字支持
             separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
             delay: 300,                     //搜索触发的延时时间间隔，单位毫秒
 
@@ -681,7 +803,6 @@
             keyEnter: 13,                   //回车键
 
             /* methods */
-            // fnProcessData: processData,     //格式化数据的方法，返回数据格式参考 data 参数
             // fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
             // fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
             // fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串

@@ -113,31 +113,34 @@
                             <div class="hr-line-dashed"></div>
 
                             <div class="row">
-                                <div class="col-md-3" v-for="res in resource" :key="res.resId">
+                                <div class="col-md-3" v-for="res in resource">
                                     <div class="panel panel-default">
                                         <div class="panel-body" style="padding : 5px;">
                                             <div class="box">
                                                 <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
                                                 <div class="box-content">
                                                     <ul class="icon">
-                                                        <li><a :href="res.resPath"><i class="fa fa-play"></i></a></li>
+                                                        <li><a :href="'/resource/player/' + res.resId"><i class="fa fa-play"></i></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">
-                                            <a href="">
+                                            <a :href="'/resource/player/' + res.resId">
                                                 <p class="text-left">
-                                                    {{res.resName}}
+                                                    {{res.resName | namefilter}}
                                                 </p>
                                             </a>
                                             <p class="text-left text-muted">
-                                                <small><i class="fa fa-eye"></i>456</small>
+                                                <!--<small><i class="fa fa-eye"></i>456</small>-->
+                                                <!--&nbsp;|&nbsp;-->
+                                                <small><i class="fa fa-thumbs-up"></i>&nbsp;{{res.resLikenum | numfilter}}</small>
                                                 &nbsp;|&nbsp;
-                                                <small><i class="fa fa-star"></i>{{res.resLikenum}}</small>
-                                                &nbsp;|&nbsp;
-                                                <small><i class="fa fa-check-circle-o"></i>{{res.resLong}}</small>
+                                                <small><i class="fa fa-check-circle-o"></i>&nbsp;{{res.resLong | mintohour}}</small>
                                             </p>
+                                            <!--<p>-->
+                                                <!--<span class="badge" v-for="t in tagSplit(res.resTag).slice(0, 5)" style="margin-right: 5px;margin-top: 3px;">{{t}}</span>-->
+                                            <!--</p>-->
                                         </div>
                                     </div>
                                 </div>
@@ -146,16 +149,16 @@
                             <!--页号-->
                             <div class="text-center">
                                 <div class="btn-group">
-                                    <button class="btn btn-white" type="button" v-if="curPage != 1" @click="changePage(curPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                                    <button class="btn btn-white" type="button" v-if="result.hasPreviousPage" @click="changePage(curPage - 1)"><i class="fa fa-chevron-left"></i></button>
                                     <!--v-for:循环页数, :class ：如果是当前页使其为激活， @click:触发事件参数-->
                                     <button class="btn btn-white"
-                                            v-for="p in result.pages"
+                                            v-for="p in result.navigatepageNums"
                                             :class="[{ active: p == curPage }, '']"
                                             @click="changePage(p)"
                                     >
                                         {{p}}
                                     </button>
-                                    <button class="btn btn-white" type="button" v-if="curPage != result.pages" @click="changePage(curPage + 1)"><i class="fa fa-chevron-right" ></i></button>
+                                    <button class="btn btn-white" type="button" v-if="result.hasNextPage" @click="changePage(curPage + 1)"><i class="fa fa-chevron-right" ></i></button>
                                 </div>
                             </div>
                         </div>
@@ -234,9 +237,11 @@
                                         dataType: "json",
                                         success: function(result){
                                             if(result.code === 0){
-                                                searchResult.resource = result.result.records;
-                                                searchResult.curPage = result.result.current;
                                                 searchResult.result = result.result;
+                                                searchResult.resource = result.result.list;
+                                                searchResult.curPage = result.result.pageNum;
+                                                console.log( searchResult.curPage);
+                                                console.log(searchResult.result);
                                             }
                                         }
                                     });
@@ -244,8 +249,51 @@
 
                                 changePage : function (page) {
                                     window.location.href = "/resource/searchResult?page=" + page + "&key=" + this.keyWord;
-                                }
-                            }
+                                },
+
+                                tagSplit : function (tags) {
+                                    return tags.split(",");
+                                },
+                            },
+                            filters: {
+                                namefilter: function (value) {
+                                    if (value && value.length > 10) {
+                                        value = value.substring(0, 10) + '...';
+                                    }
+                                    return value;
+                                },
+                                introfilter: function (value) {
+                                    if (value && value.length > 25) {
+                                        value = value.substring(0, 25) + '...';
+                                    }
+                                    return value;
+                                },
+                                numfilter: function(value){
+                                    if(value > 10000){
+                                        value = value / 10000;
+                                        return value + "万";
+                                    }
+                                    else if(value > 1000){
+                                        value = value /1000;
+                                        return value + "千";
+                                    }
+                                    else
+                                        return value;
+                                },
+                                mintohour: function (value) {
+                                    if(value >= 60){
+                                        var h = value / 60;
+                                        var min = value % 60;
+                                        return h + ":" + min;
+                                    }
+                                    else{
+                                        if(value < 10){
+                                            return "00:0" + value;
+                                        }
+                                        else return "00:" + value;
+                                    }
+                                },
+                            },
                         });
                     </script>
                 </div>

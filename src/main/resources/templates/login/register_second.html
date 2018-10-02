@@ -2,6 +2,7 @@
 <html>
 
 	<head>
+		<title>填写信息</title>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="/static/css/css_lxn/register-lxn.css" />
@@ -65,7 +66,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-lock"></span>
-											<input type="text" class="form-control" placeholder="登陆密码" id="password" name="password" v-model="userAccount.allPwd"/>
+											<input type="password" class="form-control" placeholder="登陆密码" id="password" name="password" v-model="userAccount.allPwd"/>
 										</div>
 									</div>
 								</div>
@@ -89,7 +90,7 @@
 									<div class="col-md-5">
 										<div class="input-group">
 											<span class="input-group-addon glyphicon glyphicon-lock"></span>
-											<input type="text" class="form-control" placeholder="6位支付密码" id="paypwd" name="paypwd" v-model="userInfo.promPaypwd"/>
+											<input type="password" class="form-control" placeholder="6位支付密码" id="paypwd" name="paypwd" v-model="userInfo.promPaypwd"/>
 										</div>
 									</div>
 								</div>
@@ -200,7 +201,7 @@
                                             dataType: "json",
                                             success: function(result){
                                                 if(result.code === 0){
-                                                    window.location.href = "/registered/third";
+                                                    window.location.href = result.next;
                                                 }else{
                                                     alert("出现错误");
                                                 }
@@ -219,11 +220,9 @@
 		</div>
 
 		<script type="text/javascript">
-						
 			$(".sub_register").click(function(){
 				window.location.href="#";
 			})
-						
 		</script>
 	</body>
 

@@ -26,11 +26,23 @@ public class AlluserServiceImpl extends ServiceImpl<AlluserMapper, Alluser> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean updatePassword(String userUUId, String password, String newPassword) {
+    public boolean updatePassword(String userUUID, String password, String newPassword) {
         Alluser user = new Alluser();
         user.setAllPwd(newPassword);
         return this.update(user,
-                new EntityWrapper<Alluser>().eq("all_id", userUUId).eq("all_pwd", password));
+                new EntityWrapper<Alluser>().eq("all_id", userUUID).eq("all_pwd", password));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updatePassword(String userUUID, String password) {
+        Alluser user = new Alluser();
+        String salt = RandomStringUtils.randomAlphanumeric(20);
+        password = ShiroUtils.sha256(password, salt);
+
+        user.setAllPwd(password);
+        user.setAllSalt(salt);
+        return this.update(user,new EntityWrapper<Alluser>().eq("all_id", userUUID));
     }
 
     @Override
@@ -57,10 +69,5 @@ public class AlluserServiceImpl extends ServiceImpl<AlluserMapper, Alluser> impl
     public Alluser selectByEmail(String email) {
         Alluser user = this.selectOne(new EntityWrapper<Alluser>().eq("all_email", email));
         return user;
-    }
-
-    @Override
-    public Page<Alluser> selectUserByPage(Page<Alluser> page) {
-        return page.setRecords(baseMapper.selectUserByPage(page));
     }
 }
