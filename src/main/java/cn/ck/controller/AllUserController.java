@@ -18,6 +18,12 @@ public class AllUserController extends AbstractController{
     @Autowired
     AlluserService alluserService;
 
+    /**
+     * 修改密码
+     * @param oldPassword 原密码
+     * @param newPassword 新密码
+     * @return 如果成功返回code=0，msg=操作成功
+     */
     @RequestMapping("/updatePassword")
     @ResponseBody
     public ResponseBo updatePassword(String oldPassword, String newPassword){

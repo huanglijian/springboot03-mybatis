@@ -1,6 +1,8 @@
 package cn.ck.controller;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 	
 	
-	@RequiresPermissions("user:user")
+//	@RequiresPermissions("user:user")
+	@RequiresRoles(value = {"promulgator","users"}, logical= Logical.OR)
 	@RequestMapping("list")
 	public String userList(Model model) {
 		model.addAttribute("value", "获取用户信息");
