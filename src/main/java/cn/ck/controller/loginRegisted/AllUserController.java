@@ -1,5 +1,6 @@
-package cn.ck.controller;
+package cn.ck.controller.loginRegisted;
 
+import cn.ck.controller.AbstractController;
 import cn.ck.service.AlluserService;
 import cn.ck.utils.ResponseBo;
 import cn.ck.utils.ShiroUtils;
@@ -13,7 +14,7 @@ import static cn.ck.utils.ShiroUtils.getUserId;
 
 @Controller
 @RequestMapping("/allUser")
-public class AllUserController extends AbstractController{
+public class AllUserController extends AbstractController {
 
     @Autowired
     AlluserService alluserService;

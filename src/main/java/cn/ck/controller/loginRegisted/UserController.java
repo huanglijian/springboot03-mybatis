@@ -1,4 +1,4 @@
-package cn.ck.controller;
+package cn.ck.controller.loginRegisted;
 
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

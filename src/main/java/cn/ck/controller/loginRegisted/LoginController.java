@@ -1,5 +1,6 @@
-package cn.ck.controller;
+package cn.ck.controller.loginRegisted;
 
+import cn.ck.controller.AbstractController;
 import cn.ck.entity.Alluser;
 import cn.ck.entity.Promulgator;
 import cn.ck.entity.Users;
@@ -31,7 +32,7 @@ import java.util.Date;
 
 
 @Controller
-public class LoginController extends AbstractController{
+public class LoginController extends AbstractController {
 
 	//验证码产生bean
 	@Autowired
