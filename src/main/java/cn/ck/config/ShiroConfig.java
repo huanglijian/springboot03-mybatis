@@ -85,6 +85,7 @@ public class ShiroConfig {
 		chains.put("/ckadmin/**", "anon");
 		chains.put("/file/**", "anon");
 
+		chains.put("/home/**", "anon");
 		chains.put("/ForJob/**", "anon");
 		chains.put("/resource/**", "anon");
 		chains.put("/studio/**", "anon");

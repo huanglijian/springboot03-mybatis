@@ -32,17 +32,14 @@
         body{
             overflow: hidden;
         }
-
         *{
             padding: 0;
             margin: 0;
             border: none;
         }
-
         #first{
             background-color: rgb(255, 255, 255);
         }
-
         /* #first p{
             color: rgb(255, 255, 255);
             text-align: center;
@@ -52,7 +49,6 @@
             padding: 60px;
             background: white;
         } */
-
         #second{
             background-color: rgb(245, 245, 245);
             /*background-image: url("");*/
@@ -60,7 +56,6 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
-
         #third{
             background-color: rgb(255, 255, 255);
             /*background-image: url("");*/
@@ -68,7 +63,6 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
-        
         #fourth{
             background-color: rgb(250, 250, 250);
             background-image: url("");
@@ -146,39 +140,35 @@
 
 <body>
     <div class="sonp-section sonp-full" id="first">
-
         <header>
             <div id="headVue">
-            <div class="container-fluid container-fluid_up">
-                <div class="row_up">
-                    <ul class="list-unstyled" v-if="isLogined">
-                        <li>
-                            <a href="#">帮助中心</a>
-                        </li>
-                        <li >
-                            <a href="/logout">注销</a>
-                        </li>
-                        <li>
-                            <a href="/login">{{loginUser.allEmail}}</a>
-                        </li>
-                        <li>
-                            <a href="/studio/studioNone">我的工作室</a>
-                        </li>
-                    </ul>
-                    <ul class="list-unstyled" v-else>
-                        <li>
-                            <a href="#">帮助中心</a>
-                        </li>
-                        <li >
-                            <a href="/registered/select/new">注册</a>
-                        </li>
-                        <li>
-                            <a href="/login">登录</a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="container-fluid container-fluid_up" style="height: 30px;">
+                <!--<div class="row_up">-->
+                    <!--<ul class="list-unstyled" v-if="isLogined">-->
+                        <!--<li>-->
+                            <!--<a href="#">帮助中心</a>-->
+                        <!--</li>-->
+                        <!--<li >-->
+                            <!--<a href="/logout">注销</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="/login">{{loginUser.allEmail}}</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                    <!--<ul class="list-unstyled" v-else>-->
+                        <!--<li>-->
+                            <!--<a href="#">帮助中心</a>-->
+                        <!--</li>-->
+                        <!--<li >-->
+                            <!--<a href="/registered/select/new">注册</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="/login">登录</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
             </div>
-            <div class="container-fluid container-fluid_main">
+            <div class="container-fluid container-fluid_main" style="background: #fdfdfd;">
                 <div class="row_main">
                     <div class="main_logo">
                         <img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
@@ -186,7 +176,7 @@
                     <div class="main_right">
                         <ul class="nav_psw list-unstyled">
                             <li class="active">
-                                <a>首 页</a>
+                                <a href="/">首 页</a>
                             </li>
                             <li>
                                 <a>项目大厅</a>
@@ -195,7 +185,7 @@
                                 <a>服务大厅</a>
                             </li>
                             <li>
-                                <a>创客讲堂</a>
+                                <a href="/resource/home">创客讲堂</a>
                             </li>
                             <li>
                                 <a>原创中心</a>
@@ -209,66 +199,54 @@
                         </ul>
                     </div>
                 </div>
+                <div>
+                    <ul class="nav navbar-top-links navbar-right" style="margin-right: 2%;">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <img src="/static/img/a1.jpg" style="height: 40px;border-radius: 25px;"/>
+                                <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-alerts" style="max-width: 250px;padding: 0;">
+                                <!--##########未登录###############-->
+                                <li v-if="!isLogined">
+                                    <a href="/login">登录</a>
+                                </li>
+                                <li v-if="!isLogined">
+                                    <a href="/registered/select/new">注册</a>
+                                </li>
+                                <!--##########已登录###############-->
+                                <li v-if="isLogined">
+                                    {{loginUser.allEmail}}({{loginUser.allType}})
+                                </li>
+                                <li v-if="isLogined">
+                                    <a href="/">个人中心</a>
+                                </li>
+                                <li v-if="isLogined">
+                                    <a href="/logout">注销</a>
+                                </li>
+                                <li v-if="isLogined">
+                                    <a href="/studio/studioNone">我的工作室</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
             </div>
             <script type="text/javascript">
-                var vm = new Vue({
+                var nav_vue = new Vue({
                     el:'#headVue',
                     data:{
                         loginUser: '',
-                        isLogined: '',
-                    },
-                    beforeCreate: function () {
+                        isLogined: false,
                     },
                     created: function () {
                         this.getUser();
                     },
                     beforeMount: function () {
                     },
-                    mounted: function () {
-                    },
-                    beforeUpdate: function () {
-                    },
-                    updated: function () {
-                    },
-                    beforeDestroy: function () {
-                    },
-                    destroyed: function () {
-                    },
                     methods: {
-                        urlparse: function(){
-                            var url = window.location.href;
-                            var a = document.createElement('a');
-                            a.href = url;
-                            var obj = {
-                                source: url,
-                                protocol: a.protocol.replace(':', ''),
-                                host: a.hostname,
-                                port: a.port,
-                                query: a.search,
-                                file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
-                                hash: a.hash.replace('#', ''),
-                                path: a.pathname.replace(/^([^\/])/, '/$1'),
-                                relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
-                                segments: a.pathname.replace(/^\//, '').split('/'),
-                                params: (function() {
-                                    var ret = {};
-                                    var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
-                                        if (v!==''&&v.indexOf('=')) {
-                                            return true;
-                                        }
-                                    });
-                                    seg.forEach( function(element, index) {
-                                        var idx = element.indexOf('=');
-                                        var key = element.substring(0, idx);
-                                        var val = element.substring(idx+1);
-                                        ret[key] = val;
-                                    });
-                                    return ret;
-                                })()
-                            };
-                            return obj;
-                        },
                         getUser: function(){
                             $.ajax({
                                 type: "POST",
@@ -277,12 +255,12 @@
                                 dataType: "json",
                                 success: function(result){
                                     if(result.code === 404){
-                                        vm.isLogined = false;
+                                        nav_vue.isLogined = false;
                                     }
                                     else if(result.code === 0){
-                                        vm.isLogined = true;
-                                        vm.loginUser = result.loginUser;
-                                        console.log(vm.loginUser);
+                                        nav_vue.isLogined = true;
+                                        nav_vue.loginUser = result.loginUser;
+                                        console.log(nav_vue.loginUser);
                                     }
                                     else{
                                         alert("出现错误");
@@ -305,7 +283,7 @@
 
         <div class="row">
             <div class="col-md-6 col-md-offset-4">
-                <div class="ibox-content" style="background:#ffffff; border-width: 0px;">
+                <div class="ibox-content" style="background:#ffffff; border-width: 0px;margin-left: -5%;">
                     <form action="">
                         <span class="search">
                             <input type="text" id="search" name="word" baiduSug="1" placeholder="请输入关键词" />
@@ -1439,38 +1417,91 @@
     <!-- 页面滚动JS -->
     <script src="/static/js/js_cwh/sonpScroll/sonpScroll.js"></script>
 
+    <!-- 3d图片旋转 -->
+    <script src="/static/js/js_cwh/yys-slider/jquery-yys-slider.js"></script>
+    <script>
+    $(function(){
+        $('.content-part.part-tese').addClass('show');
+        $('.gallery_container').gallery_slider({imgNum: 4});
+    })
+    </script>
+
+     <!-- 选项卡 -->
+    <script src="/static/js/js_cwh/tab/modernizr.custom.js"></script>
+    <script src="/static/js/js_cwh/tab/cbpFWTabs.js"></script>
+    <script>
+        (function() {
+            [].slice.call( document.querySelectorAll( '.moder_tabs' ) ).forEach( function( el ) {
+                new CBPFWTabs( el );
+            });
+        })();
+    </script>
+
     <!-- suggest search -->
     <script src="/static/js/js_cwh/bootstrap-suggest/bootstrap-suggest.js"></script>
     <script type="text/javascript">
-        var dataList = {value: []}, i = 100;
-        while(i--) {
-            dataList.value.push({
-                id: i,
-                word: Math.random() * 100000,
-                description: 'http://lzw.me'
-            });
+        function checkName(name){
+            if(name.length <= 20)
+                return name;
+            else
+                return name.substring(0,20);
         }
         $("#search").bsSuggest({
-            url: null,                      //请求数据的 URL 地址
-            jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
-            data: dataList,                              //提示所用的数据，注意格式
-            // indexId: 2,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
-            // indexKey: 1,                    //每组数据的第几个数据，作为input输入框的内容
-            idField: 'id',                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
-            keyField: 'word',                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+            //提示所用的数据，注意格式
+            data: '',
+            emptyTip: '未检索到匹配的数据',
+            //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
+            // idField: 'resId',
+            //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+            keyField: 'resName',
+            // effectiveFieldsAlias: {
+            //     resName: "序号",
+            // },
+            //请求数据的 URL 地址
+            url: '/resource/searchSuggest?key=',
+            //设置此参数名，将开启jsonp功能，否则使用json数据结构
+            // jsonp: 'cb',
+            //格式化数据的方法，返回数据格式参考 data 参数
+            fnProcessData: function (json) {
+                var index, len, data = {value: []};
+                if (!json || !json.resource || json.resource.length === 0) {
+                    return false;
+                }
+
+                len = json.resource.length;
+                res = json.resource;
+                for (index = 0; index < len; index++) {
+                    data.value.push({
+                        resName: checkName(res[index].resName),
+                        resIntro: res[index].resIntro,
+                    });
+                }
+                // console.log(data);
+                //字符串转化为 js 对象
+                return data;
+            },
 
             /* 搜索相关 */
-            autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
-            allowNoKeyword: true,           //是否允许无关键字时请求数据
-            getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
-            delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
-            ignorecase: false,              //前端搜索匹配时，是否忽略大小写
-            effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
-            effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
-            searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
-            twoWayMatch: true,              // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
+            //键盘向上/下方向键时，是否自动选择值
+            autoSelect: true,
+            //是否允许无关键字时请求数据
+            allowNoKeyword: true,
+            //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+            getDataMethod: 'url',
+            //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+            // delayUntilKeyup: false,
+            //前端搜索匹配时，是否忽略大小写
+            ignorecase: true,
+            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
+            effectiveFields: ["resName"],
+            //有效字段的别名对象，用于 header 的显示
+            // effectiveFieldsAlias: {},
+            //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
+            searchFields: ["resName", "resIntro"],
+            // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
+            twoWayMatch: true,
 
-            multiWord: false,               //以分隔符号分割的多关键字支持
+            multiWord: true,               //以分隔符号分割的多关键字支持
             separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
             delay: 300,                     //搜索触发的延时时间间隔，单位毫秒
 
@@ -1505,7 +1536,6 @@
             keyEnter: 13,                   //回车键
 
             /* methods */
-            // fnProcessData: processData,     //格式化数据的方法，返回数据格式参考 data 参数
             // fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
             // fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
             // fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
@@ -1520,28 +1550,6 @@
         }).on('onHideDropdown', function (e, data) {
             console.log('onHideDropdown', e.target.value, data);
         });
-    </script>
-
-    <!-- 3d图片旋转 -->
-    <script src="/static/js/js_cwh/yys-slider/jquery-yys-slider.js"></script>
-    <script>
-    $(function(){
-        $('.content-part.part-tese').addClass('show');
-        $('.gallery_container').gallery_slider({imgNum: 4});
-    })
-    </script>
-
-     <!-- 选项卡 -->
-    <script src="/static/js/js_cwh/tab/modernizr.custom.js"></script>
-    <script src="/static/js/js_cwh/tab/cbpFWTabs.js"></script>
-    <script>
-        (function() {
-
-            [].slice.call( document.querySelectorAll( '.moder_tabs' ) ).forEach( function( el ) {
-                new CBPFWTabs( el );
-            });
-
-        })();
     </script>
 </body>
 

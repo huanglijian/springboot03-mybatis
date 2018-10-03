@@ -1,5 +1,6 @@
-package cn.ck.controller;
+package cn.ck.controller.loginRegisted;
 
+import cn.ck.controller.AbstractController;
 import cn.ck.entity.Account;
 import cn.ck.entity.Alluser;
 import cn.ck.entity.Promulgator;
@@ -26,7 +27,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/registered")
-public class RegisteredController extends AbstractController{
+public class RegisteredController extends AbstractController {
 
     @Autowired
     private AlluserService alluserService;

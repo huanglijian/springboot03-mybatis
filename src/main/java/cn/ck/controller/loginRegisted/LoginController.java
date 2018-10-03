@@ -1,5 +1,6 @@
-package cn.ck.controller;
+package cn.ck.controller.loginRegisted;
 
+import cn.ck.controller.AbstractController;
 import cn.ck.entity.Alluser;
 import cn.ck.entity.Promulgator;
 import cn.ck.entity.Users;
@@ -12,6 +13,7 @@ import com.google.code.kaptcha.Producer;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresGuest;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +35,7 @@ import java.util.Date;
 
 
 @Controller
-public class LoginController extends AbstractController{
+public class LoginController extends AbstractController {
 
 	//验证码产生bean
 	@Autowired
@@ -131,6 +133,7 @@ public class LoginController extends AbstractController{
 	/**
 	 * 退出
 	 */
+	@RequiresUser
 	@RequestMapping("/logout")
 	public String logout() {
 		ShiroUtils.logout();
@@ -143,6 +146,12 @@ public class LoginController extends AbstractController{
 		Alluser loginUser = getUser();
 		if(loginUser == null)
 			return ResponseBo.error(404, "没有登录");
-		return ResponseBo.ok().put("loginUser", loginUser);
+
+		Alluser user = new Alluser();
+		user.setAllId(loginUser.getAllId());
+		user.setAllEmail(loginUser.getAllEmail());
+		user.setAllType(loginUser.getAllType());
+
+		return ResponseBo.ok().put("loginUser", user);
 	}
 }
