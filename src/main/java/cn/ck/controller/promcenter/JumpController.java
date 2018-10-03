@@ -75,4 +75,15 @@ public class JumpController {
         return "/promulgator/prom_priManage";
     }
 
+    /*跳转充值页面*/
+    @RequestMapping("/priceinprom")
+    public String priceinprom(){
+        return "/promulgator/prom_payin";
+    }
+
+    /*跳转提现页面*/
+    @RequestMapping("/priceoutprom")
+    public String priceoutprom(){
+        return "/promulgator/prom_payout";
+    }
 }

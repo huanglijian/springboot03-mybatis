@@ -52,7 +52,7 @@ public class LoginController extends AbstractController {
 	}
 
 	//显示登录页面
-	@RequiresGuest
+//	@RequiresGuest
 	@GetMapping("/login")
 	public String login() {
 		return "login/login";
@@ -138,20 +138,5 @@ public class LoginController extends AbstractController {
 	public String logout() {
 		ShiroUtils.logout();
 		return "redirect:login.html";
-	}
-
-	@RequestMapping("getLoginUser")
-	@ResponseBody
-	public ResponseBo getLoginUser(){
-		Alluser loginUser = getUser();
-		if(loginUser == null)
-			return ResponseBo.error(404, "没有登录");
-
-		Alluser user = new Alluser();
-		user.setAllId(loginUser.getAllId());
-		user.setAllEmail(loginUser.getAllEmail());
-		user.setAllType(loginUser.getAllType());
-
-		return ResponseBo.ok().put("loginUser", user);
 	}
 }
