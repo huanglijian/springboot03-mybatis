@@ -46,5 +46,12 @@ public interface ResourceService extends IService<Resource> {
 
     List<Resource> getSuggestPage(String keyword);
 
+    /**
+     * 根据标签查询资源
+     * @param tag 标签
+     * @return
+     */
+    List<Resource> getResByTag(String tag);
+
     List<ResCol> selectDesc(String id);
 }

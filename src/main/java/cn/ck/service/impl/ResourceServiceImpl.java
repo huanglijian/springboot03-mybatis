@@ -47,7 +47,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
                 new EntityWrapper<Resource>()
                         .like("res_name", keyword)
                         .or().like("res_intro", keyword)
-                        .orderBy("res_uploadtime"));
+                        .orderBy("res_uploadtime",false));
     }
 
     @Override
@@ -56,7 +56,15 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
                 new EntityWrapper<Resource>()
                 .like("res_name", keyword)
                 .or().like("res_intro", keyword)
-                .orderBy("res_uploadtime"));
+                .orderBy("res_uploadtime", false));
+    }
+
+    @Override
+    public List<Resource> getResByTag(String tag) {
+        return  baseMapper.selectList(
+                new EntityWrapper<Resource>()
+                        .like("res_tag", tag)
+                        .orderBy("res_uploadtime", false));
     }
 
     @Override
