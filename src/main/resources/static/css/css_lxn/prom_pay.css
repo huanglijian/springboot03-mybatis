@@ -1,6 +1,6 @@
 .c_r_contest{
 	width:930px;
-	
+
 }
 .c_r_contest h2{
 	font-size: 20px;
@@ -42,4 +42,29 @@
 }
 .has-error,.help-blockm,.m-b-none{
 	margin-top: 0;
+}
+
+.paytip{
+	width: 50px;
+	height: 50px;
+	background: #1ab394;
+	border-radius: 25px;
+	margin-left: 125px;
+}
+.payremove{
+	width: 50px;
+	height: 50px;
+	background: #fd4c5d;
+	border-radius: 25px;
+	margin-left: 125px;
+}
+.tiplogo{
+	font-size:35px;
+	color: #FFFFFF;
+	padding-top: 8px;
+	padding-left: 8px;
+}
+.paytext{
+	font-size: 30px;
+	font-weight: 700;;
 }

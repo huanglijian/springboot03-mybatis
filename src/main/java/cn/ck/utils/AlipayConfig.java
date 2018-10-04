@@ -8,9 +8,9 @@ public class AlipayConfig {
 
 	public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3unuegrZFxFR45ZxdTvXNPQ3/xMwf+FJs3qamirIe+x9Z4qzcCchlGCFAIOmR2SrUVsF31uZ9F2/xwkjovwkfPIzvVabW1UOnKXNNbgQkdZYKm9rainNoV2HZpy4pzfVOVvMEHBkpQa1gmcrJyHwcaeVy8Co1GbGwoeEULah3cMX4chOFitBtfKKU5VNSyvqo/Ms8ZD7xi0GxHcZlbrFfLhhhLdpt5oL6cpIZjK17gmIyctrkw/m7LU8soSlljSQKbHCwllE/gJM0Fg56Km+q1RyH+1gJKgA4b8n6AISKE6ga6hId5k7Gfy9SfCJtTCuh4pBai/VEhGHyVyonUHCUQIDAQAB";//教程查看获取方式（必须配置）
 	
-	public static String notify_url = "http://localhost:8080/alipay/alipayNotifyNotice";
+	public static String notify_url = "http://3jmpex.natappfree.cc/promcenter/alipayNotifyNotice";
 	
-	public static String return_url = "http://localhost:8080/alipay/alipayReturnNotice";
+	public static String return_url = "http://3jmpex.natappfree.cc/promcenter/alipayReturnNotice";
 	
 	public static String sign_type = "RSA2";
 	
