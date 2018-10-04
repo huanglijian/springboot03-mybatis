@@ -66,24 +66,11 @@ public class MoneypromController {
 
     /**
      *
-     * @Title: AlipayController.java
-     * @Package com.sihai.controller
      * @Description: 前往支付宝第三方网关进行支付
-     * Copyright: Copyright (c) 2017
-     * Company:FURUIBOKE.SCIENCE.AND.TECHNOLOGY
-     *
-     * @author sihai
-     * @date 2017年8月23日 下午8:50:43
-     * @version V1.0
      */
     @RequestMapping("/goAlipay")
     @ResponseBody
     public String goAlipay(String paynumber, HttpServletRequest request, HttpServletRequest response) throws Exception {
-
-        //Orders order = orderService.getOrderById(orderId);
-
-       // Product product = productService.getProductById(order.getProductId());
-
         //获得初始化的AlipayClient
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
 
@@ -113,6 +100,7 @@ public class MoneypromController {
 
         //请求
         String result = alipayClient.pageExecute(alipayRequest).getBody();
+        System.out.println(alipayRequest.getNotifyUrl());
 
         return result;
     }
@@ -122,18 +110,9 @@ public class MoneypromController {
      * @Title: AlipayController.java
      * @Package com.sihai.controller
      * @Description: 支付宝同步通知页面
-     * Copyright: Copyright (c) 2017
-     * Company:FURUIBOKE.SCIENCE.AND.TECHNOLOGY
-     *
-     * @author sihai
-     * @date 2017年8月23日 下午8:51:01
-     * @version V1.0
      */
-    @RequestMapping(value = "/alipayReturnNotice")
+    @RequestMapping("/alipayReturnNotice")
     public ModelAndView alipayReturnNotice(HttpServletRequest request, HttpServletRequest response) throws Exception {
-
-        log.info("支付成功, 进入同步通知接口...");
-
         //获取支付宝GET过来反馈信息
         Map<String,String> params = new HashMap<String,String>();
         Map<String,String[]> requestParams = request.getParameterMap();
@@ -149,45 +128,31 @@ public class MoneypromController {
             valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
             params.put(name, valueStr);
         }
-
         boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.sign_type); //调用SDK验证签名
-
-        ModelAndView mv = new ModelAndView("/promulgator/prom_payin");
-        //——请在这里编写您的程序（以下代码仅作参考）——
+        ModelAndView mv = new ModelAndView("/promulgator/prom_payinresult");
         if(signVerified) {
             //商户订单号
             String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
-
             //支付宝交易号
             String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
-
             //付款金额
             String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
 
-            // 修改叮当状态，改为 支付成功，已付款; 同时新增支付流水
-//            orderService.updateOrderStatus(out_trade_no, trade_no, total_amount);
-//
-//
-//            Orders order = orderService.getOrderById(out_trade_no);
-//            Product product = productService.getProductById(order.getProductId());
+            Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+            Promulgator promulgator=promulgatorService.selectID(user.getAllId());
+            Account account=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid",user.getAllId()));
+            String promname=promulgator.getPromName();
+            double acc=account.getAccMoney()+Double.valueOf(total_amount);
 
-            log.info("********************** 支付成功(支付宝同步通知) **********************");
-            log.info("* 订单号: {}", out_trade_no);
-            log.info("* 支付宝交易号: {}", trade_no);
-            log.info("* 实付金额: {}", total_amount);
-            log.info("* 购买产品: {}", "123");
-            log.info("***************************************************************");
-
-
-            mv.addObject("out_trade_no", out_trade_no);
-            mv.addObject("trade_no", trade_no);
-            mv.addObject("total_amount", total_amount);
-            mv.addObject("productName", "123");
+            mv.addObject("account", total_amount);
+            mv.addObject("name",promname);
+            mv.addObject("accountall",acc);
+            System.out.println(total_amount+"-----"+promname+"------"+acc);
+            System.out.println(trade_no);
 
         }else {
-            log.info("支付, 验签失败...");
-        }
 
+        }
         return mv;
     }
 
@@ -196,19 +161,10 @@ public class MoneypromController {
      * @Title: AlipayController.java
      * @Package com.sihai.controller
      * @Description: 支付宝异步 通知页面
-     * Copyright: Copyright (c) 2017
-     * Company:FURUIBOKE.SCIENCE.AND.TECHNOLOGY
-     *
-     * @author sihai
-     * @date 2017年8月23日 下午8:51:13
-     * @version V1.0
      */
-    @RequestMapping(value = "/alipayNotifyNotice")
-    @ResponseBody
+    @RequestMapping("/alipayNotifyNotice")
     public String alipayNotifyNotice(HttpServletRequest request, HttpServletRequest response) throws Exception {
-
-        log.info("支付成功, 进入异步通知接口...");
-
+        System.out.println("9999999");
         //获取支付宝POST过来反馈信息
         Map<String,String> params = new HashMap<String,String>();
         Map<String,String[]> requestParams = request.getParameterMap();
@@ -226,62 +182,38 @@ public class MoneypromController {
         }
 
         boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.sign_type); //调用SDK验证签名
-
-        //——请在这里编写您的程序（以下代码仅作参考）——
-
-		/* 实际验证过程建议商户务必添加以下校验：
-		1、需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-		2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
-		3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
-		4、验证app_id是否为该商户本身。
-		*/
         if(signVerified) {//验证成功
             //商户订单号
             String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
-
             //支付宝交易号
             String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
-
             //交易状态
             String trade_status = new String(request.getParameter("trade_status").getBytes("ISO-8859-1"),"UTF-8");
-
             //付款金额
             String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
-
             if(trade_status.equals("TRADE_FINISHED")){
-                //判断该笔订单是否在商户网站中已经做过处理
-                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-                //如果有做过处理，不执行商户的业务程序
-
-                //注意： 尚自习的订单没有退款功能, 这个条件判断是进不来的, 所以此处不必写代码
-                //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
+                System.out.println("6666666");
             }else if (trade_status.equals("TRADE_SUCCESS")){
-                //判断该笔订单是否在商户网站中已经做过处理
-                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-                //如果有做过处理，不执行商户的业务程序
 
-                //注意：
-                //付款完成后，支付宝系统发送该交易状态通知
-
-                // 修改叮当状态，改为 支付成功，已付款; 同时新增支付流水
-//                orderService.updateOrderStatus(out_trade_no, trade_no, total_amount);
-//
-//                Orders order = orderService.getOrderById(out_trade_no);
-//                Product product = productService.getProductById(order.getProductId());
-
-                log.info("********************** 支付成功(支付宝异步通知) **********************");
-                log.info("* 订单号: {}", out_trade_no);
-                log.info("* 支付宝交易号: {}", trade_no);
-                log.info("* 实付金额: {}", total_amount);
-                log.info("* 购买产品: {}", "123");
-                log.info("***************************************************************");
+                Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+                Account account=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid",user.getAllId()));
+                account.setAccMoney(account.getAccMoney()+Double.valueOf(total_amount));
+                accountService.updateAllColumnById(account);
+                Funds funds=new Funds();
+                funds.setFundId(out_trade_no);
+                funds.setFundDatetime(new Date());
+                funds.setFundType("充值");
+                funds.setFundIncome(user.getAllId());
+                funds.setFundOutlay("支付宝");
+                funds.setFundMoney(Double.valueOf(total_amount));
+                fundsService.insert(funds);
+                System.out.println(funds);
             }
-            log.info("支付成功...");
-
+            System.out.println("111111");
+            return "success";
         }else {//验证失败
-            log.info("支付, 验签失败...");
+            System.out.println("123456");
+            return "fail";
         }
-
-        return "/promulgator/prom_payin";
     }
 }
