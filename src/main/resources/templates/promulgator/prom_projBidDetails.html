@@ -13,6 +13,8 @@
 		<script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>
 		<script type="text/javascript" src="/static/js/js_lxn/prom_BidDetail.js" ></script>
 		<script type="text/javascript" src="/static/js/vue.js"></script>
+
+
 	</head>
 
 	<body>
@@ -229,12 +231,94 @@
 									<span>天</span>
 								</p>
 								<div class="rightbtn">
-									<button type="button" class="btn btn-primary">选为承接方</button>
+									<button type="button" class="btn btn-primary" @click="selectbidbtn(value.bidding.bidId)">选为承接方</button>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>				
+				</div>
+
+				<!-- 选取承接方 -->
+				<div class="modal fade" id="probidselect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog probiddialog">
+						<div class="modal-content">
+							<div class="modal-header header_tip">
+								<span class="glyphicon glyphicon-exclamation-sign"></span>
+								<span class="modal-title">&nbsp;选&nbsp;定&nbsp;承&nbsp;接&nbsp;方</span>
+							</div>
+							<div class="modal-body bidbody col-md-12">
+								<div class="payform col-md-12">
+									<form  class="form-horizontal" id="signupForm">
+										<div class="form-group">
+											<label class="col-md-5 control-label probidlable">项目名称：</label>
+											<div class="col-md-7">
+												<label class="control-label probidlable">{{selectbid.project}}</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-5 control-label probidlable">承接工作室：</label>
+											<div class="col-md-7">
+												<label class="control-label probidlable">{{selectbid.studio}}</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-5 control-label probidlable">开发周期：</label>
+											<div class="col-md-7">
+												<label class="control-label probidlable"v-if="selectbid.bid&&selectbid.bid.bidCycle">{{selectbid.bid.bidCycle}}天</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-5 control-label probidlable">项目报价：</label>
+											<div class="col-md-7">
+												<label class="control-label probidlable" style="color: orange;" v-if="selectbid.bid&&selectbid.bid.bidMoney">{{selectbid.bid.bidMoney}}</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-5 control-label probidlable">账户余额：</label>
+											<div class="col-md-7">
+												<label class="control-label probidlable"style="color: orange;">{{selectbid.account}}</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-5 control-label probidlable">支付金额：</label>
+											<div class="col-md-7">
+												<label class="control-label probidlable"style="color: orange;">{{selectbid.bidacc}}</label>
+												<div v-if="selectbid.code==0">
+													<span style="font-size: 12px;">&nbsp;&nbsp;余额不足，请前往<a href="/pcjump/priceinprom">充值</a></span><br />
+												</div>
+												<div v-else>
+													<br>
+												</div>
+												<span style="font-size: 12px;color: #fa6e7b;">(*选定承接方需交纳项目报价的10%作为押金，若中途任一方中止项目都将扣除100元作为手续费)</span>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-md-5 control-label probidlable"><span style="color: red;">*</span>支付密码：</label>
+											<div class="col-md-7">
+												<div class="input-group">
+													<input class="form-control" id="paypwd" name="paypwd" v-model="pwdpay" type="text">
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="probidbtndiv text-center"v-if="selectbid.code==0">
+												<button class="btn btn-default " type="button" data-dismiss="modal">取消支付</button>
+												<button class="btn btn-primary " type="submit" disabled>确定支付</button>
+											</div>
+											<div class="probidbtndiv text-center"v-else>
+												<button class="btn btn-default " type="button" data-dismiss="modal">取消支付</button>
+												<button class="btn btn-primary " type="button" @click="selbidfinish(selectbid.bid.bidId)">确定支付</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="modal-footer text-center"></div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 
 		</div>
@@ -283,6 +367,22 @@
 					<div class="modal-body text-center">项目状态已被更改，中止竞标失败</div>
 					<div class="modal-footer text-center">
 						<a href="javascript:;" class="btn modal_btn danger_btn" onclick="successbid()">确认</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--支付成功提示-->
+		<div class="modal fade" id="tipModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header header_tip">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						<span class="modal-title">&nbsp;提&nbsp;&nbsp;示</span>
+					</div>
+					<div class="modal-body text-center">支付成功</div>
+					<div class="modal-footer text-center">
+						<a href="javascript:;" class="btn btn-primary modal_btn"onclick="successbid()">确认</a>
 					</div>
 				</div>
 			</div>
@@ -361,6 +461,8 @@
 				el:'#right',
 				data:{
 					biddetails:'',
+					selectbid:'',
+					pwdpay:'',
 				},
 				created:function () {
 					$.ajax({
@@ -371,6 +473,34 @@
                         }
 					})
                 },
+				methods:{
+                    selectbidbtn:function (value) {
+						$("#probidselect").modal("show");
+						$.ajax({
+							type:'post',
+							url:'/promcenter/promselectbid/'+value,
+							success:function (result) {
+							    console.log(result);
+							    vm.selectbid=result;
+                            }
+						})
+                    },
+                    selbidfinish:function (val) {
+                        $.ajax({
+                            type: 'post',
+                            url: '/promcenter/promfinproject/'+val+"/"+vm.pwdpay,
+                            success: function (result) {
+                                if(result.code==0){
+                                    alert("支付密码错误，请重新输入");
+                                }else{
+                                    // alert(result.projid);
+                                    $("#probidselect").modal("hide");
+                                    $("#tipModal").modal("show");
+                                }
+                            },
+                        })
+                    },
+				},
                 filters:{
                     dateFormat:function(val){
                         var d = new Date(val);

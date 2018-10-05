@@ -152,7 +152,7 @@
 							<p>
 								<span class="megspan3">发布时间</span>
 								<span class="megspan4" v-if="biddetails.project && biddetails.project.projCreattime">{{biddetails.project.projCreattime|dateFormat}}</span>
-								<span v-if="biddetails.project && biddetails.project.projState && biddetails.project.projState=='竞标成功'">
+								<span v-if="biddetails.project && biddetails.project.projState && biddetails.project.projState!='竞标中止'&& biddetails.project.projState!='竞标超时'">
 								<span class="megspan3">&nbsp;&nbsp;&nbsp;&nbsp;承接工作室</span>
 								<span class="megspan4" ><a href="">{{biddetails.studioname}}</a></span>
 								</span>

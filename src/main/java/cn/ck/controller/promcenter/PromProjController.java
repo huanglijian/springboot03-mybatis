@@ -146,7 +146,7 @@ public class PromProjController {
         //查询更新后竞标中的项目
         Set<String> set = new HashSet<>();
         set.add("proj_creattime");
-        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标中止").or("proj_state='竞标超时'").eq("proj_prom",user.getAllId()).orderDesc(set));
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标中止").or("proj_state='竞标超时'").or("proj_state='开发中'").or("proj_state='发布者中止'").or("proj_state='承接方中止'").or("proj_state='项目中止'").or("proj_state='开发完成'").eq("proj_prom",user.getAllId()).orderDesc(set));
         List<ProjectBid> bidList1=new ArrayList<ProjectBid>();
 
         for (Project project1:projectList1) {
@@ -199,9 +199,9 @@ public class PromProjController {
             projectBid.setStudio(studio);
             projectBidList.add(projectBid);
         }
-        for (ProjectBid projectBid:projectBidList) {
-            System.out.println(projectBid);
-        }
+//        for (ProjectBid projectBid:projectBidList) {
+//            System.out.println(projectBid);
+//        }
         return ResponseBo.ok().put("project",project).put("day",day).put("count",count).put("studioname",studioname).put("probid",projectBidList);
     }
 
