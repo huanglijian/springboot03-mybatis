@@ -1,10 +1,7 @@
 package cn.ck.controller.loginRegisted;
 
 import cn.ck.controller.AbstractController;
-import cn.ck.entity.Alluser;
-import cn.ck.entity.Promulgator;
-import cn.ck.entity.Resource;
-import cn.ck.entity.Users;
+import cn.ck.entity.*;
 import cn.ck.service.*;
 import cn.ck.utils.ResponseBo;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -32,6 +29,8 @@ public class FirstPageController extends AbstractController {
     private PromulgatorService promulgatorService;
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private  StudioService studioService;
     @Autowired
     private ProjectService projectService;
     @Autowired
@@ -113,6 +112,11 @@ public class FirstPageController extends AbstractController {
         return ResponseBo.ok().put("result", resourcePageInfo);
     }
 
+    /**
+     * 按照标签取出数据
+     * @param tag
+     * @return
+     */
     @RequestMapping("tagResource/{tag}")
     @ResponseBody
     public ResponseBo getResByTag(@PathVariable("tag")String tag){
@@ -121,5 +125,18 @@ public class FirstPageController extends AbstractController {
         PageInfo<Resource> resourcePageInfo = new PageInfo<>(resources);
 
         return ResponseBo.ok().put("res", resourcePageInfo.getList());
+    }
+
+    /**
+     * 取出优秀的工作室
+     * @return
+     */
+    @RequestMapping("getSuperStudio")
+    @ResponseBody
+    public ResponseBo getSuperStudio(){
+        PageHelper.startPage(0, 8);
+        List<Studio> studios = studioService.selectSuperStudio(2);
+        PageInfo<Studio> pageInfo = new PageInfo<>(studios);
+        return ResponseBo.ok().put("studios", pageInfo.getList());
     }
 }
