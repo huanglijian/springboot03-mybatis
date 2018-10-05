@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>创客讲堂</title>
+    <title>创客平台</title>
 
     <!-- 全局js -->
     <script src="/static/js/jquery.min.js?v=2.1.4"></script>
@@ -18,6 +18,20 @@
 
     <!-- 导航条样式 -->
     <link href="/static/css/css_psw/style_head.css" rel="stylesheet">
+    <style>
+        .nav-text-center{
+            text-align:center;
+            margin: 0px;
+        }
+        .nav-avatar{
+            height: 40px;
+            border-radius: 25px;
+        }
+        .nav-dropdown-menu{
+            max-width: 120px;
+            padding: 0;
+        }
+    </style>
 
     <!-- 3d旋转 -->
     <link rel="stylesheet" href="/static/css/css_cwh/yys-slider/jquery-yys-slider.css">
@@ -109,20 +123,38 @@
             border-radius: 10px;
             box-shadow: 0 8px 10px -5px rgba(0,0,0,0.5);
         }
-        .money_box{
+        .projBox .money_box{
             border-radius: 5px;
             padding-right: 10px;
             padding-top: 5px;
             padding-bottom: 3px;
             padding-left: 12px;
         }
-        .money_num{
+        .projBox .money_icon{
+            font-size: 23px;
+            padding-left: 0px;
+            margin-top: 1px;
+        }
+        .projBox .money_num{
             background:white;
             font-size: 17px;
+            color:black;
             margin-top: -1px;
             margin-left: -5px;
             padding-top: 2px;
             border-radius: 5px;
+        }
+        .projBox .bidingnum{
+            padding-top:5px;
+        }
+        .projBox .bidednum{
+            color:red;
+            font-size: 18px;
+        }
+        .projBox .projbox_projname{
+            font-size: 18px;
+            margin: 0px;
+            padding-top: 5px;
         }
     </style>
 
@@ -136,20 +168,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/css_cwh/leaderboard/reset.css" />
     <link rel="stylesheet" href="/static/css/css_cwh/leaderboard/leaderboard.css">
 
-    <style>
-        .nav-text-center{
-            text-align:center;
-            margin: 0px;
-        }
-        .nav-avatar{
-            height: 40px;
-            border-radius: 25px;
-        }
-        .nav-dropdown-menu{
-            max-width: 120px;
-            padding: 0;
-        }
-    </style>
 </head>
 
 <body>
@@ -356,12 +374,12 @@
             <div class="col-md-10 col-md-offset-1">
                 <h1 style="font-weight:bold;">
                     推荐项目&nbsp;&nbsp;&nbsp;
-                    <a href=""><small style="color: #1ab394;"> more>> </small></a>
+                    <!--<a href=""><small style="color: #1ab394;"> more>> </small></a>-->
                 </h1>
             </div>
         </div>
 
-        <div class="content-part part-tese">
+        <div class="content-part part-tese" id="projblock">
             <div class="gallery_container" style="margin-top:700px;">
                 <div class="gallery_wrap threeD_gallery_wrap" style="margin-left: -260px; margin-top: -350px;">
                     <div href="javascript:;" class="gallery_item threeD_gallery_item gallery_left_middle">
@@ -510,139 +528,27 @@
                     <div href="javascript:;" class="gallery_item threeD_gallery_item front_side">                       
                         <div class="row projBox">
                             <div class="row" style="margin-bottom:15px;">
+                                <!--金额标示-->
                                 <div class="col-xs-3">
                                     <div class="style1 navy-bg money_box">
                                         <div class="row">
                                             <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
+                                                <i class="fa fa-cny money_icon"></i>
                                             </div>
                                             <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
+                                                <span>300</span>
                                             </div>
                                         </div>             
                                     </div>
                                 </div>
+                                <!--项目名称-->
                                 <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
+                                    <a href=""><p class="text-left projbox_projname">LOGO设计</p></a>
                                 </div>
+                                <!--竞标人数-->
                                 <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
+                                    <p class="text-right bidingnum">
+                                        <span class="bidednum">155</span>
                                         <span>&nbsp;&nbsp;人投标</span>
                                     </p>
                                 </div>
@@ -941,6 +847,44 @@
                 <a class="next" href="javascript:;"></a>
             </div>
         </div>
+        <script type="text/javascript">
+            var projblock = new Vue({
+                el:'#projblock',
+                data:{
+                    left : '',
+                    front : '',
+                    right : '',
+                    out : '',
+                },
+                beforeCreate: function () {
+                },
+                created: function () {
+                    // this.getRes(id, tag);
+                },
+                methods: {
+                    getProj : function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/resource/recommendResource",
+                            dataType: "json",
+                            success: function (result) {
+                                if (result.code === 0) {
+                                    resblock.tagRes.t1 = result.res;
+                                }
+                            }
+                        });
+                    }
+                },
+                filters: {
+                    projnamefilter: function (value) {
+                        if (value && value.length > 14) {
+                            value = value.substring(0, 14) + '...';
+                        }
+                        return value;
+                    },
+                },
+            });
+        </script>
     </div>
     
     <div class="sonp-section sonp-full sonp-parallax" id="third">
@@ -953,125 +897,22 @@
             </div>         
         </div>
 
-        <div class="row">
+        <div class="row" id="studioblock">
             <div class="studioCard_wrapper">
-                <div class="studioCard_cols">
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
+                <div class="studioCard_cols" >
+                    <div class="studioCard_col" @click="toStudio(s.stuId)" ontouchstart="this.classList.toggle('hover');" v-for="(s,index) in studios">
                         <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/a3.jpg);background-color: #80ffe5;">
+                            <div class="studioCard_front" :style="{backgroundImage: 'url(/static/img/img_chh/order/'+ (index+1) + '.png)'}" style="text-align: left;">
                                 <div class="studioCard_inner">
-                                    <h2>我是优秀工作室</h2>
-
+                                    <h1>{{s.stuName | studioNamefilter}}</h1>
+                                    <span>成员人数: {{s.stuMembernum}}人</span><br>
+                                    <span>成功项目: {{s.stuProjectnum}}个</span><br>
+                                    <span>创建时间: {{s.stuCreattime|dateFormat}}</span>
                                 </div>
                             </div>
                             <div class="studioCard_back">
                                 <div class="studioCard_inner">
-                                    <p>我们是咸鱼，是一条最闲的鱼。我们是咸鱼，是一条最闲的鱼。我们是咸鱼，是一条最闲的鱼。我们是咸鱼，是一条最闲的鱼。</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/a4.jpg);background-color: #80ffe5;">
-                                <div class="studioCard_inner">
-                                    <h3>Diligord</h3>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/a5.jpg);background-color: #80ffe5;">
-                                <div class="studioCard_inner">
-                                    <h3>Diligord</h3>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/a6.jpg);background-color: #80ffe5;">
-                                <div class="studioCard_inner">
-                                    <h2>Diligord</h2>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/img_chh/studioPic.png)">
-                                <div class="studioCard_inner">
-                                    <h2>阿里巴巴集团</h2>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/img_chh/studioPic.png)">
-                                <div class="studioCard_inner">
-                                    <h3>Diligord</h3>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/img_chh/studioPic.png)">
-                                <div class="studioCard_inner">
-                                    <p>Diligord</p>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/img_chh/studioPic.png)">
-                                <div class="studioCard_inner">
-                                    <p>Diligord</p>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
+                                    <p>{{s.stuIntro}}</p>
                                 </div>
                             </div>
                         </div>
@@ -1079,6 +920,87 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript">
+            var studioblock = new Vue({
+                el:'#studioblock',
+                data:{
+                    studios: '',
+                },
+                beforeCreate: function () {
+                },
+                created: function () {
+                    this.getStudios();
+                },
+                methods: {
+                    getStudios: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/home/getSuperStudio",
+                            dataType: "json",
+                            success: function (result) {
+                                if (result.code === 0) {
+                                    studioblock.studios = result.studios;
+                                    console.log(studioblock.studios);
+                                }
+                            }
+                        });
+                    },
+                    toStudio: function (stuId){
+                        let url = "" + stuId;
+                        window.open("","_blank");
+                    }
+                },
+                filters: {
+                    studioNamefilter: function (value) {
+                        if (value && value.length > 6) {
+                            value = value.substring(0, 6) + '...';
+                        }
+                        return value;
+                    },
+                    introfilter: function (value) {
+                        if (value && value.length > 25) {
+                            value = value.substring(0, 25) + '...';
+                        }
+                        return value;
+                    },
+                    dateFormat:function(val){
+                        var d = new Date(val);
+                        var year = d.getFullYear();
+                        var month = d.getMonth() + 1;
+                        var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                        var hour = d.getHours();
+                        var minutes = d.getMinutes();
+                        var seconds = d.getSeconds();
+                        return  year+ '年' + month + '月' + day + '日';
+                    },
+                    numfilter: function(value){
+                        if(value > 10000){
+                            value = value / 10000;
+                            return value + "万";
+                        }
+                        else if(value > 1000){
+                            value = value /1000;
+                            return value + "千";
+                        }
+                        else
+                            return value;
+                    },
+                    mintohour: function (value) {
+                        if(value >= 60){
+                            var h = value / 60;
+                            var min = value % 60;
+                            return h + ":" + min;
+                        }
+                        else{
+                            if(value < 10){
+                                return "00:0" + value;
+                            }
+                            else return "00:" + value;
+                        }
+                    },
+                },
+            });
+        </script>
     </div>
 
     <div class="sonp-section sonp-full sonp-parallax" id="fourth">
@@ -1261,8 +1183,6 @@
                             {t : []},
                         ],
                 },
-                beforeCreate: function () {
-                },
                 created: function () {
                     var e = document.getElementById("tag0");
                     var id = e.id.substring(3);
@@ -1270,31 +1190,6 @@
                     this.getRes(id, tag);
                 },
                 methods: {
-                    hot : function () {
-                        // var data = "email="+vm.email;
-                        $.ajax({
-                            type: "POST",
-                            url: "/resource/hotResource",
-                            dataType: "json",
-                            success: function(result){
-                                if(result.code === 0){
-                                    resblock.hotResource = result.hotResource;
-                                }
-                            }
-                        });
-                    },
-                    recomend : function () {
-                        $.ajax({
-                            type: "POST",
-                            url: "/resource/recommendResource",
-                            dataType: "json",
-                            success: function(result){
-                                if(result.code === 0){
-                                    resblock.tagRes.t1 = result.res;
-                                }
-                            }
-                        });
-                    },
                     tagSplit : function (tags) {
                         return tags.split(",");
                     },
@@ -1311,7 +1206,6 @@
                             success: function(result){
                                 if(result.code === 0){
                                     resblock.tagRes[id].t = result.res;
-                                    console.log(resblock.tagRes[id].t);
                                 }
                             }
                         });

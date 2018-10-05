@@ -24,4 +24,13 @@
     <select id="selectByzzid" resultType="cn.ck.entity.Studio">
         select * from studio where stu_creatid = #{zzid}
     </select>
+
+    <select id="selectSuperStudio" resultMap="BaseResultMap">
+        select stu_id,stu_creattime,stu_name,stu_membernum,stu_intro,stu_img,stu_grade,stu_projectnum
+        from studio
+        where stu_projectnum > #{projNum}
+        order by stu_projectnum desc, stu_grade desc, stu_creattime asc
+    </select>
+
+
 </mapper>

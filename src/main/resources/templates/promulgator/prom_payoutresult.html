@@ -10,15 +10,11 @@
 		<link rel="stylesheet" href="/static/css/style.css" />
 		<link rel="stylesheet" href="/static/css/animate.css" />
 		<link rel="stylesheet" href="/static/css/font-awesome.css" />
-		<link rel="stylesheet" href="/static/css/css_lxn/modal-lxn.css">
 		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/static/js/vue.js"></script>
 
-		<!-- jQuery Validation plugin javascript-->
-		<script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
-		<script src="/static/js/plugins/validate/messages_zh.min.js"></script>
-		<script type="text/javascript" src="/static/js/js_lxn/prom_pay.js" ></script>
+
 	</head>
 
 	<body>
@@ -154,39 +150,46 @@
 					</h2>
 					<div class="in_left col-md-12">
 						<div class="payform col-md-12">
-							<form action="/promcenter/alipayout" class="form-horizontal" id="signupForm">
+							<form action="/pcjump/priceprom" class="form-horizontal" id="signupForm">
 								<div class="form-group">
-									<label class="col-md-3 control-label">账户名称：</label>
+									<label class="col-md-3 control-label">我的账户：</label>
 									<div class="col-md-5">
-										<label class="control-label">{{prom.name}}</label>
+										<label class="control-label"th:text="${name}"></label>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label">账户余额：</label>
 									<div class="col-md-5">
-										<label class="pricenum control-label ">{{prom.money}}</label>
+										<label class="pricenum control-label "th:text="${accountall}"></label>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-3 control-label"><span class="red">*</span>提款金额：</label>
-									<div class="col-md-4">
-										<div class="input-group">
-											<input class="form-control" id="payoutnumber" name="payoutnumber" type="text">
-											<span class="input-group-addon">元</span>
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label"><span class="red">*</span>支付密码：</label>
+									<label class="col-md-3 control-label">本次提现金额：</label>
 									<div class="col-md-5">
-										<div class="input-group">
-											<input class="form-control" id="paypwd" name="paypwd" type="text">
-										</div>
+										<label class="pricenum control-label "th:text="${account}"></label>
 									</div>
 								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label">提现方式：</label>
+									<div class="col-md-5">
+										<img src="/static/img/img_lxn/pay.jpg" alt="" class="payimg"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-3">
+										<div class="paytip"><span class=" tiplogo glyphicon glyphicon-ok"></span></div>
+									</div>
+									<div class="col-md-5 paytext">提现成功</div>
+								</div>
+								<!--<div class="form-group">-->
+									<!--<div class="col-md-3">-->
+										<!--<div class="payremove"><span class=" tiplogo glyphicon glyphicon-remove"></span></div>-->
+									<!--</div>-->
+									<!--<div class="col-md-5 paytext">支付失败</div>-->
+								<!--</div>-->
 								<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
-									<button class="btn btn-primary paybtn" type="submit" onclick="submitForm()">下一步</button>
+									<button class="btn btn-primary paybtn" type="submit">返回我的钱包</button>
 								</div>
 							</div>
 							</form>
@@ -263,26 +266,6 @@
 			</div>
 		</footer>
 		<script type="text/javascript" src="/static/js/js_lxn/prom-jquery.js"></script>
-		<script type="text/javascript">
-            var vm=new Vue({
-                el:'#right',
-                data:{
-                    prom:'',
-                },
-                created:function () {
-                    $.ajax({
-                        type:'get',
-                        url:'/promcenter/prompayin',
-                        success:function (result) {
-                            console.log(result);
-                            vm.prom=result;
-                        }
-                    })
-                },
-            });
-
-		</script>
-
 	</body>
 
 </html>

@@ -84,7 +84,7 @@ public class ShiroConfig {
 		chains.put("/", "anon");
 		chains.put("/ckadmin/**", "anon");
 		chains.put("/file/**", "anon");
-		chains.put("promcenter/alipayNotifyNotice","anon");
+		chains.put("/promcenter/alipayNotifyNotice","anon");
 
 		chains.put("/home/**", "anon");
 		chains.put("/ForJob/**", "anon");
