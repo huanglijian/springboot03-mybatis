@@ -11,4 +11,24 @@
         <result column="inv_prom" property="invProm" />
     </resultMap>
 
+    <resultMap id="invprojstu" type="cn.ck.entity.bean.InvitProjStu" extends="BaseResultMap">
+        <association property="project" javaType="cn.ck.entity.Project">
+            <id column="proj_id" property="projId" />
+            <result column="proj_name" property="projName" />
+            <result column="proj_creattime" property="projCreattime" />
+            <result column="proj_state" property="projState" />
+        </association>
+        <association property="studio" javaType="cn.ck.entity.Studio">
+            <id column="stu_id" property="stuId" />
+            <result column="stu_name" property="stuName" />
+        </association>
+    </resultMap>
+
+
+    <select id="invitalllist" resultMap="invprojstu">
+        select *
+            from invite i,project p,studio s
+              where i.inv_project=p.proj_id and i.inv_studio=s.stu_id and i.inv_prom=#{0}
+                  ORDER BY i.inv_creattime DESC
+    </select>
 </mapper>

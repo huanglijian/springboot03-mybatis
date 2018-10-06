@@ -1,237 +1,337 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="utf-8" />
-		<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/static/css/css_lxn/prom_layout-lxn.css" />
-		<link rel="stylesheet" href="/static/css/css_lxn/prom_Notice-lxn.css" />
-		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
-		<link rel="stylesheet" href="/static/css/style.css" />
-		<script type="text/javascript" src="/static/js/jquery.min.js" ></script>
-		<script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>
-		
-	</head>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/css_lxn/prom_layout-lxn.css"/>
+    <link rel="stylesheet" href="/static/css/css_lxn/prom_Notice-lxn.css"/>
+    <link rel="stylesheet" href="/static/css/css_psw/style_head.css"/>
+    <link rel="stylesheet" href="/static/css/style.css"/>
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/vue.js"></script>
+</head>
 
-	<body>
-		<header>
-			<div class="container-fluid container-fluid_up">
-				<div class="row_up">
-					<ul class="list-unstyled">
-						<li>
-							<a href="#">帮助中心</a>
-						</li>
-						<li>
-							<a href="#">注册</a>
-						</li>
-						<li>
-							<a href="#">登录</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="container-fluid container-fluid_main">
-				<div class="row_main">
-					<div class="main_logo">
-						<img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
-					</div>
-					<div class="main_right">
-						<ul class="nav_psw list-unstyled">
-							<li class="active">
-								<a>首 页</a>
-							</li>
-							<li>
-								<a>项目大厅</a>
-							</li>
-							<li>
-								<a>服务大厅</a>
-							</li>
-							<li>
-								<a>创客讲堂</a>
-							</li>
-							<li>
-								<a>原创中心</a>
-							</li>
-							<li>
-								<a>荣誉中心</a>
-							</li>
-							<li>
-								<a>在线求职</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</header>
-		
-		<div class="container-fluid contest">
-			<div class="col_left">
-				<div class="ul_contest">
-					<ul class="lefthead">
-						<li class="lefthead_li">
-							<a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone" onclick="selectimg(this.id)">
-								个人中心
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</a>
-							<ul id="personcenter" class="panel-collapse collapse in">
-								<li>
-									<a href="prom_Account.html">账户</a>
-								</li>
-								<li>
-									<a href="prom_homepage.html">个人主页</a>
-								</li>
-								<li>
-									<a href="prom_updateprom.html">修改资料</a>
-								</li>
-								<li class="current">
-									<a href="prom_Notice.html">系统通知</a>
-								</li>
-							</ul>
-						</li>
-						<li class="lefthead_li">
-							<a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo" onclick="selectimg(this.id)">
-								项目管理
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</a>
-							<ul id="projectmanage" class="panel-collapse collapse in">
-								<li>
-									<a href="prom_projCreat.html">发布项目</a>
-								</li>
-								<li>
-									<a href="prom_projInvit.html">邀请列表</a>
-								</li>
-								<li>
-									<a href="prom_projBidding.html">竞标项目</a>
-								</li>
-								<li>
-									<a href="prom_projManage.html">项目订单</a>
-								</li>
-							</ul>
-						</li>
-						<li class="lefthead_li">
-							<a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree" onclick="selectimg(this.id)">
-								资金管理
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</a>
-							<ul id="pricemanage" class="panel-collapse collapse in">
-								<li>
-									<a href="prom_priManage.html">我的钱包</a>
-								</li>
-							</ul>
-						</li>
-						<li class="lefthead_li">
-							<a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
-								安全管理
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</a>
-							<ul id="safemanage" class="panel-collapse collapse in">
-								<li>
-									<a href="prom_uploginpwd.html">修改登录密码</a>
-								</li>
-								<li>
-									<a href="prom_uppaypwd.html">修改支付密码</a>
-								</li>
-								<li>
-									<a href="prom_Logout.html">注销账户</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col_right" id="right">
-				<div class="c_r_contest">
-					<h2>
-						系统通知
-					</h2>
-					<div class="c_r_c_notice">
-					<p class="c_r_c_message">
-						你好，你在2018-09-07 08:40发起的提现操作已完成，请留意您支付宝账号的资金交往.
-						你好，你在2018-09-07 08:40发起的提现操作已完成，请留意您支付宝账号的资金交往.
-						你好，你在2018-09-07 08:40发起的提现操作已完成，请留意您支付宝账号的资金交往.
-					</p>
-					<p class="c_r_c_time">
-						2018/09/07 08:41
-					</p>
-					</div>
-					<div class="c_r_c_notice">
-					<p class="c_r_c_message">
-						你好，你在2018-09-07 08:40发起的提现操作已完成，请留意您支付宝账号的资金交往
-					</p>
-					<p class="c_r_c_time">
-						2018/09/07 08:41
-					</p>
-					</div>
-				</div>
-			</div>
+<body>
+<header>
+    <div class="container-fluid container-fluid_up">
+        <div class="row_up">
+            <ul class="list-unstyled">
+                <li>
+                    <a href="#">帮助中心</a>
+                </li>
+                <li>
+                    <a href="#">注册</a>
+                </li>
+                <li>
+                    <a href="#">登录</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid container-fluid_main">
+        <div class="row_main">
+            <div class="main_logo">
+                <img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png"/>
+            </div>
+            <div class="main_right">
+                <ul class="nav_psw list-unstyled">
+                    <li class="active">
+                        <a>首 页</a>
+                    </li>
+                    <li>
+                        <a>项目大厅</a>
+                    </li>
+                    <li>
+                        <a>服务大厅</a>
+                    </li>
+                    <li>
+                        <a>创客讲堂</a>
+                    </li>
+                    <li>
+                        <a>原创中心</a>
+                    </li>
+                    <li>
+                        <a>荣誉中心</a>
+                    </li>
+                    <li>
+                        <a>在线求职</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
 
-		</div>
+<div class="container-fluid contest">
+    <div class="col_left">
+        <div class="ul_contest">
+            <ul class="lefthead">
+                <li class="lefthead_li">
+                    <a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone"
+                       onclick="selectimg(this.id)">
+                        个人中心
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+                    <ul id="personcenter" class="panel-collapse collapse in">
+                        <li>
+                            <a href="/pcjump/account">账户</a>
+                        </li>
+                        <li>
+                            <a href="/pcjump/projhomepage">个人主页</a>
+                        </li>
+                        <li>
+                            <a href="/pcjump/updateprom">修改资料</a>
+                        </li>
+                        <li class="current">
+                            <a href="/pcjump/noticeprom">系统通知</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="lefthead_li">
+                    <a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo"
+                       onclick="selectimg(this.id)">
+                        项目管理
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+                    <ul id="projectmanage" class="panel-collapse collapse in">
+                        <li>
+                            <a href="/pcjump/projectcreat">发布项目</a>
+                        </li>
+                        <li>
+                            <a href="prom_projInvit.html">邀请列表</a>
+                        </li>
+                        <li>
+                            <a href="/pcjump/proBid">竞标项目</a>
+                        </li>
+                        <li>
+                            <a href="/pcjump/projManage">项目订单</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="lefthead_li">
+                    <a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree"
+                       onclick="selectimg(this.id)">
+                        资金管理
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+                    <ul id="pricemanage" class="panel-collapse collapse in">
+                        <li>
+                            <a href="/pcjump/priceprom">我的钱包</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="lefthead_li">
+                    <a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four"
+                       onclick="selectimg(this.id)">
+                        安全管理
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+                    <ul id="safemanage" class="panel-collapse collapse in">
+                        <li>
+                            <a href="/pcjump/loginpwdprom">修改登录密码</a>
+                        </li>
+                        <li>
+                            <a href="/pcjump/paypwdprom">修改支付密码</a>
+                        </li>
+                        <li>
+                            <a href="prom_Logout.html">注销账户</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col_right" id="right">
+        <div class="c_r_contest">
+            <h2>
+                系统通知
+            </h2>
+            <div v-for="n in n.list">
+                <div class="c_r_c_notice">
+                    <p class="notdetele">
+							<span class="delnotspan">
+							<span class="glyphicon glyphicon-remove"></span>
+							<a href="javascript:;" @click="delnotice(n.notiId)">&nbsp;删除本条</a>
+							</span>
+                    </p>
+                    <p class="c_r_c_message">
+                        {{n.notiMsg}}
+                    </p>
+                    <p class="c_r_c_time">
+                        {{n.notiTime}}
+                    </p>
+                </div>
+            </div>
+            <div class="c_r_c_page text-center">
+                <ul class="pagination pagination-lg">
+                    <!--判断前一页的-->
+                    <template v-if="isFirstPage==false"><li><a href="javascript:;"@click="changepage(pageNum-1)">&laquo;</a></li></template>
+                    <template v-else><li><a href="javascript:;" class="disabled">&laquo;</a></li></template>
 
-		<footer>
-			<div class="container-fluid_foot">
-				<div class="foot_panel">
-					<div class="foot_panel_left">
-						<div class="img">
-							<a href="#">
-								<img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
-							</a>
-						</div>
-						<div class="beian">
-							<p>创客网 © 2018－
-								<br>肇庆学院东软实训班第三组版权所有
-								<br>[粤ICP备xxxxxxx号-x] 标识
-								<br> 粤公网安备xxxxxxxxxx号</p>
-						</div>
-					</div>
-					<div class="foot_panel_right">
-						<div class="foot_panel_right_row">
-							<ul class="list-unstyled">
-								<li>
-									<h4>新手指南</h4>
-									<a href="/help/register">注册登录问题</a><br />
-									<a href="/help/process">项目交易流程</a><br />
-									<a href="/help/fund">充值提款问题</a><br />
-									<a href="help/about_agreement">用户注册协议</a><br />
-									<a href="/help/bid_payings">为何付费竞标</a>
-								</li>
-								<li>
-									<h4>特色服务</h4>
-									<a href="/help/renzheng">实名认证</a><br />
-									<a href="/help/searchs">精准搜索</a><br />
-									<a href="/help/workhour">小时报价</a><br />
-									<a href="/help/bumanyituikuan">不满意退款</a><br />
-									<a href="/help/bid_card">竞标卡规则</a>
-								</li>
-								<li>
-									<h4>评价信誉</h4>
-									<a href="/help/pingjiadengm">操作演示</a><br />
-									<a href="/help/service_payings">服务收费</a><br />
-									<a href="/help/evaluations">用户评价</a><br />
-									<a href="/help/jifens">积分体系</a><br />
-									<a href="/help/controversy">争议解决</a>
-								</li>
-								<li>
-									<h4>答疑中心</h4>
-									<a href="/help/pro_relase">项目发布问题</a><br />
-									<a href="/help/bid_joinings">参与竞标问题</a><br />
-									<a href="/help/pro_runnings">项目开发问题</a><br />
-									<a href="/help/pro_done">项目完工问题</a><br />
-									<a href="/help/it_realse">信息发布问题</a>
-								</li>
-								<li>
-									<h4>联系我们</h4>
-									<a href="/help/about_us">关于SXSOFT</a><br />
-									<a href="/help/about_company">公司概况</a><br />
-									<a href="/help/contact_us">联系方式</a><br />
-									<a href="/help/about_advertising">广告投放</a><br />
-									<a href="/help/links">友情链接</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
-		<script type="text/javascript" src="/static/js/js_lxn/prom-jquery.js" ></script>
-	</body>
+                    <!--页数-->
+                    <template v-for="p in navigatepageNums">
+                        <template v-if="pageNum==p"><li><a href="javascript:;" class="disabled" style="background: #DDDDDD;color: #1ab394;">{{p}}</a></li></template>
+                        <template v-else><li><a href="javascript:;"@click="changepage(p)">{{p}}</a></li></template>
+                    </template>
+
+                    <!--判断下一页的-->
+                    <template v-if="isLastPage==false"><li><a href="javascript:;"@click="changepage(pageNum+1)">&raquo;</a></li></template>
+                    <template v-else><li><a href="javascript:;" class="disabled">&raquo;</a></li></template>
+
+                    <!--<template><li>共{{total}}条信息</li></template>-->
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="container-fluid_foot">
+        <div class="foot_panel">
+            <div class="foot_panel_left">
+                <div class="img">
+                    <a href="#">
+                        <img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+                    </a>
+                </div>
+                <div class="beian">
+                    <p>创客网 © 2018－
+                        <br>肇庆学院东软实训班第三组版权所有
+                        <br>[粤ICP备xxxxxxx号-x] 标识
+                        <br> 粤公网安备xxxxxxxxxx号</p>
+                </div>
+            </div>
+            <div class="foot_panel_right">
+                <div class="foot_panel_right_row">
+                    <ul class="list-unstyled">
+                        <li>
+                            <h4>新手指南</h4>
+                            <a href="/help/register">注册登录问题</a><br/>
+                            <a href="/help/process">项目交易流程</a><br/>
+                            <a href="/help/fund">充值提款问题</a><br/>
+                            <a href="help/about_agreement">用户注册协议</a><br/>
+                            <a href="/help/bid_payings">为何付费竞标</a>
+                        </li>
+                        <li>
+                            <h4>特色服务</h4>
+                            <a href="/help/renzheng">实名认证</a><br/>
+                            <a href="/help/searchs">精准搜索</a><br/>
+                            <a href="/help/workhour">小时报价</a><br/>
+                            <a href="/help/bumanyituikuan">不满意退款</a><br/>
+                            <a href="/help/bid_card">竞标卡规则</a>
+                        </li>
+                        <li>
+                            <h4>评价信誉</h4>
+                            <a href="/help/pingjiadengm">操作演示</a><br/>
+                            <a href="/help/service_payings">服务收费</a><br/>
+                            <a href="/help/evaluations">用户评价</a><br/>
+                            <a href="/help/jifens">积分体系</a><br/>
+                            <a href="/help/controversy">争议解决</a>
+                        </li>
+                        <li>
+                            <h4>答疑中心</h4>
+                            <a href="/help/pro_relase">项目发布问题</a><br/>
+                            <a href="/help/bid_joinings">参与竞标问题</a><br/>
+                            <a href="/help/pro_runnings">项目开发问题</a><br/>
+                            <a href="/help/pro_done">项目完工问题</a><br/>
+                            <a href="/help/it_realse">信息发布问题</a>
+                        </li>
+                        <li>
+                            <h4>联系我们</h4>
+                            <a href="/help/about_us">关于SXSOFT</a><br/>
+                            <a href="/help/about_company">公司概况</a><br/>
+                            <a href="/help/contact_us">联系方式</a><br/>
+                            <a href="/help/about_advertising">广告投放</a><br/>
+                            <a href="/help/links">友情链接</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script type="text/javascript" src="/static/js/js_lxn/prom-jquery.js"></script>
+<script type="text/javascript">
+
+    var vm = new Vue({
+        el: '#right',
+        data: {
+            n: '',
+            //当前页
+            pageNum: '',
+            //总记录数
+            total: '',
+            //是否为第一页
+            isFirstPage: false,
+            //是否为最后一页
+            isLastPage: false,
+            //导航页码数
+            navigatepageNums:'',
+        },
+        created: function () {
+            $.ajax({
+                type: 'get',
+                url: '/promcenter/promnotice/'+1,
+                success: function (result) {
+                    console.log(result);
+                    vm.n = result.notice;
+                    vm.navigatepageNums=result.notice.navigatepageNums;
+                    vm.isFirstPage=result.notice.isFirstPage;
+                    vm.isLastPage=result.notice.isFirstPage;
+                    vm.pageNum=result.notice.pageNum;
+                    vm.total=result.notice.total;
+
+                }
+            });
+        },
+        methods: {
+            changepage:function (value) {
+                $.ajax({
+                    type: 'get',
+                    url: '/promcenter/promnotice/'+value,
+                    success: function (result) {
+                        console.log(result);
+                        vm.n = result.notice;
+                        vm.navigatepageNums=result.notice.navigatepageNums;
+                        vm.isFirstPage=result.notice.isFirstPage;
+                        vm.isLastPage=result.notice.isFirstPage;
+                        vm.pageNum=result.notice.pageNum;
+                        vm.total=result.notice.total;
+                    }
+                });
+            },
+            delnotice:function (value) {
+                $.ajax({
+                    type: 'get',
+                    url: '/promcenter/promdelenotice/'+value,
+                    success: function (result) {
+                        console.log(result);
+                        vm.n = result.notice;
+                        vm.navigatepageNums=result.notice.navigatepageNums;
+                        vm.isFirstPage=result.notice.isFirstPage;
+                        vm.isLastPage=result.notice.isFirstPage;
+                        vm.pageNum=result.notice.pageNum;
+                        vm.total=result.notice.total;
+                    }
+                });
+            }
+        },
+    });
+
+
+
+    //
+    // $(".c_r_c_notice").mouseover(function () {
+    //     $(this).children(".notdetele").removeClass("hide").addClass("show");
+    // });
+    // $(".c_r_c_notice").mouseout(function () {
+    //     $(this).children(".notdetele").removeClass("show").addClass("hide");
+    // });
+</script>
+</body>
 </html>

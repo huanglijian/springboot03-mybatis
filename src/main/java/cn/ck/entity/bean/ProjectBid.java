@@ -1,8 +1,6 @@
 package cn.ck.entity.bean;
 
-import cn.ck.entity.Bidding;
-import cn.ck.entity.Project;
-import cn.ck.entity.Studio;
+import cn.ck.entity.*;
 
 public class ProjectBid {
     private Project project;
@@ -14,7 +12,24 @@ public class ProjectBid {
     private Integer bidday;//竞标剩余天数
     private Integer bidnum;//竞标人数
     private Integer developday;//开发剩余天数
+    private Invite invite;
+    private Users users;
 
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public Invite getInvite() {
+        return invite;
+    }
+
+    public void setInvite(Invite invite) {
+        this.invite = invite;
+    }
 
     public Project getProject() {
         return project;
@@ -88,7 +103,6 @@ public class ProjectBid {
         this.developday = developday;
     }
 
-
     @Override
     public String toString() {
         return "ProjectBid{" +
@@ -101,6 +115,8 @@ public class ProjectBid {
                 ", bidday=" + bidday +
                 ", bidnum=" + bidnum +
                 ", developday=" + developday +
+                ", invite=" + invite +
+                ", users=" + users +
                 '}';
     }
 }
