@@ -2,6 +2,7 @@ package cn.ck.controller.loginRegisted;
 
 import cn.ck.controller.AbstractController;
 import cn.ck.entity.*;
+import cn.ck.entity.bean.ProjectBid;
 import cn.ck.service.*;
 import cn.ck.utils.ResponseBo;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -33,6 +34,8 @@ public class FirstPageController extends AbstractController {
     private  StudioService studioService;
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private  BiddingService biddingService;
     @Autowired
     private ResourceService resourceService;
 
@@ -112,19 +115,37 @@ public class FirstPageController extends AbstractController {
         return ResponseBo.ok().put("result", resourcePageInfo);
     }
 
-    /**
-     * 按照标签取出数据
-     * @param tag
-     * @return
-     */
-    @RequestMapping("tagResource/{tag}")
+    @RequestMapping("getRecommendProj")
     @ResponseBody
-    public ResponseBo getResByTag(@PathVariable("tag")String tag){
-        PageHelper.startPage(0, 8);
-        List<Resource> resources = resourceService.getResByTag(tag);
-        PageInfo<Resource> resourcePageInfo = new PageInfo<>(resources);
-
-        return ResponseBo.ok().put("res", resourcePageInfo.getList());
+    public ResponseBo getRecommendProj(){
+        PageHelper.startPage(0, 40);
+        PageInfo<ProjectBid> page = new PageInfo<ProjectBid>(biddingService.selectRecommendProj());
+        List<ProjectBid> list = page.getList();
+        int size = list.size();
+        int pageSize = 10;
+        List<ProjectBid> left = null, front = null, right = null, out = null;
+        if(size <= pageSize)
+            front = list;
+        else if(size <= pageSize * 2){
+            front = list.subList(0, pageSize-1);
+            left = list.subList(pageSize, size-1);
+        }
+        else if(size <= pageSize * 3){
+            front = list.subList(0, pageSize-1);
+            left = list.subList(pageSize, pageSize*2-1);
+            right = list.subList(pageSize * 2, size-1);
+        }
+        else if(size <= pageSize * 4){
+            front = list.subList(0, pageSize-1);
+            left = list.subList(pageSize, pageSize * 2 -1);
+            right = list.subList(pageSize * 2, pageSize*3-1);
+            out = list.subList(pageSize *3, size-1);
+        }
+        return ResponseBo.ok()
+                .put("left", left)
+                .put("right", right)
+                .put("front", front)
+                .put("out", out);
     }
 
     /**
@@ -139,4 +160,20 @@ public class FirstPageController extends AbstractController {
         PageInfo<Studio> pageInfo = new PageInfo<>(studios);
         return ResponseBo.ok().put("studios", pageInfo.getList());
     }
+
+    /**
+     * 按照标签取出视频数据
+     * @param tag
+     * @return
+     */
+    @RequestMapping("tagResource/{tag}")
+    @ResponseBody
+    public ResponseBo getResByTag(@PathVariable("tag")String tag){
+        PageHelper.startPage(0, 8);
+        List<Resource> resources = resourceService.getResByTag(tag);
+        PageInfo<Resource> resourcePageInfo = new PageInfo<>(resources);
+
+        return ResponseBo.ok().put("res", resourcePageInfo.getList());
+    }
+
 }

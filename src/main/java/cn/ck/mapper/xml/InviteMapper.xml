@@ -8,6 +8,7 @@
         <result column="inv_creattime" property="invCreattime" />
         <result column="inv_project" property="invProject" />
         <result column="inv_studio" property="invStudio" />
+        <result column="inv_prom" property="invProm" />
     </resultMap>
 
 </mapper>
