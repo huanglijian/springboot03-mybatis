@@ -86,4 +86,16 @@ public class JumpController {
     public String priceoutprom(){
         return "/promulgator/prom_payout";
     }
+
+    /*跳转修改支付密码*/
+    @RequestMapping("/paypwdprom")
+    public String paypwdprom(){
+        return "/promulgator/prom_uppaypwd";
+    }
+
+    /*跳转修改登录密码*/
+    @RequestMapping("/loginpwdprom")
+    public String loginpwdprom(){
+        return "/promulgator/prom_uploginpwd";
+    }
 }

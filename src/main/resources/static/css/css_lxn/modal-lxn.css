@@ -11,7 +11,7 @@
 	background: #1ab394;
 	color: #FFFFFF;
 	border-bottom: 0px solid #e5e5e5;
-	padding: 10px 10px;
+	padding: 15px 15px;
 }
 .modal-title{
 	font-size: 16px;
@@ -19,7 +19,7 @@
 
 .modal-body{
 	padding: 30px;
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: 700;
 }
 .modal-footer{
@@ -50,9 +50,22 @@
 	background: #fa6e7b;
 	color: #FFFFFF;
 	border-bottom: 0px solid #e5e5e5;
-	padding: 10px 10px;
+	padding: 15px 15px;
 }
 .danger_btn{
 	background: #fa6e7b;
 	color: #FFFFFF;
+}
+.probidlable{
+	font-size: 16px;
+	font-weight: 500;
+}
+.probiddialog{
+	width:500px;
+}
+#probidselect{
+	top:5%;
+}
+.probidbtndiv{
+	margin-top: 15px;
 }

@@ -25,6 +25,21 @@ $(function() {
 		var length=value.length;
 		return this.optional(element)||(length==6);
 	},"请输入6位支付密码");
+    jQuery.validator.addMethod("paypwdequal",function (value,element) {
+        var flag=1;
+        $.ajax({
+            url:'/promcenter/prompayin',
+            async:false,
+            success:function (result) {
+                if(value==result.pwd){
+                    flag=1;
+                }else{
+                    flag=0;
+                }
+            }
+        });
+        return this.optional(element)||(flag==1);
+    },"请输入正确支付密码");
 })
 
 //以下为官方示例
@@ -49,7 +64,8 @@ $().ready(function() {
 			},
 			oldpaypwd: {
 				required: true,
-				paypwdlength:true
+				paypwdlength:true,
+				paypwdequal:true,
 			},
 			newpaypwd: {
 				required: true,
@@ -75,7 +91,8 @@ $().ready(function() {
 			},
 			oldpaypwd: {
 				required: icon + "当前支付密码不能为空，请重新输入",
-				paypwdlength: icon + "请输入您当前6位支付密码"
+				paypwdlength: icon + "请输入您当前6位支付密码",
+                paypwdequal:icon+"您的支付密码输入错误，请重新输入",
 			},
 			newpaypwd: {
 				required: icon + "新密码不能为空，请重新输入",

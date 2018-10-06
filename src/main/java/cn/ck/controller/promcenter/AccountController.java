@@ -4,12 +4,10 @@ package cn.ck.controller.promcenter;
 import cn.ck.controller.AbstractController;
 import cn.ck.controller.FileController;
 import cn.ck.entity.*;
-import cn.ck.service.AccountService;
-import cn.ck.service.ProjectService;
-import cn.ck.service.PromulgatorService;
-import cn.ck.service.StudioService;
+import cn.ck.service.*;
 import cn.ck.utils.ConstCofig;
 import cn.ck.utils.ResponseBo;
+import cn.ck.utils.ShiroUtils;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.apache.shiro.SecurityUtils;
@@ -29,6 +27,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
+import static cn.ck.utils.ShiroUtils.getUserId;
+
 @Controller
 @RequestMapping("/promcenter")
 public class AccountController {
@@ -40,6 +40,8 @@ public class AccountController {
     ProjectService projectService;
     @Autowired
     StudioService studioService;
+    @Autowired
+    AlluserService alluserService;
 
     /**
      * 发布者账户页面渲染
@@ -185,5 +187,41 @@ public class AccountController {
             return ResponseBo.ok().put("code","1");
         else
             return ResponseBo.ok().put("code","0");
+    }
+
+    @PostMapping("/prompaypwd")
+    @ResponseBody
+    public ResponseBo prompaypwd(HttpServletRequest request){
+        String paypwd=request.getParameter("newpaypwd");
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        Promulgator promulgator=promulgatorService.selectById(user.getAllId());
+        promulgator.setPromPaypwd(paypwd);
+        if(promulgatorService.updateAllColumnById(promulgator)){
+            return ResponseBo.ok().put("code",1);
+        }else{
+            return ResponseBo.ok().put("code",0);
+        }
+    }
+    /**
+     * 修改密码
+     * @return 如果成功返回code=0，msg=操作成功
+     */
+    @RequestMapping("/promloginpwd")
+    @ResponseBody
+    public ResponseBo updatePassword(HttpServletRequest request){
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        String oldPassword= request.getParameter("oldpwd");
+        String newPassword= request.getParameter("newpwd");
+        //原密码
+        oldPassword = ShiroUtils.sha256(oldPassword, user.getAllSalt());
+        //新密码
+        newPassword = ShiroUtils.sha256(newPassword, user.getAllSalt());
+        //更新密码
+        boolean flag = alluserService.updatePassword(user.getAllId(), oldPassword, newPassword);
+        if(!flag){
+            return ResponseBo.ok().put("code",0);
+        }else{
+            return ResponseBo.ok().put("code",1);
+        }
     }
 }
