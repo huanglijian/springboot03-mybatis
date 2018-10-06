@@ -8,11 +8,13 @@ public class ProjectBid {
     private Project project;
     private Bidding bidding;
     private Studio studio;
-    private String creatdate;
-    private String startdate;
-    private String enddate;
+    private String creatdate;//
+    private String startdate;//
+    private String enddate;//
     private Integer bidday;//竞标剩余天数
     private Integer bidnum;//竞标人数
+    private Integer developday;//开发剩余天数
+
 
     public Project getProject() {
         return project;
@@ -78,6 +80,15 @@ public class ProjectBid {
         this.studio = studio;
     }
 
+    public Integer getDevelopday() {
+        return developday;
+    }
+
+    public void setDevelopday(Integer developday) {
+        this.developday = developday;
+    }
+
+
     @Override
     public String toString() {
         return "ProjectBid{" +
@@ -89,6 +100,7 @@ public class ProjectBid {
                 ", enddate='" + enddate + '\'' +
                 ", bidday=" + bidday +
                 ", bidnum=" + bidnum +
+                ", developday=" + developday +
                 '}';
     }
 }

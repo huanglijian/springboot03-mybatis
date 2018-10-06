@@ -50,6 +50,11 @@
                           WHERE proj_id=#{id}
     </select>
 
+    <select id="projDevelopTimeNum" resultType="java.lang.Integer">
+        SELECT DATEDIFF(NOW(),proj_starttime)
+                  from project
+                          WHERE proj_id=#{id}
+    </select>
 
     <select id="selectPjCol" parameterType="java.util.Map" resultMap="ProjectCollection">
         SELECT * FROM project p,collectpj co

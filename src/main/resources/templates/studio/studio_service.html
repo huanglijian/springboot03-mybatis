@@ -26,7 +26,7 @@
 		
 		<link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
-		<script type="text/javascript" src="/static/js/js_lxn/jquery-3.0.0.js" ></script>
+
 		
 	</head>
 	
@@ -180,31 +180,42 @@
 	                        </div>
 	                    </div>
 	
-	                    <div class="panel-body">
-	                        <div class="tab-content">
-	                        	<!--竞标中-->
-	                            <div id="tab-4" class="tab-pane active">
-	                            <ul>
-	                            <li>
+	                    <div class="panel-body" id="developVue">
+	                        <div class="tab-content" >
+	                        	<!--进行中-->
+	                            <div id="tab-4" class="tab-pane active" >
+	                            <ul  >
+	                            <li v-for="dt in projectrun">
                                  <div class="bidTable">
                                  	<div class="btLeft" >
                                        <ul>
                                        	  <li style="position: relative;top:20px;">
-                                       	  	<span style="position: relative;top:-3px;"><img src="/static/img/img_mzb/mi.png"/></span>
-                                       	  	<a href="" style="font-size:16px;color: black;">创客平台项目</a>
-                                       	  	<span class="bidLabel">开发中：剩余10天</span>
+                                       	  	<span style="position: relative;top:-3px;" v-if="dt.project.projSecret == '私密'">
+                                                <img src="/static/img/img_mzb/mi.png"/>
+                                            </span>
+											  <span style="position: relative;top:-3px;" v-else>
+                                                <img src="/static/img/img_mzb/gong.png"/>
+                                            </span>
+                                       	  	<a href="" style="font-size:16px;color: black;">{{dt.project.projName}}</a>
+
+                                       	  	<span class="bidLabel" v-if="dt.project.projState == '开发中'">
+												{{dt.bidding.bidState}}：剩余{{dt.developday}}天
+											</span>
+											  <span class="bidLabel" v-else>
+												{{dt.bidding.bidState}}
+											</span>
                                        	  </li>
                                        	  <li style="position: relative;top:30px;">
                                        	  	 <p>
-                                       	  	 	<span style="padding-right: 30px;">类型：网站开发</span>
-                                       	  	 	<span>项目费用：</span><span style="color: red;">10000</span>&nbsp;元
+                                       	  	 	<span style="padding-right: 30px;">类型：{{dt.project.projType}}</span>
+                                       	  	 	<span>项目费用：</span><span style="color: red;">{{dt.project.projMoney}}</span>&nbsp;元
                                        	  	 </p>
                                        	  	 
                                        	  </li>
                                        	  <li style="position: relative;top:30px;">
-                                       	  	<span style="padding-right:40px;">开始时间：2018-9-8</span>
+                                       	  	<span style="padding-right:40px;">开始时间：{{dt.project.projStarttime|dateFormat}}</span>
                                        	  	<span >开发周期</span>
-                                       	  	<span style="color: orange;">30</span>
+                                       	  	<span style="color: orange;">{{dt.project.projCycletime}}</span>
                                        	  	<span>天</span>
                                        	  </li>
                                        </ul>
@@ -216,34 +227,41 @@
                                         </div>
                                  	</div>
                                  </div>
+									<hr/>
                                 </li> 
-                                <hr/>
+
 
                                </ul>
 	                            </div>
 	                       
 	                            <!--已结束-->
-	                            <div id="tab-5" class="tab-pane">
+	                            <div id="tab-5" class="tab-pane" >
 	                            <ul>
-	                            <li>
+	                            <li v-for="dts in projectend">
                                  <div class="bidTable">
                                  	<div class="btLeft" >
                                        <ul>
                                        	  <li style="position: relative;top:20px;">
-                                       	  	<a href="" style="font-size:16px;color: black;">创客平台项目</a>
-                                       	  	<span class="bidLabel">完成项目</span>
+											 <span style="position: relative;top:-3px;" v-if="dts.project.projSecret == '私密'">
+                                                <img src="/static/img/img_mzb/mi.png"/>
+                                            </span>
+											  <span style="position: relative;top:-3px;" v-else>
+                                                <img src="/static/img/img_mzb/gong.png"/>
+                                            </span>
+                                       	  	<a href="" style="font-size:16px;color: black;">{{dts.project.projName}}</a>
+                                       	  	<span class="bidLabel">{{dts.bidding.bidState}}</span>
                                        	  </li>
                                        	  <li style="position: relative;top:30px;">
                                        	  	 <p>
-                                       	  	 	<span style="padding-right: 30px;">类型：网站开发</span>
-                                       	  	 	<span>项目费用：</span><span style="color: red;">10000</span>&nbsp;元
+                                       	  	 	<span style="padding-right: 30px;">类型：{{dts.project.projType}}</span>
+                                       	  	 	<span>项目费用：</span><span style="color: red;">{{dts.project.projMoney}}</span>&nbsp;元
                                        	  	 </p>
                                        	  	 
                                        	  </li>
                                        	  <li style="position: relative;top:30px;">
-                                       	  	<span style="padding-right:40px;">开始时间：2018-9-8</span>
+                                       	  	<span style="padding-right:40px;">开始时间：{{dts.project.projStarttime}}</span>
                                        	  	<span >开发周期</span>
-                                       	  	<span style="color: orange;">30</span>
+                                       	  	<span style="color: orange;">{{dts.project.projCycletime}}</span>
                                        	  	<span>天</span>
                                        	  </li>
                                        </ul>
@@ -254,39 +272,8 @@
                                         </div>
                                  	</div>
                                  </div>
-                                </li> 
-                                <hr/>
-	                            <li>
-                                 <div class="bidTable">
-                                 	<div class="btLeft" >
-                                       <ul>
-                                       	  <li style="position: relative;top:20px;">
-                                       	  	<a href="" style="font-size:16px;color: black;">创客平台项目</a>
-                                       	  	<span class="bidLabel">退款项目</span>
-                                       	  </li>
-                                       	  <li style="position: relative;top:30px;">
-                                       	  	 <p>
-                                       	  	 	<span style="padding-right: 30px;">类型：网站开发</span>
-                                       	  	 	<span>项目费用：</span><span style="color: red;">10000</span>&nbsp;元
-                                       	  	 </p>
-                                       	  	 
-                                       	  </li>
-                                       	  <li style="position: relative;top:30px;">
-                                       	  	<span style="padding-right:40px;">开始时间：2018-9-8</span>
-                                       	  	<span >开发周期</span>
-                                       	  	<span style="color: orange;">30</span>
-                                       	  	<span>天</span>
-                                       	  </li>
-                                       </ul>
-                                 	</div>
-                                 	<div class="btRight">
-                                 		<div style="float: right;position: relative;top:40px;">
-                                        <p><button type="button" class="btn btn-w-m btn-primary">查看项目</button></p>
-                                        </div>
-                                 	</div>
-                                 </div>
-                                </li> 
-                                <hr/>
+									<hr/>
+                                </li>
                                 </ul>
 	                            </div>
 	                        </div>
@@ -391,7 +378,7 @@
     <script src="/static/js/plugins/layer/layer.min.js"></script>
 
     <!-- 自定义js -->
-    <script src="/static/js/hplus.js?v=4.1.0"></script>
+  <!--  <script src="/static/js/hplus.js?v=4.1.0"></script>-->
     <script type="text/javascript" src="/static/js/contabs.js"></script>
 
     <!-- 第三方插件 -->
@@ -417,7 +404,44 @@
         });
 
     </script>
-    
+	<script src="/static/js/jquery.min.js"></script>
+	<script src="/static/js/vue.js"></script>
+	<script>
+        var proj = new Vue({
+            el:'#developVue',
+            data:{
+                projectrun:'',
+				projectend:''
+            },
+            created:function () {
+                $.ajax({
+                    type:'get',
+                    url:'/stuproject/service',
+                    success:function (result) {
+                        console.log(result);
+                        proj.projectrun = result.projectrun;
+                        proj.projectend = result.projectend;
+                    }
+                })
+            },
+            filters: {
+                dateFormat:function(val){
+                    if(val==null)
+                        return null;
+                    var d = new Date(val);
+                    var year = d.getFullYear();
+                    var month = d.getMonth() + 1;
+                    var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                    var hour = d.getHours();
+                    var minutes = d.getMinutes();
+                    var seconds = d.getSeconds();
+                    return  year+ '-' + month + '-' + day ;
+                },
+            }
+        });
+
+
+	</script>
 
 	</body>
 </html>
