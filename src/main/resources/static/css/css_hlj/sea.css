@@ -60,6 +60,10 @@
 	/*background: deepskyblue;*/
 }
 
+.major .mid .choice a{
+	cursor:pointer;
+}
+
 .major .mid .choice .explain {
 	height: 54px;
 	width: 140px;
