@@ -3,7 +3,7 @@
 	<head>
 	    <meta charset="utf-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
+
 	    <title>招聘信息</title>
         <!--H+-->
 
@@ -11,28 +11,28 @@
 	    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 	    <link href="/static/css/animate.css" rel="stylesheet">
 	    <link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
-	    
+
 	    <!--mzb style-->
         <link href="/static/css/css_mzb/style2.css" rel="stylesheet">
         <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
         <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
-        
+
  		<link rel="stylesheet" href="/static/css/css_mzb/prom_updatephoto.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/cropper.min.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/标签/title.css" />
-        
+
         <!--  头部，尾部，菜单栏-->
-		
+
 		<link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
 		<script src="/static/js/jquery.min.js"></script>
 		<script src="/static/js/vue.js"></script>
 
-		
+
 	</head>
-	
-	
+
+
 	<body>
 	<!--header-->
 		<header>
@@ -157,18 +157,19 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!--右侧内容-->
 		<div class="main">
 			<!--  招 聘信 息-->
 			<div class="mainContent container-fluid ">
 			    <div class="row">
 					<h2 class="col-md-12 row_h2">招聘信息</h2>
-				</div>				
+				</div>
                 <button type="button" class="btn btn-w-m btn-primary"  data-toggle="modal" data-target="#myModal1" style="position: relative;top:20px;">
                 	发布招聘
-                </button>                   
-                <div class="modal inmodal" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">            	
+                </button>
+                <!--发布招聘模态窗-->
+                <div class="modal inmodal" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">
 	            <div class="col-sm-5" style="position: relative;left:30%;top:10%;">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
@@ -202,7 +203,7 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">职位要求：</label>
-	                                <div class="col-sm-8">      
+	                                <div class="col-sm-8">
 	                                    <textarea name="jobDemand" id="jobDemand" class="form-control" rows="5"></textarea>
 	                                </div>
 	                            </div>
@@ -222,10 +223,10 @@
 	                        </form>
 	                    </div>
 	                </div>
-	            </div> 
+	            </div>
                 </div>
-                
-                
+
+
 	            <div class="col-sm-14">
 	                <div class="ibox float-e-margins" style="position: relative;top:40px;">
 	                    <div class="ibox-content_mzb"  id="jobVue">
@@ -246,16 +247,24 @@
                                         <td>{{dt.jobMoney}}</td>
                                         <td>{{dt.jobCreattime|dateFormat}}</td>
                                         <td>
-					                        <button type="button" class="btn btn-primary btn-sm">详 情</button>
-					                        <button type="button" class="btn btn-danger btn-sm">删 除</button>                                            	
+											<a type="button" class="btn btn-primary btn-sm"
+											   :href="'/ForJob/mes/'+dt.jobId"
+											   target="_blank">
+												详 情</a>
+											<!--<button type="button" class="btn btn-success btn-sm">修 改</button>-->
+
+					                        <button type="button" class="btn btn-danger btn-sm">删 除</button>
+                                            <!--<a type="button" class="btn btn-danger btn-sm"-->
+                                            <!--:href = "">-->
+                                                <!--删 除</a>-->
                                         </td>
 	                                </tr>
-	                                
+
 	                            </tbody>
 	                        </table>
 	                    </div>
 	                </div>
-	            </div>		            
+	            </div>
 			</div>
 		</div>
 	</div>
@@ -350,7 +359,7 @@
     <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
   <!--  <script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
     <script src="js/js_mzb/job-validate.js"></script> -->
-    
+
     <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/static/js/plugins/layer/layer.min.js"></script>
@@ -361,17 +370,17 @@
 
     <!-- 第三方插件 -->
    <script src="/static/js/plugins/pace/pace.min.js"></script>
-   
-   
+
+
      <!-- 自定义js -->
     <script src="/static/js/content.js?v=1.0.0"></script>
-   
+
      <!-- jQuery Validation plugin javascript-->
     <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/static/js/plugins/validate/messages_zh.min.js"></script>
     <script src="/static/js/demo/form-validate-demo.js"></script>
 
-    
+
    <!-- 林晓能导航栏JS效果-->
    <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
 
@@ -408,7 +417,7 @@
 		});
 
 	</script>
-	
+
 
 	</body>
 </html>

@@ -69,4 +69,10 @@ public class jobSendController {
 //        return  "jobs/detail";
     }
 
+    @PostMapping("/jobdelete/jid")
+    public String jobdelete(){
+
+
+        return "redirect:/studioPage/jobInfo";
+    }
 }
