@@ -1,13 +1,11 @@
 package cn.ck.controller.promcenter;
 
-import cn.ck.entity.Account;
-import cn.ck.entity.Alluser;
-import cn.ck.entity.Funds;
-import cn.ck.entity.Promulgator;
+import cn.ck.entity.*;
 import cn.ck.service.AccountService;
 import cn.ck.service.FundsService;
 import cn.ck.service.PromulgatorService;
 import cn.ck.utils.AlipayConfig;
+import cn.ck.utils.DateUtils;
 import cn.ck.utils.ResponseBo;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -16,15 +14,14 @@ import com.alipay.api.request.AlipayFundTransToaccountTransferRequest;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,18 +44,65 @@ public class MoneypromController {
      * 我的钱包界面信息渲染
      * @return
      */
-    @RequestMapping("/priceprom")
+    @RequestMapping("/priceprom/{num}")
     @ResponseBody
-    public ResponseBo priceprom(){
+    public ResponseBo priceprom(@PathVariable("num") int num){
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
         Account account=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid",user.getAllId()));
         Set<String> set = new HashSet<>();
         set.add("fund_datetime");
+
+        PageHelper.startPage(num, 8);
         List<Funds> fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income",user.getAllId()).orderDesc(set));
+        PageInfo<Funds> fundsPageInfo=new PageInfo<>(fundsList);
 
-
-        return ResponseBo.ok().put("account",account).put("price",fundsList);
+        return ResponseBo.ok().put("account",account).put("price",fundsPageInfo);
     }
+
+    /**
+     * 我的钱包搜索
+     * @return
+     */
+    @RequestMapping("/pricepromsel/{num}")
+    @ResponseBody
+    public ResponseBo pricepromsel(@PathVariable("num") int num,String type,String starttime,String endtime){
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        Account account=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid",user.getAllId()));
+        Set<String> set = new HashSet<>();
+        set.add("fund_datetime");
+
+        if(!endtime.equals("")){
+            Date end1=DateUtils.stringToDate(endtime,DateUtils.DATE_PATTERN);
+            Date end2= DateUtils.addDateDays(end1,1);
+            endtime=DateUtils.format(end2,DateUtils.DATE_PATTERN);
+        }
+//        System.out.println(type+"---"+starttime+"----"+endtime);
+
+        PageHelper.startPage(num, 8);
+        List<Funds> fundsList=new ArrayList<>();
+        if(type.equals("资金类型")&&starttime.equals("")&&endtime.equals("")){
+            fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income",user.getAllId()).orderDesc(set));
+        }else if (type.equals("资金类型")&&!starttime.equals("")&&endtime.equals("")){
+            fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income",user.getAllId()).orderDesc(set).ge("fund_datetime",starttime));
+        }else if(type.equals("资金类型")&&starttime.equals("")&&!endtime.equals("")){
+            fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income",user.getAllId()).orderDesc(set).le("fund_datetime",endtime));
+        }else if(type.equals("资金类型")&&!starttime.equals("")&&!endtime.equals("")){
+            fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income",user.getAllId()).orderDesc(set).ge("fund_datetime",starttime).le("fund_datetime",endtime));
+        } else if (!type.equals("资金类型")&&starttime.equals("")&&endtime.equals("")){
+            fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income",user.getAllId()).orderDesc(set).eq("fund_type",type));
+        } else if (!type.equals("资金类型")&&!starttime.equals("")&&endtime.equals("")){
+            fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income",user.getAllId()).orderDesc(set).eq("fund_type",type).ge("fund_datetime",starttime));
+        }else if (!type.equals("资金类型")&&starttime.equals("")&&!endtime.equals("")){
+            fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income",user.getAllId()).orderDesc(set).eq("fund_type",type).le("fund_datetime",endtime));
+        }else{
+            fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income",user.getAllId()).orderDesc(set).eq("fund_type",type).ge("fund_datetime",starttime).le("fund_datetime",endtime));
+        }
+
+        PageInfo<Funds> fundsPageInfo=new PageInfo<>(fundsList);
+
+        return ResponseBo.ok().put("account",account).put("price",fundsPageInfo);
+    }
+
 
     /**
      * 充值提现界面渲染、校验提现金额和支付密码的合法性
