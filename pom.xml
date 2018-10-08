@@ -93,6 +93,12 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+         <!-- org.thymeleaf.exceptions.TemplateInputException: -->
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.22</version>
+        </dependency>
         <!--邮件相关-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

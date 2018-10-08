@@ -43,9 +43,54 @@ public class ProjectContorller {
 
     int start=1;//记录当前页 默认为“0“
     int size = 1; //记录每页条目数，默认为”10“
-    String state=null; //记录当前页状态
     String conditions = "0"; //条件
     String values     = "0";  //值
+
+    //关于搜索 参考哔哩哔哩
+    //拥有1.keyword  （按字段进行搜索）它的值是按我们---
+    //2.将其余所有的条件统统摆出，
+    //此时，若将（输入的值当条件，有些不妥） ，用 0 - 1 - 2 - 3 这些进行替代
+    //最后用获取url? 后的函数获取条件 再加上 page
+    //可以推出 我们的url应为
+    //?关键字=123&属性1=dm&属性2=0&属性3=0&page=2
+    //根据数据库  可以得到几个条件
+    // 1 状态 State
+    // State = 0 所有项目  State = 1 代表竞标中 2 代表 竞标超时
+    // 3代表 开发中 4代表完工 5代表 竞标失败
+    // 2. 分类 classify
+    // classifiy 0 代表所有
+    //3 . 项目预算 money
+    // money 0 代表所有
+    String state="0"; //记录状态
+    String classify="0"; //记录状态
+    String money="0"; //记录状态
+
+
+    //当点击上方的选择框时 跳转到下方的mapping
+
+    @RequestMapping("/pjconditione")
+    public String pjpageset(
+            @RequestParam(value = "state", defaultValue = "1")  String state,
+            @RequestParam(value = "classify", defaultValue = "0") String classify,
+            @RequestParam(value = "money", defaultValue = "0") String money){
+
+        this.state = state;
+        this.classify = classify;
+        this.money = money;
+        if(conditions.equals("0"));
+        else
+            this.conditions = conditions;
+
+        if(values.equals("0"));
+        else
+            this.values = values;
+
+        return "project/Project-Shouye";
+    }
+
+
+
+
 
     @RequestMapping("/pjpage")
     public String pjpageset(
