@@ -130,7 +130,7 @@
 							</a>
 							<ul id="safemanage" class="panel-collapse collapse in">
 								<li>
-									<a href="studio_jobInfo.html">招聘信息</a>
+									<a href="/studioPage/jobInfo">招聘信息</a>
 								</li>
 								<li>
 									<a href="studio_jobReview.html">招聘审核</a>
@@ -158,8 +158,6 @@
 		
 		<!--右侧内容-->
 		<div class="main" id="jobreviewVue">
-
-			
 			<!--  招聘审核 -->
 			<div class="mainContent container-fluid ">
 		    <div class="row">
@@ -174,6 +172,7 @@
 
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="tabs_panels.html#tab-4">审核中</a>
+								<!--<li class="active"><a data-toggle="tab" href="'/jobdeal/pass/'+">审核中</a>-->
                                 </li>
                                 <li class=""><a data-toggle="tab" href="tabs_panels.html#tab-5">已审核</a>
                                 </li>
@@ -209,8 +208,15 @@
 															{{dts.jobuser.juState}}
 														</span></td>
 				                                        <td>
-									                        <button type="button" class="btn btn-primary btn-sm">通过</button>
-									                        <button type="button" class="btn btn-danger btn-sm">取消</button>                                            	
+									                        <!--<button type="button" class="btn btn-primary btn-sm">通过</button>-->
+															<a type="button" class="btn btn-primary btn-sm"
+															   :href="'/jobdeal/pass/'+dts.jobuser.juUsers+'/'+dts.jobuser.juId"
+															>通过</a>
+															<!--+dts.jobuser.juId+'/'+-->
+									                        <!--<button type="button" class="btn btn-danger btn-sm">忽略</button>-->
+															<a type="button" class="btn btn-danger btn-sm"
+															   :href="'/jobdeal/nopass/'+dts.jobuser.juId"
+															>忽略</a>
 				                                        </td>
 					                                </tr>
 
@@ -251,11 +257,13 @@
 														</span>
 													</td>
 													<td>
-														<button type="button" class="btn btn-primary btn-sm">通过</button>
-														<button type="button" class="btn btn-danger btn-sm">取消</button>
+														<!--<button type="button" class="btn btn-danger btn-sm">删除</button>-->
+														<a type="button" class="btn btn-danger btn-sm"
+														   :href="'/jobdeal/jUDel/'+dt.jobuser.juId"
+														>删除</a>
+
 													</td>
 												</tr>
-
 												</tbody>
 											</table>
 					                    </div>
