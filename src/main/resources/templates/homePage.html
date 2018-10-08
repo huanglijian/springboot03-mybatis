@@ -241,13 +241,13 @@
                                 </li>
                                 <!--##########已登录###############-->
                                 <li v-if="isLogined">
-                                    <a href="/"><p class="nav-text-center">个人中心</p></a>
+                                    <a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
+                                </li>
+                                <li v-if="isLogined && !isPromul">
+                                    <a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
                                 </li>
                                 <li v-if="isLogined">
                                     <a href="/logout"><p class="nav-text-center">注销</p></a>
-                                </li>
-                                <li v-if="isLogined">
-                                    <a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
                                 </li>
                             </ul>
                         </li>
@@ -261,7 +261,9 @@
                     data:{
                         loginUser: '',
                         isLogined: false,
+                        isPromul : '',
                         img : '',
+                        centerUrl : '',
                     },
                     created: function () {
                         this.getUser();
@@ -271,7 +273,6 @@
                             $.ajax({
                                 type: "POST",
                                 url: "/home/getLoginUser",
-                                // data: data,
                                 dataType: "json",
                                 success: function(result){
                                     if(result.code === 404){
@@ -279,12 +280,10 @@
                                     }
                                     else if(result.code === 0){
                                         nav_vue.isLogined = true;
+                                        nav_vue.isPromul = result.isPromul;
                                         nav_vue.loginUser = result.loginUser;
                                         nav_vue.img = result.img;
-                                        console.log(nav_vue.img);
-                                    }
-                                    else{
-                                        alert("出现错误");
+                                        nav_vue.centerUrl = result.centerUrl;
                                     }
                                 }
                             });
@@ -957,152 +956,123 @@
     <!--招聘和原创-->
     <div class="sonp-section sonp-full sonp-parallax" id="fifth">
         <div class="row" style="padding-top:75px;">
-            <div class="col-md-6">
+            <div class="col-md-6" id="jobsblock">
                 <div class="row">
                     <div class="leaderboard" id="jobs" >                       
                         <h1>
-                            <a href="">                           
+                            <a href="">
                                 热门招聘
-                            </a>                           
+                            </a>
                         </h1>
                         <ol>
-                            <li>
-                                <a href="">
-                                    <mark>Jerry Wood</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
+                            <li v-for="j in jobs" @click="goJobs(j.jobId)">
+                                <mark>{{j.jobName | namefilter}}</mark>
+                                <small>{{j.jobMoney}}</small>
                             </li>
                         </ol>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <script type="text/javascript">
+                var jobsblock = new Vue({
+                    el:'#jobsblock',
+                    data:{
+                        jobs : '',
+                    },
+                    created: function () {
+                        this.getJobs();
+                    },
+                    methods: {
+                        getJobs : function () {
+                            $.ajax({
+                                type: "POST",
+                                url: "/home/getJobs/",
+                                dataType: "json",
+                                success: function(result){
+                                    if(result.code === 0){
+                                        jobsblock.jobs = result.jobs;
+                                    }
+                                }
+                            });
+                        },
+                        goJobs : function (val) {
+                            let url = "/ForJob/mes/" + val;
+                            window.open(url,"_blank");
+                        }
+                    },
+                    filters: {
+                        namefilter: function (value) {
+                            if (value && value.length > 16) {
+                                value = value.substring(0, 16) + '...';
+                            }
+                            return value;
+                        },
+                    },
+                });
+            </script>
+            <div class="col-md-6" id="originsblock">
                 <div class="row">
                     <div class="leaderboard" id="origins">
                         <h1>
                             <a href="">
                                 热门原创
-                            </a>                           
+                            </a>
                         </h1>
                         <ol>
-                            <li>
-                                <a href="">
-                                    <mark>Jerry Wood</mark>
-                                    <small><i class="fa fa-star"></i>315</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
+                            <li v-for="o in origins">
+                                <mark>{{o.origName | namefilter}}</mark>
+                                <small>{{o.origGrade}}分</small>
                             </li>
                         </ol>
                     </div>
                 </div>
             </div>
+            <script type="text/javascript">
+                var originsblock = new Vue({
+                    el:'#originsblock',
+                    data:{
+                        origins : '',
+                    },
+                    created: function () {
+                        this.getOrigins();
+                    },
+                    methods: {
+                        getOrigins : function () {
+                            $.ajax({
+                                type: "POST",
+                                url: "/home/getOrigins/",
+                                dataType: "json",
+                                success: function(result){
+                                    if(result.code === 0){
+                                        originsblock.origins = result.origins;
+                                        console.log(originsblock.origins);
+                                    }
+                                }
+                            });
+                        },
+                    },
+                    filters: {
+                        namefilter: function (value) {
+                            if (value && value.length > 10) {
+                                value = value.substring(0, 10) + '...';
+                            }
+                            return value;
+                        },
+                        numfilter: function(value){
+                            if(value > 10000){
+                                value = value / 10000;
+                                return value + "万";
+                            }
+                            else if(value > 1000){
+                                value = value /1000;
+                                return value + "千";
+                            }
+                            else
+                                return value;
+                        },
+                    },
+                });
+            </script>
         </div>
     </div>
     <!--页脚-->

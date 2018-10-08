@@ -5,6 +5,7 @@ import cn.ck.mapper.JobsMapper;
 import cn.ck.service.JobsService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.quartz.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +35,14 @@ public class JobsServiceImpl extends ServiceImpl<JobsMapper, Jobs> implements Jo
 
     public Jobs selectByJuId(int JuId ){
         return jobsMapper.selectByJuId(JuId);
+    }
+
+    @Override
+    public List<Jobs> selectLatestJobs() {
+        List<Jobs> list = baseMapper.selectList(
+                new EntityWrapper<Jobs>()
+                .eq("job_state", "招聘中")
+                .orderBy("job_creattime", false));
+        return list;
     }
 }

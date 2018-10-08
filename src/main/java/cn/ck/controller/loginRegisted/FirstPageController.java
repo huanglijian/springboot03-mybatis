@@ -5,6 +5,7 @@ import cn.ck.entity.*;
 import cn.ck.entity.bean.ProjectBid;
 import cn.ck.service.*;
 import cn.ck.utils.ResponseBo;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public class FirstPageController extends AbstractController {
     private  BiddingService biddingService;
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private JobsService jobsService;
+    @Autowired
+    private OriginalService originalService;
 
     /**
      * 将当前登录用户的信息输出到页面
@@ -52,20 +57,35 @@ public class FirstPageController extends AbstractController {
         user.setAllEmail(loginUser.getAllEmail());
         user.setAllType(loginUser.getAllType());
 
-        String imgpath;
+        String imgpath, centerUrl;;
+        boolean isPromul = false;
         if(user.getAllType().equals("发布者")){
             Promulgator promulgator = promulgatorService.selectById(loginUser.getAllId());
+            //发布者的头像路径
             imgpath = promulgator.getPromImg();
             if(imgpath != null && !imgpath.equals(""))
                 imgpath = "/promcenter/previewsrc/" + imgpath;
+            //是否是发布者
+            isPromul = true;
+            //个人中心链接
+            centerUrl = "/pcjump/account";
         }
         else{
             Users users = usersService.selectById(loginUser.getAllId());
+            //user的头像路径
             imgpath = users.getUserImg();
             if(imgpath != null && !imgpath.equals(""))
                 imgpath = "/file/showImg/" + imgpath;
+            //是否是发布者
+            isPromul = false;
+            //个人中心链接
+            centerUrl = "/user/userInfo";
         }
-        return ResponseBo.ok().put("loginUser", user).put("img", imgpath);
+
+        return ResponseBo.ok().put("loginUser", user)
+                        .put("img", imgpath)
+                        .put("isPromul", isPromul)
+                        .put("centerUrl", centerUrl);
     }
 
     /**
@@ -182,4 +202,27 @@ public class FirstPageController extends AbstractController {
         return ResponseBo.ok().put("res", resourcePageInfo.getList());
     }
 
+    /**
+     * 取出最晚发布的职位
+     * @return
+     */
+    @RequestMapping("getJobs")
+    @ResponseBody
+    public ResponseBo getJobs(){
+        PageHelper.startPage(0, 10);
+        List<Jobs> list = jobsService.selectLatestJobs();
+        return ResponseBo.ok().put("jobs", list);
+    }
+
+    /**
+     * 最高分的原创
+     * @return
+     */
+    @RequestMapping("getOrigins")
+    @ResponseBody
+    public ResponseBo getOrigins(){
+        PageHelper.startPage(0, 10);
+        List<Original> list = originalService.selectList(new EntityWrapper<Original>().orderBy("orig_grade", false));
+        return ResponseBo.ok().put("origins", list);
+    }
 }

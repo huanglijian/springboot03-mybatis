@@ -148,6 +148,7 @@ Leaderboard
   border-right: 10px solid transparent;
 }
 .leaderboard ol li small {
+  padding-right: 25px;
   position: relative;
   z-index: 2;
   display: block;
