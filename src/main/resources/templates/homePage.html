@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -159,6 +159,20 @@
 
     <!-- 浮现播放按钮样式 -->
     <link rel="stylesheet" href="/static/css/css_cwh/videoBtn/videoBtnStyle.css">
+    <style>
+        .box .icon li a {
+            color: #fff;
+            font-size: 50px;
+            line-height: 65px;
+            height: 70px;
+            width: 70px;
+            padding-left: 10px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            display: block;
+            transition: all 0.3s;
+        }
+    </style>
 
     <!-- tab选项卡样式 -->
     <link rel="stylesheet" href="/static/css/css_cwh/tab/tabstyle.css">
@@ -210,10 +224,10 @@
                     <ul class="nav navbar-top-links navbar-right" style="margin-right: 2%;">
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <img class="nav-avatar" v-if="isLogined" src="/static/img/a1.jpg"/>
-                                <img class="nav-avatar" v-else-if="img != ''" src="/static/img/a2.jpg"/>
-                                <!--没有登陆或者没有头像的-->
-                                <img class="nav-avatar" v-else src="/static/img/img_chh/akari.jpg"/>
+                                <!--没有登陆-->
+                                <img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
+                                <!--已经登录-->
+                                <img class="nav-avatar" v-else :src="img"/>
                                 <span class="caret"></span>
                             </a>
 
@@ -252,8 +266,6 @@
                     created: function () {
                         this.getUser();
                     },
-                    beforeMount: function () {
-                    },
                     methods: {
                         getUser: function(){
                             $.ajax({
@@ -269,7 +281,7 @@
                                         nav_vue.isLogined = true;
                                         nav_vue.loginUser = result.loginUser;
                                         nav_vue.img = result.img;
-                                        console.log(nav_vue.loginUser);
+                                        console.log(nav_vue.img);
                                     }
                                     else{
                                         alert("出现错误");
@@ -283,19 +295,20 @@
         </header>
 
         <div style="height: 100px;background: #ffffff;margin-bottom:20px;"></div>
-
+        <!--logo-->
         <div class="row">
             <div class="col-md-6 col-md-offset-4">
                 <img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" style="height:150px;"/>
             </div>
         </div>
-
+        <!--搜索框-->
         <div class="row">
             <div class="col-md-6 col-md-offset-4">
                 <div class="ibox-content" style="background:#ffffff; border-width: 0px;margin-left: -5%;">
-                    <form action="">
+                    <form action="/home/searchResult">
+                        <input type="text" name="page" value="1" style="display: none"/>
                         <span class="search">
-                            <input type="text" id="search" name="word" baiduSug="1" placeholder="请输入关键词" />
+                            <input type="text" id="search" name="key" baiduSug="1" placeholder="请输入关键词" />
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
                             </ul>
                         </span>
@@ -523,7 +536,6 @@
                     front : '',
                     right : '',
                     out : '',
-                    url : '',
                 },
                 created: function () {
                     this.getProj();
@@ -545,8 +557,8 @@
                         });
                     },
                     goProj: function (val) {
-                        let url = "" + val;
-                        window.open("","_blank");
+                        let url = "/project/projectDetail?id=" + val;
+                        window.open(url,"_blank");
                     },
                 },
                 filters: {
@@ -714,7 +726,7 @@
                         </ul>
                     </nav>
                     <div class="moder_content-wrap">
-                        <section>
+                        <section v-cloak>
                             <div class="row">
                                 <div class="col-md-3" v-for="res in tagRes[0].t">
                                     <div class="panel panel-default">
@@ -742,7 +754,7 @@
                                 </div>
                             </div>
                         </section>
-                        <section>
+                        <section v-cloak>
                             <div class="row">
                                 <div class="col-md-3" v-for="res in tagRes[1].t">
                                     <div class="panel panel-default">
@@ -770,7 +782,7 @@
                                 </div>
                             </div>
                         </section>
-                        <section>
+                        <section v-cloak>
                             <div class="row">
                                 <div class="col-md-3" v-for="res in tagRes[2].t">
                                     <div class="panel panel-default">
@@ -798,7 +810,7 @@
                                 </div>
                             </div>
                         </section>
-                        <section>
+                        <section v-cloak>
                             <div class="row">
                                 <div class="col-md-3" v-for="res in tagRes[3].t">
                                     <div class="panel panel-default">
@@ -826,7 +838,7 @@
                                 </div>
                             </div>
                         </section>
-                        <section>
+                        <section v-cloak>
                             <div class="row">
                                 <div class="col-md-3" v-for="res in tagRes[4].t">
                                     <div class="panel panel-default">
@@ -870,6 +882,7 @@
                             {t : []},
                             {t : []},
                         ],
+                    imgUrl : '',
                 },
                 created: function () {
                     var e = document.getElementById("tag0");
@@ -1189,43 +1202,33 @@
     <script src="/static/js/js_cwh/bootstrap-suggest/bootstrap-suggest.js"></script>
     <script type="text/javascript">
         function checkName(name){
-            if(name.length <= 20)
+            if(name.length <= 25)
                 return name;
             else
-                return name.substring(0,20);
+                return name.substring(0,25) + "...";
         }
         $("#search").bsSuggest({
             //提示所用的数据，注意格式
             data: '',
             emptyTip: '未检索到匹配的数据',
-            //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
-            // idField: 'resId',
-            //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
             keyField: 'resName',
-            // effectiveFieldsAlias: {
-            //     resName: "序号",
-            // },
-            //请求数据的 URL 地址
-            url: '/resource/searchSuggest?key=',
-            //设置此参数名，将开启jsonp功能，否则使用json数据结构
-            // jsonp: 'cb',
-            //格式化数据的方法，返回数据格式参考 data 参数
+            url: '/home/searchSuggest?key=',
             fnProcessData: function (json) {
+                console.log(json);
                 var index, len, data = {value: []};
-                if (!json || !json.resource || json.resource.length === 0) {
+                if (!json || !json.suggestProj || json.suggestProj.length === 0) {
                     return false;
                 }
 
-                len = json.resource.length;
-                res = json.resource;
+                len = json.suggestProj.length;
+                var projs = json.suggestProj;
                 for (index = 0; index < len; index++) {
                     data.value.push({
-                        resName: checkName(res[index].resName),
-                        resIntro: res[index].resIntro,
+                        projName: checkName(projs[index].project.projName),
+                        projIntro: projs[index].project.projIntro,
+                        bidNum : projs[index].bidnum === null ? "0人投标" : projs[index].bidnum + "人投标",
                     });
                 }
-                // console.log(data);
-                //字符串转化为 js 对象
                 return data;
             },
 
@@ -1236,16 +1239,14 @@
             allowNoKeyword: true,
             //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
             getDataMethod: 'url',
-            //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
-            // delayUntilKeyup: false,
             //前端搜索匹配时，是否忽略大小写
             ignorecase: true,
             //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
-            effectiveFields: ["resName"],
+            effectiveFields: ["projName", "bidNum"],
             //有效字段的别名对象，用于 header 的显示
             // effectiveFieldsAlias: {},
             //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
-            searchFields: ["resName", "resIntro"],
+            searchFields: ["projName", "projIntro"],
             // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
             twoWayMatch: true,
 
@@ -1274,29 +1275,12 @@
             listAlign: 'left',              //提示列表对齐位置，left/right/auto
             listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
             listHoverCSS: 'jhover',         //提示框列表鼠标悬浮的样式名称
-            // clearable: false,               // 是否可清除已输入的内容
-
             /* key */
             keyLeft: 37,                    //向左方向键，不同的操作系统可能会有差别，则自行定义
             keyUp: 38,                      //向上方向键
             keyRight: 39,                   //向右方向键
             keyDown: 40,                    //向下方向键
             keyEnter: 13,                   //回车键
-
-            /* methods */
-            // fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
-            // fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
-            // fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
-        }).on('onDataRequestSuccess', function (e, result) {
-            console.log('onDataRequestSuccess: ', result);
-        }).on('onSetSelectValue', function (e, keyword, data) {
-            console.log('onSetSelectValue: ', keyword, data);
-        }).on('onUnsetSelectValue', function () {
-            console.log('onUnsetSelectValue');
-        }).on('onShowDropdown', function (e, data) {
-            console.log('onShowDropdown', e.target.value, data);
-        }).on('onHideDropdown', function (e, data) {
-            console.log('onHideDropdown', e.target.value, data);
         });
     </script>
 </body>

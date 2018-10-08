@@ -24,4 +24,10 @@ public class BiddingServiceImpl extends ServiceImpl<BiddingMapper, Bidding> impl
     public List<ProjectBid> selectRecommendProj() {
         return baseMapper.selectRecommendProj();
     }
+
+    @Override
+    public List<ProjectBid> selectSuggestProj(String keyword) {
+        keyword = "%" + keyword +"%";
+        return baseMapper.selectSuggestProj(keyword);
+    }
 }

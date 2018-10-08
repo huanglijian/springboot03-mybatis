@@ -22,4 +22,11 @@ public interface BiddingService extends IService<Bidding> {
      * @return
      */
     List<ProjectBid> selectRecommendProj();
+
+    /**
+     * 搜索建议
+     * 字段有proj_id, proj_name, proj_money, proj_intro, bidnum
+     * @return
+     */
+    List<ProjectBid> selectSuggestProj(String keyword);
 }

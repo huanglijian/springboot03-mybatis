@@ -402,11 +402,13 @@ public class RegisteredController extends AbstractController {
             if(userType.equals("普通用户")){
                 Users userInfo = getBlankUsers();
                 userInfo.setUserId(user.getAllId());
+                userInfo.setUserImg("default.jpg");
                 usersService.insert(userInfo);
             }
             else if(userType.equals("发布者")){
                 Promulgator promulgator = getBlankProm();
                 promulgator.setPromId(user.getAllId());
+                promulgator.setPromImg("default.jpg");
                 promulgatorService.insert(promulgator);
             }
         }
