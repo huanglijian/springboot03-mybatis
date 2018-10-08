@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
 		<link rel="stylesheet" href="/static/css/style.css" />
 		<link rel="stylesheet" href="/static/css/css_lxn/modal-lxn.css">
+		<link rel="stylesheet" href="/static/starability-minified/starability-all.min.css">
 		<script type="text/javascript" src="/static/js/jquery.min.js" ></script>
 		<script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>
 		<script type="text/javascript" src="/static/js/vue.js"></script>
@@ -303,6 +304,28 @@
 															</div>
 														</div>
 													</div>
+
+													<div class="form-group">
+														<label class="col-md-5 control-label" style="font-weight: 500;font-size: 16px;"><span style="color: red;">*</span>项目评分：</label>
+														<div class="col-md-5 starability-slot">
+															<input type="radio" id="rate5-2" name="rating" value="5" />
+															<label for="rate5-2" title="5分">5 stars</label>
+
+															<input type="radio" id="rate4-2" name="rating" value="4" />
+															<label for="rate4-2" title="4分">4 stars</label>
+
+															<input type="radio" id="rate3-2" name="rating" value="3" />
+															<label for="rate3-2" title="3分">3 stars</label>
+
+															<input type="radio" id="rate2-2" name="rating" value="2" />
+															<label for="rate2-2" title="2分">2 stars</label>
+
+															<input type="radio" id="rate1-2" name="rating" value="1" />
+															<label for="rate1-2" title="1分">1 star</label>
+
+														</div>
+													</div>
+
 													<div class="form-group">
 														<div class="probidbtndiv text-center"v-if="selectbid.code==0">
 															<button class="btn btn-default " type="button" data-dismiss="modal">取消支付</button>
@@ -572,13 +595,27 @@
 						})
 					},
                     selfinishproj:function (val) {
+                        var radios = document.getElementsByName("rating");
+                        var value=0;
+                        for(var i=0;i<radios .length;i++){
+                            if(radios[i].checked){
+                                value = radios[i].value;
+                                break;
+                            }
+                        }
+                        if(bidding.paypwd==''){
+                            alert("支付密码暂未填写，请重新填写");
+						}
+
                         $.ajax({
                             type: 'post',
-                            url: '/promcenter/promfinproject/'+val+"/"+bidding.paypwd,
+                            url: '/promcenter/promfinproject/'+val+"/"+bidding.paypwd+"/"+value,
                             success: function (result) {
                                 if(result.code==0){
                                     alert("支付密码错误，请重新输入");
-                                }else{
+                                }else if(result.code==2){
+                                    alert("没有评分，请重新输入");
+                                } else{
                                     // alert(result.projid);
                                     $("#probidselect").modal("hide");
                                     $("#tipModal").modal("show");
