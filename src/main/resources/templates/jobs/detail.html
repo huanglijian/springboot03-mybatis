@@ -62,18 +62,19 @@
         </div>
     </div>
 </header>
-<div class="major">
-    <div class="up">
-        <div id="vue1">
+<div id="vue1">
+
+    <div class="major">
+        <div class="up">
             <div class="mess">
                 <div class="messL">
                     <h3>{{js.jobs.jobName}}</h3>
-                    <h3>123</h3>
                     <ul class="list-unstyled kong">
                         <li><p class="white" style="float:left;">&nbsp;&nbsp;工资: </p>
-                            <p style="float:left;">&nbsp;&nbsp;{{
-                                <js class="jobs jobMon"></js>
-                                ey}}
+                            <p style="float:left;">&nbsp;&nbsp;
+                                {{js.jobs.jobMoney}}
+                                <!--<js class="jobs jobMon"></js>-->
+
                             </p>
                         </li>
                         <li><p class="white" style="float:left;">&nbsp;&nbsp;人数: </p>
@@ -130,52 +131,57 @@
             </div>
         </div>
     </div>
-</div>
 
-<!--模态窗-->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <!--聚焦的部分-->
-        <div class="modal-content">
-            <!--模态框标题部分-->
-            <div class="modal-header">
-                <!--退出按钮 X-->
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <!--标题-->
-                <h4 class="modal-title" id="myModalLabel">
-                    提交你的简历
-                </h4>
-            </div>
+    <!--模态窗-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <!--聚焦的部分-->
+            <div class="modal-content">
+                <!--模态框标题部分-->
+                <div class="modal-header">
+                    <!--退出按钮 X-->
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <!--标题-->
+                    <h4 class="modal-title" id="myModalLabel">
+                        提交你的简历
+                    </h4>
+                </div>
 
-            <!--模态主体-->
-            <div class="modal-body" id="ModalBody">
-                <form action="#">
-                    请上传你的简历文件<br><br>
-                    <div><a href="javascript:;" class="file">
-                        <input type="file" name="" id="">
-                    </a>
-                    </div>
-                    <!--尾栏-->
-                    <div class="modal-footer">
-                        <!--关闭按钮-->
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <!--提交按钮-->
-                        <button type="submit" class="btn btn-primary" onclick="sumbit()">确定提交</button>
-                    </div>
-                </form>
+                <!--模态主体-->
+                <div class="modal-body" id="ModalBody">
+                    <form action="/ForJob/upload" method="post" enctype="multipart/form-data">
+                        请上传你的简历文件<br><br>
+
+                        <!--<label name="jid" style="display:none">-&#45;&#45;{{js.jobs.jobId}}</label>-->
+                        <!--<label name="jiddd">-&#45;&#45;{{js.jobs.jobId}}</label>-->
+                        <!--<button name="jid">{{js.jobs.jobId}}</button>-->
+                        <input type="text" name = "jid" v-model="jid" style="display:none">
+                        <!--'/ForJob/mes/'+j.jobs.jobId-->
+                        <div>
+                            <input type="file" name="resume" id="">
+                        </div>
+                        <!--尾栏-->
+                        <div class="modal-footer">
+                            <!--关闭按钮-->
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <!--提交按钮-->
+                            <button type="submit" class="btn btn-primary" onclick="sumbit()">确定提交</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 <!--vue渲染-->
 <script type="text/javascript">
     var id = [[${id}]];
     var vm = new Vue({
         el: '#vue1',
         data: {
+            jid:'laiaa',
             js: '',
         },
         created: function () {
@@ -186,6 +192,7 @@
                 success: function (result) {
                     // alert(result.msg);
                     vm.js = result.js;
+                    vm.jid = result.js.jobs.jobId;
                 }
             })
         },

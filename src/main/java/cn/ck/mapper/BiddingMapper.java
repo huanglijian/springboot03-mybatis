@@ -1,7 +1,11 @@
 package cn.ck.mapper;
 
 import cn.ck.entity.Bidding;
+import cn.ck.entity.bean.ProjectBid;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,17 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface BiddingMapper extends BaseMapper<Bidding> {
 
+    /**
+     * 取出推荐的项目
+     * 字段有proj_id, proj_name, proj_money, bidnum
+     * @return
+     */
+    List<ProjectBid> selectRecommendProj();
+
+    /**
+     * 搜索建议
+     * 字段有proj_id, proj_name, proj_money, proj_intro, bidnum
+     * @return
+     */
+    List<ProjectBid> selectSuggestProj(@Param("keyword") String keyword);
 }

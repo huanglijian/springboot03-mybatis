@@ -36,6 +36,13 @@ public interface ProjectService extends IService<Project> {
      */
     Integer projBidTimeNum(int id);
 
+    /**
+     *
+     * @param id 项目id
+     * @return 开发剩余天数
+     */
+    Integer projDevelopTimeNum(int id);
+
     List<PjCol> selectPjCol(Map<String,Object> map);
 
 

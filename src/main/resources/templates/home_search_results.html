@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创客讲堂 - 搜索</title>
+
+    <!-- 全局js -->
+    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/js/vue.js"></script>
+
+    <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
+
+    <!-- 导航条样式 -->
+    <link href="/static/css/css_psw/style_head.css" rel="stylesheet">
+
+    <!-- 浮现播放按钮样式 -->
+    <link rel="stylesheet" href="/static/css/css_cwh/videoBtn/videoBtnStyle.css">
+
+    <!-- 搜索框样式 -->
+    <link rel="stylesheet" href="/static/css/css_cwh/searchBar/searchBar.css">
+</head>
+
+<body class="gray-bg">
+
+    <header>
+        <div class="container-fluid container-fluid_up">
+            <div class="row_up">
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#">帮助中心</a>
+                    </li>
+                    <li>
+                        <a href="#">注册</a>
+                    </li>
+                    <li>
+                        <a href="#">登录</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container-fluid container-fluid_main">
+            <div class="row_main">
+                <div class="main_logo">
+                    <img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
+                </div>
+                <div class="main_right">
+                    <ul class="nav_psw list-unstyled">
+                        <li class="active">
+                            <a>首 页</a>
+                        </li>
+                        <li>
+                            <a>项目大厅</a>
+                        </li>
+                        <li>
+                            <a>服务大厅</a>
+                        </li>
+                        <li>
+                            <a>创客讲堂</a>
+                        </li>
+                        <li>
+                            <a>原创中心</a>
+                        </li>
+                        <li>
+                            <a>荣誉中心</a>
+                        </li>
+                        <li>
+                            <a>在线求职</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins" id="searchResult">
+                        <div class="ibox-content">
+                            <!--搜索框-->
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-3">
+                                    <form action="/resource/searchResult">
+                                        <input type="text" name="page" value="1" style="display: none"/>
+                                        <span class="search">
+                                            <input type="text" id="search" name="key" placeholder="请输入关键词" required="" v-model="keyWord"/>
+                                            <div class="input-group-btn">
+                                                <button style="opacity:0;"></button>
+                                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                </ul>
+                                            </div>
+                                        </span>
+                                        <!--注意以上为文本框设置的placeholder属性，为文本框默认显示的文字-->
+                                        <span class="button"><input type="submit" value="创客搜索" /></span>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-3">
+                                    <h5 class="text-muted">为您找到相关结果约{{result.total}}个： <span class="text-navy">“{{keyWord}}”</span></h5>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="row">
+                                <div class="col-md-3" v-for="res in resource">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body" style="padding : 5px;">
+                                            <div class="box">
+                                                <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
+                                                <div class="box-content">
+                                                    <ul class="icon">
+                                                        <li><a :href="'/resource/player/' + res.resId"><i class="fa fa-play"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">
+                                            <a :href="'/resource/player/' + res.resId">
+                                                <p class="text-left">
+                                                    {{res.resName | namefilter}}
+                                                </p>
+                                            </a>
+                                            <p class="text-left text-muted">
+                                                <!--<small><i class="fa fa-eye"></i>456</small>-->
+                                                <!--&nbsp;|&nbsp;-->
+                                                <small><i class="fa fa-thumbs-up"></i>&nbsp;{{res.resLikenum | numfilter}}</small>
+                                                &nbsp;|&nbsp;
+                                                <small><i class="fa fa-check-circle-o"></i>&nbsp;{{res.resLong | mintohour}}</small>
+                                            </p>
+                                            <!--<p>-->
+                                                <!--<span class="badge" v-for="t in tagSplit(res.resTag).slice(0, 5)" style="margin-right: 5px;margin-top: 3px;">{{t}}</span>-->
+                                            <!--</p>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--页号-->
+                            <div class="text-center">
+                                <div class="btn-group">
+                                    <button class="btn btn-white" type="button" v-if="result.hasPreviousPage" @click="changePage(curPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                                    <!--v-for:循环页数, :class ：如果是当前页使其为激活， @click:触发事件参数-->
+                                    <button class="btn btn-white"
+                                            v-for="p in result.navigatepageNums"
+                                            :class="[{ active: p == curPage }, '']"
+                                            @click="changePage(p)"
+                                    >
+                                        {{p}}
+                                    </button>
+                                    <button class="btn btn-white" type="button" v-if="result.hasNextPage" @click="changePage(curPage + 1)"><i class="fa fa-chevron-right" ></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        var searchResult = new Vue({
+                            el:'#searchResult',
+                            data:{
+                                //搜索的关键字
+                                keyWord : '',
+                                //后台返回的结果集，应为Page<T>
+                                result : '',
+                                //从结果集获取的当前页
+                                curPage: 1,
+                                //从结果集获取的视频集合
+                                resource : [],
+                            },
+                            beforeCreate: function () {
+                            },
+                            created: function () {
+                                //解码url的参数，从utf-8转为中文
+                                this.keyWord  = decodeURIComponent(this.urlparse().params['key']);
+                                this.curPage = decodeURIComponent(this.urlparse().params['page']);
+                                //创建页面时搜索
+                                this.doSearch();
+                            },
+                            beforeMount: function () {
+                            },
+                            mounted: function () {
+                            },
+                            beforeUpdate: function () {
+                            },
+                            updated: function () {
+                            },
+                            methods: {
+                                //url转换方法
+                                urlparse: function(){
+                                    var url = window.location.href;
+                                    var a = document.createElement('a');
+                                    a.href = url;
+                                    var obj = {
+                                        source: url,
+                                        protocol: a.protocol.replace(':', ''),
+                                        host: a.hostname,
+                                        port: a.port,
+                                        query: a.search,
+                                        file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                                        hash: a.hash.replace('#', ''),
+                                        path: a.pathname.replace(/^([^\/])/, '/$1'),
+                                        relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                                        segments: a.pathname.replace(/^\//, '').split('/'),
+                                        params: (function() {
+                                            var ret = {};
+                                            var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
+                                                if (v!==''&&v.indexOf('=')) {
+                                                    return true;
+                                                }
+                                            });
+                                            seg.forEach( function(element, index) {
+                                                var idx = element.indexOf('=');
+                                                var key = element.substring(0, idx);
+                                                var val = element.substring(idx+1);
+                                                ret[key] = val;
+                                            });
+                                            return ret;
+                                        })()
+                                    };
+                                    return obj;
+                                },
+                                //搜索触发方法
+                                doSearch : function (page) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/home/doSearch?keyword=" + this.keyWord + "&curPage=" + this.curPage,
+                                        data : '',
+                                        dataType: "json",
+                                        success: function(result){
+                                            if(result.code === 0){
+                                                searchResult.result = result.result;
+                                                searchResult.resource = result.result.list;
+                                                searchResult.curPage = result.result.pageNum;
+                                                console.log( searchResult.curPage);
+                                                console.log(searchResult.result);
+                                            }
+                                        }
+                                    });
+                                },
+                                changePage : function (page) {
+                                    window.location.href = "/resource/searchResult?page=" + page + "&key=" + this.keyWord;
+                                },
+                                tagSplit : function (tags) {
+                                    return tags.split(",");
+                                },
+                            },
+                            filters: {
+                                namefilter: function (value) {
+                                    if (value && value.length > 10) {
+                                        value = value.substring(0, 10) + '...';
+                                    }
+                                    return value;
+                                },
+                                introfilter: function (value) {
+                                    if (value && value.length > 25) {
+                                        value = value.substring(0, 25) + '...';
+                                    }
+                                    return value;
+                                },
+                                numfilter: function(value){
+                                    if(value > 10000){
+                                        value = value / 10000;
+                                        return value + "万";
+                                    }
+                                    else if(value > 1000){
+                                        value = value /1000;
+                                        return value + "千";
+                                    }
+                                    else
+                                        return value;
+                                },
+                                mintohour: function (value) {
+                                    if(value >= 60){
+                                        var h = value / 60;
+                                        var min = value % 60;
+                                        return h + ":" + min;
+                                    }
+                                    else{
+                                        if(value < 10){
+                                            return "00:0" + value;
+                                        }
+                                        else return "00:" + value;
+                                    }
+                                },
+                            },
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- suggest search -->
+    <script src="/static/js/js_cwh/bootstrap-suggest/bootstrap-suggest.js"></script>
+    <script type="text/javascript">
+        $("#search").bsSuggest({
+            //提示所用的数据，注意格式
+            data: '',
+            emptyTip: '未检索到匹配的数据',
+            //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
+            // idField: 'resId',
+            //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+            keyField: 'resName',
+            //获取数据的方式，总是从 URL 获取
+            // getDataMethod: "url",
+            // effectiveFieldsAlias: {
+            //     resName: "序号",
+            // },
+            //请求数据的 URL 地址
+            url: '/resource/searchSuggest?key=',
+            //设置此参数名，将开启jsonp功能，否则使用json数据结构
+            // jsonp: 'cb',
+            //格式化数据的方法，返回数据格式参考 data 参数
+            fnProcessData: function (json) {
+                var index, len, data = {value: []};
+                if (!json || !json.resource || json.resource.length === 0) {
+                    return false;
+                }
+
+                len = json.resource.length;
+                searchResult = json.resource;
+                for (index = 0; index < len; index++) {
+                    data.value.push({
+                        resName: searchResult[index].resName,
+                        resIntro: searchResult[index].resIntro,
+                    });
+                }
+                // console.log(data);
+                //字符串转化为 js 对象
+                return data;
+            },
+
+            /* 搜索相关 */
+            // autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
+            allowNoKeyword: true,           //是否允许无关键字时请求数据
+            // getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+            // delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+            //前端搜索匹配时，是否忽略大小写
+            ignorecase: true,
+            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
+            effectiveFields: ["resName"],
+            //有效字段的别名对象，用于 header 的显示
+            // effectiveFieldsAlias: {},
+            //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
+            searchFields: ["resName", "resIntro"],
+            // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
+            twoWayMatch: true,
+
+            multiWord: true,               //以分隔符号分割的多关键字支持
+            separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
+            delay: 300,                     //搜索触发的延时时间间隔，单位毫秒
+
+            /* UI */
+            autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
+            autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
+            showHeader: false,              //是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
+            showBtn: true,                  //是否显示下拉按钮
+            inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
+            inputWarnColor: 'rgba(255,255,255,.1)', //输入框内容不是下拉列表选择时的警告色
+            listStyle: {
+                'padding-top': 0,
+                'max-height': '375px',
+                'max-width': '800px',
+                'overflow': 'auto',
+                'width': 'auto',
+                'transition': '0.3s',
+                '-webkit-transition': '0.3s',
+                '-moz-transition': '0.3s',
+                '-o-transition': '0.3s'
+            },                              //列表的样式控制
+            listAlign: 'auto',              //提示列表对齐位置，left/right/auto
+            listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
+            listHoverCSS: 'jhover',         //提示框列表鼠标悬浮的样式名称
+            // clearable: false,               // 是否可清除已输入的内容
+
+            /* key */
+            keyLeft: 37,                    //向左方向键，不同的操作系统可能会有差别，则自行定义
+            keyUp: 38,                      //向上方向键
+            keyRight: 39,                   //向右方向键
+            keyDown: 40,                    //向下方向键
+            keyEnter: 13,                   //回车键
+
+            /* methods */
+            // fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
+            // fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
+            // fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
+        }).on('onDataRequestSuccess', function (e, result) {
+            console.log('onDataRequestSuccess: ', result);
+        }).on('onSetSelectValue', function (e, keyword, data) {
+            console.log('onSetSelectValue: ', keyword, data);
+        }).on('onUnsetSelectValue', function () {
+            console.log('onUnsetSelectValue');
+        }).on('onShowDropdown', function (e, data) {
+            console.log('onShowDropdown', e.target.value, data);
+        }).on('onHideDropdown', function (e, data) {
+            console.log('onHideDropdown', e.target.value, data);
+        });
+    </script>
+
+</body>
+
+</html>

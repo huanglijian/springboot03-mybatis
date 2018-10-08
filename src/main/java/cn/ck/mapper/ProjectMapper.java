@@ -36,6 +36,13 @@ public interface ProjectMapper extends BaseMapper<Project> {
      */
     Integer projBidTimeNum(int id);
 
+    /**
+     *
+     * @param id 项目id
+     * @return 开发剩余天数
+     */
+    Integer projDevelopTimeNum(int id);
+
     //关联project表跟collectpj表
     List<PjCol> selectPjCol(Map<String,Object> map);
 }

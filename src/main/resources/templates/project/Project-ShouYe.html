@@ -5,15 +5,20 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>项目</title>
+
+	<script src="http://how2j.cn/study/vue.min.js"></script>
+	<script src="http://how2j.cn/study/axios.min.js"></script>
 	<script src="/static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 	<link href="/static/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/static/css/css_xwh/ProjectsShouYe.css" rel="stylesheet" />
 	<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
-	<script src="/static/js/vue.js"></script>
 	<link href="/static/css/style.css" rel="stylesheet"/>
+	<link href="/static/css/css_psw/toPage1.css" rel="stylesheet" />
+	<script type="text/javascript" src="/static/js/js_psw/toPage.js"></script>
+	<script src="http://how2j.cn/study/axios.min.js"></script>
 	
 	<!--<script src="http://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>-->
-	<script src="/static/js/jquery.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		$(function () {
@@ -27,18 +32,18 @@
 		
 		
 		})
-		$(function() {
-			$(".projectBody4 img").click(function() {
-					if($(this).attr("isImg") == 0) {
-						$(this).attr("src", "/static/img/img_xwh/selected2.png");
-						$(this).attr("isImg", "1");
-					} else {
-						$(this).attr("src", "/static/img/img_xwh/selected1.png");
-						$(this).attr("isImg", "0");
-					}
-					
-			});
-		})
+		// $(function() {
+		// 	$(".projectBody4 img").click(function() {
+		// 			if($(this).attr("isImg") == 0) {
+		// 				$(this).attr("src", "/static/img/img_xwh/selected2.png");
+		// 				$(this).attr("isImg", "1");
+		// 			} else {
+		// 				$(this).attr("src", "/static/img/img_xwh/selected1.png");
+		// 				$(this).attr("isImg", "0");
+		// 			}
+		//
+		// 	});
+		// })
 		
 	</script>
    </head>
@@ -104,7 +109,8 @@
 					<span>找项目——按条件筛选</span>
 					<a href="#">重置筛选条件</a>
 				</div>
-				<div class="col-lg-12 shaixuan">
+				<div class="col-lg-12 shaixuan" id="shaixuan">
+
 
 
 
@@ -112,7 +118,7 @@
 					<ul class="list-unstyled" datafrom="service">
 						<li datatype="ProjectFenlei">
 							<span class="span-title">项目分类</span>
-							<a href="javascript:void(0);" id="hulianwang" class="1 " datatype="网站开发">网站开发</a>
+							<a href="javascript:void(0);" v-on:click="a" id="hulianwang" class="1 " datatype="网站开发">网站开发</a>
 							<a href="javascript:void(0);" id="zhuomian" class="2 " datatype="桌面应用">桌面应用</a>
 							<a href="javascript:void(0);" id="yiydong" class="3 " datatype="APP">APP</a>
 							<a href="javascript:void(0);" id="shejishuzi" class="4 " datatype="UI设计">UI设计</a>
@@ -216,80 +222,46 @@
 					</ul>
 				</div>
 
-				<div class="projectBody" id="projectLists">
-					<div class="col-md-9 col-lg-9 projectBody1">
 
-						<ul class="list-unstyled projectlist">
-							<li>
-								<div class="projectBody2">
-									<div class="divnew">
-										<img src="/static/img/img_xwh/lefttop-newicon.png"></div>
-<img src="/static/img/img_xwh/wechat.png" />
-								</div>
-								<div class="projectBody3">
+				<li id="templeate" style="display: none">
+					<div>
+					<div class="projectBody2">
+						<div class="divnew"><img src="/static/img/img_xwh/lefttop-newicon.png"></div>
+						<img :src=project.projImg />
+					</div>
+					<div class="projectBody3">
+						<a :href="['projectDetail?id'+project.projId]" target="_blank">
+							<div><div>{{project.projName}}</div></div></a>
+						<span class="status">{{project.projState}}</span>
+						<br />
+						<span>预算<em>{{project.projMoney}}</em></span>
+						<span>人气<em>150</em></span>
+						<span>发布日期<em>{{project.projCreattime}}</em></span>
+						<span>截止日期<em>{{project.projCreattime}}</em></span>
+						<div style="margin-top: 15px;">
+							<span>技能标签</span>
+							<span class='green'> {{project.projTag}}</span>
+							<span>类型</span>
+							<span class='green'>{{project.projType}}</span>
+						</div>
+					</div>
+					<div class="projectBody4">
+		  <img  isImg="0" @click="changeFlag" >
+						<!--src="changeImage(isImg)"-->
+						&nbsp;收藏
+					</div>
+					</div>
+				</li>
 
-										<a href="/project/projectDetail" target="_blank">斗地主AI机器人</a>
-										<span class="status">竞标中</span>
-										<br />
-									<span>预算
-										<em>5千~1万</em>
-									</span>
-									<span>人气
-										<em>150</em>
-									</span>
-									<span>发布日期
-										<em>2018.09.04</em>
-									</span>
-									<span>截止日期
-										<em>2018.09.14</em>
-									</span>
-									
-									<div style="margin-top: 15px;">
-										<span>技能标签</span>
-										<span class='green'> 易语言</span>
-										<span>类型</span>
-										<span class='green'> 软件开发</span>
-									</div>
-								</div>
+				<div class="projectBody" >
+					<div class="col-md-9 col-lg-9 projectBody1" id="projectBody1">
+                    <ul class="list-unstyled projectlist">
+						<project v-for="item in projects" v-bind:project="item"></project>
+					</ul>
 
-								<div class="projectBody4">
-									
-									<img  isImg="0" onclick="changeImage()" src="/static/img/img_xwh/selected1.png">
-									&nbsp;收藏
-									
-								</div>
-							</li>
-						</ul>
+
 						<div class="FenYe">
-							<nav aria-label="Page navigation">
-								<ul class="pagination">
-									<li>
-										<a href="#" aria-label="Previous">
-											<span aria-hidden="true">&laquo;</span>
-										</a>
-									</li>
-									<li>
-										<a href="#">1</a>
-									</li>
-									<li>
-										<a href="#">2</a>
-									</li>
-									<li>
-										<a href="#">3</a>
-									</li>
-									<li>
-										<a href="#">4</a>
-									</li>
-									<li>
-										<a href="#">5</a>
-									</li>
-									<li>
-										<a href="#" aria-label="Next">
-											<span aria-hidden="true">&raquo;</span>
-										</a>
-									</li>
-								</ul>
-							</nav>
+							<div class="page_1"></div>
 						</div>
 
 					</div>
@@ -300,24 +272,16 @@
 							<ul class="list-group">
 								<li class="list-group-item">
 									<span class="ProjectLike1-top" >
-										大家都在看的项目TOP10
+										大家都在 的项目TOP10
 									</span>
 								</li>
-								<li class="list-group-item">
-									<b>01</b>
-									<a class="nowrap" href="/project/show/83865" target="_blank">
-										仿一个网站十来个页面</a>
-								</li>
-								<li class="list-group-item">
-									<b>02</b>
-									<a class="nowrap" href="/project/show/83861" target="_blank">
-										新媒体网站开发</a>
-								</li>
-								<li class="list-group-item">
-									<b>03</b>
-									<a class="nowrap" href="/project/show/83865" target="_blank">
-										安卓开发开开开11111</a>
-								</li>
+								<!-- 拼接字符串 -->
+                                <li class="list-group-item" v-for="(item,index) in resourse">
+                                    <b>{{index+1}}</b>
+                                    <a  :href="'projectDetail?id'+item.projId" target="_blank" class="nowrap">
+                                        {{item.projName}}
+                                    </a>
+
 							</ul>
 						</div>
 
@@ -330,7 +294,7 @@
 								</li>
 								<li class="list-group-item" v-for="(item,index) in resourse">
 									<b>{{index+1}}</b>
-									<a  :href="item.projId" target="_blank" class="nowrap">
+									<a  :href="['projectDetail?id'+item.projId]" target="_blank" class="nowrap">
 										{{item.projName}}
 									</a>
 								</li>
@@ -340,10 +304,29 @@
 
 
 
-					</div>
+
+
+
+
+
 
 					<script type="text/javascript">
-                        new Vue({
+                        var app5 = new Vue({
+                            el: '#shaixuan',
+                            data: {
+                                message: 'Hello Vue.js!'
+                            },
+                            methods: {
+                                a: function () {
+
+                                    window.location.href= "/project/pjpage?start=2&conditions=proj_secret&values=公开";
+                                }
+                            }
+                        })
+
+
+
+                      var vn =   new Vue({
                             el: '#ProjectLike1',
                             data:{
                                 resourse : "",
@@ -352,49 +335,113 @@
                                 var self=this;
                                 $.ajax({
                                     type: "POST",
-                                    url: "/project/projectShouYeHtml",
+                                    url: "/project/projectShouYeTuijian",
                                     dataType: "json",
                                     success: function(result){
+
                                         self.resourse = result;
                                     }
                                 });
                             },
-                            methods: {
-
-                            }
                         });
+                     var vx =   new Vue({
+                         el: '#ProjectLike2',
+                         data:{
+                             resourse : "",
+                         },
+                         mounted: function () {
+                             var self=this;
+                             $.ajax({
+                                 type: "POST",
+                                 url: "/project/projectShouYeTuijian",
+                                 dataType: "json",
+                                 success: function(result){
+                                     self.resourse = result;
+                                 }
+                             });
+                         },
+                     });
+
+                     var templeateDiv=$("#templeate").html();
+                     var templeateObject= {
+                         props: ['project'],
+                         template:templeateDiv,
+                         methods:{
+                             changeImage : function (isImg) {
+                                if(true)
+                                    return "/static/img/img_xwh/selected1.png"
+								 else
+                                    return "/static/img/img_xwh/selected2.png"
+                             },
+							 changeFlag : function (isImg) {
+                                 if(isImg) isImg = false;
+                                 else      isImg = true;
+                                 console.log(isImg);
+                             }
+                         }
+                     };
+                     Vue.component("project",templeateObject);
+
+
+                 var pa =  new Vue({
+                         el: '#projectBody1',
+                         data:{
+                             projects : "",
+                         },
+                         mounted: function () {
+                             var self=this;
+
+                             $.ajax({
+                                 type: "POST",
+                                 url: "/project/projectpage",
+                                 dataType: "json",
+                                 success: function(result){
+                                     self.projects = result.list;
+
+                                     console.log(result.prePage);
+                                     var obj_1={
+                                         obj_box:'.page_1',//翻页容器
+                                         total_item:result.total,   //条目总数
+                                         per_num:result.pageSize,     //每页条目数*/
+                                         current_page:result.pageNum   //当前页
+                                     };
+                                     page_ctrl(obj_1);
+                                     $(' .page_ctrl').on('click','button',function () {
+                                         var that=$(this);
+                                         if(that.hasClass('prev_page')){
+											 window.location.href="/project/pjpage?start="+result.prePage;
+                                         }
+                                         else if(that.hasClass('next_page')){
+                                             window.location.href="/project/pjpage?start="+result.nextPage;
+                                         }
+                                         else if(that.hasClass('page_num')&&!that.hasClass('current_page')){
+
+                                      window.location.href="/project/pjpage?start="+that.html();
+                                         }
+                                         else if(that.hasClass('to_page_num')){
+                                            window.location.href="/project/pjpage?start="+that.siblings('.input_page_num').val();
+                                         }
+                                     });
+
+                                 },
+
+                             });
+
+                         },
+
+					 });
+
+
+
 					</script>
 
-
-					<script type="text/javascript">
-                        var vm = new Vue({
-                            el: '#ProjectLike2',
-                            data:{
-                              resourse : "",
-                            },
-                            mounted: function () {
-                                var self=this;
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "/project/projectShouYeHtml",
-                                        dataType: "json",
-                                        success: function(result){
-                                            self.resourse = result;
-                                        }
-                                    });
-                            },
-                            methods: {
-
-                            }
-                        });
-					</script>
 
 
 
 				</div>
 			</div>
 		</div>
-
+		</div>
 
 
 
@@ -484,5 +531,6 @@
 			</div>
 		</footer>
 	</body>
+
 
 </html>

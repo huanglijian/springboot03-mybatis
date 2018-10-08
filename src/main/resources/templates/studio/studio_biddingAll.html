@@ -227,7 +227,12 @@
                                             <td>2018-9-8</td>
                                             <td>15</td>
                                             <td>20000</td>
-                                            <td>竞标中</td>                
+                                            <td v-if ="dt.project.projState == '竞标中'">
+												{{dt.bidding.bidState}}
+											</td>
+											<td v-else>
+												{{dt.project.projState}}
+											</td>
 		                                </tr>
 		                                <tr>
                                             <td>创客平台</td>

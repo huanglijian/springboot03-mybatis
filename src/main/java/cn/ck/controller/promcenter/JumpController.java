@@ -98,4 +98,16 @@ public class JumpController {
     public String loginpwdprom(){
         return "/promulgator/prom_uploginpwd";
     }
+
+    /*跳转通知页面*/
+    @RequestMapping("/noticeprom")
+    public String noticeprom(){
+        return "/promulgator/prom_Notice";
+    }
+
+    /*跳转邀请列表*/
+    @RequestMapping("/inviteprom")
+    public String inviteprom(){
+        return "/promulgator/prom_projInvit";
+    }
 }

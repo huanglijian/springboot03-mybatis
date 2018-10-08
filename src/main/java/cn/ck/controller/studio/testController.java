@@ -1,15 +1,11 @@
 package cn.ck.controller.studio;
 
 import cn.ck.controller.AbstractController;
-import cn.ck.entity.Jobs;
-import cn.ck.entity.Jobuser;
-import cn.ck.entity.Promulgator;
-import cn.ck.entity.Users;
+import cn.ck.entity.*;
 import cn.ck.entity.bean.JobUsers;
-import cn.ck.service.JobsService;
-import cn.ck.service.JobuserService;
-import cn.ck.service.PromulgatorService;
-import cn.ck.service.UsersService;
+import cn.ck.entity.bean.ProjectBid;
+import cn.ck.service.*;
+import cn.ck.utils.DateUtils;
 import cn.ck.utils.ResponseBo;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 马圳彬
@@ -40,6 +38,9 @@ public class testController extends AbstractController {
     private JobuserService jobuserService;
     @Autowired
     private JobsService jobsService;
+
+
+
 
     @RequestMapping("/jump")
     public String pageTest(){

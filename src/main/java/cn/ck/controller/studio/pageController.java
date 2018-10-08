@@ -34,6 +34,7 @@ public class pageController extends AbstractController {
         return "studio/studio_funds";
     }
 
+
     @RequestMapping("/jobInfo")
     public String jobInfo() {
         return "studio/studio_jobInfo";

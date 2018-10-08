@@ -114,112 +114,110 @@
         </div>
     </div>
 
-    <div class="mid">
-        <div class="choice">
-            <ul class="list-unstyled">
-                <li class="li1">
-                    <div class="explain">
-                        <label>技术类型</label>
-                    </div>
-                    <div class="type">
+    <div id="vue3">
+        <div class="mid">
+            <div class="choice">
+                <ul class="list-unstyled">
+                    <li class="li1">
+                        <div class="explain">
+                            <label>技术类型</label>
+                        </div>
+                        <div class="type">
 								<span class="ATpye">
-									<a href="#">不限</a>
+									<a value="all" @click="ten1()">不限</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">java</a>					
+                            <span class="ATpye">
+									<a value="java" @click="ten2()">java</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">html</a>
+                            <span class="ATpye">
+									<a value="html" @click="ten3()">html</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">c语言</a>
+                            <span class="ATpye">
+									<a value="c" @click="ten4()">c语言</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">JavaWebl</a>
+                            <span class="ATpye">
+									<a value="jw" @click="ten5()">JavaWeb</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">bootstrap</a>
+                            <span class="ATpye">
+									<a value="bs"  @click="ten6()">bootstrap</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">jquey</a>
+                            <span class="ATpye">
+									<a value="jq"  @click="ten7()">jquery</a>
 								</span>
-                    </div>
-                </li>
+                        </div>
+                    </li>
 
-                <li class="li2">
-                    <div class="explain">
-                        <label>薪资范围</label>
-                    </div>
-                    <div class="type">
-								
+                    <li class="li2">
+                        <div class="explain">
+                            <label>薪资范围</label>
+                        </div>
+                        <div class="type">
+                            <span class="ATpye">
+									<a value="all" @click="mon1()">不限</a>
+                            </span>
+                            <span class="ATpye">
+									<a value="two" @click="mon2()">2k以内</a>
+                            </span>
+                            <span class="ATpye">
+									<a value="five" @click="mon3()">2k-5k</a>
+                            </span>
+                            <span class="ATpye">
+									<a value="eight" @click="mon4()">5k-8k</a>
+                            </span>
+                            <span class="ATpye">
+                                <a value="ten" @click="mon5()">8k-10k</a>
+                            </span>
+                            <span class="ATpye">
+                                <a value="up" @click="mon6()">10k以上</a>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="li3">
+                        <div class="explain">
+                            <label>工作室排行</label>
+                        </div>
+                        <div class="type">
 								<span class="ATpye">
-									<a href="#">不限</a>							
+									<a @click="sort1()">不限</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">2k以内</a>							
+                            <span class="ATpye">
+									<a @click="sort2()">按评价排序</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">2k-5k</a>
+                            <span class="ATpye">
+									<a @click="sort3">按接单总数排序</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">5k-8k</a>
+                            <span class="ATpye">
+									<a @click="sort4()">按团队人数排序</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">8k-10k</a>
-								</span>
-                        <span class="ATpye">
-									<a href="#">10k以上</a>
-								</span>
-                    </div>
-                </li>
-                <li class="li3">
-                    <div class="explain">
-                        <label>工作室排行</label>
-                    </div>
-                    <div class="type">
+
+                        </div>
+                    </li>
+                    <li class="li4">
+                        <div class="explain">
+                            <label>招聘发布时间</label>
+                        </div>
+                        <div class="type">
 								<span class="ATpye">
-									<a href="#">不限</a>							
+									<a @click="time1()">不限时间</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">按评价排行</a>								
+                            <span class="ATpye">
+									<a @click="time2()">1年以上</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">按接单总数排行</a>
+                            <span class="ATpye">
+									<a  @click="time3()">一个月内</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">按团队人数排行</a>
+                            <span class="ATpye">
+									<a  @click="time4()">一星期内</a>
 								</span>
-                        <span class="ATpye">
-									<a href="#">按薪酬排行</a>
+                            <span class="ATpye">
+									<a  @click="time5()">一天内</a>
 								</span>
-                    </div>
-                </li>
-                <li class="li4">
-                    <div class="explain">
-                        <label>招聘发布时间</label>
-                    </div>
-                    <div class="type">
-								<span class="ATpye">
-									<a href="#">不限时间</a>								
-								</span>
-                        <span class="ATpye">
-									<a href="#">1年以上</a>
-								</span>
-                        <span class="ATpye">
-									<a href="#">一个月内</a>
-								</span>
-                        <span class="ATpye">
-									<a href="#">一星期内</a>
-								</span>
-                        <span class="ATpye">
-									<a href="#">一天内</a>
-								</span>
-                    </div>
-                </li>
-            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-
     <div class="down">
         <!--搜索到的结果数量-->
         <div class="number">
@@ -246,7 +244,7 @@
                             <img src="/static/img/img_hlj/alibaba2.png"/>
                         </div>
                         <div class="studioIntro">
-                            <h4><a href="mes" class="color" target="_blank">{{j.studio.stuName}}</a></h4>
+                            <h4><a href="mes" class="color" target="_blank" :href="'/ForJob/mes/'+j.jobs.jobId">{{j.studio.stuName}}</a></h4>
                             <p class="white" style="float:left;">职位: </p>
                             <p>&nbsp;&nbsp;{{j.jobs.jobName}}</p>
                             <p class="white" style="float:left;">发布时间:</p>
@@ -274,23 +272,6 @@
     </div>
 
     <script type="text/javascript">
-        // // 搜索
-        // var sear = $("#se").val();          //se:搜索input里里面的内容
-        // $(function () {
-        //     $("#cc").click(function () {
-        //         alert("事件触发");
-        //         $.ajax({
-        //             url: '/ForJob/',
-        //             type: 'post',
-        //             data: {
-        //                 sear: sear,
-        //             },
-        //             success: function (result) {
-        //                 alert("fanhui");
-        //             }
-        //         })
-        //     })
-        // });
 
         // 招聘信息渲染
         var vm = new Vue({
@@ -307,25 +288,23 @@
                     }
                 })
             },
-            methods: {
-
-            }
+            methods: {}
         });
 
         //根据查询的信息显示不同的招聘信息
         var vue2 = new Vue({
             el: '#btnc',
-            data:{
-                jobs:'',
+            data: {
+                // jobs:'',
             },
             methods: {
                 cc: function () {
                     // 获取搜索框信息
                     var nei = $("#se").val();
                     $.ajax({
-                        type: 'Post',
-                        url: 'search/cha',
-                        data:{
+                        type: 'post',
+                        url: '/ForJob/search/cha',
+                        data: {
                             nei: nei,
                         },
                         success: function (result) {
@@ -334,8 +313,380 @@
                     })
                 },
             }
-        })
+        });
+        // 根据点击不同的类型显示筛选显示不同的信息
+        var vm3 = new Vue({
+            el:'#vue3',
+            data:{
+                tee:'',         //tee:选择的技术类型
+                money:'',
+                sort:'',
+                time:'',
+            },
+            methods:{
+                ten1:function () {
+                    vm3.tee = "";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                ten2:function () {
+                    vm3.tee = "java";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                ten3:function () {
+                    vm3.tee = "html";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
 
+                },
+                ten4:function () {
+                    vm3.tee = "C";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                ten5:function () {
+                    vm3.tee = "javaWeb";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                ten6:function () {
+                    vm3.tee = "bootstrap";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                ten7:function () {
+                    vm3.tee = "jquery";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+
+                mon1:function () {
+                    vm3.money = "all";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:"",
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                mon2:function () {
+                    vm3.money = "2";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                mon3:function () {
+                    vm3.money = "5";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                mon4:function () {
+                    vm3.money = "8";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                mon5:function () {
+                    vm3.money = "10";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                mon6:function () {
+                    vm3.money = "10up";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+
+
+                sort1:function () {
+                    vm3.sort = "all";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                sort2:function () {
+                    vm3.sort = "grade";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                sort3:function () {
+                    vm3.sort = "gradn";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                sort4:function () {
+                    vm3.sort = "gradepn";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+
+                time1:function () {
+                    vm3.time = "0";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                time2:function () {
+                    // vm3.time = "31536000";
+                    vm3.time = "365";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                time3:function () {
+                    // vm3.time = "2628000";
+                    vm3.time = "30";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                time4:function () {
+                    // vm3.time = "604800";
+                    vm3.time = "7";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+                time5:function () {
+                    // vm3.time = "86400";
+                    vm3.time = "1";
+                    $.ajax({
+                        type:'post',
+                        url:'/ForJob/search/choice',
+                        data:{
+                            tee:vm3.tee,
+                            money:vm3.money,
+                            sort:vm3.sort,
+                            time:vm3.time,
+                        },
+                        success: function (r) {
+                            vm.job = r.jobsStudios;
+                        }
+                    })
+                },
+            }
+        })
     </script>
     <!--搜索数量渲染-->
     <script type="text/javascript">
@@ -430,13 +781,6 @@
         $(".li1 .ATpye a").removeClass("current");
         $(this).addClass("current");
     })
-
-    //			$(".li1 .ATpye a").click(function() {
-    //				$(".li1 .ATpye a").removeClass("current");
-    //				$(this).parent().addClass("current");
-    //			})
-
-
     $(".li2 .ATpye a").click(function () {
         $(".li2 .ATpye").removeClass("current");
         $(this).parent().addClass("current");

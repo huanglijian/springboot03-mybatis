@@ -38,9 +38,9 @@ public class UsersController extends AbstractController {
     @Autowired
     CollectresService collectresService;
 
-    int start;//记录当前页 默认为“0“
-    int size; //记录每页条目数，默认为”10“
-    String state=null; //记录当前页状态
+    int start=0;//记录当前页 默认为“0“
+    int size=5; //记录每页条目数，默认为”10“
+    String state=null;    //记录当前页状态
 
 
     //跳转当前登录用户个人资料页面
@@ -65,7 +65,9 @@ public class UsersController extends AbstractController {
 
     //跳转用户项目收藏页面
     @RequestMapping("/user_pjcol")
-    public String user_pjcol(@RequestParam(value = "state", defaultValue = "0") String state,@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "10") int size){
+    public String user_pjcol(@RequestParam(value = "state", defaultValue = "0")
+              String state,@RequestParam(value = "start", defaultValue = "1")
+            int start,@RequestParam(value = "size", defaultValue = "5") int size){
         this.state=state;
         this.start=start;
         this.size=size;
@@ -74,7 +76,8 @@ public class UsersController extends AbstractController {
 
     //跳转用户视频收藏页面
     @RequestMapping("/user_veocol")
-    public String user_yccol(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "1") int size){
+    public String user_yccol(@RequestParam(value = "start", defaultValue = "1") int start,
+                             @RequestParam(value = "size", defaultValue = "1") int size){
         this.start=start;
         this.size=size;
         return "users/pc_video_collection";
@@ -106,6 +109,7 @@ public class UsersController extends AbstractController {
     @RequestMapping("/get_pjcol")
     @ResponseBody
     public PageInfo<PjCol> get_pjcol(){
+
         PageHelper.startPage(this.start,this.size);
         Map<String,Object> map=new HashMap<>();
         map.put("id",getUser().getAllId());
