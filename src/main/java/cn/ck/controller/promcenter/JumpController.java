@@ -75,4 +75,39 @@ public class JumpController {
         return "/promulgator/prom_priManage";
     }
 
+    /*跳转充值页面*/
+    @RequestMapping("/priceinprom")
+    public String priceinprom(){
+        return "/promulgator/prom_payin";
+    }
+
+    /*跳转提现页面*/
+    @RequestMapping("/priceoutprom")
+    public String priceoutprom(){
+        return "/promulgator/prom_payout";
+    }
+
+    /*跳转修改支付密码*/
+    @RequestMapping("/paypwdprom")
+    public String paypwdprom(){
+        return "/promulgator/prom_uppaypwd";
+    }
+
+    /*跳转修改登录密码*/
+    @RequestMapping("/loginpwdprom")
+    public String loginpwdprom(){
+        return "/promulgator/prom_uploginpwd";
+    }
+
+    /*跳转通知页面*/
+    @RequestMapping("/noticeprom")
+    public String noticeprom(){
+        return "/promulgator/prom_Notice";
+    }
+
+    /*跳转邀请列表*/
+    @RequestMapping("/inviteprom")
+    public String inviteprom(){
+        return "/promulgator/prom_projInvit";
+    }
 }

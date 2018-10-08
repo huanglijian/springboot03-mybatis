@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>创客讲堂</title>
+    <title>创客平台</title>
 
     <!-- 全局js -->
     <script src="/static/js/jquery.min.js?v=2.1.4"></script>
@@ -18,6 +18,20 @@
 
     <!-- 导航条样式 -->
     <link href="/static/css/css_psw/style_head.css" rel="stylesheet">
+    <style>
+        .nav-text-center{
+            text-align:center;
+            margin: 0px;
+        }
+        .nav-avatar{
+            height: 40px;
+            border-radius: 25px;
+        }
+        .nav-dropdown-menu{
+            max-width: 120px;
+            padding: 0;
+        }
+    </style>
 
     <!-- 3d旋转 -->
     <link rel="stylesheet" href="/static/css/css_cwh/yys-slider/jquery-yys-slider.css">
@@ -109,20 +123,37 @@
             border-radius: 10px;
             box-shadow: 0 8px 10px -5px rgba(0,0,0,0.5);
         }
-        .money_box{
+        .projBox .money_box{
             border-radius: 5px;
             padding-right: 10px;
             padding-top: 5px;
             padding-bottom: 3px;
             padding-left: 12px;
         }
-        .money_num{
+        .projBox .money_icon{
+            font-size: 23px;
+            padding-left: 0px;
+            margin-top: 1px;
+        }
+        .projBox .money_num{
             background:white;
-            font-size: 17px;
-            margin-top: -1px;
+            font-size: 15px;
+            color:black;
             margin-left: -5px;
-            padding-top: 2px;
             border-radius: 5px;
+            padding: 1px 0px 1px 0px;
+        }
+        .projBox .bidingnum{
+            padding-top:5px;
+        }
+        .projBox .bidednum{
+            color:red;
+            font-size: 18px;
+        }
+        .projBox .projbox_projname{
+            font-size: 18px;
+            margin: 0px;
+            padding-top: 5px;
         }
     </style>
 
@@ -135,39 +166,15 @@
     <!-- 面板样式 -->
     <link rel="stylesheet" type="text/css" href="/static/css/css_cwh/leaderboard/reset.css" />
     <link rel="stylesheet" href="/static/css/css_cwh/leaderboard/leaderboard.css">
-    
+
 </head>
 
 <body>
+    <!--导航条、搜索框-->
     <div class="sonp-section sonp-full" id="first">
         <header>
             <div id="headVue">
-            <div class="container-fluid container-fluid_up" style="height: 30px;">
-                <!--<div class="row_up">-->
-                    <!--<ul class="list-unstyled" v-if="isLogined">-->
-                        <!--<li>-->
-                            <!--<a href="#">帮助中心</a>-->
-                        <!--</li>-->
-                        <!--<li >-->
-                            <!--<a href="/logout">注销</a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<a href="/login">{{loginUser.allEmail}}</a>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                    <!--<ul class="list-unstyled" v-else>-->
-                        <!--<li>-->
-                            <!--<a href="#">帮助中心</a>-->
-                        <!--</li>-->
-                        <!--<li >-->
-                            <!--<a href="/registered/select/new">注册</a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<a href="/login">登录</a>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-            </div>
+            <div class="container-fluid container-fluid_up" style="height: 30px;"></div>
             <div class="container-fluid container-fluid_main" style="background: #fdfdfd;">
                 <div class="row_main">
                     <div class="main_logo">
@@ -194,7 +201,7 @@
                                 <a>荣誉中心</a>
                             </li>
                             <li>
-                                <a>在线求职</a>
+                                <a href="/ForJob/search">在线求职</a>
                             </li>
                         </ul>
                     </div>
@@ -203,30 +210,30 @@
                     <ul class="nav navbar-top-links navbar-right" style="margin-right: 2%;">
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <img src="/static/img/a1.jpg" style="height: 40px;border-radius: 25px;"/>
+                                <img class="nav-avatar" v-if="isLogined" src="/static/img/a1.jpg"/>
+                                <img class="nav-avatar" v-else-if="img != ''" src="/static/img/a2.jpg"/>
+                                <!--没有登陆或者没有头像的-->
+                                <img class="nav-avatar" v-else src="/static/img/img_chh/akari.jpg"/>
                                 <span class="caret"></span>
                             </a>
 
-                            <ul class="dropdown-menu dropdown-alerts" style="max-width: 250px;padding: 0;">
+                            <ul class="dropdown-menu dropdown-alerts nav-dropdown-menu">
                                 <!--##########未登录###############-->
                                 <li v-if="!isLogined">
-                                    <a href="/login">登录</a>
+                                   <a href="/login"><p class="nav-text-center">登录</p></a>
                                 </li>
                                 <li v-if="!isLogined">
-                                    <a href="/registered/select/new">注册</a>
+                                    <a href="/registered/select/new"><p class="nav-text-center">注册</p></a>
                                 </li>
                                 <!--##########已登录###############-->
                                 <li v-if="isLogined">
-                                    {{loginUser.allEmail}}({{loginUser.allType}})
+                                    <a href="/"><p class="nav-text-center">个人中心</p></a>
                                 </li>
                                 <li v-if="isLogined">
-                                    <a href="/">个人中心</a>
+                                    <a href="/logout"><p class="nav-text-center">注销</p></a>
                                 </li>
                                 <li v-if="isLogined">
-                                    <a href="/logout">注销</a>
-                                </li>
-                                <li v-if="isLogined">
-                                    <a href="/studio/studioNone">我的工作室</a>
+                                    <a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
                                 </li>
                             </ul>
                         </li>
@@ -240,6 +247,7 @@
                     data:{
                         loginUser: '',
                         isLogined: false,
+                        img : '',
                     },
                     created: function () {
                         this.getUser();
@@ -250,7 +258,7 @@
                         getUser: function(){
                             $.ajax({
                                 type: "POST",
-                                url: "/getLoginUser",
+                                url: "/home/getLoginUser",
                                 // data: data,
                                 dataType: "json",
                                 success: function(result){
@@ -260,6 +268,7 @@
                                     else if(result.code === 0){
                                         nav_vue.isLogined = true;
                                         nav_vue.loginUser = result.loginUser;
+                                        nav_vue.img = result.img;
                                         console.log(nav_vue.loginUser);
                                     }
                                     else{
@@ -358,157 +367,46 @@
             </div>
         </div>
     </div>
-
+    <!--项目推荐-->
     <div class="sonp-section sonp-full sonp-parallax" id="second">
 
         <div class="row" style="padding-top:50px;height: 66%;background: rgb(235, 235, 235);">
             <div class="col-md-10 col-md-offset-1">
                 <h1 style="font-weight:bold;">
                     推荐项目&nbsp;&nbsp;&nbsp;
-                    <a href=""><small style="color: #1ab394;"> more>> </small></a>
+                    <!--<a href=""><small style="color: #1ab394;"> more>> </small></a>-->
                 </h1>
             </div>
         </div>
 
-        <div class="content-part part-tese">
+        <div class="content-part part-tese" id="projblock">
             <div class="gallery_container" style="margin-top:700px;">
                 <div class="gallery_wrap threeD_gallery_wrap" style="margin-left: -260px; margin-top: -350px;">
                     <div href="javascript:;" class="gallery_item threeD_gallery_item gallery_left_middle">
                         <div class="row projBox">
-                            <div class="row" style="margin-bottom:15px;">
+                            <div class="row" style="margin-bottom:15px;" v-for="p in left" @click="goProj(p.project.projId)">
+                                <!--金额标示-->
                                 <div class="col-xs-3">
                                     <div class="style1 navy-bg money_box">
                                         <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
+                                            <div class="col-xs-4">
+                                                <i class="fa fa-cny money_icon"></i>
                                             </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
+                                            <div class="col-xs-7 money_num" >
+                                                <span>{{p.project.projMoney | numfilter}}</span>
                                             </div>
-                                        </div>             
+                                        </div>
                                     </div>
                                 </div>
+                                <!--项目名称-->
                                 <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
+                                    <p class="text-left projbox_projname">{{p.project.projName | projnamefilter}}</p>
                                 </div>
+                                <!--竞标人数-->
                                 <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
+                                    <p class="text-right bidingnum">
+                                        <span class="bidednum" v-if="p.bidnum">{{p.bidnum}}</span>
+                                        <span class="bidednum" v-else>0</span>
                                         <span>&nbsp;&nbsp;人投标</span>
                                     </p>
                                 </div>
@@ -518,140 +416,29 @@
 
                     <div href="javascript:;" class="gallery_item threeD_gallery_item front_side">                       
                         <div class="row projBox">
-                            <div class="row" style="margin-bottom:15px;">
+                            <div class="row" style="margin-bottom:15px;" v-for="p in front" @click="goProj(p.project.projId)">
+                                <!--金额标示-->
                                 <div class="col-xs-3">
                                     <div class="style1 navy-bg money_box">
                                         <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
+                                            <div class="col-xs-4">
+                                                <i class="fa fa-cny money_icon"></i>
                                             </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
+                                            <div class="col-xs-7 money_num" >
+                                                <span>{{p.project.projMoney | numfilter}}</span>
                                             </div>
-                                        </div>             
+                                        </div>
                                     </div>
                                 </div>
+                                <!--项目名称-->
                                 <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
+                                    <p class="text-left projbox_projname">{{p.project.projName | projnamefilter}}</p>
                                 </div>
+                                <!--竞标人数-->
                                 <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
+                                    <p class="text-right bidingnum">
+                                        <span class="bidednum" v-if="p.bidnum">{{p.bidnum}}</span>
+                                        <span class="bidednum" v-else>0</span>
                                         <span>&nbsp;&nbsp;人投标</span>
                                     </p>
                                 </div>
@@ -661,140 +448,29 @@
 
                     <div href="javascript:;" class="gallery_item threeD_gallery_item gallery_right_middle">
                         <div class="row projBox">
-                            <div class="row" style="margin-bottom:15px;">
+                            <div class="row" style="margin-bottom:15px;" v-for="p in right" @click="goProj(p.project.projId)">
+                                <!--金额标示-->
                                 <div class="col-xs-3">
                                     <div class="style1 navy-bg money_box">
                                         <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
+                                            <div class="col-xs-4">
+                                                <i class="fa fa-cny money_icon"></i>
                                             </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
+                                            <div class="col-xs-7 money_num" >
+                                                <span>{{p.project.projMoney | numfilter}}</span>
                                             </div>
-                                        </div>             
+                                        </div>
                                     </div>
                                 </div>
+                                <!--项目名称-->
                                 <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
+                                    <p class="text-left projbox_projname">{{p.project.projName | projnamefilter}}</p>
                                 </div>
+                                <!--竞标人数-->
                                 <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
+                                    <p class="text-right bidingnum">
+                                        <span class="bidednum" v-if="p.bidnum">{{p.bidnum}}</span>
+                                        <span class="bidednum" v-else>0</span>
                                         <span>&nbsp;&nbsp;人投标</span>
                                     </p>
                                 </div>
@@ -804,140 +480,29 @@
 
                     <div href="javascript:;" class="gallery_item threeD_gallery_item gallery_out">
                         <div class="row projBox">
-                            <div class="row" style="margin-bottom:15px;">
+                            <div class="row" style="margin-bottom:15px;" v-for="p in out" @click="goProj(p.project.projId)">
+                                <!--金额标示-->
                                 <div class="col-xs-3">
                                     <div class="style1 navy-bg money_box">
                                         <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
+                                            <div class="col-xs-4">
+                                                <i class="fa fa-cny money_icon"></i>
                                             </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
+                                            <div class="col-xs-7 money_num" >
+                                                <span>{{p.project.projMoney | numfilter}}</span>
                                             </div>
-                                        </div>             
+                                        </div>
                                     </div>
                                 </div>
+                                <!--项目名称-->
                                 <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
+                                    <p class="text-left projbox_projname">{{p.project.projName | projnamefilter}}</p>
                                 </div>
+                                <!--竞标人数-->
                                 <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
-                                        <span>&nbsp;&nbsp;人投标</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:15px;">
-                                <div class="col-xs-3">
-                                    <div class="style1 navy-bg money_box">
-                                        <div class="row">
-                                            <div class="col-xs-5">
-                                                <i class="fa fa-cny" style="font-size: 25px;padding-left: 0px;margin-top: 1px;"></i>
-                                            </div>
-                                            <div class="col-xs-6 money_num" >                                          
-                                                <span class="text-mute" style="color:black">300</span>                        
-                                            </div>
-                                        </div>             
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a href=""><p class="text-left" style="font-size: 18px;margin: 0px;padding-top: 5px;">LOGO设计</p></a>
-                                </div>
-                                <div class="col-xs-3">
-                                    <p class="text-right" style="padding-top:10px;margin:0px;">
-                                        <span style="color:red">155</span>
+                                    <p class="text-right bidingnum">
+                                        <span class="bidednum" v-if="p.bidnum">{{p.bidnum}}</span>
+                                        <span class="bidednum" v-else>0</span>
                                         <span>&nbsp;&nbsp;人投标</span>
                                     </p>
                                 </div>
@@ -950,8 +515,66 @@
                 <a class="next" href="javascript:;"></a>
             </div>
         </div>
+        <script type="text/javascript">
+            var projblock = new Vue({
+                el:'#projblock',
+                data:{
+                    left : '',
+                    front : '',
+                    right : '',
+                    out : '',
+                    url : '',
+                },
+                created: function () {
+                    this.getProj();
+                },
+                methods: {
+                    getProj : function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/home/getRecommendProj",
+                            dataType: "json",
+                            success: function (result) {
+                                if (result.code === 0) {
+                                    projblock.left = result.left;
+                                    projblock.front = result.front;
+                                    projblock.right = result.right;
+                                    projblock.out = result.out;
+                                }
+                            }
+                        });
+                    },
+                    goProj: function (val) {
+                        let url = "" + val;
+                        window.open("","_blank");
+                    },
+                },
+                filters: {
+                    projnamefilter: function (value) {
+                        if (value && value.length > 14) {
+                            value = value.substring(0, 14) + '...';
+                        }
+                        return value;
+                    },
+                    numfilter: function(value){
+                        if(value === "面议")
+                            return value;
+                        if(value > 10000){
+                            value = value / 10000;
+                            return value.toFixed(1) + "万";
+                        }
+                        if(value > 1000){
+                            value = value / 1000;
+                            return value.toFixed(1) + "千";
+                        }
+                        else
+                            return value;
+                    },
+                },
+            });
+        </script>
     </div>
-    
+    <!--工作室-->
     <div class="sonp-section sonp-full sonp-parallax" id="third">
         <div class="row" style="padding-top:20px;">
             <div class="col-md-10 col-md-offset-1">
@@ -962,125 +585,22 @@
             </div>         
         </div>
 
-        <div class="row">
+        <div class="row" id="studioblock">
             <div class="studioCard_wrapper">
-                <div class="studioCard_cols">
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
+                <div class="studioCard_cols" >
+                    <div class="studioCard_col" @click="toStudio(s.stuId)" ontouchstart="this.classList.toggle('hover');" v-for="(s,index) in studios">
                         <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/a3.jpg);background-color: #80ffe5;">
+                            <div class="studioCard_front" :style="{backgroundImage: 'url(/static/img/img_chh/order/'+ (index+1) + '.png)'}" style="text-align: left;">
                                 <div class="studioCard_inner">
-                                    <h2>我是优秀工作室</h2>
-
+                                    <h1>{{s.stuName | studioNamefilter}}</h1>
+                                    <span>成员人数: {{s.stuMembernum}}人</span><br>
+                                    <span>成功项目: {{s.stuProjectnum}}个</span><br>
+                                    <span>创建时间: {{s.stuCreattime|dateFormat}}</span>
                                 </div>
                             </div>
                             <div class="studioCard_back">
                                 <div class="studioCard_inner">
-                                    <p>我们是咸鱼，是一条最闲的鱼。我们是咸鱼，是一条最闲的鱼。我们是咸鱼，是一条最闲的鱼。我们是咸鱼，是一条最闲的鱼。</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/a4.jpg);background-color: #80ffe5;">
-                                <div class="studioCard_inner">
-                                    <h3>Diligord</h3>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/a5.jpg);background-color: #80ffe5;">
-                                <div class="studioCard_inner">
-                                    <h3>Diligord</h3>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/a6.jpg);background-color: #80ffe5;">
-                                <div class="studioCard_inner">
-                                    <h2>Diligord</h2>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/img_chh/studioPic.png)">
-                                <div class="studioCard_inner">
-                                    <h2>阿里巴巴集团</h2>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/img_chh/studioPic.png)">
-                                <div class="studioCard_inner">
-                                    <h3>Diligord</h3>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/img_chh/studioPic.png)">
-                                <div class="studioCard_inner">
-                                    <p>Diligord</p>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="studioCard_col" ontouchstart="this.classList.toggle('hover');">
-                        <div class="studioCard_container">
-                            <div class="studioCard_front" style="background-image: url(/static/img/img_chh/studioPic.png)">
-                                <div class="studioCard_inner">
-                                    <p>Diligord</p>
-
-                                </div>
-                            </div>
-                            <div class="studioCard_back">
-                                <div class="studioCard_inner">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
+                                    <p>{{s.stuIntro}}</p>
                                 </div>
                             </div>
                         </div>
@@ -1088,112 +608,340 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript">
+            var studioblock = new Vue({
+                el:'#studioblock',
+                data:{
+                    studios: '',
+                },
+                beforeCreate: function () {
+                },
+                created: function () {
+                    this.getStudios();
+                },
+                methods: {
+                    getStudios: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/home/getSuperStudio",
+                            dataType: "json",
+                            success: function (result) {
+                                if (result.code === 0) {
+                                    studioblock.studios = result.studios;
+                                    console.log(studioblock.studios);
+                                }
+                            }
+                        });
+                    },
+                    toStudio: function (stuId){
+                        let url = "" + stuId;
+                        window.open("","_blank");
+                    }
+                },
+                filters: {
+                    studioNamefilter: function (value) {
+                        if (value && value.length > 6) {
+                            value = value.substring(0, 6) + '...';
+                        }
+                        return value;
+                    },
+                    introfilter: function (value) {
+                        if (value && value.length > 25) {
+                            value = value.substring(0, 25) + '...';
+                        }
+                        return value;
+                    },
+                    dateFormat:function(val){
+                        var d = new Date(val);
+                        var year = d.getFullYear();
+                        var month = d.getMonth() + 1;
+                        var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                        var hour = d.getHours();
+                        var minutes = d.getMinutes();
+                        var seconds = d.getSeconds();
+                        return  year+ '年' + month + '月' + day + '日';
+                    },
+                    numfilter: function(value){
+                        if(value > 10000){
+                            value = value / 10000;
+                            return value + "万";
+                        }
+                        else if(value > 1000){
+                            value = value /1000;
+                            return value + "千";
+                        }
+                        else
+                            return value;
+                    },
+                    mintohour: function (value) {
+                        if(value >= 60){
+                            var h = value / 60;
+                            var min = value % 60;
+                            return h + ":" + min;
+                        }
+                        else{
+                            if(value < 10){
+                                return "00:0" + value;
+                            }
+                            else return "00:" + value;
+                        }
+                    },
+                },
+            });
+        </script>
     </div>
-
+    <!--创客讲堂-->
     <div class="sonp-section sonp-full sonp-parallax" id="fourth">
         <div class="row" style="padding-top:10px;">
             <div class="col-md-10 col-md-offset-1">
                 <h1 style="font-weight:bold;">
                     热门课程&nbsp;&nbsp;&nbsp;
-                    <a href=""><small style="color: #1ab394;"> more>> </small></a>
+                    <a href="/resource/home"><small style="color: #1ab394;"> more>> </small></a>
                 </h1>
             </div>         
         </div>
 
-        <div class="moder_container">
+        <div class="moder_container" id="resblock">
             <section>
                 <div class="moder_tabs moder_tabs-style-linebox">
                     <nav>
                         <ul>
-                            <li><a href="#section-linebox-5"><span>Airline</span></a></li>
-                            <li><a href="#section-linebox-4"><span>Schedule</span></a></li>
-                            <li><a href="#section-linebox-2"><span>Deals</span></a></li>
-                            <li><a href="#section-linebox-3"><span>Drinks</span></a></li>
-                            <li><a href="#section-linebox-5"><span>Settings</span></a></li>
+                            <li id="tag0"><a><span>Java</span></a></li>
+                            <li @click.once="getTag($event)" id="tag1"><a><span>Web</span></a></li>
+                            <li @click.once="getTag($event)" id="tag2"><a><span>测试</span></a></li>
+                            <li @click.once="getTag($event)" id="tag3"><a><span>H5</span></a></li>
+                            <li @click.once="getTag($event)" id="tag4"><a><span>unreal</span></a></li>
                         </ul>
                     </nav>
                     <div class="moder_content-wrap">
-                        <section id="section-linebox-1">                           
+                        <section>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3" v-for="res in tagRes[0].t">
                                     <div class="panel panel-default">
-                                        <div class="panel-body" style="padding : 5px;"> 
+                                        <div class="panel-body" style="padding : 5px;">
                                             <div class="box">
-                                                <img src="/static/img/img_chh/H5Picture.png" alt="">
+                                                <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
                                                 <div class="box-content">
                                                     <ul class="icon">
-                                                        <li><a href=""><i class="fa fa-play"></i></a></li>
+                                                        <li><a :href="'/resource/player/' + res.resId"><i class="fa fa-play"></i></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">                               
-                                            <a href="">
+                                        <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">
+                                            <a :href="'/resource/player/' + res.resId">
                                                 <p class="text-left">
-                                                    【木鱼微剧场】《天之痕》P5最终话：天之痕、神州大地与惦记的人
+                                                    {{res.resName | namefilter}}
                                                 </p>
-                                            </a>        
-                                            <p class="text-left text-muted">
-                                                <small><i class="fa fa-eye"></i>456</small>
-                                                &nbsp;|&nbsp;
-                                                <small><i class="fa fa-star"></i>1455万</small>
-                                                &nbsp;|&nbsp;
-                                                <small><i class="fa fa-check-circle-o"></i>80:99</small>
+                                            </a>
+                                            <p class="text-left">
+                                            <span class="badge" v-for="t in tagSplit(res.resTag).slice(0, 5)" style="margin-right: 5px;margin-top: 3px;">{{t|namefilter}}</span>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </section>
-                        <section id="section-linebox-2">
+                        <section>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3" v-for="res in tagRes[1].t">
                                     <div class="panel panel-default">
-                                        <div class="panel-body" style="padding : 5px;"> 
+                                        <div class="panel-body" style="padding : 5px;">
                                             <div class="box">
-                                                <img src="/static/img/img_chh/studioPic.png" alt="">
+                                                <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
                                                 <div class="box-content">
                                                     <ul class="icon">
-                                                        <!-- <li><a href="#"><i class="fa fa-search"></i></a></li> -->
-                                                        <!-- <li><a href="#"><i class="fa fa-link"></i></a></li> -->
-                                                        <li><a href=""><i class="fa fa-play"></i></a></li>
+                                                        <li><a :href="'/resource/player/' + res.resId"><i class="fa fa-play"></i></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">                               
-                                            <a href="">
+                                        <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">
+                                            <a :href="'/resource/player/' + res.resId">
                                                 <p class="text-left">
-                                                    【木鱼微剧场】《天之痕》P5最终话：天之痕、神州大地与惦记的人
+                                                    {{res.resName | namefilter}}
                                                 </p>
-                                            </a>        
-                                            <p class="text-left text-muted">
-                                                <small><i class="fa fa-eye"></i>456</small>
-                                                &nbsp;|&nbsp;
-                                                <small><i class="fa fa-star"></i>1455万</small>
-                                                &nbsp;|&nbsp;
-                                                <small><i class="fa fa-check-circle-o"></i>80:99</small>
+                                            </a>
+                                            <p class="text-left">
+                                                <span class="badge" v-for="t in tagSplit(res.resTag).slice(0, 5)" style="margin-right: 5px;margin-top: 3px;">{{t|namefilter}}</span>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </section>
-                        <section id="section-linebox-3">
-                            <p>3</p>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-3" v-for="res in tagRes[2].t">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body" style="padding : 5px;">
+                                            <div class="box">
+                                                <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
+                                                <div class="box-content">
+                                                    <ul class="icon">
+                                                        <li><a :href="'/resource/player/' + res.resId"><i class="fa fa-play"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">
+                                            <a :href="'/resource/player/' + res.resId">
+                                                <p class="text-left">
+                                                    {{res.resName | namefilter}}
+                                                </p>
+                                            </a>
+                                            <p class="text-left">
+                                                <span class="badge" v-for="t in tagSplit(res.resTag).slice(0, 5)" style="margin-right: 5px;margin-top: 3px;">{{t|namefilter}}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </section>
-                        <section id="section-linebox-4">
-                            <p>4</p>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-3" v-for="res in tagRes[3].t">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body" style="padding : 5px;">
+                                            <div class="box">
+                                                <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
+                                                <div class="box-content">
+                                                    <ul class="icon">
+                                                        <li><a :href="'/resource/player/' + res.resId"><i class="fa fa-play"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">
+                                            <a :href="'/resource/player/' + res.resId">
+                                                <p class="text-left">
+                                                    {{res.resName | namefilter}}
+                                                </p>
+                                            </a>
+                                            <p class="text-left">
+                                                <span class="badge" v-for="t in tagSplit(res.resTag).slice(0, 5)" style="margin-right: 5px;margin-top: 3px;">{{t|namefilter}}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </section>
-                        <section id="section-linebox-5">
-                            <p>5</p>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-3" v-for="res in tagRes[4].t">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body" style="padding : 5px;">
+                                            <div class="box">
+                                                <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
+                                                <div class="box-content">
+                                                    <ul class="icon">
+                                                        <li><a :href="'/resource/player/' + res.resId"><i class="fa fa-play"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px;">
+                                            <a :href="'/resource/player/' + res.resId">
+                                                <p class="text-left">
+                                                    {{res.resName | namefilter}}
+                                                </p>
+                                            </a>
+                                            <p class="text-left">
+                                                <span class="badge" v-for="t in tagSplit(res.resTag).slice(0, 5)" style="margin-right: 5px;margin-top: 3px;">{{t|namefilter}}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </section>
                     </div>
                 </div>
             </section>
         </div>
+        <script type="text/javascript">
+            var resblock = new Vue({
+                el:'#resblock',
+                data:{
+                    tagRes :
+                        [
+                            {t : []},
+                            {t : []},
+                            {t : []},
+                            {t : []},
+                            {t : []},
+                        ],
+                },
+                created: function () {
+                    var e = document.getElementById("tag0");
+                    var id = e.id.substring(3);
+                    var tag = e.children[0].children[0].innerHTML;
+                    this.getRes(id, tag);
+                },
+                methods: {
+                    tagSplit : function (tags) {
+                        return tags.split(",");
+                    },
+                    getTag : function(event){
+                        var id = event.currentTarget.id.substring(3);
+                        var tag = event.currentTarget.children[0].children[0].innerHTML;
+                        this.getRes(id, tag);
+                    },
+                    getRes : function (id, tag) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/home/tagResource/" + tag,
+                            dataType: "json",
+                            success: function(result){
+                                if(result.code === 0){
+                                    resblock.tagRes[id].t = result.res;
+                                }
+                            }
+                        });
+                    },
+                },
+                filters: {
+                    namefilter: function (value) {
+                        if (value && value.length > 10) {
+                            value = value.substring(0, 10) + '...';
+                        }
+                        return value;
+                    },
+                    introfilter: function (value) {
+                        if (value && value.length > 25) {
+                            value = value.substring(0, 25) + '...';
+                        }
+                        return value;
+                    },
+                    numfilter: function(value){
+                        if(value > 10000){
+                            value = value / 10000;
+                            return value + "万";
+                        }
+                        else if(value > 1000){
+                            value = value /1000;
+                            return value + "千";
+                        }
+                        else
+                            return value;
+                    },
+                    mintohour: function (value) {
+                        if(value >= 60){
+                            var h = value / 60;
+                            var min = value % 60;
+                            return h + ":" + min;
+                        }
+                        else{
+                            if(value < 10){
+                                return "00:0" + value;
+                            }
+                            else return "00:" + value;
+                        }
+                    },
+                },
+            });
+        </script>
     </div>
-
+    <!--招聘和原创-->
     <div class="sonp-section sonp-full sonp-parallax" id="fifth">
         <div class="row" style="padding-top:75px;">
             <div class="col-md-6">
@@ -1344,7 +1092,7 @@
             </div>
         </div>
     </div>
-
+    <!--页脚-->
     <div class="sonp-section sonp-small" id="finale">
         <footer>
             <div class="container-fluid_foot">
@@ -1417,7 +1165,7 @@
     <!-- 页面滚动JS -->
     <script src="/static/js/js_cwh/sonpScroll/sonpScroll.js"></script>
 
-    <!-- 3d图片旋转 -->
+     <!--3d图片旋转 -->
     <script src="/static/js/js_cwh/yys-slider/jquery-yys-slider.js"></script>
     <script>
     $(function(){
@@ -1426,7 +1174,7 @@
     })
     </script>
 
-     <!-- 选项卡 -->
+    <!--选项卡 -->
     <script src="/static/js/js_cwh/tab/modernizr.custom.js"></script>
     <script src="/static/js/js_cwh/tab/cbpFWTabs.js"></script>
     <script>

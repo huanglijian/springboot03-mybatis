@@ -100,7 +100,7 @@
         position: absolute;
         left: 0;
         width: 100%;
-        padding: 2rem;
+        padding: 1rem;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         outline: 1px solid transparent;
@@ -157,7 +157,7 @@
 }
 
 .studioCard_front .studioCard_inner span {
-        color: rgba(255, 255, 255, 0.7);
+        color: white;
         font-family: 'Montserrat';
         font-weight: 300;
 }

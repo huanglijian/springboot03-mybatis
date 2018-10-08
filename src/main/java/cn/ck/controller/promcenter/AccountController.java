@@ -4,14 +4,16 @@ package cn.ck.controller.promcenter;
 import cn.ck.controller.AbstractController;
 import cn.ck.controller.FileController;
 import cn.ck.entity.*;
-import cn.ck.service.AccountService;
-import cn.ck.service.ProjectService;
-import cn.ck.service.PromulgatorService;
-import cn.ck.service.StudioService;
+import cn.ck.entity.bean.InvitProjStu;
+import cn.ck.entity.bean.ProjectBid;
+import cn.ck.service.*;
 import cn.ck.utils.ConstCofig;
 import cn.ck.utils.ResponseBo;
+import cn.ck.utils.ShiroUtils;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -29,6 +31,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
+import static cn.ck.utils.ShiroUtils.getUserId;
+
 @Controller
 @RequestMapping("/promcenter")
 public class AccountController {
@@ -40,6 +44,14 @@ public class AccountController {
     ProjectService projectService;
     @Autowired
     StudioService studioService;
+    @Autowired
+    AlluserService alluserService;
+    @Autowired
+    NoticeService noticeService;
+    @Autowired
+    InviteService inviteService;
+    @Autowired
+    UsersService usersService;
 
     /**
      * 发布者账户页面渲染
@@ -185,5 +197,112 @@ public class AccountController {
             return ResponseBo.ok().put("code","1");
         else
             return ResponseBo.ok().put("code","0");
+    }
+
+    /**
+     * 修改支付密码
+     * @param request
+     * @return
+     */
+    @PostMapping("/prompaypwd")
+    @ResponseBody
+    public ResponseBo prompaypwd(HttpServletRequest request){
+        String paypwd=request.getParameter("newpaypwd");
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        Promulgator promulgator=promulgatorService.selectById(user.getAllId());
+        promulgator.setPromPaypwd(paypwd);
+        if(promulgatorService.updateAllColumnById(promulgator)){
+            return ResponseBo.ok().put("code",1);
+        }else{
+            return ResponseBo.ok().put("code",0);
+        }
+    }
+
+    /**
+     * 修改登录密码
+     * @return 如果成功返回code=0，msg=操作成功
+     */
+    @RequestMapping("/promloginpwd")
+    @ResponseBody
+    public ResponseBo updatePassword(HttpServletRequest request){
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        String oldPassword= request.getParameter("oldpwd");
+        String newPassword= request.getParameter("newpwd");
+        //原密码
+        oldPassword = ShiroUtils.sha256(oldPassword, user.getAllSalt());
+        //新密码
+        newPassword = ShiroUtils.sha256(newPassword, user.getAllSalt());
+        //更新密码
+        boolean flag = alluserService.updatePassword(user.getAllId(), oldPassword, newPassword);
+        if(!flag){
+            return ResponseBo.ok().put("code",0);
+        }else{
+            return ResponseBo.ok().put("code",1);
+        }
+    }
+
+    /**
+     * 渲染系统通知页面
+     * @return
+     */
+    @RequestMapping("/promnotice/{num}")
+    @ResponseBody
+    public ResponseBo promnotice(@PathVariable("num") int num){
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        Set<String> set = new HashSet<>();
+        set.add("noti_time");
+
+        PageHelper.startPage(num, 8);
+        List<Notice> noticeList=noticeService.selectList(new EntityWrapper<Notice>().eq("noti_foreid",user.getAllId()).orderDesc(set));
+        PageInfo<Notice> noticePageInfo=new PageInfo<>(noticeList);
+        return ResponseBo.ok().put("notice",noticePageInfo);
+    }
+
+    /**
+     * 删除系统通知页面
+     * @return
+     */
+    @RequestMapping("/promdelenotice/{id}")
+    @ResponseBody
+    public ResponseBo promdelenotice(@PathVariable("id") int id){
+        noticeService.deleteById(id);
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        Set<String> set = new HashSet<>();
+        set.add("noti_time");
+        PageHelper.startPage(1, 8);
+        List<Notice> noticeList=noticeService.selectList(new EntityWrapper<Notice>().eq("noti_foreid",user.getAllId()).orderDesc(set));
+        PageInfo<Notice> noticePageInfo=new PageInfo<>(noticeList);
+        return ResponseBo.ok().put("notice",noticePageInfo);
+    }
+
+    /**
+     * 渲染邀请列表页面
+     * @return
+     */
+    @RequestMapping("/promprojinvit/{num}")
+    @ResponseBody
+    public ResponseBo promprojinvit(@PathVariable("num") int num){
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+
+        PageHelper.startPage(num, 10);
+        List<InvitProjStu> inviteList=inviteService.invitalllist(user.getAllId());
+        PageInfo<InvitProjStu> noticePageInfo=new PageInfo<>(inviteList);
+        return ResponseBo.ok().put("notice",noticePageInfo);
+    }
+
+    /**
+     * 删除邀请列表信息
+     * @return
+     */
+    @RequestMapping("/deleteinvit/{id}")
+    @ResponseBody
+    public ResponseBo deleteinvit(@PathVariable("id") int id){
+        inviteService.deleteById(id);
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+
+        PageHelper.startPage(1, 10);
+        List<InvitProjStu> inviteList=inviteService.invitalllist(user.getAllId());
+        PageInfo<InvitProjStu> noticePageInfo=new PageInfo<>(inviteList);
+        return ResponseBo.ok().put("notice",noticePageInfo);
     }
 }

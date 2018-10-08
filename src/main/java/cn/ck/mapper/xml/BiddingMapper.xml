@@ -18,4 +18,19 @@
         <result column="bid_proj" property="bidProj" />
     </resultMap>
 
+    <resultMap id="ProjBidNum" type="cn.ck.entity.bean.ProjectBid">
+        <id column="proj_id" property="project.projId" />
+        <result column="proj_name" property="project.projName" />
+        <result column="proj_money" property="project.projMoney" />
+        <result column="bidnum" property="bidnum" />
+    </resultMap>
+
+    <select id="selectRecommendProj" resultMap="ProjBidNum">
+        select proj_id, proj_name, proj_money, bidnum
+        from project
+        left join (select count(*) bidnum, bid_proj from bidding group by bid_proj) middle
+        on middle.bid_proj = proj_id
+        where proj_secret = "公开" and proj_state = "竞标中"
+    </select>
+
 </mapper>

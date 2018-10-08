@@ -1,30 +1,27 @@
 package cn.ck.controller.jobs;
 
 import cn.ck.controller.AbstractController;
+import cn.ck.controller.FileController;
 import cn.ck.entity.Alluser;
 import cn.ck.entity.Jobs;
+import cn.ck.entity.Jobuser;
 import cn.ck.entity.Studio;
 import cn.ck.entity.bean.JobsStudio;
-import cn.ck.mapper.JobsMapper;
+import cn.ck.entity.bean.resume;
 import cn.ck.service.JobsService;
+import cn.ck.service.JobuserService;
 import cn.ck.service.StudioService;
 import cn.ck.utils.ResponseBo;
 import cn.ck.utils.utils_hlj.fartime;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.mysql.jdbc.SocketMetadata;
-import org.quartz.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/ForJob")
@@ -34,6 +31,8 @@ public class jobcontroller extends AbstractController {
     private JobsService jobsService;
     @Autowired
     private StudioService studioService;
+    @Autowired
+    private JobuserService jobuserService;
 
     //    @RequestMapping("/search")
     @GetMapping("/search")
@@ -101,31 +100,7 @@ public class jobcontroller extends AbstractController {
         return ResponseBo.ok().put("jNum", jNum);
     }
 
-    //    工作详情页面
-    @GetMapping("/mes/{id}")
-    public String mes(@PathVariable("id") int id, Model model) {
-//        System.out.println("======== id:"+id);
-        model.addAttribute("id", id);
-        return "jobs/detail";
-    }
 
-    //    返回渲染detail的json
-    @PostMapping("/mes/{id}")
-    @ResponseBody
-    public ResponseBo mes2(@PathVariable("id") int id) {
-//        获得jobs对象
-//        Jobs jobs = jobsService.selectList(new EntityWrapper<Jobs>().eq("jobId",jobId))
-//        System.out.println(id);
-//        获取招聘表
-        Jobs jobs = jobsService.selectById(id);
-        System.out.println("========= " + jobs);
-//        根据招聘id获取工作室表
-        Studio studio = studioService.selectOne(new EntityWrapper<Studio>().eq("stu_id", jobs.getJobStudio()));
-        JobsStudio js = new JobsStudio();
-        js.setJobs(jobs);
-        js.setStudio(studio);
-        return ResponseBo.ok().put("js", js);
-    }
 
     //    返回搜索到的Json数据
     @PostMapping("/sear")
@@ -160,35 +135,320 @@ public class jobcontroller extends AbstractController {
         }
 
 //        根据工作室搜索招聘信息
-        Studio s2 = studioService.selectOne(new EntityWrapper<Studio>().like("stu_name",nei));
-        if(s2==null){
+        Studio s2 = studioService.selectOne(new EntityWrapper<Studio>().like("stu_name", nei));
+        if (s2 == null) {
             System.out.println("空");
-        }
-        else{
+        } else {
             System.out.println("非空");
 //            jobs2: 查询某个工作室的全部招聘信息
             List<Jobs> jobs2 = jobsService.selectList(new EntityWrapper<Jobs>().like("job_studio", s2.getStuId()));
-            for (Jobs j2:jobs2) {
+            for (Jobs j2 : jobs2) {
                 JobsStudio jobsStudio = new JobsStudio();
                 jobsStudio.setJobs(j2);
                 jobsStudio.setStudio(s2);
-
 
                 String time = "";
 //                调用自定义工具类
                 fartime f = new fartime();
                 time = f.far(j2.getJobCreattime());
-                System.out.println("------------+"+f.far(j2.getJobCreattime()));
-
+                System.out.println("------------+" + f.far(j2.getJobCreattime()));
 
                 jobsStudio.setTime(time);
                 jobsStudios.add(jobsStudio);
             }
         }
-
         return ResponseBo.ok().put("jobsStudios", jobsStudios);
     }
+
+
+    //根据点击搜索条件返回招聘信息
+    @PostMapping("/search/choice")
+    @ResponseBody
+    public ResponseBo choice(String tee, String money, String sort,String time) {
+        System.out.println("=====tee: " + tee + "====money: " + money + "====sort: " + sort+"====time: "+time);
+        if (tee == null || tee.equals("all")) {
+            System.out.println("====tee: " + tee);
+            tee = "";
+        }
+        if (money == null || money.equals("all")) {
+            System.out.println("====money: " + money);
+            money = "";
+        }
+        Date date = new Date();
+        long s2 = 0;
+        if (time.equals("365")){
+            s2 = 31536000000L;
+        }else if (time.equals("30")){
+            s2 =864000000;
+        }
+        else if (time.equals("7")){
+            s2 = 201600000;
+        }
+        else if(time.equals("1")){
+            s2 = 28800000;
+        }
+        long s  = date.getTime();
+        s = s -s2;
+        date.setTime(s);
+        System.out.println("-------------date: "+date.toString());
+
+        List<Jobs> jobs = new ArrayList<>();
+        //        获得要求包含选择信息的job
+        if (tee.equals("")) {
+            System.out.println("-----tee: " + tee);
+            if (money.equals("")) {
+                if (time.equals("365")||time.equals("0")){
+                    System.out.println("---------time: "+time);
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    System.out.println("---------time: "+time);
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_creattime",date));
+                }
+            } else if (money.equals("2")) {
+                if (time.equals("365")||time.equals("0")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_money", 2).lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_money", 2).gt("job_creattime",date));
+                }
+
+
+
+            } else if (money.equals("5")) {
+                if (time.equals("365")||time.equals("0")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 2)
+                            .lt("job_money", 5).lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 2)
+                            .lt("job_money", 5).gt("job_creattime",date));
+                }
+
+            } else if (money.equals("8")) {
+                if (time.equals("365")||time.equals("0")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 5)
+                            .lt("job_money", 8).lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 5)
+                            .lt("job_money", 8).gt("job_creattime",date));
+                }
+
+            } else if (money.equals("10")) {
+                if (time.equals("365")||time.equals("0")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 8)
+                            .lt("job_money", 10).lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 8)
+                            .lt("job_money", 10).gt("job_creattime",date));
+                }
+
+            } else if (money.equals("10up")) {
+                if (time.equals("365")||time.equals("0")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 10)
+                            .lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 10)
+                            .gt("job_creattime",date));
+                }
+
+            }
+        } else {
+//            System.out.println("-----tee: " + tee);
+            if (money.equals("")) {
+                if (time.equals("365")||time.equals("0")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .gt("job_creattime",date));
+                }
+
+            } else if (money.equals("2")) {
+                if (time.equals("365")||time.equals("0")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .lt("job_money", 2).lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .lt("job_money", 2).gt("job_creattime",date));
+                }
+
+            } else if (money.equals("5")) {
+                if (time.equals("365")||time.equals("0")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .ge("job_money", 2).lt("job_money", 5).lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .ge("job_money", 2).lt("job_money", 5).gt("job_creattime",date));
+                }
+
+            } else if (money.equals("8")) {
+                if (time.equals("365")||time.equals("0")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .ge("job_money", 5).lt("job_money", 8).lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .ge("job_money", 5).lt("job_money", 8).gt("job_creattime",date));
+                }
+
+            } else if (money.equals("10")) {
+                if (time.equals("365")||time.equals("0")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .ge("job_money", 8).lt("job_money", 10).lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .ge("job_money", 8).lt("job_money", 10).gt("job_creattime",date));
+                }
+
+            } else if (money.equals("10up")) {
+                if (time.equals("365")||time.equals("0")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .ge("job_money", 10).lt("job_creattime",date));
+                }
+                else if (time.equals("30")||time.equals("7")||time.equals("1")){
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
+                            .ge("job_money", 10).gt("job_creattime",date));
+                }
+
+            }
+
+        }
+
+
+        List<JobsStudio> jobsStudios = new ArrayList<JobsStudio>();
+        for (Jobs jobs1 : jobs) {
+            Studio studio = studioService.selectOne(new EntityWrapper<Studio>().eq("stu_id", jobs1.getJobStudio()));
+            JobsStudio jobsStudio = new JobsStudio();
+            jobsStudio.setJobs(jobs1);
+            jobsStudio.setStudio(studio);
+
+            // 调用自定义工具类
+            String t1 = "";
+            fartime f = new fartime();
+            t1 = f.far(jobs1.getJobCreattime());
+
+            jobsStudio.setTime(t1);
+            jobsStudios.add(jobsStudio);
+        }
+
+        if (sort.equals("grade")) {
+            //排序
+            for (int i = 1; i < jobsStudios.size(); i++) {
+                for (int j = 0; j < jobsStudios.size() - 1; j++) {
+                    JobsStudio j1 = jobsStudios.get(j);
+                    JobsStudio j2 = jobsStudios.get(j + 1);
+//                System.out.println("==== "+j1.getStudio().getStuGrade()+"========="+j2.getStudio().getStuGrade());
+                    if (j1.getStudio().getStuGrade() < j2.getStudio().getStuGrade()) {
+                        jobsStudios.set(j, j2);
+                        jobsStudios.set(j + 1, j1);
+                    }
+                }
+            }
+        } else if (sort.equals("gradn")) {
+            for (int i = 1; i < jobsStudios.size(); i++) {
+                for (int j = 0; j < jobsStudios.size() - 1; j++) {
+                    JobsStudio j1 = jobsStudios.get(j);
+                    JobsStudio j2 = jobsStudios.get(j + 1);
+//                System.out.println("==== "+j1.getStudio().getStuGrade()+"========="+j2.getStudio().getStuGrade());
+                    if (j1.getStudio().getStuProjectnum() < j2.getStudio().getStuProjectnum()) {
+                        jobsStudios.set(j, j2);
+                        jobsStudios.set(j + 1, j1);
+                    }
+                }
+            }
+        } else if (sort.equals("gradpn")) {
+            for (int i = 1; i < jobsStudios.size(); i++) {
+                for (int j = 0; j < jobsStudios.size() - 1; j++) {
+                    JobsStudio j1 = jobsStudios.get(j);
+                    JobsStudio j2 = jobsStudios.get(j + 1);
+                    if (j1.getStudio().getStuMembernum() < j2.getStudio().getStuMembernum()) {
+                        jobsStudios.set(j, j2);
+                        jobsStudios.set(j + 1, j1);
+                    }
+                }
+            }
+        }
+        return ResponseBo.ok().put("jobsStudios", jobsStudios);
+    }
+
+
+    //    工作详情页面
+    @GetMapping("/mes/{id}")
+    public String mes(@PathVariable("id") int id, Model model) {
+//        System.out.println("======== id:"+id);
+        model.addAttribute("id", id);
+        return "jobs/detail";
+    }
+
+    //    返回渲染detail的json
+    @PostMapping("/mes/{id}")
+    @ResponseBody
+    public ResponseBo mes2(@PathVariable("id") int id) {
+//        获得jobs对象
+//        Jobs jobs = jobsService.selectList(new EntityWrapper<Jobs>().eq("jobId",jobId))
+//        System.out.println(id);
+//        获取招聘表
+        Jobs jobs = jobsService.selectById(id);
+//        System.out.println("========= " + jobs);
+//        根据招聘id获取工作室表
+        Studio studio = studioService.selectOne(new EntityWrapper<Studio>().eq("stu_id", jobs.getJobStudio()));
+        JobsStudio js = new JobsStudio();
+        js.setJobs(jobs);
+        js.setStudio(studio);
+        return ResponseBo.ok().put("js", js);
+    }
+
+
+    //    上传简历
+    @PostMapping("/upload")
+    public String submit(int jid, resume r, HttpServletRequest request)throws Exception{
+        System.out.println("jid: "+jid);
+        //如果文件不为空
+        if (!r.getResume().isEmpty()){
+            FileController f = new FileController();
+            List<String> list = new ArrayList<>();
+//            调用工具类将文件存入指定文件夹
+            list = f.fileupload(r.getResume(),"D:/ChuangKeFile/resume");
+
+//            获取加上uuid的文件名字
+            String fileurl = list.get(0);
+            String entryName = list.get(1);
+            System.out.println("数据库的文件路径fileurl: "+fileurl);
+            System.out.println("原本名字entryName: "+entryName);
+
+            Jobuser j = new Jobuser();
+
+            Date date = new Date();
+            j.setJuTime(date);
+            j.setJuFile(entryName);
+            j.setJuState("审核中");
+            j.setJuJobs(jid);
+
+//            获取当前登录的用户
+            AbstractController a = new AbstractController();
+            Alluser alluser = new Alluser();
+
+            getAlluser g = new getAlluser();
+            alluser = g.aa();
+            j.setJuUsers(alluser.getAllId());
+            System.out.println(alluser.getAllId());
+
+            boolean i = jobuserService.insert(j);
+            System.out.println("---i: "+i);
+        }
+
+        return "redirect:/ForJob/search";
+    }
 }
+
 
 
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -28,7 +29,7 @@ public class StudioServiceImpl extends ServiceImpl<StudioMapper, Studio> impleme
     public String insertStudio(Studio studio,String yhid) {
 
         studio.setStuCreatid(yhid);
-        studio.setStuImg("E:/ck/studio/touxiang/1.png");
+        studio.setStuImg("E:/ck/studio/touxiang/2.png");
         studio.setStuCreattime(new Date());
         studioMapper.insert(studio);
         return  studio.getStuId();
@@ -38,5 +39,11 @@ public class StudioServiceImpl extends ServiceImpl<StudioMapper, Studio> impleme
     public Studio selectByzzid(String zzid){
         Studio stu = studioMapper.selectByzzid(zzid);
         return stu;
+    }
+
+    @Override
+    public List<Studio> selectSuperStudio(Integer projNum) {
+        List<Studio> list = baseMapper.selectSuperStudio(projNum);
+        return list;
     }
 }

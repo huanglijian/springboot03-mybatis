@@ -157,10 +157,10 @@
 		</div>
 		
 		<!--右侧内容-->
-		<div class="main">
+		<div class="main" id="biddingVue">
 
 			<!-- 项 目 管 理 -->
-			<div class="mainContent container-fluid">
+			<div class="mainContent container-fluid" >
 	            <div class="col-sm-14">
 	                <div class="panel blank-panel">
 						<div class="row">
@@ -184,20 +184,25 @@
 	                        <div class="tab-content">
 	                        	<!--竞标中-->
 	                            <div id="tab-4" class="tab-pane active">
-	                            <ul>
-	                            <li>
+	                            <ul  v-for="dt in projectbid">
+	                            <li v-if="dt.bidding.bidState == '竞标中'">
                                  <div class="bidTable">
                                  	<div class="btLeft" >
                                        <ul>
                                        	  <li style="position: relative;top:20px;">
-                                       	  	<span style="position: relative;top:-3px;"><img src="/static/img/img_mzb/mi.png"/></span>
-                                       	  	<a href="" style="font-size:16px;color: black;">创客平台项目</a>
-                                       	  	<span class="bidLabel">竞标中：剩余10天</span>
+                                       	  	<span style="position: relative;top:-3px;" v-if="dt.project.projSecret == '私密'">
+                                                <img src="/static/img/img_mzb/mi.png"/>
+                                            </span>
+                                              <span style="position: relative;top:-3px;" v-else>
+                                                <img src="/static/img/img_mzb/gong.png"/>
+                                            </span>
+                                       	  	<a href="" style="font-size:16px;color: black;">{{dt.project.projName}}</a>
+                                       	  	<span class="bidLabel">{{dt.bidding.bidState}}：剩余{{dt.bidday}}天</span>
                                        	  </li>
                                        	  <li style="position: relative;top:30px;">
-                                       	  	<span style="padding-right:40px;">发布时间：2018-9-8</span>
+                                       	  	<span style="padding-right:40px;">发布时间：{{dt.project.projCreattime|dateFormat}}</span>
                                        	  	<span >竞标数</span>
-                                       	  	<span style="color: orange;">10</span>
+                                       	  	<span style="color: orange;">8</span>
                                        	  	<span>人</span>
                                        	  </li>
                                        </ul>
@@ -210,56 +215,36 @@
                                         </div>
                                  	</div>
                                  </div>
+									<hr/>
                                 </li> 
-                                <hr/>
-                               
-	                            <li>
-                                 <div class="bidTable">
-                                 	<div class="btLeft" >
-                                       <ul>
-                                       	  <li style="position: relative;top:20px;">
-                                       	  	<span style="position: relative;top:-3px;"><img src="/static/img/img_mzb/gong.png"/></span>
-                                       	  	<a href="" style="font-size:16px;color: black;">创客平台项目</a>
-                                       	  	<span class="bidLabel">竞标中：剩余10天</span>
-                                       	  </li>
-                                       	  <li style="position: relative;top:30px;">
-                                       	  	<span style="padding-right:40px;">发布时间：2018-9-8</span>
-                                       	  	<span >竞标数</span>
-                                       	  	<span style="color: orange;">10</span>
-                                       	  	<span>人</span>
-                                       	  </li>
-                                       </ul>
-                                 	</div>
-                                 	<div class="btRight">
-                                 		<div style="float: right;position: relative;top:10px;">
-                                        <p><button type="button" class="btn btn-w-m btn-primary">管理项目</button></p>
-                                        <p><button type="button" class="btn btn-w-m btn-danger">放弃竞标</button></p>
-                                        </div>
-                                 	</div>
-                                 </div>
-                                </li> 
-                                <hr/>
+
+
                                </ul>
 	                            </div>
 	                       
 	                            <!--已结束-->
 	                            <div id="tab-5" class="tab-pane">
-	                            <ul>
-	                            <li>
+	                            <ul v-for="dts in projectbid">
+	                            <li v-if="dts.bidding.bidState != '竞标中'">
                                  <div class="bidTable">
                                  	<div class="btLeft" >
                                        <ul>
-                                       	  <li style="position: relative;top:20px;">
-                                       	  	<span style="position: relative;top:-3px;"><img src="/static/img/img_mzb/mi.png"/></span>
-                                       	  	<a href="" style="font-size:16px;color: black;">创客平台项目</a>
-                                       	  	<span class="bidLabel">竞 标 成 功</span>
-                                       	  </li>
-                                       	  <li style="position: relative;top:30px;">
-                                       	  	<span style="padding-right:40px;">发布时间：2018-9-8</span>
-                                       	  	<span >竞标数</span>
-                                       	  	<span style="color: orange;">10</span>
-                                       	  	<span>人</span>
-                                       	  </li>
+										   <li style="position: relative;top:20px;">
+                                                <span style="position: relative;top:-3px;" v-if="dts.project.projSecret == '私密'">
+                                                    <img src="/static/img/img_mzb/mi.png"/>
+                                                </span>
+                                                   <span style="position: relative;top:-3px;" v-else>
+                                                    <img src="/static/img/img_mzb/gong.png"/>
+                                                </span>
+											   <a href="" style="font-size:16px;color: black;">{{dts.project.projName}}</a>
+											   <span class="bidLabel">{{dts.bidding.bidState}}</span>
+										   </li>
+										   <li style="position: relative;top:30px;">
+											   <span style="padding-right:40px;">发布时间：{{dts.project.projCreattime|dateFormat}}</span>
+											   <span >竞标数</span>
+											   <span style="color: orange;">10</span>
+											   <span>人</span>
+										   </li>
                                        </ul>
                                  	</div>
                                  	<div class="btRight">
@@ -269,57 +254,8 @@
                                         </div>
                                  	</div>
                                  </div>
-                                </li> 
-                                <hr/>
-	                            <li>
-                                 <div class="bidTable">
-                                 	<div class="btLeft" >
-                                       <ul>
-                                       	  <li style="position: relative;top:20px;">
-                                       	  	<span style="position: relative;top:-3px;"><img src="/static/img/img_mzb/gong.png"/></span>
-                                       	  	<a href="" style="font-size:16px;color: black;">创客平台项目</a>
-                                       	  	<span class="bidLabel">竞 标 超 时</span>
-                                       	  </li>
-                                       	  <li style="position: relative;top:30px;">
-                                       	  	<span style="padding-right:40px;">发布时间：2018-9-8</span>
-                                       	  	<span >竞标数</span>
-                                       	  	<span style="color: orange;">10</span>
-                                       	  	<span>人</span>
-                                       	  </li>
-                                       </ul>
-                                 	</div>
-                                 	<div class="btRight">
-                                 		<div style="float: right;position: relative;top:20px;">
-                                        <p><button type="button" class="btn btn-w-m btn-primary">查看项目</button></p>
-                                        </div>
-                                 	</div>
-                                 </div>
-                                </li> 
-                                <hr/>
-	                            <li>
-                                 <div class="bidTable">
-                                 	<div class="btLeft" >
-                                       <ul>
-                                       	  <li style="position: relative;top:20px;">
-                                       	  	<a href="" style="font-size:16px;color: black;">创客平台项目</a>
-                                       	  	<span class="bidLabel">竞 标 终 止</span>
-                                       	  </li>
-                                       	  <li style="position: relative;top:30px;">
-                                       	  	<span style="padding-right:40px;">发布时间：2018-9-8</span>
-                                       	  	<span >竞标数</span>
-                                       	  	<span style="color: orange;">10</span>
-                                       	  	<span>人</span>
-                                       	  </li>
-                                       </ul>
-                                 	</div>
-                                 	<div class="btRight">
-                                 		<div style="float: right;position: relative;top:20px;">
-                                        <p><button type="button" class="btn btn-w-m btn-primary">查看项目</button></p>
-                                        </div>
-                                 	</div>
-                                 </div>
-                                </li> 
-                                <hr/>
+									<hr/>
+                                </li>
                                 </ul>
 	                            </div>
 	                        </div>
@@ -423,7 +359,7 @@
     <script src="/static/js/plugins/layer/layer.min.js"></script>
 
     <!-- 自定义js -->
-    <script src="/static/js/hplus.js?v=4.1.0"></script>
+   <!-- <script src="/static/js/hplus.js?v=4.1.0"></script>-->
     <script type="text/javascript" src="/static/js/contabs.js"></script>
 
     <!-- 第三方插件 -->
@@ -432,8 +368,42 @@
     
    <!-- 林晓能导航栏JS效果-->
    <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
-   
 
+	<script src="/static/js/jquery.min.js"></script>
+	<script src="/static/js/vue.js"></script>
+	<script>
+        var projbidlist = new Vue({
+            el:'#biddingVue',
+            data:{
+                projectbid:''
+            },
+            created:function () {
+                $.ajax({
+                    type:'get',
+                    url:'/stuproject/projectbid',
+                    success:function (result) {
+                        console.log(result);
+                        projbidlist.projectbid = result.projectbid;
+                    }
+                })
+            },
+            filters: {
+                dateFormat:function(val){
+                    if(val==null)
+                        return null;
+                    var d = new Date(val);
+                    var year = d.getFullYear();
+                    var month = d.getMonth() + 1;
+                    var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                    var hour = d.getHours();
+                    var minutes = d.getMinutes();
+                    var seconds = d.getSeconds();
+                    return  year+ '-' + month + '-' + day ;
+                },
+            }
+        });
+
+	</script>
 
 
 	</body>

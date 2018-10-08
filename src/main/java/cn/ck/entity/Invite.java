@@ -12,7 +12,7 @@ import java.util.Date;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-28
+ * @since 2018-10-06
  */
 public class Invite implements Serializable {
 
@@ -23,6 +23,7 @@ public class Invite implements Serializable {
     private Date invCreattime;
     private Integer invProject;
     private String invStudio;
+    private String invProm;
 
 
     public Integer getInvId() {
@@ -57,6 +58,14 @@ public class Invite implements Serializable {
         this.invStudio = invStudio;
     }
 
+    public String getInvProm() {
+        return invProm;
+    }
+
+    public void setInvProm(String invProm) {
+        this.invProm = invProm;
+    }
+
     @Override
     public String toString() {
         return "Invite{" +
@@ -64,6 +73,7 @@ public class Invite implements Serializable {
         ", invCreattime=" + invCreattime +
         ", invProject=" + invProject +
         ", invStudio=" + invStudio +
+        ", invProm=" + invProm +
         "}";
     }
 }

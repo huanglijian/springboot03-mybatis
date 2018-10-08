@@ -44,6 +44,11 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
+    public Integer projDevelopTimeNum(int id) {
+        return projectMapper.projDevelopTimeNum(id);
+    }
+
+    @Override
     public List<PjCol> selectPjCol(Map<String,Object> map) {
         return projectMapper.selectPjCol(map);
     }
