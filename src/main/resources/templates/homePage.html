@@ -18,20 +18,7 @@
 
     <!-- 导航条样式 -->
     <link href="/static/css/css_psw/style_head.css" rel="stylesheet">
-    <style>
-        .nav-text-center{
-            text-align:center;
-            margin: 0px;
-        }
-        .nav-avatar{
-            height: 40px;
-            border-radius: 25px;
-        }
-        .nav-dropdown-menu{
-            max-width: 120px;
-            padding: 0;
-        }
-    </style>
+
 
     <!-- 3d旋转 -->
     <link rel="stylesheet" href="/static/css/css_cwh/yys-slider/jquery-yys-slider.css">
@@ -186,44 +173,33 @@
 <body>
     <!--导航条、搜索框-->
     <div class="sonp-section sonp-full" id="first">
-        <header>
-            <div id="headVue">
-            <div class="container-fluid container-fluid_up" style="height: 30px;"></div>
-            <div class="container-fluid container-fluid_main" style="background: #fdfdfd;">
+        <header class="header-navigation" id="headerBar">
+            <div class="nav-content-filter">
                 <div class="row_main">
+                    <!--logo-->
                     <div class="main_logo">
-                        <img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
+                        <img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
                     </div>
-                    <div class="main_right">
-                        <ul class="nav_psw list-unstyled">
-                            <li class="active">
-                                <a href="/">首 页</a>
-                            </li>
-                            <li>
-                                <a>项目大厅</a>
-                            </li>
-                            <li>
-                                <a>服务大厅</a>
-                            </li>
-                            <li>
-                                <a href="/resource/home">创客讲堂</a>
-                            </li>
-                            <li>
-                                <a>原创中心</a>
-                            </li>
-                            <li>
-                                <a>荣誉中心</a>
-                            </li>
-                            <li>
-                                <a href="/ForJob/search">在线求职</a>
-                            </li>
-                        </ul>
+                    <!--超链接-->
+                    <div class="nav-main-right">
+                        <nav class="cd-nav">
+                            <ul>
+                                <li><a class="active" href="/">首页</a></li>
+                                <li><a href="#0">项目大厅</a></li>
+                                <li><a href="#0">服务大厅</a></li>
+                                <li><a href="/resource/home">创客讲堂</a></li>
+                                <li><a href="#0">原创中心</a></li>
+                                <li><a href="#0">荣誉中心</a></li>
+                                <li><a href="/ForJob/search">在线求职</a></li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
-                <div>
-                    <ul class="nav navbar-top-links navbar-right" style="margin-right: 2%;">
+                <!--头像、个人中心、注销等-->
+                <div id="headVue">
+                    <ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
                                 <!--没有登陆-->
                                 <img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
                                 <!--已经登录-->
@@ -253,47 +229,46 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            </div>
-            <script type="text/javascript">
-                var nav_vue = new Vue({
-                    el:'#headVue',
-                    data:{
-                        loginUser: '',
-                        isLogined: false,
-                        isPromul : '',
-                        img : '',
-                        centerUrl : '',
-                    },
-                    created: function () {
-                        this.getUser();
-                    },
-                    methods: {
-                        getUser: function(){
-                            $.ajax({
-                                type: "POST",
-                                url: "/home/getLoginUser",
-                                dataType: "json",
-                                success: function(result){
-                                    if(result.code === 404){
-                                        nav_vue.isLogined = false;
-                                    }
-                                    else if(result.code === 0){
-                                        nav_vue.isLogined = true;
-                                        nav_vue.isPromul = result.isPromul;
-                                        nav_vue.loginUser = result.loginUser;
-                                        nav_vue.img = result.img;
-                                        nav_vue.centerUrl = result.centerUrl;
-                                    }
-                                }
-                            });
+                <script type="text/javascript">
+                    var nav_vue = new Vue({
+                        el:'#headVue',
+                        data:{
+                            loginUser: '',
+                            isLogined: false,
+                            isPromul : '',
+                            img : '',
+                            centerUrl : '',
                         },
-                    }
-                });
-            </script>
+                        created: function () {
+                            this.getUser();
+                        },
+                        methods: {
+                            getUser: function(){
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/home/getLoginUser",
+                                    dataType: "json",
+                                    success: function(result){
+                                        if(result.code === 404){
+                                            nav_vue.isLogined = false;
+                                        }
+                                        else if(result.code === 0){
+                                            nav_vue.isLogined = true;
+                                            nav_vue.isPromul = result.isPromul;
+                                            nav_vue.loginUser = result.loginUser;
+                                            nav_vue.img = result.img;
+                                            nav_vue.centerUrl = result.centerUrl;
+                                        }
+                                    }
+                                });
+                            },
+                        }
+                    });
+                </script>
+            </div>
         </header>
+        <div class="header-take-space" style="height: 200px;"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
 
-        <div style="height: 100px;background: #ffffff;margin-bottom:20px;"></div>
         <!--logo-->
         <div class="row">
             <div class="col-md-6 col-md-offset-4">
@@ -1251,6 +1226,32 @@
             keyRight: 39,                   //向右方向键
             keyDown: 40,                    //向下方向键
             keyEnter: 13,                   //回车键
+        });
+    </script>
+
+    <!--导航条滚动js-->
+    <script type="text/javascript">
+        var new_scroll_position = 0;
+        var last_scroll_position;
+        var header = document.getElementById("headerBar");
+
+        window.addEventListener('scroll', function (e) {
+            last_scroll_position = window.scrollY;
+
+            // Scrolling down
+            if (new_scroll_position < last_scroll_position && last_scroll_position > 80) {
+                // header.removeClass('slideDown').addClass('slideUp');
+                header.classList.remove("slideDown");
+                header.classList.add("slideUp");
+
+                // Scrolling up
+            } else if (new_scroll_position > last_scroll_position) {
+                // header.removeClass('slideUp').addClass('slideDown');
+                header.classList.remove("slideUp");
+                header.classList.add("slideDown");
+            }
+
+            new_scroll_position = last_scroll_position;
         });
     </script>
 </body>

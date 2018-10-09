@@ -113,7 +113,7 @@ public class FirstPageController extends AbstractController {
      */
     @RequestMapping("searchResult")
     public String getSearchResult(@RequestParam("key")String keyword, @RequestParam("page")Integer page){
-        return "home_search_results";
+        return "";
     }
 
     /**
