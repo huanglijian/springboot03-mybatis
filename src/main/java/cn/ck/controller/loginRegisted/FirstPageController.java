@@ -79,7 +79,7 @@ public class FirstPageController extends AbstractController {
             //是否是发布者
             isPromul = false;
             //个人中心链接
-            centerUrl = "/user/userInfo";
+            centerUrl = "/user/user_info";
         }
 
         return ResponseBo.ok().put("loginUser", user)
