@@ -10,7 +10,9 @@
 	<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-	<link href="/static/css/css_psw/pc_hp.css" rel="stylesheet" />
+	<link href="/static/css/css_psw/pc_hp2.css" rel="stylesheet" />
+	<script src="http://how2j.cn/study/vue.min.js"></script>
+	<script src="http://how2j.cn/study/axios.min.js"></script>
 </head>
 
 <body>
@@ -69,17 +71,17 @@
 				<div class="col_right_ifm_up_1">
 				</div>
 			</div>
-			<div class="col_right_ifm_down" style="padding-bottom: 50px;" id="items">
+			<div class="col_right_ifm_down" style="margin-bottom: 30px" id="items">
 				<div class="col_right_ifm_down_left">
 					<div class="r_c_t_left">
 						<div class="r_c_t_l_img">
-							<img src="/static/img/a8.jpg" alt="" class="imgsize" />
+							<img src="/user/showImg" alt="" class="imgsize" />
 						</div>
 					</div>
 				</div>
-				<div class="col_right_ifm_down_right">
+				<div class="col_right_ifm_down_right" id="info">
 					<div class="col_right_ifm_down_right_1">
-						<span class="username">用户名：m0_37153744</span>
+						<span class="username">用户名：{{user.userName}}</span>
 					</div>
 					<div class="col_right_ifm_down_right_2">
 						<span style="margin-right: 16px; color: rgb(77, 77, 77); font-size: 14px;">关注 0</span>
@@ -87,31 +89,22 @@
 					</div>
 					<div class="col_right_ifm_down_right_3">
 						<ul class="list-unstyled">
-							<li class="comon">签名：坚持就是胜利</li>
-							<li class="comon">地区：中国 广东省 广州市</li>
-							<li class="comon">行业：IT类</li>
-							<li class="comon">职位：项目经理</li>
-							<li class="comon">电子邮件：XXXXXX</li>
 							<li class="intro">
-								<span class="noWid">技能标签：</span>
-								<ul class="list-unstyled">
-									<li>Java</li>
-									<li>移动应用</li>
-									<li>网页设计</li>
-								</ul>
+								<span class="noWid">简介：</span>
+								<span class="cont">{{user.userIntro}}</span>
 							</li>
 						</ul>
 					</div>
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div class="service_neirong">
+			<div class="service_neirong" style="padding-bottom: 40px">
 				<div class="left">
 					<div class="Tabs service-content" id="Tabs">
 						<div class="TabTitle">
 							<ul class="nav nav-tabs navigation" role="tablist">
 								<li role="presentation" class="active">
-									<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">原创</a>
+									<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">博客</a>
 								</li>
 								<li role="presentation" class="">
 									<a href="#home" aria-controls="home" role="tab" data-toggle="tab">工作室</a>
@@ -119,110 +112,29 @@
 							</ul>
 						</div>
 						<div class="tab-content TabContent services-tab-content">
-							<div role="tabpanel" class="tab-pane anli active" id="profile">
+							<div id="templeate" style="display: none">
 								<div class="col_right_cyc_down_items container-fluid" id="item">
-									<div class="col_right_cyc_down_item_left ">
-										<div class='col_right_cyc_down_item_title container-fluid'>
-											<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-										</div>
-										<div class="col_right_cyc_down_item_2 container-fluid">
-											<a class='col_right_cyc_down_item_author' href="#">新垣结衣</a>
-											&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-											<span class='col_right_cyc_down_item_date'>2018.08.08</span>
-										</div>
-										<div class='col_right_cyc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-											<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
-										</div>
-										<div class='col_right_cyc_down_item_bq '>
-											<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
-											<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-											<a href="/explore/starred?license=MIT" class="">MIT</a>
-										</div>
-									</div>
+                                        <div class="col_right_cyc_down_item_left ">
+                                            <div class='col_right_cyc_down_item_title container-fluid'>
+                                                <span class="channel" style="float: left;">原创</span>
+                                                <a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">{{yc.origName}}</a>
+                                            </div>
+                                            <div class="col_right_cyc_down_item_2 container-fluid">发布于
+                                                <span class='col_right_cyc_down_item_date'>{{yc.origUploadtime}}</span>
+                                            </div>
+                                            <div class='col_right_cyc_down_item_jj ' style="margin-bottom: 4px;">介绍：
+                                                <span>{{yc.origIntro}}</span>
+                                            </div>
+                                            <div class='col_right_cyc_down_item_bq '>
+                                                类型：<span>{{yc.origType}}</span>
+                                                标签：<span>{{yc.origTag}}</span>
+                                            </div>
+                                        </div>
 								</div>
-								<div class="col_right_cyc_down_items container-fluid" id="item">
-									<div class="col_right_cyc_down_item_left ">
-										<div class='col_right_cyc_down_item_title container-fluid'>
-											<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-										</div>
-										<div class="col_right_cyc_down_item_2 container-fluid">
-											<a class='col_right_cyc_down_item_author' href="#">新垣结衣</a>
-											&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-											<span class='col_right_cyc_down_item_date'>2018.08.08</span>
-										</div>
-										<div class='col_right_cyc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-											<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
-										</div>
-										<div class='col_right_cyc_down_item_bq '>
-											<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
-											<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-											<a href="/explore/starred?license=MIT" class="">MIT</a>
-										</div>
-									</div>
-								</div>
-								<div class="col_right_cyc_down_items container-fluid" id="item">
-									<div class="col_right_cyc_down_item_left ">
-										<div class='col_right_cyc_down_item_title container-fluid'>
-											<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-										</div>
-										<div class="col_right_cyc_down_item_2 container-fluid">
-											<a class='col_right_cyc_down_item_author' href="#">新垣结衣</a>
-											&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-											<span class='col_right_cyc_down_item_date'>2018.08.08</span>
-										</div>
-										<div class='col_right_cyc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-											<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
-										</div>
-										<div class='col_right_cyc_down_item_bq '>
-											<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
-											<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-											<a href="/explore/starred?license=MIT" class="">MIT</a>
-										</div>
-									</div>
-								</div>
-								<div class="col_right_cyc_down_items container-fluid" id="item">
-									<div class="col_right_cyc_down_item_left ">
-										<div class='col_right_cyc_down_item_title container-fluid'>
-											<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-										</div>
-										<div class="col_right_cyc_down_item_2 container-fluid">
-											<a class='col_right_cyc_down_item_author' href="#">新垣结衣</a>
-											&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-											<span class='col_right_cyc_down_item_date'>2018.08.08</span>
-										</div>
-										<div class='col_right_cyc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-											<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
-										</div>
-										<div class='col_right_cyc_down_item_bq '>
-											<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
-											<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-											<a href="/explore/starred?license=MIT" class="">MIT</a>
-										</div>
-									</div>
-								</div>
-								<div class="col_right_cyc_down_items container-fluid" id="item">
-									<div class="col_right_cyc_down_item_left ">
-										<div class='col_right_cyc_down_item_title container-fluid'>
-											<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-										</div>
-										<div class="col_right_cyc_down_item_2 container-fluid">
-											<a class='col_right_cyc_down_item_author' href="#">新垣结衣</a>
-											&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-											<span class='col_right_cyc_down_item_date'>2018.08.08</span>
-										</div>
-										<div class='col_right_cyc_down_item_jj ' style="margin-bottom: 4px;">介绍：
-											<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
-										</div>
-										<div class='col_right_cyc_down_item_bq '>
-											<a href="/explore/starred?lang=Java" class="">Java</a>&nbsp;
-											<a href="/explore/starred/webframework" class="">Web开发框架</a>&nbsp;
-											<a href="/explore/starred?license=MIT" class="">MIT</a>
-										</div>
-									</div>
-								</div>
+
 							</div>
-							<div role="tabpanel" class="tab-pane" id="home">
-								<div class="col_right_vec_down_items container-fluid" id="item">
+							<div id="templeate2" style="display: none">
+								<div class="col_right_vec_down_items container-fluid" id="item item2">
 									<div class="col_right_vec_down_item_left ">
 										<div class="col_right_vec_down_item_left_1">
 											<a href="/v/ac4579297" target="_blank" class="thumb-preview ">
@@ -231,23 +143,31 @@
 										</div>
 										<div class="col_right_vec_down_item_left_2">
 											<div class='col_right_vec_down_item_title'>
-												<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
+												<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">{{studio.stuName}}</a>
 											</div>
 											<div class="clearfix"></div>
 											<div class="col_right_vec_down_item_2">
-												<a class='col_right_vec_down_item_author' href="#">新垣结衣</a>
+												组长：<a class='col_right_vec_down_item_author' href="#">{{user.userName}}</a>
 												&nbsp;&nbsp;/&nbsp;&nbsp;成立于
-												<span class='col_right_vec_down_item_date'>2018.08.08</span>
-											</div>
-											<div class='col_right_vec_down_item_bq'>
-												<span>职位：普通成员</span>
+												<span class='col_right_vec_down_item_date'>{{studio.stuCreattime}}</span>
 											</div>
 											<div class='col_right_vec_down_item_jj ' style="margin-bottom: 4px;">介绍：
-												<span>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</span>
+												<span>{{studio.stuIntro}}</span>
+											</div>
+											<div class='col_right_cyc_down_item_bq '>
+												标签：<span>{{studio.stuTag}}</span>
 											</div>
 										</div>
 									</div>
 								</div>
+							</div>
+							<div role="tabpanel" class="tab-pane anli active" id="profile">
+                                <yc v-for="item in ycs" v-bind:yc="item"></yc>
+                                <div  v-if="show1"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="home">
+								<studio v-bind:studio="studio" v-bind:user="user"></studio>
+								<div  v-if="show"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
 							</div>
 
 						</div>
@@ -343,6 +263,61 @@
 		</div>
 	</footer>
 	<script type="text/javascript" src="/static/js/js_psw/PersonCenter-jquery.js"></script>
+	<script>
+        var url="/user/get_info";
+        new Vue({
+            el:'#info',
+            data:{
+                user:''
+            },
+            mounted:function () {
+                var self=this;
+                axios.get(url).then(function (response) {
+                    self.user=response.data.user;
+                })
+            }
+        });
+        var templeateDiv=$("#templeate").html();
+        var templeateObject={
+            props:['yc'],
+            template:templeateDiv
+        }
+        Vue.component("yc",templeateObject);
+        var templeateDiv2=$("#templeate2").html();
+        var templeateObject2={
+            props:['studio','user'],
+            template:templeateDiv2
+        }
+        Vue.component("studio",templeateObject2);
+        var url="/user/get_hp";
+        new Vue({
+            el:'#profile',
+            data:{
+                ycs:'',
+                show1:false
+            },
+            mounted:function () {
+                var self=this;
+                axios.get(url).then(function(response){
+                    self.ycs=response.data.originals;
+                    if(response.data.originals[0]==null)
+                        self.show1=true;
+                    new Vue({
+                        el:'#home',
+                        data:{
+                            studio:response.data.studio,
+							user:response.data.user,
+							show:false
+                        },
+						mounted:function () {
+							if(response.data.studio==null)
+							    this.show=!this.show;
+                        }
+					})
+                })
+            }
+        })
+	</script>
 </body>
 
 </html>

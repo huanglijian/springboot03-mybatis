@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 	<link href="/static/css/css_psw/pc_xmc6.css" rel="stylesheet" />
 	<link href="/static/css/css_psw/toPage1.css" rel="stylesheet" />
-	<script type="text/javascript" src="/static/js/js_psw/toPage.js"></script>
+	<script type="text/javascript" src="/static/js/js_psw/toPage1.js"></script>
 	<script src="http://how2j.cn/study/vue.min.js"></script>
 	<script src="http://how2j.cn/study/axios.min.js"></script>
 	<script src="https://cdn.bootcss.com/qs/6.5.2/qs.min.js"></script>
@@ -80,13 +80,13 @@
 						</a>
 						<ul id="personcenter" class="panel-collapse collapse in">
 							<li>
-								<a href="pc_information.html">个人资料</a>
+								<a href="/user/user_info">个人资料</a>
 							</li>
 							<li>
-								<a href="pc_mfy_information.html">修改资料</a>
+								<a href="/user/user_mfyinfo">修改资料</a>
 							</li>
 							<li>
-								<a href="pc_sysn.html">系统通知</a>
+								<a href="/user/user_sysn">系统通知</a>
 							</li>
 						</ul>
 					</li>
@@ -97,13 +97,13 @@
 						</a>
 						<ul id="projectmanage" class="panel-collapse collapse in">
 							<li class="current">
-								<a href="pc_xiangmu_collection.html">项目收藏</a>
+								<a href="/user/user_pjcol">项目收藏</a>
 							</li>
 							<li>
-								<a href="pc_video_collection.html">视频收藏</a>
+								<a href="/user/user_veocol">视频收藏</a>
 							</li>
 							<li>
-								<a href="pc_code_collection.html">代码收藏</a>
+								<a href="/user/user_codecol">代码收藏</a>
 							</li>
 						</ul>
 					</li>
@@ -114,7 +114,7 @@
 						</a>
 						<ul id="pricspananage" class="panel-collapse collapse in">
 							<li>
-								<a href="pc_code_yuanchuang.html">原创</a>
+								<a href="/user/user_yc">原创</a>
 							</li>
 						</ul>
 					</li>
@@ -125,20 +125,20 @@
 						</a>
 						<ul id="safspananage" class="panel-collapse collapse in">
 							<li>
-								<a href="pc_updpwd.html">修改登录密码</a>
+								<a href="/user/user_uppw">修改登录密码</a>
 							</li>
 							<li>
-								<a href="pc_updpyp.html">修改支付密码</a>
+								<a href="/user/user_upppw">修改支付密码</a>
 							</li>
 							<li>
-								<a href="pc_zhuxiao.html">注销账户</a>
+								<a href="/user/user_delete">注销账户</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<div class="col_right">
+		<div class="col_right" style="min-height: 640px">
 			<div class="col_right_xmc_up">
 				<div class="col_right_xmc_up_1" id="state">
 					<div class="col_right_xmc_up_1_condition">
@@ -180,6 +180,7 @@
 			</div>
 			<div class="col_right_xmc_down" id="items">
 				<project v-for="item in pjs" v-bind:project="item"></project>
+				<div  v-if="show"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
 			</div>
 			<div class="page_1"></div>
 		</div>
@@ -302,17 +303,20 @@
 		new Vue({
 			el:"#items",
 			data:{
-			    pjs:''
+			    pjs:'',
+				show:false
 			},
 			mounted:function () {
 				var self=this;
 				axios.get(url).then(function (response) {
-					self.pjs=response.data.list;
+					self.pjs=response.data.page.list;
+					if(response.data.page.list[0]==null)
+					    self.show=!self.show;
 					new Vue({
 						el:'#state',
 						data:{
-							state:response.data.list[0].projId,
-                            total:response.data.total
+							state:response.data.state,
+                            total:response.data.page.total
 						},
 						methods:{
 						    jumpToState:function(state){
@@ -329,24 +333,24 @@
 					});
                     var obj_1={
                         obj_box:'.page_1',//翻页容器
-                        total_item:response.data.total,//条目总数
-                        per_num:response.data.pageSize,//每页条目数*/
-                        current_page:response.data.pageNum//当前页
+                        total_item:response.data.page.total,//条目总数
+                        per_num:response.data.page.pageSize,//每页条目数*/
+                        current_page:response.data.page.pageNum//当前页
                     };
                     page_ctrl(obj_1);
                     $(' .page_ctrl').on('click','button',function () {
                         var that=$(this);
                         if(that.hasClass('prev_page')){
-                            window.location.href="/user/user_pjcol?state="+response.data.list[0].projId+"&start="+response.data.prePage;
+                            window.location.href="/user/user_pjcol?state="+response.data.state+"&start="+response.data.page.prePage;
                         }
                         else if(that.hasClass('next_page')){
-                            window.location.href="/user/user_pjcol?state="+response.data.list[0].projId+"&start="+response.data.nextPage;
+                            window.location.href="/user/user_pjcol?state="+response.data.state+"&start="+response.data.page.nextPage;
                         }
                         else if(that.hasClass('page_num')&&!that.hasClass('current_page')){
-                            window.location.href="/user/user_pjcol?state="+response.data.list[0].projId+"&start="+that.html();
+                            window.location.href="/user/user_pjcol?state="+response.data.state+"&start="+that.html();
                         }
                         else if(that.hasClass('to_page_num')){
-                            window.location.href="/user/user_pjcol?state="+response.data.list[0].projId+"&start="+that.siblings('.input_page_num').val();
+                            window.location.href="/user/user_pjcol?state="+response.data.state+"&start="+that.siblings('.input_page_num').val();
                         }
                     });
                 })

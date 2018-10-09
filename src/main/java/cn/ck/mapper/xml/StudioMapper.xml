@@ -32,5 +32,25 @@
         order by stu_projectnum desc, stu_grade desc, stu_creattime asc
     </select>
 
+    <select id="selectForHall" resultType="cn.ck.entity.Studio">
+        select * from studio
+        <where>
+            <if test="type!=null and type!='不限'">
+                and stu_field=#{type}
+            </if>
+            <if test="local!=null and local!='不限'">
+                and stu_province=#{local}
+            </if>
+            <if test="studioName!=null and studioName!=''">
+                and stu_name like concat('%',#{studioName},'%')
+            </if>
+        </where>
+        <if test="sort!=null and sort=='1'.toString()">
+            order by stu_grade desc
+        </if>
+        <if test="sort!=null and sort=='2'.toString()">
+            order by stu_grade
+        </if>
+    </select>
 
 </mapper>

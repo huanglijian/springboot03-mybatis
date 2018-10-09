@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 	<link href="/static/css/css_psw/pc_sysn12.css" rel="stylesheet" />
 	<link href="/static/css/css_psw/toPage1.css" rel="stylesheet" />
-	<script type="text/javascript" src="/static/js/js_psw/toPage.js"></script>
+	<script type="text/javascript" src="/static/js/js_psw/toPage1.js"></script>
 	<script src="http://how2j.cn/study/vue.min.js"></script>
 	<script src="http://how2j.cn/study/axios.min.js"></script>
 	<script src="https://cdn.bootcss.com/qs/6.5.2/qs.min.js"></script>
@@ -80,13 +80,13 @@
 					</a>
 					<ul id="personcenter" class="panel-collapse collapse in">
 						<li>
-							<a href="pc_information.html">个人资料</a>
+							<a href="/user/user_info">个人资料</a>
 						</li>
 						<li>
-							<a href="pc_mfy_information.html">修改资料</a>
+							<a href="/user/user_mfyinfo">修改资料</a>
 						</li>
 						<li class="current">
-							<a href="pc_sysn.html">系统通知</a>
+							<a href="/user/user_sysn">系统通知</a>
 						</li>
 					</ul>
 				</li>
@@ -97,13 +97,13 @@
 					</a>
 					<ul id="projectmanage" class="panel-collapse collapse in">
 						<li>
-							<a href="pc_xiangmu_collection.html">项目收藏</a>
+							<a href="/user/user_pjcol">项目收藏</a>
 						</li>
 						<li>
-							<a href="pc_video_collection.html">视频收藏</a>
+							<a href="/user/user_veocol">视频收藏</a>
 						</li>
 						<li>
-							<a href="pc_code_collection.html">代码收藏</a>
+							<a href="/user/user_codecol">代码收藏</a>
 						</li>
 					</ul>
 				</li>
@@ -114,7 +114,7 @@
 					</a>
 					<ul id="pricspananage" class="panel-collapse collapse in">
 						<li>
-							<a href="pc_code_yuanchuang.html">原创</a>
+							<a href="/user/user_yc">原创</a>
 						</li>
 					</ul>
 				</li>
@@ -125,20 +125,20 @@
 					</a>
 					<ul id="safspananage" class="panel-collapse collapse in">
 						<li>
-							<a href="pc_updpwd.html">修改登录密码</a>
+							<a href="/user/user_uppw">修改登录密码</a>
 						</li>
 						<li>
-							<a href="pc_updpyp.html">修改支付密码</a>
+							<a href="/user/user_upppw">修改支付密码</a>
 						</li>
 						<li>
-							<a href="pc_zhuxiao.html">注销账户</a>
+							<a href="/user/user_delete">注销账户</a>
 						</li>
 					</ul>
 				</li>
 			</ul>
 		</div>
 	</div>
-	<div class="col_right">
+	<div class="col_right" style="min-height: 640px">
 		<div class="col_right_sysn_up">
 			<div class="col_right_sysn_up_1" id="total">
 				<span>共 {{total}} 条</span>
@@ -160,6 +160,7 @@
 		<div class="col_right_sysn_down" id="items">
 			<div class="c_r_contest" id="item">
 				<notice v-for="item in notices" v-bind:notice="item"></notice>
+				<div  v-if="show"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
 			</div>
 		</div>
 		<div class="page_1"></div>
@@ -274,7 +275,8 @@
     new Vue({
         el:"#items",
         data: {
-            notices: ''
+            notices: '',
+			show:false
         },
         mounted:function () {
             var self=this;
@@ -286,6 +288,8 @@
 					}
 				})
                 self.notices=response.data.list;
+                if(response.data.list[0]==null)
+                    self.show=!self.show;
                 var obj_1={
                     obj_box:'.page_1',//翻页容器
                     total_item:response.data.total,//条目总数

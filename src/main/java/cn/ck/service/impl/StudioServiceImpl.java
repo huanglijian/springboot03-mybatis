@@ -46,4 +46,9 @@ public class StudioServiceImpl extends ServiceImpl<StudioMapper, Studio> impleme
         List<Studio> list = baseMapper.selectSuperStudio(projNum);
         return list;
     }
+
+    @Override
+    public List<Studio> selectForHall(String type, String local, String studioName,String sort) {
+        return studioMapper.selectForHall(type,local,studioName,sort);
+    }
 }

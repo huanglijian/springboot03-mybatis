@@ -39,7 +39,7 @@
 						required: true,
 						minlength: 2
 					},
-					yuanchuang_file: {
+					file: {
 						filelength:true
 					},
                     zhifubao:{
@@ -54,12 +54,14 @@
                     },
 					used_password: {
 						required: true,
-						minlength: 5
+						minlength: 5,
+                        pwtrue:true
 					},
 					used_pay_password: {
 						required: true,
 						minlength: 6,
-						maxlength: 6
+						maxlength: 6,
+                        ppwtrue:true
 					},
 					pay_password: {
 						required: true,
@@ -98,7 +100,7 @@
                         required: icon + "请输入您的用户名",
                         minlength: icon + "用户名必须2个字符以上"
                     },
-					yuanchuang_file: {
+					file: {
 						filelength: icon + "请选择文件"
 					},
 					codename: {
@@ -117,12 +119,14 @@
                     },
 					used_password: {
 						required: icon + "请输入旧密码",
-						minlength: icon + "密码必须5个字符以上"
+						minlength: icon + "密码必须5个字符以上",
+                        pwtrue:icon+"密码错误"
 					},
 					used_pay_password: {
                         required: icon + "请输入旧的支付密码",
                         minlength: icon + "密码必须为6个字符",
-						maxlength: icon + "密码必须为6个字符"
+						maxlength: icon + "密码必须为6个字符",
+                        ppwtrue:icon+"密码错误"
                     },
 					pay_password: {
 						required: icon + "请输入新的支付密码",
