@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/static/css/css_psw/person-layout-lxn.css" />
     <link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
     <link href="/static/css/css_mzb/style2.css" rel="stylesheet">
+    <link href="/static/css/css_lxn/prom_priManage-lxn.css" rel="stylesheet">
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
     <script src="http://how2j.cn/study/vue.min.js"></script>
@@ -180,85 +181,110 @@
             </ul>
         </div>
     </div>
-    <div class="col_right" style="background: #ffffff; min-height: 640px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);" id="right">
-        <div class="mainContent container-fluid">
-            <div class="fundTop">
-                <p style="font-size: 13px;">
-                    <span>我的帐号总余额：</span>
-                    <span style="color: orange;">{{account.accMoney}}</span>
+    <div class="col_right" style=" min-height: 640px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);" id="right">
+        <div class="c_r_contest">
+            <div class="c_r_c_top">
+                <div class="c_r_c_t_left">
+                    <h4>我的账户</h4>
+                    <span>账户总余额：</span>
+                    <span id="font_color">{{account.accMoney}}</span>
                     <span>&nbsp;元</span>
-                    <a href="/userspri/pricein" class="fundCzbtn1" >充 值</a>
-                    <a href="/userspri/priceout" class="fundCzbtn2" >提 现</a>
-                    <select name="fundsType" class="bidSelect">
-                        <option value="" selected="">资金类型</option>
-                        <option value="0">充值</option>
-                        <option value="1">提现</option>
-                        <option value="2">项目款</option>
-                    </select>
-
-                    <span>具体日期</span>
-                    <span>
-                          <input id="hello" class="bidInput" name="startTime">
-                    </span>
-
-                    <button type="button" class="bidaButton">
-                        <img src="/static/img/img_mzb/搜索.png"/>
-                    </button>
-                </p>
+                </div>
+                <div class="c_r_c_t_right">
+                    <a href="/userspri/pricein" class="btn pM_a1">充值</a>
+                    <a href="/userspri/priceout" class="btn pM_a2">提现</a>
+                </div>
             </div>
-
-            <div class="fundBottom">
-                <div class="col-sm-14">
-                    <div class="ibox float-e-margins" style="position: relative;top:40px;">
-
-                        <div class="ibox-content_mzb">
-
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>时间</th>
-                                    <th>交易号</th>
-                                    <th>收入</th>
-                                    <th>支出</th>
-                                    <th>账户余额</th>
-                                    <th>资金类型</th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>2018-09-08</td>
-                                    <td>20180908151623XMB002997501515</td>
-                                    <td>￥2</td>
-                                    <td></td>
-                                    <td>￥6.00</td>
-                                    <td>项目款</td>
-                                </tr>
-                                <tr>
-                                    <td>2018-09-08</td>
-                                    <td>20180908151623XMB002997501515</td>
-                                    <td></td>
-                                    <td>￥2</td>
-                                    <td>￥6.00</td>
-                                    <td>充值</td>
-                                </tr>
-                                <tr>
-                                    <td>2018-09-08</td>
-                                    <td>20180908151623XMB002997501515</td>
-                                    <td></td>
-                                    <td>￥2</td>
-                                    <td>￥6.00</td>
-                                    <td>提现</td>
-                                </tr>
-                                </tbody>
-                            </table>
+            <div class="c_r_c_middle">
+                <form  id="form" class="form-inline">
+                    <div class="middle_form">
+                        <select name="fund_type" class="form-control"  id="fund_type"  >
+                            <option selected="selected">资金类型</option>
+                            <option value="项目款项">项目款项</option>
+                            <option value="项目押金">项目押金</option>
+                            <option value="项目尾款">项目尾款</option>
+                            <option value="充值">充值</option>
+                            <option value="提现">提现</option>
+                        </select>
+                        <div class="form-group m_f_startdate">
+                            开始时间：
+                            <input type="text" class="form-control layer-date" name="starttime" id="starttime" />
+                        </div>
+                        <div class="form-group m_f_enddate">
+                            结束时间：
+                            <input type="text" class="form-control layer-date" name="endtime" id="endtime" />
+                        </div>
+                        <div class="form-group m_f_button">
+                            <button type="button" class="btn m_f_btn" @click="selectbtn()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
                         </div>
                     </div>
+                </form>
+            </div>
+            <div class="c_r_c_bottom">
+                <h2>
+                    资金记录
+                </h2>
+                <div class="c_r_c_table">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>交易号</th>
+                            <th>时间</th>
+                            <th>资金类型</th>
+                            <th>资金数额</th>
+                            <th>对方户主</th>
+                        </tr>
+                        </thead>
+                        <tbody v-for="p in price.list">
+                        <template v-if="p.fundMoney>0">
+                            <tr>
+                                <td>{{p.fundId}}</td>
+                                <td>{{p.fundDatetime}}</td>
+                                <td>{{p.fundType}}</td>
+                                <td style="color: #1ab394">{{p.fundMoney}}</td>
+                                <td>{{p.fundOutlay}}</td>
+                            </tr>
+                        </template>
+                        <template v-if="p.fundMoney<0">
+                            <tr>
+                                <td>{{p.fundId}}</td>
+                                <td>{{p.fundDatetime}}</td>
+                                <td>{{p.fundType}}</td>
+                                <td style="color: #ed5565">{{p.fundMoney}}</td>
+                                <td>{{p.fundOutlay}}</td>
+                            </tr>
+                        </template>
+                        </tbody>
+                    </table>
+
+                    <div class="c_r_c_page text-center">
+                        <ul class="pagination pagination-lg">
+                            <!--判断前一页的-->
+                            <template v-if="isFirstPage==false"><li><a href="javascript:;"@click="changepage(pageNum-1)">&laquo;</a></li></template>
+                            <template v-else><li><a href="javascript:;" class="disabled">&laquo;</a></li></template>
+
+                            <!--页数-->
+                            <template v-for="p in navigatepageNums">
+                                <template v-if="pageNum==p"><li><a href="javascript:;" class="disabled" style="background: #DDDDDD;color: #1ab394;">{{p}}</a></li></template>
+                                <template v-else><li><a href="javascript:;"@click="changepage(p)">{{p}}</a></li></template>
+                            </template>
+
+                            <!--判断下一页的-->
+                            <template v-if="isLastPage==false"><li><a href="javascript:;"@click="changepage(pageNum+1)">&raquo;</a></li></template>
+                            <template v-else><li><a href="javascript:;" class="disabled">&raquo;</a></li></template>
+
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 <footer>
     <div class="container-fluid_foot">
         <div class="foot_panel">
@@ -373,7 +399,7 @@
         created: function () {
             $.ajax({
                 type: 'get',
-                url: '/promcenter/priceprom/'+1,
+                url: '/userspri/priceuser/'+1,
                 success: function (result) {
                     console.log(result);
                     vm.account = result.account;
@@ -448,6 +474,7 @@
 
     });
 </script>
+
 <!--导航条滚动js-->
 <script type="text/javascript">
     var new_scroll_position = 0;
