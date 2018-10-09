@@ -148,14 +148,14 @@
 				<div class="col_right_vec_down_items container-fluid" id="item">
 					<div class="col_right_vec_down_item_left ">
 						<div class="col_right_vec_down_item_left_1">
-							<a href="/v/ac4579297" target="_blank" class="thumb-preview ">
+							<a :href="'/resource/player/'+resource.resId" target="_blank" class="thumb-preview">
 								<img data-aid="4579297" :src="'/file/showImg/' + resource.resImg" class="preview">
 							</a>
 						</div>
 						<div class="col_right_vec_down_item_left_2">
 							<div class='col_right_vec_down_item_title container-fluid'>
 								<span class="channel" style="float: left;">视频</span>
-								<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">{{resource.resName}}</a>
+								<a :href="'/resource/player/'+resource.resId" class="" target="_blank" title="人人开源项目" style="float: left;">{{resource.resName}}</a>
 							</div>
 							<div class="col_right_vec_down_item_2 container-fluid">
 								<a class='col_right_vec_down_item_author' href="#">创客讲堂</a>

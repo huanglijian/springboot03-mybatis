@@ -49,6 +49,18 @@ public class StudioHall {
         return "studio/studio_hall";
     }
 
+    //跳转工作室大厅
+    @RequestMapping("/hall2")
+    public String hall2(@RequestParam(value = "type",defaultValue = "不限") String type,@RequestParam(value = "local",defaultValue = "不限") String local,@RequestParam(value = "studioName",defaultValue = "") String studioName,@RequestParam(value = "sort",required = false) String sort,@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "1") int size){
+        this.type=type;
+        this.local=local;
+        this.studioName=studioName;
+        this.start=start;
+        this.size=size;
+        this.sort=sort;
+        return "studio/studio_hall2";
+    }
+
     //跳转工作室详情页
     @RequestMapping("/detail")
     public String detail(@RequestParam(value = "stuid")String stuid){
