@@ -32,6 +32,7 @@ $(function() {
 			url:'/promcenter/prompayin',
             async:false,
             success:function (result) {
+				// console.log(result);
 				if(value==result.pwd){
 					flag=1;
 				}else{

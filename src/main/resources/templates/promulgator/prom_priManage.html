@@ -344,7 +344,7 @@
         created: function () {
             $.ajax({
                 type: 'get',
-                url: '/promcenter/priceprom/'+1,
+                url: '/userspri/priceuser/'+1,
                 success: function (result) {
                     console.log(result);
                     vm.account = result.account;
