@@ -164,6 +164,14 @@ public class UsersController extends AbstractController {
         return "users/pc_zhuxiao";
     }
 
+    //跳转用户资金管理页面
+    @RequestMapping("/user_money")
+    public String user_money(){
+        return "users/pc_funs";
+    }
+
+
+    //获取用户头像
     @RequestMapping("/showImg")
     public void previewsrc(HttpServletResponse response) {
         //将文件名分割成 文件名 和 格式
