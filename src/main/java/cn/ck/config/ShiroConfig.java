@@ -80,6 +80,9 @@ public class ShiroConfig {
 		chains.put("/403", "anon");
 		chains.put("/captcha.jpg", "anon");
 		chains.put("/druid/**", "anon");
+		chains.put("/project/**", "anon");
+		chains.put("/backresource/**", "anon");
+		chains.put("/backorignal/**", "anon");
 		//配置不会被拦截的链接
 		chains.put("/", "anon");
 		chains.put("/ckadmin/**", "anon");
@@ -90,6 +93,7 @@ public class ShiroConfig {
 		chains.put("/ForJob/**", "anon");
 		chains.put("/resource/**", "anon");
 		chains.put("/studio/**", "anon");
+		chains.put("/honor/**", "anon");
 		chains.put("/mtest/**", "anon");
 		// 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		chains.put("/logout", "logout");

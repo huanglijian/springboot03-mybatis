@@ -58,26 +58,21 @@ $(function() {
 //cropper上传图片到服务器
 var updatePhoto = function () {
     // 得到PNG格式的dataURL
-    var photo = $('#photo').cropper('getCroppedCanvas', {
+    var photo = $('.photo').cropper('getCroppedCanvas', {
         width: 300,
         height: 300
     }).toDataURL('image/png');
 
     $.ajax({
-        url: '上传地址', // 要上传的地址
+        url: '/user//updatephoto', // 要上传的地址
         type: 'post',
         data: {
-            'imgData': photo
+            'dataURL': photo,
         },
         dataType: 'json',
         success: function (data) {
-            if (data.status == 0) {
-                // 将上传的头像的地址填入，为保证不载入缓存加个随机数
-                $('.user-photo').attr('src', '头像地址?t=' + Math.random());
-                $('#changeModal').modal('hide');
-            } else {
-                alert(data.info);
-            }
+            alert(data.msg);
+            window.location.reload();
         }
     });
 }

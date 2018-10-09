@@ -2,18 +2,23 @@
 <html>
 
 <head>
-	<meta charset="utf-8" />
-	<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
 	<link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 	<link href="/static/css/animate.css" rel="stylesheet">
 	<link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
-	<link rel="stylesheet" href="/static/css/css_psw/person-layout-lxn.css" />
-	<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/static/css/css_psw/person-layout-lxn.css"/>
+	<link href="/static/css/css_psw/style_head.css" rel="stylesheet"/>
+	<link href="/static/css/css_mzb/style2.css" rel="stylesheet">
+	<link rel="stylesheet" href="/static/css/css_lxn/prom_pay.css" />
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-	<link href="/static/css/css_psw/pc_ifm.css" rel="stylesheet" />
-	<script src="http://how2j.cn/study/vue.min.js"></script>
-	<script src="http://how2j.cn/study/axios.min.js"></script>
+	<script type="text/javascript" src="/static/js/vue.js"></script>
+
+	<!-- jQuery Validation plugin javascript-->
+	<script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/static/js/plugins/validate/messages_zh.min.js"></script>
+	<script type="text/javascript" src="/static/js/js_lxn/prom_pay.js" ></script>
 </head>
 
 <body>
@@ -36,7 +41,7 @@
 	<div class="container-fluid container-fluid_main">
 		<div class="row_main">
 			<div class="main_logo">
-				<img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
+				<img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png"/>
 			</div>
 			<div class="main_right">
 				<ul class="nav_psw list-unstyled">
@@ -76,7 +81,7 @@
 						<span class="glyphicon glyphicon-chevron-up"></span>
 					</a>
 					<ul id="personcenter" class="panel-collapse collapse in">
-						<li class="current">
+						<li>
 							<a href="/user/user_info">个人资料</a>
 						</li>
 						<li>
@@ -121,7 +126,7 @@
 						<span class="glyphicon glyphicon-chevron-up"></span>
 					</a>
 					<ul id="safspananage" class="panel-collapse collapse in">
-						<li>
+						<li class="current">
 							<a href="/user/user_money">资金管理</a>
 						</li>
 						<li>
@@ -135,48 +140,54 @@
 			</ul>
 		</div>
 	</div>
-	<div class="col_right">
-		<div class="col_right_ifm_up">
-			<div class="col_right_ifm_up_1">
-			</div>
-		</div>
-		<div class="col_right_ifm_down" style="padding-bottom: 50px;" id="items">
-			<div class="col_right_ifm_down_left">
-				<div class="r_c_t_left">
-					<div class="r_c_t_l_img">
-						<div class="r_c_t_l_updateimg">
-							<a href="/user/user_mfyimg" target="_blank">更换头像</a>
+	<div class="col_right" style="background: #ffffff;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);"
+		 id="right">
+		<div class="c_r_contest">
+			<h2>
+				账户充值
+			</h2>
+			<div class="in_left col-md-12">
+				<div class="payform col-md-12">
+					<form action="/promcenter/alipayout" class="form-horizontal" id="signupForm">
+						<div class="form-group">
+							<label class="col-md-3 control-label">账户名称：</label>
+							<div class="col-md-5">
+								<label class="control-label">{{prom.name}}</label>
+							</div>
 						</div>
-						<img src="/user/showImg" alt="" class="imgsize" />
-					</div>
-					<div class="r_c_t_l_pcData">
-						<a class="pcDatabtn" target="_blank" href="/user/user_mfyinfo">修改资料</a>
-					</div>
-				</div>
-			</div>
-			<div class="col_right_ifm_down_right" id="info">
-				<div class="col_right_ifm_down_right_1">
-					<span class="username">用户名：{{user.userName}}</span>
-					<a href="/user/user_hp" target="_blank" style="float: right;">个人主页></a>
-				</div>
-				<div class="col_right_ifm_down_right_2">
-					<span style="margin-right: 16px; color: rgb(77, 77, 77); font-size: 14px;">关注 0</span>
-					<span style="margin-right: 16px; color: rgb(77, 77, 77); font-size: 14px;">粉丝 0</span>
-				</div>
-				<div class="col_right_ifm_down_right_3">
-					<ul class="list-unstyled">
-						<li class="comon">年龄：{{user.userAge}}</li>
-						<li class="comon">性别：{{user.userSex}}</li>
-						<li class="comon">联系电话：{{user.userPhone}}</li>
-						<li class="comon">注册时间：{{user.userLogintime}}</li>
-						<li class="intro">
-							<span class="noWid">简介：</span>
-							<span class="cont">{{user.userIntro}}</span>
-						</li>
-					</ul>
+						<div class="form-group">
+							<label class="col-md-3 control-label">账户余额：</label>
+							<div class="col-md-5">
+								<label class="pricenum control-label ">{{prom.money}}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label"><span class="red">*</span>提款金额：</label>
+							<div class="col-md-4">
+								<div class="input-group">
+									<input class="form-control" id="payoutnumber" name="payoutnumber" type="text">
+									<span class="input-group-addon">元</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label"><span class="red">*</span>支付密码：</label>
+							<div class="col-md-5">
+								<div class="input-group">
+									<input class="form-control" id="paypwd" name="paypwd" type="text">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-8 col-sm-offset-3">
+								<button class="btn btn-primary paybtn" type="submit" >下一步</button>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
+
 	</div>
 </div>
 <footer>
@@ -200,42 +211,62 @@
 					<ul class="list-unstyled">
 						<li>
 							<h4>新手指南</h4>
-							<a href="/help/register">注册登录问题</a><br />
-							<a href="/help/process">项目交易流程</a><br />
-							<a href="/help/fund">充值提款问题</a><br />
-							<a href="help/about_agreement">用户注册协议</a><br />
+							<a href="/help/register">注册登录问题</a>
+							<br/>
+							<a href="/help/process">项目交易流程</a>
+							<br/>
+							<a href="/help/fund">充值提款问题</a>
+							<br/>
+							<a href="help/about_agreement">用户注册协议</a>
+							<br/>
 							<a href="/help/bid_payings">为何付费竞标</a>
 						</li>
 						<li>
 							<h4>特色服务</h4>
-							<a href="/help/renzheng">实名认证</a><br />
-							<a href="/help/searchs">精准搜索</a><br />
-							<a href="/help/workhour">小时报价</a><br />
-							<a href="/help/bumanyituikuan">不满意退款</a><br />
+							<a href="/help/renzheng">实名认证</a>
+							<br/>
+							<a href="/help/searchs">精准搜索</a>
+							<br/>
+							<a href="/help/workhour">小时报价</a>
+							<br/>
+							<a href="/help/bumanyituikuan">不满意退款</a>
+							<br/>
 							<a href="/help/bid_card">竞标卡规则</a>
 						</li>
 						<li>
 							<h4>评价信誉</h4>
-							<a href="/help/pingjiadengm">操作演示</a><br />
-							<a href="/help/service_payings">服务收费</a><br />
-							<a href="/help/evaluations">用户评价</a><br />
-							<a href="/help/jifens">积分体系</a><br />
+							<a href="/help/pingjiadengm">操作演示</a>
+							<br/>
+							<a href="/help/service_payings">服务收费</a>
+							<br/>
+							<a href="/help/evaluations">用户评价</a>
+							<br/>
+							<a href="/help/jifens">积分体系</a>
+							<br/>
 							<a href="/help/controversy">争议解决</a>
 						</li>
 						<li>
 							<h4>答疑中心</h4>
-							<a href="/help/pro_relase">项目发布问题</a><br />
-							<a href="/help/bid_joinings">参与竞标问题</a><br />
-							<a href="/help/pro_runnings">项目开发问题</a><br />
-							<a href="/help/pro_done">项目完工问题</a><br />
+							<a href="/help/pro_relase">项目发布问题</a>
+							<br/>
+							<a href="/help/bid_joinings">参与竞标问题</a>
+							<br/>
+							<a href="/help/pro_runnings">项目开发问题</a>
+							<br/>
+							<a href="/help/pro_done">项目完工问题</a>
+							<br/>
 							<a href="/help/it_realse">信息发布问题</a>
 						</li>
 						<li>
 							<h4>联系我们</h4>
-							<a href="/help/about_us">关于SXSOFT</a><br />
-							<a href="/help/about_company">公司概况</a><br />
-							<a href="/help/contact_us">联系方式</a><br />
-							<a href="/help/about_advertising">广告投放</a><br />
+							<a href="/help/about_us">关于SXSOFT</a>
+							<br/>
+							<a href="/help/about_company">公司概况</a>
+							<br/>
+							<a href="/help/contact_us">联系方式</a>
+							<br/>
+							<a href="/help/about_advertising">广告投放</a>
+							<br/>
 							<a href="/help/links">友情链接</a>
 						</li>
 					</ul>
@@ -245,21 +276,24 @@
 	</div>
 </footer>
 <script type="text/javascript" src="/static/js/js_psw/PersonCenter-jquery.js"></script>
-<script>
-    var url="/user/get_info";
-    new Vue({
-        el:'#info',
+
+<script type="text/javascript">
+    var vm=new Vue({
+        el:'#right',
         data:{
-            user:''
+            prom:'',
         },
-        mounted:function () {
-            var self=this;
-            axios.get(url).then(function (response) {
-                self.user=response.data.user;
+        created:function () {
+            $.ajax({
+                type:'get',
+                url:'/userspri/userspayin',
+                success:function (result) {
+                    console.log(result);
+                    vm.prom=result;
+                }
             })
-        }
-    })
+        },
+    });
 </script>
 </body>
-
 </html>

@@ -18,20 +18,6 @@
 
     <!-- 导航条样式 -->
     <link href="/static/css/css_psw/style_head.css" rel="stylesheet">
-    <style>
-        .nav-text-center{
-            text-align:center;
-            margin: 0px;
-        }
-        .nav-avatar{
-            height: 40px;
-            border-radius: 25px;
-        }
-        .nav-dropdown-menu{
-            max-width: 120px;
-            padding: 0;
-        }
-    </style>
 
     <!-- 3d旋转 -->
     <link rel="stylesheet" href="/static/css/css_cwh/yys-slider/jquery-yys-slider.css">
@@ -180,50 +166,38 @@
     <!-- 面板样式 -->
     <link rel="stylesheet" type="text/css" href="/static/css/css_cwh/leaderboard/reset.css" />
     <link rel="stylesheet" href="/static/css/css_cwh/leaderboard/leaderboard.css">
-
 </head>
 
 <body>
     <!--导航条、搜索框-->
     <div class="sonp-section sonp-full" id="first">
-        <header>
-            <div id="headVue">
-            <div class="container-fluid container-fluid_up" style="height: 30px;"></div>
-            <div class="container-fluid container-fluid_main" style="background: #fdfdfd;">
+        <header class="header-navigation" id="headerBar">
+            <div class="nav-content-filter">
                 <div class="row_main">
+                    <!--logo-->
                     <div class="main_logo">
-                        <img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
+                        <img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
                     </div>
-                    <div class="main_right">
-                        <ul class="nav_psw list-unstyled">
-                            <li class="active">
-                                <a href="/">首 页</a>
-                            </li>
-                            <li>
-                                <a>项目大厅</a>
-                            </li>
-                            <li>
-                                <a>服务大厅</a>
-                            </li>
-                            <li>
-                                <a href="/resource/home">创客讲堂</a>
-                            </li>
-                            <li>
-                                <a>原创中心</a>
-                            </li>
-                            <li>
-                                <a>荣誉中心</a>
-                            </li>
-                            <li>
-                                <a href="/ForJob/search">在线求职</a>
-                            </li>
-                        </ul>
+                    <!--超链接-->
+                    <div class="nav-main-right">
+                        <nav class="cd-nav">
+                            <ul>
+                                <li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+                                <li><a href="/project/xwh">项目大厅</a></li>
+                                <li><a href="/stuhall/hall">服务大厅</a></li>
+                                <li><a href="/resource/home">创客讲堂</a></li>
+                                <li><a href="/original/all">原创中心</a></li>
+                                <li><a href="/ForJob/search">在线求职</a></li>
+                                <li><a href="/honor/honorPage">荣誉中心</a></li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
-                <div>
-                    <ul class="nav navbar-top-links navbar-right" style="margin-right: 2%;">
+                <!--头像、个人中心、注销等-->
+                <div id="headVue">
+                    <ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
                                 <!--没有登陆-->
                                 <img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
                                 <!--已经登录-->
@@ -241,60 +215,58 @@
                                 </li>
                                 <!--##########已登录###############-->
                                 <li v-if="isLogined">
-                                    <a href="/"><p class="nav-text-center">个人中心</p></a>
+                                    <a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
+                                </li>
+                                <li v-if="isLogined && !isPromul">
+                                    <a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
                                 </li>
                                 <li v-if="isLogined">
                                     <a href="/logout"><p class="nav-text-center">注销</p></a>
-                                </li>
-                                <li v-if="isLogined">
-                                    <a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
                                 </li>
                             </ul>
                         </li>
                     </ul>
                 </div>
-            </div>
-            </div>
-            <script type="text/javascript">
-                var nav_vue = new Vue({
-                    el:'#headVue',
-                    data:{
-                        loginUser: '',
-                        isLogined: false,
-                        img : '',
-                    },
-                    created: function () {
-                        this.getUser();
-                    },
-                    methods: {
-                        getUser: function(){
-                            $.ajax({
-                                type: "POST",
-                                url: "/home/getLoginUser",
-                                // data: data,
-                                dataType: "json",
-                                success: function(result){
-                                    if(result.code === 404){
-                                        nav_vue.isLogined = false;
-                                    }
-                                    else if(result.code === 0){
-                                        nav_vue.isLogined = true;
-                                        nav_vue.loginUser = result.loginUser;
-                                        nav_vue.img = result.img;
-                                        console.log(nav_vue.img);
-                                    }
-                                    else{
-                                        alert("出现错误");
-                                    }
-                                }
-                            });
+                <script type="text/javascript">
+                    var nav_vue = new Vue({
+                        el:'#headVue',
+                        data:{
+                            loginUser: '',
+                            isLogined: false,
+                            isPromul : '',
+                            img : '',
+                            centerUrl : '',
                         },
-                    }
-                });
-            </script>
+                        created: function () {
+                            this.getUser();
+                        },
+                        methods: {
+                            getUser: function(){
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/home/getLoginUser",
+                                    dataType: "json",
+                                    success: function(result){
+                                        if(result.code === 404){
+                                            nav_vue.isLogined = false;
+                                        }
+                                        else if(result.code === 0){
+                                            nav_vue.isLogined = true;
+                                            nav_vue.isPromul = result.isPromul;
+                                            nav_vue.loginUser = result.loginUser;
+                                            nav_vue.img = result.img;
+                                            nav_vue.centerUrl = result.centerUrl;
+                                        }
+                                    }
+                                });
+                            },
+                        }
+                    });
+                </script>
+            </div>
         </header>
+        <div class="header-take-space" style="height: 200px;"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
 
-        <div style="height: 100px;background: #ffffff;margin-bottom:20px;"></div>
         <!--logo-->
         <div class="row">
             <div class="col-md-6 col-md-offset-4">
@@ -957,152 +929,123 @@
     <!--招聘和原创-->
     <div class="sonp-section sonp-full sonp-parallax" id="fifth">
         <div class="row" style="padding-top:75px;">
-            <div class="col-md-6">
+            <div class="col-md-6" id="jobsblock">
                 <div class="row">
                     <div class="leaderboard" id="jobs" >                       
                         <h1>
-                            <a href="">                           
+                            <a href="">
                                 热门招聘
-                            </a>                           
+                            </a>
                         </h1>
                         <ol>
-                            <li>
-                                <a href="">
-                                    <mark>Jerry Wood</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-eye"></i>301</small>
-                                </a>
+                            <li v-for="j in jobs" @click="goJobs(j.jobId)">
+                                <mark>{{j.jobName | namefilter}}</mark>
+                                <small>{{j.jobMoney}}</small>
                             </li>
                         </ol>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <script type="text/javascript">
+                var jobsblock = new Vue({
+                    el:'#jobsblock',
+                    data:{
+                        jobs : '',
+                    },
+                    created: function () {
+                        this.getJobs();
+                    },
+                    methods: {
+                        getJobs : function () {
+                            $.ajax({
+                                type: "POST",
+                                url: "/home/getJobs/",
+                                dataType: "json",
+                                success: function(result){
+                                    if(result.code === 0){
+                                        jobsblock.jobs = result.jobs;
+                                    }
+                                }
+                            });
+                        },
+                        goJobs : function (val) {
+                            let url = "/ForJob/mes/" + val;
+                            window.open(url,"_blank");
+                        }
+                    },
+                    filters: {
+                        namefilter: function (value) {
+                            if (value && value.length > 16) {
+                                value = value.substring(0, 16) + '...';
+                            }
+                            return value;
+                        },
+                    },
+                });
+            </script>
+            <div class="col-md-6" id="originsblock">
                 <div class="row">
                     <div class="leaderboard" id="origins">
                         <h1>
                             <a href="">
                                 热门原创
-                            </a>                           
+                            </a>
                         </h1>
                         <ol>
-                            <li>
-                                <a href="">
-                                    <mark>Jerry Wood</mark>
-                                    <small><i class="fa fa-star"></i>315</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <mark>Brandon Barnes</mark>
-                                    <small><i class="fa fa-star"></i>301</small>
-                                </a>
+                            <li v-for="o in origins">
+                                <mark>{{o.origName | namefilter}}</mark>
+                                <small>{{o.origGrade}}分</small>
                             </li>
                         </ol>
                     </div>
                 </div>
             </div>
+            <script type="text/javascript">
+                var originsblock = new Vue({
+                    el:'#originsblock',
+                    data:{
+                        origins : '',
+                    },
+                    created: function () {
+                        this.getOrigins();
+                    },
+                    methods: {
+                        getOrigins : function () {
+                            $.ajax({
+                                type: "POST",
+                                url: "/home/getOrigins/",
+                                dataType: "json",
+                                success: function(result){
+                                    if(result.code === 0){
+                                        originsblock.origins = result.origins;
+                                        console.log(originsblock.origins);
+                                    }
+                                }
+                            });
+                        },
+                    },
+                    filters: {
+                        namefilter: function (value) {
+                            if (value && value.length > 10) {
+                                value = value.substring(0, 10) + '...';
+                            }
+                            return value;
+                        },
+                        numfilter: function(value){
+                            if(value > 10000){
+                                value = value / 10000;
+                                return value + "万";
+                            }
+                            else if(value > 1000){
+                                value = value /1000;
+                                return value + "千";
+                            }
+                            else
+                                return value;
+                        },
+                    },
+                });
+            </script>
         </div>
     </div>
     <!--页脚-->
@@ -1281,6 +1224,32 @@
             keyRight: 39,                   //向右方向键
             keyDown: 40,                    //向下方向键
             keyEnter: 13,                   //回车键
+        });
+    </script>
+
+    <!--导航条滚动js-->
+    <script type="text/javascript">
+        var new_scroll_position = 0;
+        var last_scroll_position;
+        var header = document.getElementById("headerBar");
+
+        window.addEventListener('scroll', function (e) {
+            last_scroll_position = window.scrollY;
+
+            // Scrolling down
+            if (new_scroll_position < last_scroll_position && last_scroll_position > 80) {
+                // header.removeClass('slideDown').addClass('slideUp');
+                header.classList.remove("slideDown");
+                header.classList.add("slideUp");
+
+                // Scrolling up
+            } else if (new_scroll_position > last_scroll_position) {
+                // header.removeClass('slideUp').addClass('slideDown');
+                header.classList.remove("slideUp");
+                header.classList.add("slideDown");
+            }
+
+            new_scroll_position = last_scroll_position;
         });
     </script>
 </body>

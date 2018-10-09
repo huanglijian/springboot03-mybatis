@@ -13,7 +13,7 @@
 
 .main_logo {
 	float: left;
-	margin-top: 5px;
+	margin-top: 1%;
 }
 
 .main_right {
@@ -73,7 +73,9 @@
 	margin-top: 10px;
 	background: #3b3b3b;
 }
-
+/**********************
+		foot
+**********************/
 .foot_panel {
 	width: 1080px;
 	height: 288px;
@@ -114,4 +116,176 @@
 	font-size: 10px;
 	color: #999;
 	;
+}
+/**********************************
+	头部
+***********************************/
+/*默认占位div*/
+.header-take-space{
+	height: 100px;
+	background-color: rgba(255, 255, 255, 0);
+}
+/*logo*/
+.nav-img-logo{
+	height: 45px;
+}
+/*************************
+    Header容器
+ *************************/
+.header-navigation {
+	position: fixed;
+	top: 5px;
+	width: 100%;
+	height: 60px;
+	line-height: 40px;
+	text-align: center;
+	border-radius: 10px;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+	/* box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); */
+	box-sizing: border-box;
+	z-index: 9999;
+}
+/* Slide transitions 滚动改变导航条样式*/
+/*向上滚动*/
+.slideUp {
+	/* -webkit-transform: translateY(-100px);
+      transform: translateY(-100px);*/
+	-webkit-transform: translateY(-100px);
+	-ms-transform: translateY(-100px);
+	-o-transform: translateY(-100px);
+	transform: translateY(-100px);
+	/*transition: transform .5s ease-out;*/
+	-webkit-transition: transform .5s ease-out;
+	-o-transition: transform .5s ease-out;
+	transition: transform .5s ease-out;
+}
+/*向下滚动*/
+.slideDown {
+	/*-webkit-transform: translateY(0);
+      transform: translateY(0);*/
+	-webkit-transform: translateY(0);
+	-ms-transform: translateY(0);
+	-o-transform: translateY(0);
+	transform: translateY(0);
+	/*transition: transform .5s ease-out;*/
+	-webkit-transition: transform .5s ease-out;
+	-o-transition: transform .5s ease-out;
+	transition: transform .5s ease-out;
+}
+/***********************
+   filter实现毛玻璃效果
+**********************/
+.nav-content-filter {
+	z-index: 2;
+	/* border-radius: 10px; */
+	/* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3); */
+	/* overflow: hidden; */
+	/* padding: 50px; */
+	/* box-sizing: border-box; */
+}
+.nav-content-filter::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 30px;
+	-webkit-filter: blur(20px);
+	-moz-filter: blur(20px);
+	-ms-filter: blur(20px);
+	-o-filter: blur(20px);
+	filter: blur(20px);
+	z-index: -3;
+	background-image: url(/static/img/img_chh/headerBackground/bg1.jpg);
+	background-position: center left;
+	background-size: cover;
+	background-attachment: fixed;
+}
+/************************
+	    超链接样式
+**************************/
+.nav-main-right{
+	float: left;
+	margin-left: 20px;
+	width: 800px;
+}
+.cd-nav {
+	position: relative;
+	z-index: 1;
+	clear: both;
+	width: 100%;
+	/* background-color: rgb(255, 255, 255); */
+	/* Force Hardware Acceleration */
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
+	will-change: transform;
+	-webkit-transition: -webkit-transform .5s;
+	transition: -webkit-transform .5s;
+	transition: transform .5s;
+	transition: transform .5s, -webkit-transform .5s;
+}
+.cd-nav ul,
+.cd-nav li,
+.cd-nav a {
+	height: 100%;
+}
+.cd-nav ul {
+	/* enables a flex context for all its direct children */
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	padding-left: 8%;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+}
+.cd-nav ul::after {
+	clear: both;
+	content: "";
+	display: block;
+}
+.cd-nav li {
+	display: inline-block;
+	float: left;
+	/* do not shrink - elements float on the right of the element */
+	-webkit-flex-shrink: 0;
+	-ms-flex-negative: 0;
+	flex-shrink: 0;
+	margin-right: 1%;
+	font-size: 15px;
+}
+.cd-nav li:last-of-type {
+	padding-right: 20px;
+}
+.cd-nav a {
+	display: block;
+	color: #000000;
+	opacity: .4;
+	line-height: 60px;
+	padding: 0 1em;
+	text-decoration: none;
+	font-weight: bolder;
+}
+.cd-nav a:hover,
+.cd-nav a.active {
+	opacity: 1;
+	box-shadow: inset 0 -3px #1ab396;
+	text-decoration: none;
+}
+
+/*头像*/
+.nav-avatar{
+	height: 50px;
+	width: 50px;
+	border-radius: 30px;
+}
+/*下拉菜单*/
+.nav-dropdown-menu{
+	max-width: 120px;
+	padding: 0;
+}
+/*菜单选项*/
+.nav-text-center{
+	text-align:center;
+	margin: 0;
 }

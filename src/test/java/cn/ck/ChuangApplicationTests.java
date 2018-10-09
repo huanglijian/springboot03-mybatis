@@ -39,6 +39,10 @@ public class ChuangApplicationTests {
     DanmuMapper danmuMapper;
     @Autowired
     CollectresService collectresService;
+    @Autowired
+    BiddingService biddingService;
+    @Autowired
+    StudioService studioService;
 
     @Test
     public void contextLoads() throws Exception {
@@ -56,7 +60,9 @@ public class ChuangApplicationTests {
 //        List<DanmuJson> danmuJsons = danmuMapper.selectDanmuJsonByResId(1);
 //        danmuJsons = danmuService.sortListByTime(danmuJsons);
 //        System.out.println(danmuJsons);
-        System.out.println(collectresService.isCollected("e9ae842a-e70f-49b8-a9b5-bee24a13c8bb", 2));
+//        System.out.println(collectresService.isCollected("e9ae842a-e70f-49b8-a9b5-bee24a13c8bb", 2));
+//        List l = biddingService.selectRecommendProj();
+//        System.out.println(l);
     }
 
     @Test

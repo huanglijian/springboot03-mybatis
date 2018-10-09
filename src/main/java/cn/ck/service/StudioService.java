@@ -28,4 +28,6 @@ public interface StudioService extends IService<Studio> {
       */
      List<Studio> selectSuperStudio(Integer projNum);
 
+     List<Studio> selectForHall(String type,String local,String studioName,String sort);
+
 }

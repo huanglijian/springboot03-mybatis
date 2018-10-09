@@ -161,7 +161,7 @@
                     <tbody v-for="i in n.list">
                     <tr>
                         <td v-if="i.project && i.project.projName">
-                            <a href="#">{{i.project.projName}}</a>
+                            <a :href="'/project/projectDetail?id='+i.project.projId">{{i.project.projName}}</a>
                         </td>
                         <td v-if="i.project && i.project.projCreattime">{{i.project.projCreattime}}</td>
                         <td v-if="i.project && i.project.projState">{{i.project.projState}}</td>

@@ -21,4 +21,10 @@ public interface JobsService extends IService<Jobs> {
 
     public Jobs selectByJuId(int JuId );
 
+    /**
+     * 首页取除推荐的职位
+     * 招聘中的，按时间排序
+     * @return
+     */
+    List<Jobs> selectLatestJobs();
 }

@@ -340,15 +340,21 @@ body {
 	margin-right: 10px;
 }
 
-.col_right_vec_down_item_bq {
+.col_right_cyc_down_item_bq {
 	display: inline-block;
+	border-top: 1px dashed #ddd;
 	margin: 8px 0 8px;
-	padding: 0 16px 0 0;
+	padding: 8px 16px 0 0;
 	height: auto;
 }
 
-.col_right_vec_down_item_bq a {
-	font-size: 13px;
+.col_right_cyc_down_item_bq span{
 	color: #3399ea;
-	text-decoration: underline;
+	margin-right:10px;
+}
+.channel {
+	background-color: #c66;
+	margin: 12px 0;
+	padding: 0 4px;
+	color: #ffffff;
 }

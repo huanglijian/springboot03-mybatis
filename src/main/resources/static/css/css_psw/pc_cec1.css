@@ -125,10 +125,9 @@ body {
 	height: auto;
 }
 
-.col_right_cec_down_item_bq a {
-	font-size: 13px;
+.col_right_cec_down_item_bq span{
 	color: #3399ea;
-	text-decoration: underline;
+	margin-right:10px;
 }
 
 .channel {

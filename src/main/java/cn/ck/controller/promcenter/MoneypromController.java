@@ -4,6 +4,7 @@ import cn.ck.entity.*;
 import cn.ck.service.AccountService;
 import cn.ck.service.FundsService;
 import cn.ck.service.PromulgatorService;
+import cn.ck.service.UsersService;
 import cn.ck.utils.AlipayConfig;
 import cn.ck.utils.DateUtils;
 import cn.ck.utils.ResponseBo;
@@ -16,6 +17,7 @@ import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.catalina.User;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,8 @@ public class MoneypromController {
     FundsService fundsService;
     @Autowired
     PromulgatorService promulgatorService;
+    @Autowired
+    UsersService usersService;
 
     /**
      * 我的钱包界面信息渲染
@@ -112,11 +116,22 @@ public class MoneypromController {
     @ResponseBody
     public ResponseBo prompayin(){
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
-        Promulgator promulgator=promulgatorService.selectID(user.getAllId());
+        Users users=new Users();
+        Promulgator promulgator=new Promulgator();
+        String prom="";
+        String paypwd="";
+        if(user.getAllType().equals("普通用户")){
+            users=usersService.selectById(user.getAllId());
+            prom=users.getUserName();
+            paypwd=users.getUserPaypwd();
+        }
+        if(user.getAllType().equals("发布者")){
+            promulgator=promulgatorService.selectID(user.getAllId());
+            prom=promulgator.getPromName();
+            paypwd=promulgator.getPromPaypwd();
+        }
         Account account=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid",user.getAllId()));
-        String prom=promulgator.getPromName();
         double acc=account.getAccMoney();
-        String paypwd=promulgator.getPromPaypwd();
         return ResponseBo.ok().put("name",prom).put("money",acc).put("pwd",paypwd);
     }
 
@@ -186,7 +201,6 @@ public class MoneypromController {
             params.put(name, valueStr);
         }
         boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.sign_type); //调用SDK验证签名
-        ModelAndView mv = new ModelAndView("/promulgator/prom_payinresult");
         if(signVerified) {
             //商户订单号
             String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
@@ -196,9 +210,25 @@ public class MoneypromController {
             String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
 
             Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
-            Promulgator promulgator=promulgatorService.selectID(user.getAllId());
+            Promulgator promulgator=new Promulgator();
+            String promname="";
+            Users users=new Users();
+            ModelAndView mv = new ModelAndView();
+
+            if(user.getAllType().equals("普通用户")){
+                users=usersService.selectById(user.getAllId());
+                promname=users.getUserName();
+                mv.setViewName("/users/pc_payinresult");
+
+            }
+            if(user.getAllType().equals("发布方")){
+                promulgator=promulgatorService.selectID(user.getAllId());
+                promname=promulgator.getPromName();
+                mv.setViewName("/promulgator/prom_payinresult");
+
+            }
+
             Account account=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid",user.getAllId()));
-            String promname=promulgator.getPromName();
             double d1=Double.valueOf(total_amount);
             BigDecimal bg = new BigDecimal(d1);
             double acc = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -219,11 +249,13 @@ public class MoneypromController {
             mv.addObject("account", acc);
             mv.addObject("name",promname);
             mv.addObject("accountall",accall);
+            return mv;
 
         }else {
+            ModelAndView mv = new ModelAndView("/promulgator/prom_payinresult");
+            return mv;
 
         }
-        return mv;
     }
 
     /**
@@ -288,13 +320,25 @@ public class MoneypromController {
         String payee_type="ALIPAY_LOGONID";
         //收款方账户
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
-        Promulgator promulgator=promulgatorService.selectID(user.getAllId());
-        String promname=promulgator.getPromName();
-        String payee_account=promulgator.getPromAbipay();
+        Promulgator promulgator=new Promulgator();
+        Users users=new Users();
+        String promname="";
+        String payee_account="";
+        ModelAndView mv = new ModelAndView();
+        if(user.getAllType().equals("普通用户")){
+            users=usersService.selectById(user.getAllId());
+            promname=users.getUserName();
+            mv.setViewName("/users/pc_payoutresult");
+            payee_account=users.getUserAbipay();
+        }
+        if(user.getAllType().equals("发布方")){
+            promulgator=promulgatorService.selectID(user.getAllId());
+            promname=promulgator.getPromName();
+            mv.setViewName("/promulgator/prom_payinresult");
+            payee_account=promulgator.getPromAbipay();
+        }
         //转账金额
         String amount=req.getParameter("payoutnumber");
-
-        ModelAndView mv = new ModelAndView("/promulgator/prom_payoutresult");
 
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl,AlipayConfig.app_id,AlipayConfig.merchant_private_key,"json",AlipayConfig.charset,AlipayConfig.alipay_public_key,AlipayConfig.sign_type);
         AlipayFundTransToaccountTransferRequest request = new AlipayFundTransToaccountTransferRequest();

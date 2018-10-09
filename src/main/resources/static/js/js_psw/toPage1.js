@@ -6,6 +6,9 @@ function page_ctrl(data_obj) {
   var per_num=(data_obj.per_num!== undefined)?parseInt(data_obj.per_num):1;//每页显示条数,默认为10条
   var current_page=(data_obj.current_page!== undefined)?parseInt(data_obj.current_page):1;//当前页,默认为1
   var total_page=Math.ceil(total_item/per_num);//计算总页数,不足2页,不加载组件
+  if(total_page<2){
+        return;
+  }
   //在指定容器内加载分页数据
   $(obj_box).append('<div class="page_content"></div>');
   //在指定容器内加载分页插件

@@ -18,4 +18,6 @@ public interface StudioMapper extends BaseMapper<Studio> {
         public Studio selectByzzid(String zzid);
 
         List<Studio> selectSuperStudio(@Param("projNum") Integer projNum);
+
+        List<Studio> selectForHall(@Param("type") String type, @Param("local") String local, @Param("studioName") String studioName,@Param("sort") String sort);
 }

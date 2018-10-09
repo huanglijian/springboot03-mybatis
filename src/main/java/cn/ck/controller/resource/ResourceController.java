@@ -165,13 +165,8 @@ public class ResourceController extends AbstractController {
                 .put("isLiked", isLiked);
     }
 
-    @RequestMapping("index")
-    public String index(){
-        return "resource/index";
-    }
-
     /**
-     * 二进制流输出视频
+     * 二进制流输出视频（待修改）
      * @param request
      * @param response
      * @throws IOException
@@ -209,20 +204,28 @@ public class ResourceController extends AbstractController {
 
     /**
      * 发送弹幕
-     * @param resId
-     * @param danmu
+     * @param resId 视频id
+     * @param danmu 从页面接受一个json化的弹幕实体
      * @return
      * @throws Exception
      */
     @RequestMapping("putDanmu/{resId}")
     @ResponseBody
     public ResponseBo putDanmu(@PathVariable("resId")Integer resId, String danmu) throws Exception {
+        //json工具类转成对象
         DanmuJson danmuJson = JsonUtils.json2obj(danmu, DanmuJson.class);
+        //设置视频外键
         danmuJson.setDmResource(resId);
+        //插入数据库
         danmuService.insertDanmuFromJson(danmuJson);
         return ResponseBo.ok();
     }
 
+    /**
+     * 点赞功能
+     * @param resId
+     * @return
+     */
     @RequestMapping("likeRes/{resId}")
     @ResponseBody
     public ResponseBo likeResource(@PathVariable("resId")Integer resId){
@@ -244,6 +247,11 @@ public class ResourceController extends AbstractController {
         return ResponseBo.ok();
     }
 
+    /**
+     * 收藏功能
+     * @param resId
+     * @return
+     */
     @RequestMapping("collectRes/{resId}")
     @ResponseBody
     public ResponseBo collectResource(@PathVariable("resId")Integer resId){

@@ -10,12 +10,14 @@
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 	<!--图片上传与剪辑-->
-	<link rel="stylesheet" href="/static/css/css_psw/prom_updatephoto.css" />
-	<link rel="stylesheet" href="/static/css/css_psw/cropper.min.css" />
-	<script type="text/javascript" src="/static/js/js_psw/cropper.min.js"></script>
+	<link rel="stylesheet" href="/static/css/css_psw/prom_updatephoto2.css" />
+	<link rel="stylesheet" href="/static/css/css_psw/cropper1.min.css" />
+	<script type="text/javascript" src="/static/js/js_psw/cropper1.min.js"></script>
 	<script type="text/javascript" src="/static/js/js_psw/prom-jquery.js"></script>
-	<script type="text/javascript" src="/static/js/js_psw/prom_updatePhoto.js"></script>
+	<script type="text/javascript" src="/static/js/js_psw/prom_updatePhoto1.js"></script>
 	<link href="/static/css/css_psw/pc_udph.css" rel="stylesheet" />
+	<script src="http://how2j.cn/study/vue.min.js"></script>
+	<script src="http://how2j.cn/study/axios.min.js"></script>
 </head>
 
 <body>
@@ -78,14 +80,14 @@
 							<span class="glyphicon glyphicon-chevron-up"></span>
 						</a>
 						<ul id="personcenter" class="panel-collapse collapse in">
+							<li>
+								<a href="/user/user_info">个人资料</a>
+							</li>
 							<li class="current">
-								<a href="pc_information.html">个人资料</a>
+								<a href="/user/user_mfyinfo">修改资料</a>
 							</li>
 							<li>
-								<a href="pc_mfy_information.html">修改资料</a>
-							</li>
-							<li>
-								<a href="pc_sysn.html">系统通知</a>
+								<a href="/user/user_sysn">系统通知</a>
 							</li>
 						</ul>
 					</li>
@@ -96,13 +98,13 @@
 						</a>
 						<ul id="projectmanage" class="panel-collapse collapse in">
 							<li>
-								<a href="pc_xiangmu_collection.html">项目收藏</a>
+								<a href="/user/user_pjcol">项目收藏</a>
 							</li>
 							<li>
-								<a href="pc_video_collection.html">视频收藏</a>
+								<a href="/user/user_veocol">视频收藏</a>
 							</li>
 							<li>
-								<a href="pc_code_collection.html">代码收藏</a>
+								<a href="/user/user_codecol">代码收藏</a>
 							</li>
 						</ul>
 					</li>
@@ -113,7 +115,7 @@
 						</a>
 						<ul id="pricspananage" class="panel-collapse collapse in">
 							<li>
-								<a href="pc_code_yuanchuang.html">原创</a>
+								<a href="/user/user_yc">原创</a>
 							</li>
 						</ul>
 					</li>
@@ -124,13 +126,13 @@
 						</a>
 						<ul id="safspananage" class="panel-collapse collapse in">
 							<li>
-								<a href="pc_updpwd.html">修改登录密码</a>
+								<a href="/user/user_money">资金管理</a>
 							</li>
 							<li>
-								<a href="pc_updpyp.html">修改支付密码</a>
+								<a href="/user/user_uppw">修改登录密码</a>
 							</li>
 							<li>
-								<a href="pc_zhuxiao.html">注销账户</a>
+								<a href="/user/user_upppw">修改支付密码</a>
 							</li>
 						</ul>
 					</li>
@@ -143,9 +145,9 @@
 				</div>
 			</div>
 			<div class="container-fluid ">
-				<div class="row contest_top">
-					<div class="col-md-8">
-						<img src="/static/img/a1.jpg" id="photo">
+				<div class="row contest_top" id="userimg">
+					<div class="col-md-8" id="img">
+						<img src="/user/showImg" id="photo" class="photo" >
 					</div>
 					<div class="col-md-4">
 						<div>

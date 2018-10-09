@@ -15,4 +15,23 @@
         <result column="orig_users" property="origUsers" />
     </resultMap>
 
+    <resultMap id="OrignalCollection" type="cn.ck.entity.bean.OriCol" extends="BaseResultMap">
+        <collection property="collectori" ofType="cn.ck.entity.Collectori">
+            <id column="colo_id" property="coloId"></id>
+            <result column="colo_ogi" property="coloOgi"></result>
+            <result column="colo_time" property="coloTime"></result>
+            <result column="colo_users" property="coloUsers"></result>
+        </collection>
+    </resultMap>
+
+    <resultMap id="OrignalAssociation" type="cn.ck.entity.bean.OriColUser" extends="OrignalCollection">
+        <association property="users" javaType="cn.ck.entity.Users">
+            <id column="user_id" property="userId"></id>
+            <result column="user_name" property="userName"></result>
+        </association>
+    </resultMap>
+
+    <select id="selectDesc" resultMap="OrignalAssociation">
+      select * from original o,collectori co,users u where o.orig_id=co.colo_ogi and co.colo_users=#{0} and o.orig_users=u.user_id order by co.colo_time desc
+    </select>
 </mapper>

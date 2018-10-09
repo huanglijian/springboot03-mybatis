@@ -3,6 +3,14 @@
 
 			margin: 0 auto;
 		}
+.list-unstyled li .item.active {
+	color:deepskyblue;
+}
+.paixus li .item.active {
+	color:deepskyblue;
+}
+
+
 
 		.restart {
 			width: 1080px;

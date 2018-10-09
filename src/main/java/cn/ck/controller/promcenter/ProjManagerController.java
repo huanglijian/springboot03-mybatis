@@ -272,39 +272,49 @@ public class ProjManagerController {
      * 发布者选定承接方操作
      * @return
      */
-    @PostMapping("/promfinproject/{id}/{paypwd}")
+    @PostMapping("/promfinproject/{id}/{paypwd}/{garde}")
     @ResponseBody
-    public ResponseBo promfinproject(@PathVariable("id") String id,@PathVariable("paypwd") String paypwd, HttpServletRequest request){
+    public ResponseBo promfinproject(@PathVariable("id") String id,@PathVariable("paypwd") String paypwd,@PathVariable("garde") double garde, HttpServletRequest request){
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
         Promulgator promulgator=promulgatorService.selectById(user.getAllId());
-        if(paypwd.equals(promulgator.getPromPaypwd())){
+        System.out.println(garde);
+        Project project=projectService.selectById(id);
+        Studio studio=studioService.selectById(project.getProjStudio());
+        if(garde==0){
+            return ResponseBo.ok().put("code",2);
+        }else if(!paypwd.equals(promulgator.getPromPaypwd())){
+            return ResponseBo.ok().put("code",0);
+        }else {
+            studio.setStuGrade((studio.getStuGrade() * studio.getStuProjectnum() + garde) / (studio.getStuProjectnum() + 1));
+            studio.setStuProjectnum(studio.getStuProjectnum() + 1);
+            System.out.println(studio.getStuGrade());
+            studioService.updateAllColumnById(studio);
+
             //更改项目信息
-            Project project=projectService.selectById(id);
             project.setProjEndtime(new Date());
             project.setProjState("开发完成");
             projectService.updateAllColumnById(project);
 
             //更改资金信息
-            Studio studio=studioService.selectById(project.getProjStudio());
-            double money=Double.valueOf(project.getProjMoney())*0.9+100;
-            double usermoney=Double.valueOf(project.getProjMoney());
+            double money = Double.valueOf(project.getProjMoney()) * 0.9 + 100;
+            double usermoney = Double.valueOf(project.getProjMoney());
             //发布者资金
-            Account account=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid",user.getAllId()));
-            account.setAccMoney(account.getAccMoney()-money);
+            Account account = accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid", user.getAllId()));
+            account.setAccMoney(account.getAccMoney() - money);
             accountService.updateAllColumnById(account);
             //用户资金
-            Account useracc=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid",studio.getStuCreatid()));
-            useracc.setAccMoney(useracc.getAccMoney()+usermoney);
+            Account useracc = accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid", studio.getStuCreatid()));
+            useracc.setAccMoney(useracc.getAccMoney() + usermoney);
             accountService.updateAllColumnById(useracc);
             //平台资金
-            Account adminacc=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid","7f628d5d-2265-49d4-b12d-d65b8f280901"));
-            adminacc.setAccMoney(adminacc.getAccMoney()+money-usermoney);
+            Account adminacc = accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid", "7f628d5d-2265-49d4-b12d-d65b8f280901"));
+            adminacc.setAccMoney(adminacc.getAccMoney() + money - usermoney);
             accountService.updateAllColumnById(adminacc);
 
             //添加资金表信息
             //发布者资金记录
-            Funds funds=new Funds();
-            String uuid1= UUID.randomUUID().toString();
+            Funds funds = new Funds();
+            String uuid1 = UUID.randomUUID().toString();
             String promid = uuid1.replace("-", "");
             funds.setFundId(promid);
             funds.setFundMoney(-money);
@@ -314,8 +324,8 @@ public class ProjManagerController {
             funds.setFundDatetime(new Date());
             fundsService.insert(funds);
             //平台资金记录
-            Funds fund1=new Funds();
-            String uuid2= UUID.randomUUID().toString();
+            Funds fund1 = new Funds();
+            String uuid2 = UUID.randomUUID().toString();
             String adminid = uuid2.replace("-", "");
             fund1.setFundId(adminid);
             fund1.setFundMoney(money);
@@ -325,8 +335,8 @@ public class ProjManagerController {
             fund1.setFundDatetime(new Date());
             fundsService.insert(fund1);
 
-            Funds fund2=new Funds();
-            String uuid3= UUID.randomUUID().toString();
+            Funds fund2 = new Funds();
+            String uuid3 = UUID.randomUUID().toString();
             String adminid1 = uuid3.replace("-", "");
             fund2.setFundId(adminid1);
             fund2.setFundMoney(-usermoney);
@@ -336,8 +346,8 @@ public class ProjManagerController {
             fund2.setFundDatetime(new Date());
             fundsService.insert(fund2);
             //用户资金记录
-            Funds fund3=new Funds();
-            String uuid4= UUID.randomUUID().toString();
+            Funds fund3 = new Funds();
+            String uuid4 = UUID.randomUUID().toString();
             String userid = uuid4.replace("-", "");
             fund3.setFundId(userid);
             fund3.setFundMoney(usermoney);
@@ -349,20 +359,17 @@ public class ProjManagerController {
 
             //通知信息
             String nowdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            String prommessage="您好，您正在开发的项目"+project.getProjName()+"已在"+nowdate+"确定完成,如需查看详细信息，请查看项目相关功能";
-            String stumessage="您好，您正在开发的项目"+project.getProjName()+"已在"+nowdate+"被确定完成，相关资金已进入工作室创始人账户,如需查看详细信息，请查看项目相关功能";
-            String usermessage="您好，您的工作室所开发的项目"+project.getProjName()+"已在"+nowdate+"被确定完成，相关资金已进入您的账户,如需查看详细信息，请查看项目相关功能";
-            Notice promnotice=NoticeInsert.insertNotice(prommessage,user.getAllId());
-            Notice stunotice=NoticeInsert.insertNotice(stumessage,project.getProjStudio());
-            Notice usernotice=NoticeInsert.insertNotice(usermessage,studio.getStuCreatid());
+            String prommessage = "您好，您正在开发的项目" + project.getProjName() + "已在" + nowdate + "确定完成,如需查看详细信息，请查看项目相关功能";
+            String stumessage = "您好，您正在开发的项目" + project.getProjName() + "已在" + nowdate + "被确定完成，相关资金已进入工作室创始人账户,如需查看详细信息，请查看项目相关功能";
+            String usermessage = "您好，您的工作室所开发的项目" + project.getProjName() + "已在" + nowdate + "被确定完成，相关资金已进入您的账户,如需查看详细信息，请查看项目相关功能";
+            Notice promnotice = NoticeInsert.insertNotice(prommessage, user.getAllId());
+            Notice stunotice = NoticeInsert.insertNotice(stumessage, project.getProjStudio());
+            Notice usernotice = NoticeInsert.insertNotice(usermessage, studio.getStuCreatid());
             noticeService.insert(promnotice);
             noticeService.insert(stunotice);
             noticeService.insert(usernotice);
 
-            return ResponseBo.ok().put("code",1).put("projid",project.getProjId());
-        }else{
-
-            return ResponseBo.ok().put("code",0);
+            return ResponseBo.ok().put("code", 1).put("projid", project.getProjId());
         }
     }
 }

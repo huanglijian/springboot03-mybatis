@@ -154,8 +154,8 @@
                     <span>&nbsp;元</span>
                 </div>
                 <div class="c_r_c_t_right">
-                    <a href="#" class="btn pM_a1">充值</a>
-                    <a href="#" class="btn pM_a2">提现</a>
+                    <a href="/pcjump/priceinprom" class="btn pM_a1">充值</a>
+                    <a href="/pcjump/priceoutprom" class="btn pM_a2">提现</a>
                 </div>
             </div>
             <div class="c_r_c_middle">
@@ -344,7 +344,7 @@
         created: function () {
             $.ajax({
                 type: 'get',
-                url: '/promcenter/priceprom/'+1,
+                url: '/userspri/priceuser/'+1,
                 success: function (result) {
                     console.log(result);
                     vm.account = result.account;

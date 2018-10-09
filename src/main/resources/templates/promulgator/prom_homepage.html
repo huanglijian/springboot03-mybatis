@@ -113,7 +113,7 @@
 									</div>
 									<div v-else>
 									<div class="col-md-12 c_b_projmag" v-for="b in bid">
-										<a href="" class="c_b_a">{{b.projName}}</a><br/>
+										<a :href="'/project/projectDetail?id='+b.projId" class="c_b_a">{{b.projName}}</a><br/>
 										<span class="c_b_aspan">创建时间：{{b.projCreattime|dateFormat}} &nbsp;&nbsp;竞标周期：10天</span>
 									</div>
 									</div>
@@ -127,7 +127,7 @@
 									</div>
 									<div v-else>
 										<div class="col-md-12 c_b_projmag"v-for="p in project">
-											<a href="" class="c_b_a">{{p.projName}}</a><br/>
+											<a :href="'/project/projectDetail?id='+p.projId" class="c_b_a">{{p.projName}}</a><br/>
 											<span class="c_b_aspan">结束时间：{{p.projEndtime|dateFormat}} &nbsp;&nbsp;承接方：{{p.projStudio}}</span>
 										</div>
 									</div>

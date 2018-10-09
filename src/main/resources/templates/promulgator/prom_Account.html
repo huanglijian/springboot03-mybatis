@@ -175,9 +175,9 @@
                         </div>
                         <div class="r_c_t_r_m_right">
                             <br/> &nbsp;&nbsp;&nbsp;&nbsp;
-                            <a class="a3" href="prom_priManage.html">充值查询</a>
+                            <a class="a3" href="/pcjump/priceprom">充值查询</a>
                             |
-                            <a class="a3" href="prom_priManage.html">提款查询</a>
+                            <a class="a3" href="/pcjump/priceprom">提款查询</a>
                         </div>
                     </div>
                     <div class="r_c_t_r_bottom">
@@ -233,7 +233,7 @@
                         <td>{{p.projStarttime|dateFormat}}</td>
                         <td>{{p.projStudio}}</td>
                         <td>
-                            <button type="button" class="btn btn-sm" id="table_btn">查看详情</button>
+                            <a :href="'/project/projectDetail?id='+p.projId" class="btn btn-sm" id="table_btn">查看详情</a>
                         </td>
                     </tr>
                     </tbody>
