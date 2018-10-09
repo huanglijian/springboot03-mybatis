@@ -63,6 +63,15 @@ public class AccountController {
     public ResponseBo account() {
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
         Promulgator promulgator = promulgatorService.selectID(user.getAllId());
+
+        List<Project> proBidding=projectService.projBidTimefalse(user.getAllId());
+        for (Project project1:proBidding) {
+            project1.setProjState("竞标超时");
+        }
+        if(!proBidding.isEmpty()){
+            projectService.updateAllColumnBatchById(proBidding);
+        }
+
         Account account = accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid", user.getAllId()));
         //项目总数
         int allnum = projectService.selectCount(new EntityWrapper<Project>().eq("proj_prom", user.getAllId()));
@@ -79,7 +88,7 @@ public class AccountController {
 
         Set<String> set = new HashSet<>();
         set.add("proj_starttime");
-        List<Project> projectList = projectService.selectList(new EntityWrapper<Project>().eq("proj_prom", user.getAllId()).eq("proj_state", "承接方中止").or().eq("proj_state", "开发中").or().eq("proj_state", "发布者中止").orderDesc(set));
+        List<Project> projectList = projectService.selectList(new EntityWrapper<Project>().eq("proj_prom", user.getAllId()).eq("proj_state", "承接方中止").or().eq("proj_state", "开发中").or().eq("proj_state", "发布者中止").or().eq("proj_state", "发布者中止").orderDesc(set));
         for (Project project : projectList) {
             Studio studio = studioService.selectById(project.getProjStudio());
             String stuname = studio.getStuName();

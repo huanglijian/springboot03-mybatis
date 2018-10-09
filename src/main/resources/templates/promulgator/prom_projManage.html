@@ -177,17 +177,17 @@
 								<div class="pBUnfinish_right"v-if="proj.projState=='开发中'">
 									<a class="btn pB_a1" href="javascript:;" @click="prompause(proj.projId)">暂停项目</a>
 									<a class="btn pB_a4" href="javascript:;" @click="promfinish(proj.projId)">确认完工</a>
-									<a class="btn pB_a2" href="#">查看项目</a>
+									<a class="btn pB_a2" :href="'/project/projectDetail?id='+proj.projId">查看项目</a>
 								</div>
 								<div class="pBUnfinish_right"v-if="proj.projState=='发布者中止'">
 									<a class="btn pB_a1" href="javascript:;" @click="promcancel(proj.projId)">取消暂停</a>
 									<a class="btn pB_a4 disabled" href="#">确认完工</a>
-									<a class="btn pB_a2" href="#">查看项目</a>
+									<a class="btn pB_a2" :href="'/project/projectDetail?id='+proj.projId">查看项目</a>
 								</div>
 								<div class="pBUnfinish_right"v-if="proj.projState=='承接方中止'">
 									<a class="btn pB_a1" href="javascript:;"@click="promaffirm(proj.projId)">确认暂停</a>
 									<a class="btn pB_a4 disabled" href="javascript:;">确认完工</a>
-									<a class="btn pB_a2" href="#">查看项目</a>
+									<a class="btn pB_a2" :href="'/project/projectDetail?id='+proj.projId">查看项目</a>
 								</div>
 
 
@@ -366,7 +366,7 @@
 									</p>
 								</div>
 								<div class="pBFinish_right">
-									<a class="btn pB_a3" href="#">查看项目</a>
+									<a class="btn pB_a3" :href="'/project/projectDetail?id='+proj.projId">查看项目</a>
 								</div>
 							</div>
 						</div>

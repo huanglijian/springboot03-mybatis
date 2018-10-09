@@ -181,8 +181,13 @@
 						<div class="botbid col-md-12" v-for="(value,index) in biddetails.probid">
 							<div class="bidnum col-md-2">
 								<div class="nummeg col-md-3">&nbsp;{{index+1}}</div>
-								<div class="numimg col-md-9">
-									<img src="/static/img/a1.jpg" alt="" class="img_size"/>
+								<div class="numimg col-md-9 ">
+									<div v-if="value.studio&&value.studio.stuImg==''">
+										<img src="/static/img/img_lxn/default.jpg" alt="" class="img_size"/>
+									</div>
+									<div v-else>
+										<!--<img v-if="value.studio && value.studio.stuImg" :src="" alt="" class="img_size"/>-->
+									</div>
 								</div>
 							</div>
 							<div class="bidleft col-md-8">
@@ -466,6 +471,7 @@
 						type:'post',
 						url:'/promcenter/projbiddetail/'+id,
 						success:function (result) {
+						    console.log(result);
 							vm.biddetails=result;
                         }
 					})
