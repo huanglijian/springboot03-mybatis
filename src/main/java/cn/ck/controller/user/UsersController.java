@@ -89,7 +89,7 @@ public class UsersController extends AbstractController {
 
     //跳转修改用户通知消息页面
     @RequestMapping("/user_sysn")
-    public String user_sysn(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "1") int size){
+    public String user_sysn(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "10") int size){
         this.start=start;
         this.size=size;
         return "users/pc_sysn";
@@ -97,7 +97,7 @@ public class UsersController extends AbstractController {
 
     //跳转用户项目收藏页面
     @RequestMapping("/user_pjcol")
-    public String user_pjcol(@RequestParam(value = "state", defaultValue = "0") String state,@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "1") int size){
+    public String user_pjcol(@RequestParam(value = "state", defaultValue = "0") String state,@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "10") int size){
         this.state=state;
         this.start=start;
         this.size=size;
@@ -106,15 +106,15 @@ public class UsersController extends AbstractController {
 
     //跳转用户视频收藏页面
     @RequestMapping("/user_veocol")
-    public String user_veocol(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "1") int size){
+    public String user_veocol(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "10") int size){
         this.start=start;
         this.size=size;
         return "users/pc_video_collection";
     }
 
-    //跳转用户代码页面
+    //跳转用户代码收藏页面
     @RequestMapping("/user_codecol")
-    public String user_codecol(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "1") int size){
+    public String user_codecol(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "10") int size){
         this.start=start;
         this.size=size;
         return "users/pc_code_collection";
@@ -122,7 +122,7 @@ public class UsersController extends AbstractController {
 
     //跳转用户代码页面
     @RequestMapping("/user_yc")
-    public String user_yc(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "4") int size){
+    public String user_yc(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "10") int size){
         this.start=start;
         this.size=size;
         return "users/pc_code_yuanchuang";
