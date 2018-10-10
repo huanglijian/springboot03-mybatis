@@ -104,13 +104,13 @@ public class LoginController extends AbstractController {
 				Users u = usersService.selectById(userId);
 				u.setUserLogintime(new Date());
 				usersService.updateById(u);
-				next="/user/user_info";
+				next="/";
 			}
 			else if(userType.equals("发布者")){
 				Promulgator p = promulgatorService.selectById(userId);
 				p.setPromLogintime(new Date());
 				promulgatorService.updateById(p);
-				next="/pcjump/account";
+				next="/";
 			}
 			//向页面传递数据
 //			rb.put("userType", getUser().getAllType());
