@@ -72,4 +72,19 @@
         order by co.colp_time DESC
     </select>
 
+    <select id="selectProjlist1" resultType="cn.ck.entity.Project">
+        select *
+        from project
+        where proj_studio = #{stuId}
+        and (proj_state='开发中'or proj_state='承接方中止'or proj_state='发布方中止')
+        order by proj_starttime desc
+    </select>
+
+    <select id="selectProjlist2" resultType="cn.ck.entity.Project">
+        select *
+        from project
+        where proj_studio = #{stuId}
+        and (proj_state='项目中止'or proj_state='开发完成')
+        order by proj_starttime desc
+    </select>
 </mapper>

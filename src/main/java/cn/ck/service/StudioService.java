@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface StudioService extends IService<Studio> {
 
-     public String insertStudio(Studio studio,String yhid);
+     public String insertStudio(Studio studio);
 
      public Studio selectByzzid(String zzid);
 

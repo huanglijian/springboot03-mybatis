@@ -45,4 +45,8 @@ public interface ProjectMapper extends BaseMapper<Project> {
 
     //关联project表跟collectpj表
     List<PjCol> selectPjCol(Map<String,Object> map);
+
+    List<Project> selectProjlist1(String stuId);
+
+    List<Project> selectProjlist2(String stuId);
 }

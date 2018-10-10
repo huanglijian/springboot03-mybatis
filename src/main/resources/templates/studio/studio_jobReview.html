@@ -33,56 +33,101 @@
 	
 	<body>
 	<!--header-->
-		<header>
-			<div class="container-fluid container-fluid_up">
-				<div class="row_up">
-					<ul class="list-unstyled">
-						<li>
-							<a href="#">帮助中心</a>
-						</li>
-						<li>
-							<a href="#">注册</a>
-						</li>
-						<li>
-							<a href="#">登录</a>
-						</li>
-					</ul>
+	<header class="header-navigation" id="headerBar">
+		<div class="nav-content-filter">
+			<div class="row_main">
+				<!--logo-->
+				<div class="main_logo">
+					<img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
+				</div>
+				<!--超链接-->
+				<div class="nav-main-right">
+					<nav class="cd-nav">
+						<ul>
+							<li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+							<li><a href="/project/xwh">项目大厅</a></li>
+							<li><a href="/stuhall/hall">服务大厅</a></li>
+							<li><a href="/resource/home">创客讲堂</a></li>
+							<li><a href="/original/all">原创中心</a></li>
+							<li><a href="/ForJob/search">在线求职</a></li>
+							<li><a href="/honor/honorPage">荣誉中心</a></li>
+						</ul>
+					</nav>
 				</div>
 			</div>
-			<div class="container-fluid container-fluid_main">
-				<div class="row_main">
-					<div class="main_logo">
-						<img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
-					</div>
-					<div class="main_right">
-						<ul class="nav_psw list-unstyled">
-							<li class="active">
-								<a>首 页</a>
+			<!--头像、个人中心、注销等-->
+			<div id="headVue">
+				<ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
+							<!--没有登陆-->
+							<img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
+							<!--已经登录-->
+							<img class="nav-avatar" v-else :src="img"/>
+							<span class="caret"></span>
+						</a>
+
+						<ul class="dropdown-menu dropdown-alerts nav-dropdown-menu">
+							<!--##########未登录###############-->
+							<li v-if="!isLogined">
+								<a href="/login"><p class="nav-text-center">登录</p></a>
 							</li>
-							<li>
-								<a>项目大厅</a>
+							<li v-if="!isLogined">
+								<a href="/registered/select/new"><p class="nav-text-center">注册</p></a>
 							</li>
-							<li>
-								<a>服务大厅</a>
+							<!--##########已登录###############-->
+							<li v-if="isLogined">
+								<a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
 							</li>
-							<li>
-								<a>创客讲堂</a>
+							<li v-if="isLogined && !isPromul">
+								<a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
 							</li>
-							<li>
-								<a>原创中心</a>
-							</li>
-							<li>
-								<a>荣誉中心</a>
-							</li>
-							<li>
-								<a>在线求职</a>
+							<li v-if="isLogined">
+								<a href="/logout"><p class="nav-text-center">注销</p></a>
 							</li>
 						</ul>
-					</div>
-				</div>
+					</li>
+				</ul>
 			</div>
-		</header>
-		<br/>
+			<script type="text/javascript">
+                var nav_vue = new Vue({
+                    el:'#headVue',
+                    data:{
+                        loginUser: '',
+                        isLogined: false,
+                        isPromul : '',
+                        img : '',
+                        centerUrl : '',
+                    },
+                    created: function () {
+                        this.getUser();
+                    },
+                    methods: {
+                        getUser: function(){
+                            $.ajax({
+                                type: "POST",
+                                url: "/home/getLoginUser",
+                                dataType: "json",
+                                success: function(result){
+                                    if(result.code === 404){
+                                        nav_vue.isLogined = false;
+                                    }
+                                    else if(result.code === 0){
+                                        nav_vue.isLogined = true;
+                                        nav_vue.isPromul = result.isPromul;
+                                        nav_vue.loginUser = result.loginUser;
+                                        nav_vue.img = result.img;
+                                        nav_vue.centerUrl = result.centerUrl;
+                                    }
+                                }
+                            });
+                        },
+                    }
+                });
+			</script>
+		</div>
+	</header>
+	<div class="header-take-space"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
 	<!--content-->
 	<div class="content container-fluid">
 		<!--左侧导航栏-->
@@ -91,7 +136,7 @@
 				<div class="ul_contest">
 					<ul class="lefthead">
 						<li class="lefthead_li">
-							<a href="studio_index.html" style="line-height:60px;font-size:17px;color: black;">
+							<a href="/studioPage/index" style="line-height:60px;font-size:17px;color: black;">
 								我的工作室
 							</a>
 						</li>
@@ -102,28 +147,18 @@
 							</a>
 							<ul id="projectmanage" class="panel-collapse collapse in">
 								<li>
-									<a href="studio_bidding.html">竞标项目</a>
+									<a href="/studioPage/bidding">竞标项目</a>
 								</li>
 								<li>
-									<a href="studio_service.html">服务订单</a>
+									<a href="/studioPage/service">服务订单</a>
 								</li>
 								<li>
-									<a href="studio_biddingAll.html">竞标一览</a>
+									<a href="/studioPage/biddingAll">竞标一览</a>
 								</li>
 							</ul>
 						</li>
-						<li class="lefthead_li">
-							<a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree" onclick="selectimg(this.id)">
-								资金管理
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</a>
-							<ul id="pricemanage" class="panel-collapse collapse in">
-								<li>
-									<a href="studio_funds.html">资金记录</a>
-								</li>
-							</ul>
-						</li>
-						<li class="lefthead_li">
+
+						<li class="lefthead_li" >
 							<a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
 								招聘管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
@@ -133,21 +168,21 @@
 									<a href="/studioPage/jobInfo">招聘信息</a>
 								</li>
 								<li>
-									<a href="studio_jobReview.html">招聘审核</a>
+									<a href="/studioPage/jobReview">招聘审核</a>
 								</li>
 							</ul>
 						</li>
-						<li class="lefthead_li">
+						<li class="lefthead_li" >
 							<a href="#membermanage" data-toggle="collapse" class="lefthead_li_a" id="five" onclick="selectimg(this.id)">
 								成员管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
 							</a>
 							<ul id="membermanage" class="panel-collapse collapse in">
 								<li>
-									<a href="studio_memberInfo.html">成员信息</a>
+									<a href="/studioPage/memberInfo">成员信息</a>
 								</li>
 								<li>
-									<a href="studio_memberReview.html">退出审核</a>
+									<a href="/studioPage/memberReview">退出审核</a>
 								</li>
 							</ul>
 						</li>
@@ -158,6 +193,8 @@
 		
 		<!--右侧内容-->
 		<div class="main" id="jobreviewVue">
+
+			
 			<!--  招聘审核 -->
 			<div class="mainContent container-fluid ">
 		    <div class="row">
@@ -172,7 +209,6 @@
 
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="tabs_panels.html#tab-4">审核中</a>
-								<!--<li class="active"><a data-toggle="tab" href="'/jobdeal/pass/'+">审核中</a>-->
                                 </li>
                                 <li class=""><a data-toggle="tab" href="tabs_panels.html#tab-5">已审核</a>
                                 </li>
@@ -208,15 +244,8 @@
 															{{dts.jobuser.juState}}
 														</span></td>
 				                                        <td>
-									                        <!--<button type="button" class="btn btn-primary btn-sm">通过</button>-->
-															<a type="button" class="btn btn-primary btn-sm"
-															   :href="'/jobdeal/pass/'+dts.jobuser.juUsers+'/'+dts.jobuser.juId"
-															>通过</a>
-															<!--+dts.jobuser.juId+'/'+-->
-									                        <!--<button type="button" class="btn btn-danger btn-sm">忽略</button>-->
-															<a type="button" class="btn btn-danger btn-sm"
-															   :href="'/jobdeal/nopass/'+dts.jobuser.juId"
-															>忽略</a>
+									                        <button type="button" class="btn btn-primary btn-sm">通过</button>
+									                        <button type="button" class="btn btn-danger btn-sm">取消</button>                                            	
 				                                        </td>
 					                                </tr>
 
@@ -257,13 +286,11 @@
 														</span>
 													</td>
 													<td>
-														<!--<button type="button" class="btn btn-danger btn-sm">删除</button>-->
-														<a type="button" class="btn btn-danger btn-sm"
-														   :href="'/jobdeal/jUDel/'+dt.jobuser.juId"
-														>删除</a>
-
+														<button type="button" class="btn btn-primary btn-sm">通过</button>
+														<button type="button" class="btn btn-danger btn-sm">取消</button>
 													</td>
 												</tr>
+
 												</tbody>
 											</table>
 					                    </div>
@@ -417,6 +444,30 @@
 		});
 
 	</script>
+	<!--导航条滚动js-->
+	<script type="text/javascript">
+        var new_scroll_position = 0;
+        var last_scroll_position;
+        var header = document.getElementById("headerBar");
 
+        window.addEventListener('scroll', function (e) {
+            last_scroll_position = window.scrollY;
+
+            // Scrolling down
+            if (new_scroll_position < last_scroll_position && last_scroll_position > 80) {
+                // header.removeClass('slideDown').addClass('slideUp');
+                header.classList.remove("slideDown");
+                header.classList.add("slideUp");
+
+                // Scrolling up
+            } else if (new_scroll_position > last_scroll_position) {
+                // header.removeClass('slideUp').addClass('slideDown');
+                header.classList.remove("slideUp");
+                header.classList.add("slideDown");
+            }
+
+            new_scroll_position = last_scroll_position;
+        });
+	</script>
 	</body>
 </html>

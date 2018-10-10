@@ -33,56 +33,101 @@
 	
 	<body>
 	<!--header-->
-		<header>
-			<div class="container-fluid container-fluid_up">
-				<div class="row_up">
-					<ul class="list-unstyled">
-						<li>
-							<a href="#">帮助中心</a>
-						</li>
-						<li>
-							<a href="#">注册</a>
-						</li>
-						<li>
-							<a href="#">登录</a>
-						</li>
-					</ul>
+	<header class="header-navigation" id="headerBar">
+		<div class="nav-content-filter">
+			<div class="row_main">
+				<!--logo-->
+				<div class="main_logo">
+					<img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
+				</div>
+				<!--超链接-->
+				<div class="nav-main-right">
+					<nav class="cd-nav">
+						<ul>
+							<li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+							<li><a href="/project/xwh">项目大厅</a></li>
+							<li><a href="/stuhall/hall">服务大厅</a></li>
+							<li><a href="/resource/home">创客讲堂</a></li>
+							<li><a href="/original/all">原创中心</a></li>
+							<li><a href="/ForJob/search">在线求职</a></li>
+							<li><a href="/honor/honorPage">荣誉中心</a></li>
+						</ul>
+					</nav>
 				</div>
 			</div>
-			<div class="container-fluid container-fluid_main">
-				<div class="row_main">
-					<div class="main_logo">
-						<img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
-					</div>
-					<div class="main_right">
-						<ul class="nav_psw list-unstyled">
-							<li class="active">
-								<a>首 页</a>
+			<!--头像、个人中心、注销等-->
+			<div id="headVue">
+				<ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
+							<!--没有登陆-->
+							<img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
+							<!--已经登录-->
+							<img class="nav-avatar" v-else :src="img"/>
+							<span class="caret"></span>
+						</a>
+
+						<ul class="dropdown-menu dropdown-alerts nav-dropdown-menu">
+							<!--##########未登录###############-->
+							<li v-if="!isLogined">
+								<a href="/login"><p class="nav-text-center">登录</p></a>
 							</li>
-							<li>
-								<a>项目大厅</a>
+							<li v-if="!isLogined">
+								<a href="/registered/select/new"><p class="nav-text-center">注册</p></a>
 							</li>
-							<li>
-								<a>服务大厅</a>
+							<!--##########已登录###############-->
+							<li v-if="isLogined">
+								<a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
 							</li>
-							<li>
-								<a>创客讲堂</a>
+							<li v-if="isLogined && !isPromul">
+								<a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
 							</li>
-							<li>
-								<a>原创中心</a>
-							</li>
-							<li>
-								<a>荣誉中心</a>
-							</li>
-							<li>
-								<a>在线求职</a>
+							<li v-if="isLogined">
+								<a href="/logout"><p class="nav-text-center">注销</p></a>
 							</li>
 						</ul>
-					</div>
-				</div>
+					</li>
+				</ul>
 			</div>
-		</header>
-		<br/>
+			<script type="text/javascript">
+                var nav_vue = new Vue({
+                    el:'#headVue',
+                    data:{
+                        loginUser: '',
+                        isLogined: false,
+                        isPromul : '',
+                        img : '',
+                        centerUrl : '',
+                    },
+                    created: function () {
+                        this.getUser();
+                    },
+                    methods: {
+                        getUser: function(){
+                            $.ajax({
+                                type: "POST",
+                                url: "/home/getLoginUser",
+                                dataType: "json",
+                                success: function(result){
+                                    if(result.code === 404){
+                                        nav_vue.isLogined = false;
+                                    }
+                                    else if(result.code === 0){
+                                        nav_vue.isLogined = true;
+                                        nav_vue.isPromul = result.isPromul;
+                                        nav_vue.loginUser = result.loginUser;
+                                        nav_vue.img = result.img;
+                                        nav_vue.centerUrl = result.centerUrl;
+                                    }
+                                }
+                            });
+                        },
+                    }
+                });
+			</script>
+		</div>
+	</header>
+	<div class="header-take-space"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
 	<!--content-->
 	<div class="content container-fluid">
 		<!--左侧导航栏-->
@@ -91,7 +136,7 @@
 				<div class="ul_contest">
 					<ul class="lefthead">
 						<li class="lefthead_li">
-							<a href="studio_index.html" style="line-height:60px;font-size:17px;color: black;">
+							<a href="/studioPage/index" style="line-height:60px;font-size:17px;color: black;">
 								我的工作室
 							</a>
 						</li>
@@ -102,52 +147,42 @@
 							</a>
 							<ul id="projectmanage" class="panel-collapse collapse in">
 								<li>
-									<a href="studio_bidding.html">竞标项目</a>
+									<a href="/studioPage/bidding">竞标项目</a>
 								</li>
 								<li>
-									<a href="studio_service.html">服务订单</a>
+									<a href="/studioPage/service">服务订单</a>
 								</li>
 								<li>
-									<a href="studio_biddingAll.html">竞标一览</a>
+									<a href="/studioPage/biddingAll">竞标一览</a>
 								</li>
 							</ul>
 						</li>
-						<li class="lefthead_li">
-							<a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree" onclick="selectimg(this.id)">
-								资金管理
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</a>
-							<ul id="pricemanage" class="panel-collapse collapse in">
-								<li>
-									<a href="studio_funds.html">资金记录</a>
-								</li>
-							</ul>
-						</li>
-						<li class="lefthead_li">
+
+						<li class="lefthead_li" v-if=" user.userEntrytime == null">
 							<a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
 								招聘管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
 							</a>
 							<ul id="safemanage" class="panel-collapse collapse in">
 								<li>
-									<a href="studio_jobInfo.html">招聘信息</a>
+									<a href="/studioPage/jobInfo">招聘信息</a>
 								</li>
 								<li>
-									<a href="studio_jobReview.html">招聘审核</a>
+									<a href="/studioPage/jobReview">招聘审核</a>
 								</li>
 							</ul>
 						</li>
-						<li class="lefthead_li">
+						<li class="lefthead_li" v-if="user.userEntrytime == null">
 							<a href="#membermanage" data-toggle="collapse" class="lefthead_li_a" id="five" onclick="selectimg(this.id)">
 								成员管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
 							</a>
 							<ul id="membermanage" class="panel-collapse collapse in">
 								<li>
-									<a href="studio_memberInfo.html">成员信息</a>
+									<a href="/studioPage/memberInfo">成员信息</a>
 								</li>
 								<li>
-									<a href="studio_memberReview.html">退出审核</a>
+									<a href="/studioPage/memberReview">退出审核</a>
 								</li>
 							</ul>
 						</li>
@@ -157,174 +192,8 @@
 		</div>
 		
 		<!--右侧内容-->
-		<div class="main">
-				<div class="mainTop">
-				<div class="logo">
-					 <!--头像大小220x170-->
-					<img src="/static/img/img_mzb/tx.png" />
-					<div class="settingimg">
-						<a style="color:white" href="studio_headUpdate.html">
-							修 改 头 像
-						</a>
-					</div>
-				</div>
-				<div class="intro" >
-					<div class="introTop">
-					<ul style="list-style-type:none;position: relative;top:10px;left:5%;font-family: Lantinghei SC;;">
-						<li style="margin-bottom: 13px;"> 
-							<span style="font-size: 30px;">轩辕阁工作室&nbsp;&nbsp;&nbsp;</span>
-							<img src="/static/img/img_mzb/renzheng.png" >
-							&nbsp;已认证	
-							
-							<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#myModal" style="position: relative;right: -20%;top:-5px;">
-								修改信息
-							</button>
-			                <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-				            <div class="col-sm-8" style="position: relative;left:18%;top:12%;">
-				                <div class="ibox float-e-margins">
-				                    <div class="ibox-title">
-				                        <h5>工作室信息</h5>
-				                        <div class="ibox-tools">
-				                            <a class="close-link">
-				                            	<i class="fa fa-times" data-dismiss="modal"> </i>    
-				                            </a>
-				                        </div>
-				                    </div>
-				                    <div class="ibox-content_mzb1">
-				                        <form style="position: relative;left:-8%;" class="form-horizontal m-t" id="signupForm">
-				                            <div class="form-group">
-				                                <label class="col-sm-3 control-label" >工作室名称：</label>
-				                                <div class="col-sm-8">
-				                                    <input  style="width: 680.33px;" name="studioName" class="form-control" type="text" value="轩辕阁工作室">
-				                                </div>
-				                            </div>
-				                            <div class="form-group">
-				                                <label class="col-sm-3 control-label">所属地区：</label>
-				                                <div class="col-sm-8">
-							                        <span style="position: relative;left:0%;" >
-														<select id="s_province" name="s_province" class="studioSelect1" >
-															
-														</select>  
-														<select id="s_city" name="s_city" class="studioSelect1" >
-															
-														</select>  
-														<select id="s_county" name="s_county" class="studioSelect2">
-															
-														</select>	     		
-											     	</span>
-				                                </div>
-				                            </div>
-				                            <div class="form-group">
-				                                <label class="col-sm-3 control-label">成员数量：</label>
-				                                <div class="col-sm-8">
-				                                    <input  style="width: 680.33px;" name="memberNum" class="form-control" type="text" value="20" disabled="disabled">
-				                                </div>
-				                            </div>
-				                            <div class="form-group">
-				                                <label class="col-sm-3 control-label">擅长领域：</label>
-				                                <div class="col-sm-8">      
-					                                <div style=""  id="mySelect" class="mySelect">
-					                                	
-					                                </div>
-				                                </div>
-				                            </div>
-				                            <div class="form-group">
-				                                <label class="col-sm-3 control-label">技能标签：</label>
-				                                <div class="col-sm-8">      
-													<div class="wrap">
-														<div class="label-selected" style="width: 680.33px;">
-															<a href="javascript:;" class="btn btn-primary btn-xs show-labelitem" style="background-color:#1ab394;float: right; margin: 1px; display: block;line-height: 30px;">展开标签库 </a>
-															<a href="javascript:;" class="btn btn-primary btn-xs hide-labelitem" style="background-color:#1ab394;float: right; margin: 1px; display: none;line-height: 30px;">收起标签库 </a>
-															<input type="hidden" name="label">
-														</div>
-														
-														<div class="layui-col-md12" id="labelItem">
-														  <div class="label-item">
-														  	<div class="changeone">	
-															<li data="1"><span>java 教程</span></li>
-															<li data="2"><span>SEM</span></li>
-															<li data="3"><span>SEM基础</span></li>
-															<li data="4"><span>柚说</span></li>
-															<li data="5"><span>关键词</span></li>
-															<li data="6"><span>创意</span></li>
-															<li data="7"><span>公众号</span></li>
-															<li data="8"><span>排名</span></li>
-															<li data="9"><span>网络营销</span></li>
-															<li data="10"><span>SEM</span></li>
-															<li data="11"><span>网络推广</span></li>
-															</div>
-															<hr/>
-															<a href="javascript:void(0)">
-													    		<span class="huan" style="position: relative;float: right;right: 1%;">
-													    		    换一批
-													    	   </span>
-													    	</a> 												
-														  </div>
-														</div>	
-														<!--<a href="javascript:;" class="layui-btn" id="cell">获取</a>-->
-													</div>
-				                                </div>
-				                            </div>
-				                            <div class="form-group">
-				                                <label class="col-sm-3 control-label">工作室简介：</label>
-				                                <div class="col-sm-8">      
-				                                    <textarea name="studioIntro" rows="5" style="width: 680.33px;border:1px solid gainsboro"></textarea>
-				                                </div>
-				                            </div>				                            
-				                            
-				                            <div class="form-group">
-				                                <div class="col-sm-8 col-sm-offset-3" style="margin-bottom: 20px;">
-				                                    <button class="btn btn-primary" type="submit" style="margin-right: 10px;">提交</button>
-				                                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-				                                </div>
-				                            </div>
-				                        </form>
-				                    </div>
-				                </div>
-				            </div> 
-			                </div>							
-							
-						</li>
-						<li style="position: relative;top:3px;left:-1%;">
-							<img src="/static/img/img_mzb/ditu.png" />
-							广东省&nbsp;&nbsp;深圳市 &nbsp;&nbsp;南山区
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span style="font-size:14px">
-								<span style="margin-right: 30px;margin-left: 10px;">成员数量：20</span>
-							    <span>创建时间:&nbsp;2017年05月20日</span>
-							</span>
-						</li>
+		<div class="main" id="bpmVue">
 
-					</ul>					
-					</div>
-					<div class="introBottom">
-						<div class="ibLeft" style="">
-							<ul style="position: relative;top:10px;left:-7%">
-								<li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">20</li>
-								<li style="text-align:center;list-style-type:none;font-size:15px;">承接项目数</li>
-							</ul>
-							
-						</div>
-					
-						<div class="ibRight">
-							<div class="ibRleft" style="">
-							    <ul style="position: relative;top:10px;left:-9%	">
-								    <li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">97</li>
-								    <li style="text-align:center;list-style-type:none;font-size:15px;">荣誉积分</li>
-							    </ul>
-						
-							</div>
-							<div class="ibRright">
-							    <ul style="position: relative;top:10px;left:-4%;">
-								    <li style="text-align:center;list-style-type:none;font-size: 30px;color:orange;margin-bottom: 8px;">18000</li>
-								    <li style="text-align:center;list-style-type:none;font-size:15px;">总收入</li>
-							    </ul>
-							</div>
-						</div>	
-					</div>
-				</div>
-			</div>
-			
 			<!--项目管理-->
 			<div class="mainContent container-fluid">
 			    <div class="row">
@@ -332,15 +201,15 @@
 				</div>				
 	            <div class="bpmTop">
 	            	<div style="float: left;position:relative;top:20px;">
-	            		<p><strong>火焰平台</strong></p>
+	            		<p><strong>{{project.projName}}</strong></p>
 	            		<p>
-	            			<span style="padding-right:30px ;">发布时间:2018-9-8</span>
-	            			<span>发布人： </span><span style="color:#1ab394;">mzb17876253511</span>
+	            			<span style="padding-right:30px ;">发布时间:{{project.projCreattime|dateFormat}}</span>
+	            			<span>发布人： </span><span style="color:#1ab394;">{{promulgator.promName}}</span>
 	            		</p>
 	            		<p>
-	            			<span style="padding-right: 20px;">项目分类：网站开发</span>
-	            			<span style="padding-right: 20px;">项目预算：0元</span>
-	            			<span>开发周期：30天</span>
+	            			<span style="padding-right: 20px;">项目分类：{{project.projType}}</span>
+	            			<span style="padding-right: 20px;">项目预算：{{project.projMoney}}元</span>
+	            			<span>开发周期：{{project.projCycletime}}天</span>
 	            		</p>
 	            		
 	            	</div>
@@ -360,12 +229,13 @@
 			                        </div>
 			                    </div>
 			                    <div class="ibox-content">
-			                        <form class="form-horizontal m-t" id="bidForm">
+			                        <form  method="post"  action="/stuproject/bidinfoAdd" class="form-horizontal m-t" id="bidForm">
 			                            <div class="form-group">
+											<input type="hidden" name="bidId" v-model="bidding.bidId">
+
 			                                <label class="col-sm-3 control-label">项目报价：</label>
 			                                <div class="col-sm-7">
-			                                    <input  name="proMoney" id="proMoney" class="form-control" type="text" value="10000">
-			                                    
+			                                    <input  name="bidMoney" id="bidMoney" class="form-control" type="text" v-model="bidding.bidMoney">
 			                                </div>
 			                                <span style="border: 1px solid gainsboro;padding: 8px 14px 8px 14px;position: relative;top:7.5px;left:-3%;background-color: #eee;">
 			                                	元
@@ -374,7 +244,7 @@
 			                            <div class="form-group">
 			                                <label class="col-sm-3 control-label">开发周期：</label>
 			                                <div class="col-sm-7">
-			                                    <input  name="proCycletime" id="proCycletime" class="form-control" type="text" value="30">
+			                                    <input  name="bidCycle" id="bidCycletime" class="form-control" type="text" v-model="bidding.bidCycle">
 			                                    
 			                                </div>
 			                                <span style="border: 1px solid gainsboro;padding: 8px 14px 8px 14px;position: relative;top:7.5px;left:-3%;background-color: #eee;">
@@ -384,7 +254,7 @@
 			                            <div class="form-group">
 			                                <label class="col-sm-3 control-label">竞标方案：</label>
 			                                <div class="col-sm-8">
-			                                    <textarea style="border: 1px solid gainsboro;" name="bidScheme" rows="10" cols="42"></textarea>
+			                                    <textarea style="border: 1px solid gainsboro;" name="bidScheme" rows="10" cols="42">{{bidding.bidScheme}}</textarea>
 			                                </div>
 			                            </div>
 			                            <div class="form-group">
@@ -394,7 +264,7 @@
 				                                	<img src="/static/img/img_mzb/联系我们.png" />
 				                                </span>			                                
 				                                <div class="col-sm-7">
-				                                    <input  name="userPhone" class="form-control" type="text" value="17876253511">
+				                                    <input  name="bidPhone" class="form-control" type="text" v-model="bidding.bidPhone">
 				                                </div>
 			                            </div>
 			                            <div class="form-group">
@@ -404,7 +274,7 @@
 				                                	<img src="/static/img/img_mzb/邮箱.png" />
 				                                </span>			                                
 				                                <div class="col-sm-7">
-				                                    <input  name="userEmail" class="form-control" type="text" value="461931062@qq.com">
+				                                    <input  name="bidEmail" class="form-control" type="text" v-model="bidding.bidEmail">
 				                                </div>
 				                               		                                
                                             
@@ -412,8 +282,8 @@
 			                            <hr/>
 			                            <div class="form-group">
 			                                <div class="col-sm-8 col-sm-offset-3">
-			                                    <button class="btn btn-primary" type="submitBtn" style="margin-right: 10px;">提交</button>
-			                                    <span id="returnMessage" class="glyphicon"> </span>
+			                                    <button class="btn btn-primary" type="submit" style="margin-right: 10px;">提交</button>
+
 			                                    <button class="btn btn-default" type="submit" data-dismiss="modal">取消</button>
 			                                </div>
 			                            </div>
@@ -524,31 +394,31 @@
     <!-- 全局js -->
     <script src="/static/js/jquery.min.js?v=2.1.4"></script>
     <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
-    <script src="/static/js/js_mzb/bid-validate.js"></script>
+<!--    <script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+    <script src="/static/js/js_mzb/bid-validate.js"></script>-->
     
     <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/static/js/plugins/layer/layer.min.js"></script>
 
     <!-- 自定义js -->
-    <script src="/static/js/hplus.js?v=4.1.0"></script>
+    <!--<script src="/static/js/hplus.js?v=4.1.0"></script>-->
     <script type="text/javascript" src="/static/js/contabs.js"></script>
 
     <!-- 第三方插件 -->
    <script src="/static/js/plugins/pace/pace.min.js"></script>
  
     <!-- jQuery Validation plugin javascript-->
-    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+<!--    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/static/js/plugins/validate/messages_zh.min.js"></script>
 
-    <script src="/static/js/demo/form-validate-demo.js"></script>
+    <script src="/static/js/demo/form-validate-demo.js"></script>-->
     
    <!-- 林晓能导航栏JS效果-->
    <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
 
     <!-- layerDate plugin javascript -->
-    <script src="/static/js/plugins/layer/laydate/laydate.js"></script>
+  <!--  <script src="/static/js/plugins/layer/laydate/laydate.js"></script>-->
     <script>
         //外部js调用
         laydate({
@@ -561,7 +431,71 @@
         });
 
     </script>
+	<script src="/static/js/jquery.min.js"></script>
+	<script src="/static/js/vue.js"></script>
+	<script>
+        var id = [[${id}]];
+        var bpm = new Vue({
+            el:'#bpmVue',
+            data:{
+                bidding:'',
+                project:'',
+                promulgator:''
+            },
+            created:function () {
+                $.ajax({
+                    type:'get',
+                    url:'/stuproject/bpmanager/'+id,
+                    success:function (result) {
+                        console.log(result);
+                        bpm.bidding = result.bidding;
+                        bpm.project = result.project;
+                        bpm.promulgator = result.promulgator;
+                    }
+                })
+            },
+            filters: {
+                dateFormat:function(val){
+                    if(val==null)
+                        return null;
+                    var d = new Date(val);
+                    var year = d.getFullYear();
+                    var month = d.getMonth() + 1;
+                    var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                    var hour = d.getHours();
+                    var minutes = d.getMinutes();
+                    var seconds = d.getSeconds();
+                    return  year+ '-' + month + '-' + day ;
+                },
+            }
+        });
 
 
+	</script>
+	<!--导航条滚动js-->
+	<script type="text/javascript">
+        var new_scroll_position = 0;
+        var last_scroll_position;
+        var header = document.getElementById("headerBar");
+
+        window.addEventListener('scroll', function (e) {
+            last_scroll_position = window.scrollY;
+
+            // Scrolling down
+            if (new_scroll_position < last_scroll_position && last_scroll_position > 80) {
+                // header.removeClass('slideDown').addClass('slideUp');
+                header.classList.remove("slideDown");
+                header.classList.add("slideUp");
+
+                // Scrolling up
+            } else if (new_scroll_position > last_scroll_position) {
+                // header.removeClass('slideUp').addClass('slideDown');
+                header.classList.remove("slideUp");
+                header.classList.add("slideDown");
+            }
+
+            new_scroll_position = last_scroll_position;
+        });
+	</script>
 	</body>
 </html>

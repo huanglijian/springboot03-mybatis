@@ -36,7 +36,6 @@ public class testController extends AbstractController {
     private PromulgatorService promulgatorService;
     @Autowired
     private JobuserService jobuserService;
-    @Autowired
     private JobsService jobsService;
 
 
@@ -44,6 +43,8 @@ public class testController extends AbstractController {
 
     @RequestMapping("/jump")
     public String pageTest(){
+        Jobs jobs = jobsService.selectById(1);
+        System.out.println(jobs);
         return "studio/studio_test";
     }
 
