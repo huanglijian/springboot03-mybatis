@@ -338,7 +338,7 @@ a:active {
 }
 
 .ui.items>.item>.image+.project-content {
-	width: 100%;
+	width: 1000px;
 	display: table-cell;
 	margin-left: 0em;
 	vertical-align: top;

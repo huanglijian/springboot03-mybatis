@@ -12,9 +12,9 @@
 		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
 		<link href="/static/css/css_xwh/ProjectsShouYe.css" rel="stylesheet" />
 		<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
-		<link href="/static/css/style.css" rel="stylesheet"/>
-		<link href="/static/css/css_psw/toPage1.css" rel="stylesheet" />
-		<script type="text/javascript" src="/static/js/js_psw/toPage.js"></script>
+
+		<link href="/static/css/css_hhm/toPage1.css" rel="stylesheet" />
+		<script type="text/javascript" src="/static/js/js_hhm/toPage1.js"></script>
 		<script src="http://how2j.cn/study/axios.min.js"></script>
 		<script type="text/javascript" src="../../static/js/js_hhm/jquery.raty.js"></script>
 		<link href="../../static/css/css_hhm/original.css" rel="stylesheet" />
@@ -304,28 +304,28 @@
 
 						<div class='ui relaxed divided items' id='git-discover-list'>
 							<div class='item' v-for="pro in highscore">
-								<a href="/shuzheng" class="project-creator-link ui avatar image pull-left"><img src="/static/img/img_hhm/renren.png" />
+								<a href="/shuzheng" class="project-creator-link ui avatar image pull-left":title=pro.users.userName ><img src="/static/img/img_hhm/renren.png" />
 								</a>
 								<div class='project-content'>
 									<div class='project-title'>
 										<div style="display: flex;float: left;">
 											<h3>
-												<a  class="title project-namespace-path" target="_blank" title="{{pro.origName}}" style="float: left;">{{pro.origName}}</a>
+												<a  :href="'/original/details/'+pro.origId" class="title project-namespace-path" target="_blank" :title=pro.origName style="float: left;">{{pro.origName}}</a>
 											</h3>
 											<div id="star" style="margin: 4px 10px;"></div>
 
 										</div>
 										<div class='git-project-header-actions'>
 												<span>
-													<a href="##" class="ui small  lang-label" style="font-size: 14px;">人人工作室</a></span>
+													<a href="##" class="ui small  lang-label" style="font-size: 14px;">{{pro.users.userName}}</a></span>
 										</div>
 										<div class="clearfix"></div>
 									</div>
-									<div class='project-desc'></div>
+									<div class='project-desc'>{{pro.origIntro}}</div>
 									<div class='project-meta'>
-										<a href="/explore/starred?lang=Java" class="ui small  lang-label">Java</a>
-										<a href="/explore/starred/webframework" class="ui small  lang-label">Web开发框架</a>
-										<a href="/explore/starred?license=MIT" class="ui small  lang-label">MIT</a>
+										<a href="/explore/starred?lang=Java" class="ui small  lang-label">{{pro.origType}}</a>
+										<a href="/explore/starred/webframework" class="ui small  lang-label">{{pro.origTag}}</a>
+
 										<div class='pull-right'>
 
 												<span class='timeago' title='2个月前'>
@@ -371,12 +371,13 @@
 							<!--</div>-->
 
 
-							<div class="FenYe">
+							<div class="FenYe" style="float: none">
 								<div class="page_1"></div>
 							</div>
 						</div>
 					</div>
 				</div>
+
 			</div>
 
 

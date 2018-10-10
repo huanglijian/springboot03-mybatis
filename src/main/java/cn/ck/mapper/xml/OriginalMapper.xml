@@ -24,7 +24,14 @@
         </collection>
     </resultMap>
 
-    <resultMap id="OriginalAssociation" type="cn.ck.entity.bean.OriColUser" extends="OrignalCollection">
+    <resultMap id="OriginalAssociation" type="cn.ck.entity.bean.OriColUser" extends="OriginalCollection">
+        <association property="users" javaType="cn.ck.entity.Users">
+            <id column="user_id" property="userId"></id>
+            <result column="user_name" property="userName"></result>
+        </association>
+    </resultMap>
+
+    <resultMap id="AllOriginalCollection" type="cn.ck.entity.bean.OriUser" extends="BaseResultMap">
         <association property="users" javaType="cn.ck.entity.Users">
             <id column="user_id" property="userId"></id>
             <result column="user_name" property="userName"></result>
@@ -36,7 +43,7 @@
     </select>
 
 
-    <select id="selectAll" resultMap="OriginalAssociation">
+    <select id="selectAllOri" resultMap="AllOriginalCollection">
          select * from original,users  where original.orig_users=users.user_id
     </select>
 </mapper>

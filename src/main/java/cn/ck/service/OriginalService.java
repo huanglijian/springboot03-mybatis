@@ -5,6 +5,7 @@ import cn.ck.entity.Original;
 import cn.ck.entity.bean.OriColUser;
 
 
+import cn.ck.entity.bean.OriUser;
 import com.baomidou.mybatisplus.service.IService;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public interface OriginalService extends IService<Original> {
      */
     List<Original> selectHeigestGradeOrigin();
 
-    List<OriColUser> selectAllOri();
+    List<OriUser> selectAllOri();
 
 
 }

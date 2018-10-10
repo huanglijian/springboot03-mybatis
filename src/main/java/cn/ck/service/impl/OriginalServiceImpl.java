@@ -4,6 +4,7 @@ import cn.ck.entity.Original;
 import cn.ck.entity.bean.OriCol;
 import cn.ck.entity.bean.OriColUser;
 
+import cn.ck.entity.bean.OriUser;
 import cn.ck.mapper.OriginalMapper;
 import cn.ck.service.OriginalService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -24,6 +25,7 @@ import java.util.List;
 @Service
 public class OriginalServiceImpl extends ServiceImpl<OriginalMapper, Original> implements OriginalService {
 
+
     OriginalMapper originalMapper;
 
     @Override
@@ -34,9 +36,8 @@ public class OriginalServiceImpl extends ServiceImpl<OriginalMapper, Original> i
 
 
     @Override
-    public List<OriColUser> selectAllOri() {
-        List<OriColUser> list = originalMapper.selectAll();
-        return list;
+    public List<OriUser> selectAllOri() {
+        return baseMapper.selectAllOri();
     }
 
     @Override
