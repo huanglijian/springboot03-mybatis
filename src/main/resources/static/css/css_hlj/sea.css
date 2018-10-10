@@ -195,7 +195,17 @@
 .major .down .number .numberR .white{
 	color: #999;
 }
-	
+
+.major .down .page{
+	height: 78px;
+	width: 1080px;
+	/*margin-top: 10px;*/
+	/*background-color: #1296db;*/
+}
+
+
+
+
 
 .major .down .DownLi {
 	height: 200px;
@@ -269,15 +279,10 @@
 	/*background: palegreen;*/
 }
 
-.ATpye {
-	/*padding: 22px ;*/
-	/*margin:auto;*/
-}
 
 
-/*.down li{
-	margin-bottom:5px;
-}*/
+
+
 
 /*copy的样式*/
 	

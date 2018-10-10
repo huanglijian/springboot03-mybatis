@@ -2,10 +2,7 @@ package cn.ck.controller.jobs;
 
 import cn.ck.controller.AbstractController;
 import cn.ck.controller.FileController;
-import cn.ck.entity.Alluser;
-import cn.ck.entity.Jobs;
-import cn.ck.entity.Jobuser;
-import cn.ck.entity.Studio;
+import cn.ck.entity.*;
 import cn.ck.entity.bean.JobsStudio;
 import cn.ck.entity.bean.resume;
 import cn.ck.service.JobsService;
@@ -14,6 +11,9 @@ import cn.ck.service.StudioService;
 import cn.ck.utils.ResponseBo;
 import cn.ck.utils.utils_hlj.fartime;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,11 +45,16 @@ public class jobcontroller extends AbstractController {
         return "jobs/search";
     }
 
-    @PostMapping("/search/jobs")
+    @PostMapping("/search/jobs/{pagenum}")
     @ResponseBody
-    public ResponseBo searchJson() {
+    public ResponseBo searchJson(@PathVariable("pagenum")int pagenum) {
+        System.out.println("----pagenum "+pagenum);
         //        获得所有的招聘信息
+//        调用分页插件
+        PageHelper.startPage(pagenum, 8);
         List<Jobs> jobs = jobsService.selectList(new EntityWrapper<Jobs>());
+        PageInfo<Jobs> jobPageInfo=new PageInfo<>(jobs);
+
         List<JobsStudio> jobsStudios = new ArrayList<JobsStudio>();
 //        将值存入构建类
         for (Jobs jobs1 : jobs) {
@@ -88,8 +93,11 @@ public class jobcontroller extends AbstractController {
             }
             jobsStudio.setTime(time);
             jobsStudios.add(jobsStudio);
+
         }
-        return ResponseBo.ok().put("jobsStudios", jobsStudios);
+        int num = jobs.size();
+        System.out.println("--------num "+num);
+        return ResponseBo.ok().put("jobsStudios", jobsStudios).put("num",num).put("pageinfo",jobPageInfo);
     }
 
     @PostMapping("/search/jNum")
@@ -100,8 +108,6 @@ public class jobcontroller extends AbstractController {
         return ResponseBo.ok().put("jNum", jNum);
     }
 
-
-
     //    返回搜索到的Json数据
     @PostMapping("/sear")
     public ResponseBo sear(String sear) {
@@ -110,13 +116,19 @@ public class jobcontroller extends AbstractController {
         return ResponseBo.ok();
     }
 
-
     //根据搜索职位查找
-    @PostMapping("/search/cha")
+    @PostMapping("/search/cha/{pagenum}")
     @ResponseBody
-    public ResponseBo s(String nei) {
+    public ResponseBo s(String nei,@PathVariable("pagenum")int pagenum) {
+        System.out.println("----nei "+nei);
+        System.out.println("----pagenum "+pagenum);
         //根据职位搜索所有的招聘信息
+        PageHelper.startPage(pagenum, 8);
         List<Jobs> jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_name", nei));
+        System.out.println("++++"+jobs);
+
+        PageInfo<Jobs> jobPageInfo=new PageInfo<>(jobs);
+
         List<JobsStudio> jobsStudios = new ArrayList<JobsStudio>();
 //        将值存入构建类
         for (Jobs jobs1 : jobs) {
@@ -135,43 +147,45 @@ public class jobcontroller extends AbstractController {
         }
 
 //        根据工作室搜索招聘信息
-        Studio s2 = studioService.selectOne(new EntityWrapper<Studio>().like("stu_name", nei));
-        if (s2 == null) {
-            System.out.println("空");
-        } else {
-            System.out.println("非空");
-//            jobs2: 查询某个工作室的全部招聘信息
-            List<Jobs> jobs2 = jobsService.selectList(new EntityWrapper<Jobs>().like("job_studio", s2.getStuId()));
-            for (Jobs j2 : jobs2) {
-                JobsStudio jobsStudio = new JobsStudio();
-                jobsStudio.setJobs(j2);
-                jobsStudio.setStudio(s2);
+//        Studio s2 = studioService.selectOne(new EntityWrapper<Studio>().like("stu_name", nei));
+//        if (s2 == null) {
+//        } else {
+////            jobs2: 查询某个工作室的全部招聘信息
+//            List<Jobs> jobs2 = jobsService.selectList(new EntityWrapper<Jobs>().like("job_studio", s2.getStuId()));
+//
+//            for (Jobs j2 : jobs2) {
+//                JobsStudio jobsStudio = new JobsStudio();
+//                jobsStudio.setJobs(j2);
+//                jobsStudio.setStudio(s2);
+//
+//                String time = "";
+////                调用自定义工具类
+//                fartime f = new fartime();
+//                time = f.far(j2.getJobCreattime());
+//                System.out.println("------------+" + f.far(j2.getJobCreattime()));
+//
+//                jobsStudio.setTime(time);
+//                jobsStudios.add(jobsStudio);
+//            }
+//        }
+//
+//        PageInfo<JobsStudio> jobPageInfo=new PageInfo<>(jobsStudios);
 
-                String time = "";
-//                调用自定义工具类
-                fartime f = new fartime();
-                time = f.far(j2.getJobCreattime());
-                System.out.println("------------+" + f.far(j2.getJobCreattime()));
-
-                jobsStudio.setTime(time);
-                jobsStudios.add(jobsStudio);
-            }
-        }
-        return ResponseBo.ok().put("jobsStudios", jobsStudios);
+        int num = jobs.size();
+        System.out.println("--------num "+num);
+        return ResponseBo.ok().put("jobsStudios", jobsStudios).put("num",num).put("pageinfo",jobPageInfo);
     }
 
-
     //根据点击搜索条件返回招聘信息
-    @PostMapping("/search/choice")
+    @PostMapping("/search/choice/{pagenum}")
     @ResponseBody
-    public ResponseBo choice(String tee, String money, String sort,String time) {
-        System.out.println("=====tee: " + tee + "====money: " + money + "====sort: " + sort+"====time: "+time);
+    public ResponseBo choice(String tee, String money, String sort,String time,String nei,@PathVariable("pagenum")int pagenum) {
+        System.out.println("=====tee: " + tee + "====money: " + money + "====sort: " + sort+"====time: "+time+"=========nei "+nei+"=====pagenum "+pagenum);
+
         if (tee == null || tee.equals("all")) {
-            System.out.println("====tee: " + tee);
             tee = "";
         }
         if (money == null || money.equals("all")) {
-            System.out.println("====money: " + money);
             money = "";
         }
         Date date = new Date();
@@ -179,7 +193,7 @@ public class jobcontroller extends AbstractController {
         if (time.equals("365")){
             s2 = 31536000000L;
         }else if (time.equals("30")){
-            s2 =864000000;
+            s2 =2592000000L;
         }
         else if (time.equals("7")){
             s2 = 201600000;
@@ -190,27 +204,29 @@ public class jobcontroller extends AbstractController {
         long s  = date.getTime();
         s = s -s2;
         date.setTime(s);
-        System.out.println("-------------date: "+date.toString());
+//        分页插件
+        PageHelper.startPage(pagenum, 8);
 
         List<Jobs> jobs = new ArrayList<>();
+
         //        获得要求包含选择信息的job
         if (tee.equals("")) {
             System.out.println("-----tee: " + tee);
             if (money.equals("")) {
                 if (time.equals("365")||time.equals("0")){
                     System.out.println("---------time: "+time);
-                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_creattime",date));
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_creattime",date).like("job_name",nei));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     System.out.println("---------time: "+time);
-                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_creattime",date));
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_creattime",date).like("job_name",nei));
                 }
             } else if (money.equals("2")) {
                 if (time.equals("365")||time.equals("0")){
-                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_money", 2).lt("job_creattime",date));
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_money", 2).lt("job_creattime",date).like("job_name",nei));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
-                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_money", 2).gt("job_creattime",date));
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_money", 2).gt("job_creattime",date).like("job_name",nei));
                 }
 
 
@@ -251,17 +267,19 @@ public class jobcontroller extends AbstractController {
                             .lt("job_creattime",date));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
+
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 10)
                             .gt("job_creattime",date));
                 }
 
             }
         } else {
-//            System.out.println("-----tee: " + tee);
             if (money.equals("")) {
                 if (time.equals("365")||time.equals("0")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
                             .lt("job_creattime",date));
+                    System.out.println("++++"+jobs);
+                    System.out.println("------here");
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
@@ -376,9 +394,12 @@ public class jobcontroller extends AbstractController {
                 }
             }
         }
-        return ResponseBo.ok().put("jobsStudios", jobsStudios);
-    }
+        int num = jobs.size();
+        System.out.println("--------num "+num);
+        PageInfo<Jobs> jobPageInfo=new PageInfo<>(jobs);
 
+        return ResponseBo.ok().put("jobsStudios", jobsStudios).put("num",num).put("pageinfo",jobPageInfo);
+    }
 
     //    工作详情页面
     @GetMapping("/mes/{id}")
@@ -406,9 +427,9 @@ public class jobcontroller extends AbstractController {
         return ResponseBo.ok().put("js", js);
     }
 
-
     //    上传简历
     @PostMapping("/upload")
+    @RequiresRoles("users")
     public String submit(int jid, resume r, HttpServletRequest request)throws Exception{
         System.out.println("jid: "+jid);
         //如果文件不为空

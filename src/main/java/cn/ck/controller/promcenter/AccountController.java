@@ -266,7 +266,6 @@ public class AccountController {
         PageInfo<Notice> noticePageInfo=new PageInfo<>(noticeList);
         return ResponseBo.ok().put("notice",noticePageInfo);
     }
-
     /**
      * 删除系统通知页面
      * @return

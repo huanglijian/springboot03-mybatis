@@ -59,10 +59,8 @@ public class MoneypromController {
         PageHelper.startPage(num, 8);
         List<Funds> fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income",user.getAllId()).orderDesc(set));
         PageInfo<Funds> fundsPageInfo=new PageInfo<>(fundsList);
-
         return ResponseBo.ok().put("account",account).put("price",fundsPageInfo);
     }
-
     /**
      * 我的钱包搜索
      * @return
