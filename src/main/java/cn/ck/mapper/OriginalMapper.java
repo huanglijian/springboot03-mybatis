@@ -16,4 +16,6 @@ import java.util.List;
  */
 public interface OriginalMapper extends BaseMapper<Original> {
     List<OriColUser> selectDesc(String id);
+
+    List<OriColUser> selectAll();
 }

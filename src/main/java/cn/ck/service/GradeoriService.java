@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface GradeoriService extends IService<Gradeori> {
 
+    boolean isScored(String userId, Integer origId) throws Exception;
 }

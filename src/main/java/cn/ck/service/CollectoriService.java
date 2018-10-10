@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface CollectoriService extends IService<Collectori> {
 
+    boolean isCollected(String userId, Integer origId) throws Exception;
 }
