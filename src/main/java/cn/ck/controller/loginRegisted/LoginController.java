@@ -99,19 +99,22 @@ public class LoginController extends AbstractController {
 			//更新最后登录时间
 			String userType = getUser().getAllType();
 			String userId = getUser().getAllId();
+			String next="";
 			if(userType.equals("普通用户")){
 				Users u = usersService.selectById(userId);
 				u.setUserLogintime(new Date());
 				usersService.updateById(u);
+				next="/user/user_info";
 			}
 			else if(userType.equals("发布者")){
 				Promulgator p = promulgatorService.selectById(userId);
 				p.setPromLogintime(new Date());
 				promulgatorService.updateById(p);
+				next="/pcjump/account";
 			}
 			//向页面传递数据
 //			rb.put("userType", getUser().getAllType());
-			return ResponseBo.ok().put("next", "/");
+			return ResponseBo.ok().put("next",next);
 		} catch (UnknownAccountException e) {
 			return ResponseBo.error(e.getMessage());
 		} catch (IncorrectCredentialsException e) {
