@@ -10,61 +10,108 @@
     <link rel="stylesheet" href="/static/css/css_psw/person-layout-lxn.css" />
     <link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
     <link href="/static/css/css_mzb/style2.css" rel="stylesheet">
+    <link href="/static/css/css_lxn/prom_priManage-lxn.css" rel="stylesheet">
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
     <script src="http://how2j.cn/study/vue.min.js"></script>
 </head>
 
 <body>
-<header>
-    <div class="container-fluid container-fluid_up">
-        <div class="row_up">
-            <ul class="list-unstyled">
-                <li>
-                    <a href="#">帮助中心</a>
-                </li>
-                <li>
-                    <a href="#">注册</a>
-                </li>
-                <li>
-                    <a href="#">登录</a>
+<header class="header-navigation" id="headerBar">
+    <div class="nav-content-filter">
+        <div class="row_main">
+            <!--logo-->
+            <div class="main_logo">
+                <img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
+            </div>
+            <!--超链接-->
+            <div class="nav-main-right">
+                <nav class="cd-nav">
+                    <ul>
+                        <li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+                        <li><a href="/project/xwh">项目大厅</a></li>
+                        <li><a href="/stuhall/hall">服务大厅</a></li>
+                        <li><a href="/resource/home">创客讲堂</a></li>
+                        <li><a href="/original/all">原创中心</a></li>
+                        <li><a href="/ForJob/search">在线求职</a></li>
+                        <li><a href="/honor/honorPage">荣誉中心</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!--头像、个人中心、注销等-->
+        <div id="headVue">
+            <ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
+                        <!--没有登陆-->
+                        <img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
+                        <!--已经登录-->
+                        <img class="nav-avatar" v-else :src="img"/>
+                        <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-alerts nav-dropdown-menu">
+                        <!--##########未登录###############-->
+                        <li v-if="!isLogined">
+                            <a href="/login"><p class="nav-text-center">登录</p></a>
+                        </li>
+                        <li v-if="!isLogined">
+                            <a href="/registered/select/new"><p class="nav-text-center">注册</p></a>
+                        </li>
+                        <!--##########已登录###############-->
+                        <li v-if="isLogined">
+                            <a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
+                        </li>
+                        <li v-if="isLogined && !isPromul">
+                            <a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
+                        </li>
+                        <li v-if="isLogined">
+                            <a href="/logout"><p class="nav-text-center">注销</p></a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
-    </div>
-    <div class="container-fluid container-fluid_main">
-        <div class="row_main">
-            <div class="main_logo">
-                <img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
-            </div>
-            <div class="main_right">
-                <ul class="nav_psw list-unstyled">
-                    <li class="active">
-                        <a>首 页</a>
-                    </li>
-                    <li>
-                        <a>项目大厅</a>
-                    </li>
-                    <li>
-                        <a>服务大厅</a>
-                    </li>
-                    <li>
-                        <a>创客讲堂</a>
-                    </li>
-                    <li>
-                        <a>原创中心</a>
-                    </li>
-                    <li>
-                        <a>荣誉中心</a>
-                    </li>
-                    <li>
-                        <a>在线求职</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <script type="text/javascript">
+            var nav_vue = new Vue({
+                el:'#headVue',
+                data:{
+                    loginUser: '',
+                    isLogined: false,
+                    isPromul : '',
+                    img : '',
+                    centerUrl : '',
+                },
+                created: function () {
+                    this.getUser();
+                },
+                methods: {
+                    getUser: function(){
+                        $.ajax({
+                            type: "POST",
+                            url: "/home/getLoginUser",
+                            dataType: "json",
+                            success: function(result){
+                                if(result.code === 404){
+                                    nav_vue.isLogined = false;
+                                }
+                                else if(result.code === 0){
+                                    nav_vue.isLogined = true;
+                                    nav_vue.isPromul = result.isPromul;
+                                    nav_vue.loginUser = result.loginUser;
+                                    nav_vue.img = result.img;
+                                    nav_vue.centerUrl = result.centerUrl;
+                                }
+                            }
+                        });
+                    },
+                }
+            });
+        </script>
     </div>
 </header>
+<div class="header-take-space"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
 <div class="container-fluid contest">
     <div class="col_left">
         <div class="ul_contest">
@@ -134,85 +181,110 @@
             </ul>
         </div>
     </div>
-    <div class="col_right" style="background: #ffffff; min-height: 640px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);" id="right">
-        <div class="mainContent container-fluid">
-            <div class="fundTop">
-                <p style="font-size: 13px;">
-                    <span>我的帐号总余额：</span>
-                    <span style="color: orange;">{{account.accMoney}}</span>
+    <div class="col_right" style=" min-height: 640px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);" id="right">
+        <div class="c_r_contest">
+            <div class="c_r_c_top">
+                <div class="c_r_c_t_left">
+                    <h4>我的账户</h4>
+                    <span>账户总余额：</span>
+                    <span id="font_color">{{account.accMoney}}</span>
                     <span>&nbsp;元</span>
-                    <a href="/userspri/pricein" class="fundCzbtn1" >充 值</a>
-                    <a href="/userspri/priceout" class="fundCzbtn2" >提 现</a>
-                    <select name="fundsType" class="bidSelect">
-                        <option value="" selected="">资金类型</option>
-                        <option value="0">充值</option>
-                        <option value="1">提现</option>
-                        <option value="2">项目款</option>
-                    </select>
-
-                    <span>具体日期</span>
-                    <span>
-                          <input id="hello" class="bidInput" name="startTime">
-                    </span>
-
-                    <button type="button" class="bidaButton">
-                        <img src="/static/img/img_mzb/搜索.png"/>
-                    </button>
-                </p>
+                </div>
+                <div class="c_r_c_t_right">
+                    <a href="/userspri/pricein" class="btn pM_a1">充值</a>
+                    <a href="/userspri/priceout" class="btn pM_a2">提现</a>
+                </div>
             </div>
-
-            <div class="fundBottom">
-                <div class="col-sm-14">
-                    <div class="ibox float-e-margins" style="position: relative;top:40px;">
-
-                        <div class="ibox-content_mzb">
-
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>时间</th>
-                                    <th>交易号</th>
-                                    <th>收入</th>
-                                    <th>支出</th>
-                                    <th>账户余额</th>
-                                    <th>资金类型</th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>2018-09-08</td>
-                                    <td>20180908151623XMB002997501515</td>
-                                    <td>￥2</td>
-                                    <td></td>
-                                    <td>￥6.00</td>
-                                    <td>项目款</td>
-                                </tr>
-                                <tr>
-                                    <td>2018-09-08</td>
-                                    <td>20180908151623XMB002997501515</td>
-                                    <td></td>
-                                    <td>￥2</td>
-                                    <td>￥6.00</td>
-                                    <td>充值</td>
-                                </tr>
-                                <tr>
-                                    <td>2018-09-08</td>
-                                    <td>20180908151623XMB002997501515</td>
-                                    <td></td>
-                                    <td>￥2</td>
-                                    <td>￥6.00</td>
-                                    <td>提现</td>
-                                </tr>
-                                </tbody>
-                            </table>
+            <div class="c_r_c_middle">
+                <form  id="form" class="form-inline">
+                    <div class="middle_form">
+                        <select name="fund_type" class="form-control"  id="fund_type"  >
+                            <option selected="selected">资金类型</option>
+                            <option value="项目款项">项目款项</option>
+                            <option value="项目押金">项目押金</option>
+                            <option value="项目尾款">项目尾款</option>
+                            <option value="充值">充值</option>
+                            <option value="提现">提现</option>
+                        </select>
+                        <div class="form-group m_f_startdate">
+                            开始时间：
+                            <input type="text" class="form-control layer-date" name="starttime" id="starttime" />
+                        </div>
+                        <div class="form-group m_f_enddate">
+                            结束时间：
+                            <input type="text" class="form-control layer-date" name="endtime" id="endtime" />
+                        </div>
+                        <div class="form-group m_f_button">
+                            <button type="button" class="btn m_f_btn" @click="selectbtn()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
                         </div>
                     </div>
+                </form>
+            </div>
+            <div class="c_r_c_bottom">
+                <h2>
+                    资金记录
+                </h2>
+                <div class="c_r_c_table">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>交易号</th>
+                            <th>时间</th>
+                            <th>资金类型</th>
+                            <th>资金数额</th>
+                            <th>对方户主</th>
+                        </tr>
+                        </thead>
+                        <tbody v-for="p in price.list">
+                        <template v-if="p.fundMoney>0">
+                            <tr>
+                                <td>{{p.fundId}}</td>
+                                <td>{{p.fundDatetime}}</td>
+                                <td>{{p.fundType}}</td>
+                                <td style="color: #1ab394">{{p.fundMoney}}</td>
+                                <td>{{p.fundOutlay}}</td>
+                            </tr>
+                        </template>
+                        <template v-if="p.fundMoney<0">
+                            <tr>
+                                <td>{{p.fundId}}</td>
+                                <td>{{p.fundDatetime}}</td>
+                                <td>{{p.fundType}}</td>
+                                <td style="color: #ed5565">{{p.fundMoney}}</td>
+                                <td>{{p.fundOutlay}}</td>
+                            </tr>
+                        </template>
+                        </tbody>
+                    </table>
+
+                    <div class="c_r_c_page text-center">
+                        <ul class="pagination pagination-lg">
+                            <!--判断前一页的-->
+                            <template v-if="isFirstPage==false"><li><a href="javascript:;"@click="changepage(pageNum-1)">&laquo;</a></li></template>
+                            <template v-else><li><a href="javascript:;" class="disabled">&laquo;</a></li></template>
+
+                            <!--页数-->
+                            <template v-for="p in navigatepageNums">
+                                <template v-if="pageNum==p"><li><a href="javascript:;" class="disabled" style="background: #DDDDDD;color: #1ab394;">{{p}}</a></li></template>
+                                <template v-else><li><a href="javascript:;"@click="changepage(p)">{{p}}</a></li></template>
+                            </template>
+
+                            <!--判断下一页的-->
+                            <template v-if="isLastPage==false"><li><a href="javascript:;"@click="changepage(pageNum+1)">&raquo;</a></li></template>
+                            <template v-else><li><a href="javascript:;" class="disabled">&raquo;</a></li></template>
+
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 <footer>
     <div class="container-fluid_foot">
         <div class="foot_panel">
@@ -327,7 +399,7 @@
         created: function () {
             $.ajax({
                 type: 'get',
-                url: '/promcenter/priceprom/'+1,
+                url: '/userspri/priceuser/'+1,
                 success: function (result) {
                     console.log(result);
                     vm.account = result.account;
@@ -400,6 +472,32 @@
             }
         },
 
+    });
+</script>
+
+<!--导航条滚动js-->
+<script type="text/javascript">
+    var new_scroll_position = 0;
+    var last_scroll_position;
+    var header = document.getElementById("headerBar");
+
+    window.addEventListener('scroll', function (e) {
+        last_scroll_position = window.scrollY;
+
+        // Scrolling down
+        if (new_scroll_position < last_scroll_position && last_scroll_position > 80) {
+            // header.removeClass('slideDown').addClass('slideUp');
+            header.classList.remove("slideDown");
+            header.classList.add("slideUp");
+
+            // Scrolling up
+        } else if (new_scroll_position > last_scroll_position) {
+            // header.removeClass('slideUp').addClass('slideDown');
+            header.classList.remove("slideUp");
+            header.classList.add("slideDown");
+        }
+
+        new_scroll_position = last_scroll_position;
     });
 </script>
 </body>

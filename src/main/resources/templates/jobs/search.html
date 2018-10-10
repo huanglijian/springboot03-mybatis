@@ -102,7 +102,7 @@
         <div class="search2">
             <div class="searchM">
                 <div class="input-group">
-                    <input type="text" placeholder="请输入职位或工作室名称" class="input-sm form-control" id="se">
+                    <input type="text" placeholder="请输入职位" class="input-sm form-control" id="se">
                     <span class="input-group-btn">
                         <div id="btnc">
                         <button type="button" class="btn btn-sm btn-primary but" @click="cc()"> 搜索</button>
@@ -139,10 +139,10 @@
 									<a value="jw" @click="ten5()">JavaWeb</a>
 								</span>
                             <span class="ATpye">
-									<a value="bs"  @click="ten6()">bootstrap</a>
+									<a value="bs" @click="ten6()">bootstrap</a>
 								</span>
                             <span class="ATpye">
-									<a value="jq"  @click="ten7()">jquery</a>
+									<a value="jq" @click="ten7()">jquery</a>
 								</span>
                         </div>
                     </li>
@@ -204,13 +204,13 @@
 									<a @click="time2()">1年以上</a>
 								</span>
                             <span class="ATpye">
-									<a  @click="time3()">一个月内</a>
+									<a @click="time3()">一个月内</a>
 								</span>
                             <span class="ATpye">
-									<a  @click="time4()">一星期内</a>
+									<a @click="time4()">一星期内</a>
 								</span>
                             <span class="ATpye">
-									<a  @click="time5()">一天内</a>
+									<a @click="time5()">一天内</a>
 								</span>
                         </div>
                     </li>
@@ -244,7 +244,8 @@
                             <img src="/static/img/img_hlj/alibaba2.png"/>
                         </div>
                         <div class="studioIntro">
-                            <h4><a href="mes" class="color" target="_blank" :href="'/ForJob/mes/'+j.jobs.jobId">{{j.studio.stuName}}</a></h4>
+                            <h4><a href="mes" class="color" target="_blank" :href="'/ForJob/mes/'+j.jobs.jobId">{{j.studio.stuName}}</a>
+                            </h4>
                             <p class="white" style="float:left;">职位: </p>
                             <p>&nbsp;&nbsp;{{j.jobs.jobName}}</p>
                             <p class="white" style="float:left;">发布时间:</p>
@@ -269,25 +270,149 @@
                 </li>
             </ul>
         </div>
+
+        <!--分页-->
+        <div class="page">
+            <div id="page">
+                <!--没有搜索-->
+                <div v-if="sea == 'none'">
+                    <!--没有搜索没有点击选择-->
+                    <div v-if="cli == 'none'">
+                        <div class="c_r_c_page text-center">
+                            <ul class="pagination pagination-lg">
+                                <!--0 -0-->
+                                <!--判断前一页的-->
+                                <template v-if="isFirstPage==false">
+                                    <li><a href="javascript:;" @click="pageAll(pageNum-1)">&laquo;</a></li>
+                                </template>
+                                <template v-else>
+                                    <li><a href="javascript:;" class="disabled">&laquo;</a></li>
+                                </template>
+                                <!--页数-->
+                                <template v-for="p in navigatepageNums">
+                                    <template v-if="pageNum==p">
+                                        <li><a href="javascript:;" class="disabled"
+                                               style="background: #DDDDDD;color: #1ab394;">{{p}}</a>
+                                        </li>
+                                    </template>
+                                    <template v-else>
+                                        <li><a href="javascript:;" @click="pageAll(p)">{{p}}</a></li>
+                                    </template>
+                                </template>
+
+                                <!--判断下一页的-->
+                                <template v-if="isLastPage==false">
+                                    <li><a href="javascript:;" @click="pageAll(pageNum+1)">&raquo;</a></li>
+                                </template>
+                                <template v-else>
+                                    <li><a href="javascript:;" class="disabled">&raquo;</a></li>
+                                </template>
+
+                                <!--<template><li>共{{total}}条信息</li></template>-->
+                            </ul>
+                        </div>
+                    </div>
+                    <!--没搜索有点击-->
+                    <div v-if="cli != 'none'">
+
+                        <div class="c_r_c_page text-center">
+                            <ul class="pagination pagination-lg">
+                                <!--0-cli-->
+                                <!--判断前一页的-->
+                                <template v-if="isFirstPage==false">
+                                    <li><a href="javascript:;" @click="pagecli(pageNum-1)">&laquo;</a></li>
+                                </template>
+                                <template v-else>
+                                    <li><a href="javascript:;" class="disabled">&laquo;</a></li>
+                                </template>
+                                <!--页数-->
+                                <template v-for="p in navigatepageNums">
+                                    <template v-if="pageNum==p">
+                                        <li><a href="javascript:;" class="disabled"
+                                               style="background: #DDDDDD;color: #1ab394;">{{p}}</a>
+                                        </li>
+                                    </template>
+                                    <template v-else>
+                                        <li><a href="javascript:;" @click="pagecli(p)">{{p}}</a></li>
+                                    </template>
+                                </template>
+
+                                <!--判断下一页的-->
+                                <template v-if="isLastPage==false">
+                                    <li><a href="javascript:;" @click="pagecli(pageNum+1)">&raquo;</a></li>
+                                </template>
+                                <template v-else>
+                                    <li><a href="javascript:;" class="disabled">&raquo;</a></li>
+                                </template>
+                                <!--<template><li>共{{total}}条信息</li></template>-->
+                            </ul>
+                        </div>
+                    </div>
+                    <!--没有搜索，有点击选择-->
+                    <!--<div v-for = "cli != 'none'">-->
+                    <!--</div>-->
+                </div>
+                <!--有搜索-->
+                <div v-if="sea != 'none'">
+                    <!--<div v-if="cli == 'none'">-->
+                        <div class="c_r_c_page text-center">
+                            <ul class="pagination pagination-lg">
+                                <!--sea - -->
+                                <!--判断前一页的-->
+                                <template v-if="isFirstPage==false">
+                                    <li><a href="javascript:;" @click="pagesea(pageNum-1)">&laquo;</a></li>
+                                </template>
+                                <template v-else>
+                                    <li><a href="javascript:;" class="disabled">&laquo;</a></li>
+                                </template>
+
+                                <!--页数-->
+                                <template v-for="p in navigatepageNums">
+                                    <template v-if="pageNum==p">
+                                        <li><a href="javascript:;" class="disabled"
+                                               style="background: #DDDDDD;color: #1ab394;">{{p}}</a>
+                                        </li>
+                                    </template>
+                                    <template v-else>
+                                        <li><a href="javascript:;" @click="pagesea(p)">{{p}}</a></li>
+                                    </template>
+                                </template>
+                                <!--判断下一页的-->
+                                <template v-if="isLastPage==false">
+                                    <li><a href="javascript:;" @click="pagesea(pageNum+1)">&raquo;</a></li>
+                                </template>
+                                <template v-else>
+                                    <li><a href="javascript:;" class="disabled">&raquo;</a></li>
+                                </template>
+                            </ul>
+                        </div>
+                    <!--</div>-->
+                    <!--<div v-if="cli != 'none'">-->
+                        <!--sea-cli-->
+                    <!--</div>-->
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="text/javascript">
-
         // 招聘信息渲染
         var vm = new Vue({
             el: '#jobsul',
             data: {
                 job: '',
             },
-            created: function () {
-                $.ajax({
-                    type: 'Post',
-                    url: '/ForJob/search/jobs',
-                    success: function (result) {
-                        vm.job = result.jobsStudios;
-                    }
-                })
-            },
+            // created: function () {
+            //     $.ajax({
+            //         type: 'Post',
+            //         url: '/ForJob/search/jobs/1',
+            //         success: function (result) {
+            //             vm.job = result.jobsStudios;
+            //             vm1.n = result.num;
+            //         }
+            //     })
+            // },
             methods: {}
         });
 
@@ -299,16 +424,24 @@
             },
             methods: {
                 cc: function () {
+                    vm4.sea = "y";
                     // 获取搜索框信息
                     var nei = $("#se").val();
                     $.ajax({
                         type: 'post',
-                        url: '/ForJob/search/cha',
+                        url: '/ForJob/search/cha/' + 1,
                         data: {
                             nei: nei,
                         },
                         success: function (result) {
+                            vm4.n = result.pageinfo;
+                            vm4.navigatepageNums = result.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = result.pageinfo.isFirstPage;
+                            vm4.isLastPage = result.pageinfo.isFirstPage;
+                            vm4.pageNum = result.pageinfo.pageNum;
+                            vm4.total = result.pageinfo.total;
                             vm.job = result.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
@@ -316,377 +449,727 @@
         });
         // 根据点击不同的类型显示筛选显示不同的信息
         var vm3 = new Vue({
-            el:'#vue3',
-            data:{
-                tee:'',         //tee:选择的技术类型
-                money:'',
-                sort:'',
-                time:'',
+            el: '#vue3',
+            data: {
+                tee: '',         //tee:选择的技术类型
+                money: '',
+                sort: '',
+                time: '0',
             },
-            methods:{
-                ten1:function () {
+            methods: {
+                ten1: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
+                    var nei = $("#se").val();
                     vm3.tee = "";
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                ten2:function () {
+                ten2: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
+                    var nei = $("#se").val();
                     vm3.tee = "java";
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
-                        success: function (r) {
-                            vm.job = r.jobsStudios;
+                        success: function (result) {
+                            vm4.n = result.pageinfo;
+                            vm4.navigatepageNums = result.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = result.pageinfo.isFirstPage;
+                            vm4.isLastPage = result.pageinfo.isFirstPage;
+                            vm4.pageNum = result.pageinfo.pageNum;
+                            vm4.total = result.pageinfo.total;
+                            vm.job = result.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                ten3:function () {
+                ten3: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
+                    var nei = $("#se").val();
                     vm3.tee = "html";
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
 
                 },
-                ten4:function () {
+                ten4: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
+                    var nei = $("#se").val();
+
                     vm3.tee = "C";
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                ten5:function () {
+                ten5: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
+                    var nei = $("#se").val();
                     vm3.tee = "javaWeb";
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                ten6:function () {
+                ten6: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.tee = "bootstrap";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                ten7:function () {
+                ten7: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.tee = "jquery";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
 
-                mon1:function () {
+                mon1: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.money = "all";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:"",
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: "",
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                mon2:function () {
+                mon2: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.money = "2";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                mon3:function () {
+                mon3: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.money = "5";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                mon4:function () {
+                mon4: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.money = "8";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                mon5:function () {
+                mon5: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.money = "10";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                mon6:function () {
+                mon6: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.money = "10up";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
 
 
-                sort1:function () {
+                sort1: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.sort = "all";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                sort2:function () {
+                sort2: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.sort = "grade";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                sort3:function () {
+                sort3: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.sort = "gradn";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                sort4:function () {
+                sort4: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.sort = "gradepn";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
 
-                time1:function () {
+                time1: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     vm3.time = "0";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                time2:function () {
+                time2: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     // vm3.time = "31536000";
                     vm3.time = "365";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                time3:function () {
+                time3: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     // vm3.time = "2628000";
                     vm3.time = "30";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                time4:function () {
+                time4: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     // vm3.time = "604800";
                     vm3.time = "7";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
-                time5:function () {
+                time5: function () {
+                    vm4.sea = "none";
+                    vm4.cli = "y";
                     // vm3.time = "86400";
                     vm3.time = "1";
+                    var nei = $("#se").val();
                     $.ajax({
-                        type:'post',
-                        url:'/ForJob/search/choice',
-                        data:{
-                            tee:vm3.tee,
-                            money:vm3.money,
-                            sort:vm3.sort,
-                            time:vm3.time,
+                        type: 'post',
+                        url: '/ForJob/search/choice/'+1,
+                        data: {
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                            nei: nei,
                         },
                         success: function (r) {
+                            vm4.n = r.pageinfo;
+                            vm4.navigatepageNums = r.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = r.pageinfo.isFirstPage;
+                            vm4.isLastPage = r.pageinfo.isFirstPage;
+                            vm4.pageNum = r.pageinfo.pageNum;
+                            vm4.total = r.pageinfo.total;
                             vm.job = r.jobsStudios;
+                            vm1.n = result.pageinfo.total;
                         }
                     })
                 },
             }
         })
+
+        // 分页
+        var vm4 = new Vue({
+
+            el: '#page',
+            data: {
+                sea: 'none',
+                cli: 'none',
+                n: '',
+                //当前页
+                pageNum: '',
+                //总记录数
+                total: '',
+                //是否为第一页
+                isFirstPage: false,
+                //是否为最后一页
+                isLastPage: false,
+                //导航页码数
+                navigatepageNums: '',
+            },
+            methods: {
+                pageAll: function (value) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/ForJob/search/jobs/' + value,
+                        success: function (result) {
+                            // console.log(result);
+                            vm4.n = result.pageinfo;
+                            vm4.navigatepageNums = result.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = result.pageinfo.isFirstPage;
+                            vm4.isLastPage = result.pageinfo.isFirstPage;
+                            vm4.pageNum = result.pageinfo.pageNum;
+                            vm4.total = result.pageinfo.total;
+                            vm.job = result.jobsStudios;
+                            vm1.n = result.pageinfo.total;
+                        }
+                    });
+                },
+                pagesea: function (value) {
+                    var nei = $("#se").val();
+                    $.ajax({
+                        type: 'post',
+                        url: '/ForJob/search/cha/' + value,
+                        data: {
+                            nei: nei,
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                        },
+                        success: function (result) {
+                            console.log(result);
+                            vm4.n = result.pageinfo;
+                            vm4.navigatepageNums = result.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = result.pageinfo.isFirstPage;
+                            vm4.isLastPage = result.pageinfo.isFirstPage;
+                            vm4.pageNum = result.pageinfo.pageNum;
+                            vm4.total = result.pageinfo.total;
+                            vm.job = result.jobsStudios;
+                            vm1.n = result.pageinfo.total;
+                        }
+                    });
+                },
+                pagecli: function (value) {
+                    var nei = $("#se").val();
+                    $.ajax({
+                        type: 'post',
+                        url: '/ForJob/search/choice/' + value,
+                        data: {
+                            nei: vm3.nei,
+                            tee: vm3.tee,
+                            money: vm3.money,
+                            sort: vm3.sort,
+                            time: vm3.time,
+                        },
+                        success: function (result) {
+                            console.log(result);
+                            vm4.n = result.pageinfo;
+                            vm4.navigatepageNums = result.pageinfo.navigatepageNums;
+                            vm4.isFirstPage = result.pageinfo.isFirstPage;
+                            vm4.isLastPage = result.pageinfo.isFirstPage;
+                            vm4.pageNum = result.pageinfo.pageNum;
+                            vm4.total = result.pageinfo.total;
+                            vm.job = result.jobsStudios;
+                            vm1.n = result.pageinfo.total;
+                        }
+                    });
+                }
+            },
+            created: function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/ForJob/search/jobs/' + 1,
+                    success: function (result) {
+                        console.log(result);
+                        vm4.n = result.pageinfo;
+                        vm4.navigatepageNums = result.pageinfo.navigatepageNums;
+                        vm4.isFirstPage = result.pageinfo.isFirstPage;
+                        vm4.isLastPage = result.pageinfo.isFirstPage;
+                        vm4.pageNum = result.pageinfo.pageNum;
+                        vm4.total = result.pageinfo.total;
+                        vm.job = result.jobsStudios;
+                        vm1.n = result.pageinfo.total;
+                    },
+                });
+            },
+        })
+
+
     </script>
     <!--搜索数量渲染-->
     <script type="text/javascript">
@@ -695,15 +1178,15 @@
             data: {
                 n: 0,
             },
-            created: function () {
-                $.ajax({
-                    type: "Post",
-                    url: "search/jNum",
-                    success: function (result) {
-                        vm1.n = result.jNum;
-                    }
-                })
-            }
+            // created: function () {
+            //     $.ajax({
+            //         type: "Post",
+            //         url: "search/jNum",
+            //         success: function (result) {
+            //             vm1.n = result.jNum;
+            //         }
+            //     })
+            // }
         })
     </script>
 </div>
