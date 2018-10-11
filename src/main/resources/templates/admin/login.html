@@ -46,18 +46,15 @@
 								<img src="/static/img/img_hlj/2.jpg" />
 							</div>
 							<div class="welcome">
-								<span>欢迎登录创客网</span>
+								<span style="margin-left: 20px;">创客网后台管理系统登录</span>
 							</div>
 							<form @submit.prevent="login" method="post">
-
 								<div class="email">
-									<input type="text" class="form-control" placeholder="邮箱" required="" v-model="email">
+									<input type="text" class="form-control" placeholder="账号" required="" v-model="email">
 								</div>
-
 								<div class="pwd">
 									<input type="password" class="form-control" placeholder="密码" required="" v-model="password">
 								</div>
-
 								<div class="verify">
 									<input type="text" class="form-control" placeholder="请输入验证码" required="" v-model="captcha">
 									<img alt="如果看不清楚，请单击图片刷新！" :src="src" @click="refreshCode"/>
@@ -65,12 +62,9 @@
 									<a href="javascript:;" @click="refreshCode">换一换</a>
 									</span>
 								</div>
-
 								<div class="login">
 									<button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
 								</div>
-
-								<p class="text-muted left"> <a href="registered/pwdforget"><small>忘记密码了？</small></a> | <a href="/registered/select/new">注册一个新账号</a>
 							</form>
 
 						</div>
@@ -95,7 +89,7 @@
                                     var data = "email="+vm.email+"&password="+vm.password+"&captcha="+vm.captcha;
                                     $.ajax({
                                         type: "POST",
-                                        url: "/login",
+                                        url: "/admin/login",
                                         data: data,
                                         dataType: "json",
                                         success: function(result){

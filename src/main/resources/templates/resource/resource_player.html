@@ -71,6 +71,16 @@
             height: 120px;
             transition: all 0.3s ease 0s;
         }
+        .box .icon {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+            margin: 0px 0 0 0;
+            opacity: 0;
+            z-index: 2;
+            transform: translateX(-200px);
+            transition: all 0.2s ease 0.2s;
+        }
         .box .icon li a {
             color: #fff;
             font-size: 25px;
@@ -221,7 +231,7 @@
     <div id="wrapper">
         <div id="page-wrapper" class="gray-bg" style="background:#ffffff">
             <div class="wrapper wrapper-content">
-                <div class="container" id="resources">
+                <div class="container">
                     <!--logo和搜索框-->
                     <div class="row">
                         <div class="col-md-6 col-md-offset-4">
@@ -234,7 +244,7 @@
                             <form action="/resource/searchResult">
                                 <input type="text" name="page" value="1" style="display: none"/>
                                 <span class="search">
-                                    <input type="text" id="search" name="key" placeholder="请输入关键词" required="" v-model="key"/>
+                                    <input type="text" id="search" name="key" placeholder="请输入关键词" required=""/>
                                     <div class="input-group-btn">
                                         <button style="opacity:0;"></button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -266,48 +276,189 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <h2 style="color:#000000; font-weight: 500;">{{curRes.resName}}</h2>
-                                <!--<small class="text-muted">{{curRes.resUploadtime|dateFormat}}</small>-->
-                            </div>
-
-                            <!--点赞收藏分享-->
-                            <div class="row">
-                                <div class="ontawesome-icon-list" >
-                                    <small class="text-muted my_btn">
-                                        <a id="like" @click="like" class="" :class="{ 'disabled ' : !isLogined||isLiked}">
-                                            <i class="fa" :class="{'fa-heart-o':!isLiked, 'fa-heart liked':isLiked}"></i>&nbsp;{{curRes.resLikenum|numfilter}}
-                                        </a>
-                                    </small>
-                                    <small class="text-muted my_btn">
-                                        <a id="collect" @click="collect" :class="{ disabled : !isLogined||isCollected}" style="font-size: 22px;">
-                                            <i class="fa" :class="{'fa-star-o':!isCollected, 'fa-star collected':isCollected}"></i>&nbsp;{{collectedNum|numfilter}}
-                                        </a>
-                                    </small>
-                                    <small class="text-muted my_btn">
-                                        <a id="share" href=""><i class="fa fa-share"></i></a>
-                                    </small>
+                            <div id="resInfo">
+                                <div class="row">
+                                    <h2 style="color:#000000; font-weight: 500;">{{curRes.resName}}</h2>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-12" style="padding:0px;">
-                                    <div class="panel panel-default" style="border-width: 0px 0px 0px 0px;">
-                                        <div class="panel-body" style="padding-left: 0px;">
-                                            <h2 style="margin-top:10px;">
-                                                视频简介：
-                                            </h2>
-                                            <p>{{curRes.resIntro}}</p>
-                                            <p>
-                                                <span class="badge" v-for="t in tagSplit(curRes.resTag)" style="margin-right: 5px;margin-top: 3px;">{{t}}</span>
-                                            </p>
+                                <!--点赞收藏分享-->
+                                <div class="row">
+                                    <div class="ontawesome-icon-list" >
+                                        <small class="text-muted my_btn">
+                                            <a id="like" @click="like" class="" :class="{ 'disabled ' : !isLogined||isLiked}">
+                                                <i class="fa" :class="{'fa-heart-o':!isLiked, 'fa-heart liked':isLiked}"></i>&nbsp;{{curRes.resLikenum|numfilter}}
+                                            </a>
+                                        </small>
+                                        <small class="text-muted my_btn">
+                                            <a id="collect" @click="collect" :class="{ disabled : !isLogined||isCollected}" style="font-size: 22px;">
+                                                <i class="fa" :class="{'fa-star-o':!isCollected, 'fa-star collected':isCollected}"></i>&nbsp;{{collectedNum|numfilter}}
+                                            </a>
+                                        </small>
+                                        <small class="text-muted my_btn">
+                                            <a id="share" href=""><i class="fa fa-share"></i></a>
+                                        </small>
+                                    </div>
+                                </div>
+                                <!--视频简介-->
+                                <div class="row">
+                                    <div class="col-md-12" style="padding:0;">
+                                        <div class="panel panel-default" style="border-width: 0 0 0 0;">
+                                            <div class="panel-body" style="padding-left: 0px;">
+                                                <h2 style="margin-top:10px;">
+                                                    视频简介：
+                                                </h2>
+                                                <p>{{curRes.resIntro}}</p>
+                                                <p>
+                                                    <span class="badge" v-for="t in tagSplit(curRes.resTag)" style="margin-right: 5px;margin-top: 3px;">{{t}}</span>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <script type="text/javascript">
+                                var resInfo = new Vue({
+                                    el:'#resInfo',
+                                    data:{
+                                        resId : '',
+                                        curRes: '',
+                                        collectedNum : 0,
+                                        isLogined: false,
+                                        isCollected: false,
+                                        isLiked : false,
+                                    },
+                                    created: function () {
+                                        this.resId = this.urlparse().file;
+                                        this.getCurRes();
+                                    },
+                                    methods: {
+                                        //url转换方法
+                                        urlparse: function(){
+                                            var url = window.location.href;
+                                            var a = document.createElement('a');
+                                            a.href = url;
+                                            var obj = {
+                                                source: url,
+                                                protocol: a.protocol.replace(':', ''),
+                                                host: a.hostname,
+                                                port: a.port,
+                                                query: a.search,
+                                                file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                                                hash: a.hash.replace('#', ''),
+                                                path: a.pathname.replace(/^([^\/])/, '/$1'),
+                                                relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                                                segments: a.pathname.replace(/^\//, '').split('/'),
+                                                params: (function() {
+                                                    var ret = {};
+                                                    var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
+                                                        if (v!==''&&v.indexOf('=')) {
+                                                            return true;
+                                                        }
+                                                    });
+                                                    seg.forEach( function(element, index) {
+                                                        var idx = element.indexOf('=');
+                                                        var key = element.substring(0, idx);
+                                                        var val = element.substring(idx+1);
+                                                        ret[key] = val;
+                                                    });
+                                                    return ret;
+                                                })()
+                                            };
+                                            return obj;
+                                        },
+                                        getCurRes:function () {
+                                            var data = "resId=" + this.resId;
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/resource/getCurRes",
+                                                data: data,
+                                                dataType: "json",
+                                                success: function(result){
+                                                    if(result.code === 0){
+                                                        resInfo.curRes = result.curRes;
+                                                        resInfo.collectedNum = result.collectedNum;
+                                                        resInfo.isLogined = result.isLogined;
+                                                        resInfo.isCollected = result.isCollected;
+                                                        resInfo.isLiked = result.isLiked;
+                                                    }
+                                                }
+                                            });
+                                        },
+                                        tagSplit : function (tags) {
+                                            return tags.split(",");
+                                        },
+                                        collect : function () {
+                                            if(this.isCollected){
+                                                alert("您已经收藏过了");
+                                                return ;
+                                            }
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/resource/collectRes/" + resInfo.resId,
+                                                dataType: "json",
+                                                success: function(result){
+                                                    if(result.code === 0){
+                                                        resInfo.isCollected = true;
+                                                        ++resInfo.collectedNum;
+                                                    }
+                                                    else{
+                                                        alert(result.msg);
+                                                    }
+                                                }
+                                            });
+                                        },
+                                        like : function () {
+                                            if(this.isLiked){
+                                                alert("您已经点过赞了");
+                                                return ;
+                                            }
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/resource/likeRes/" + resInfo.resId,
+                                                dataType: "json",
+                                                success: function(result){
+                                                    if(result.code === 0){
+                                                        resInfo.isLiked = true;
+                                                        ++resInfo.curRes.resLikenum;
+                                                    }
+                                                    else{
+                                                        alert(result.msg);
+                                                    }
+                                                }
+                                            });
+                                        },
+                                    },
+                                    filters: {
+                                        namefilter: function (value) {
+                                            if (value && value.length > 10) {
+                                                value = value.substring(0, 10) + '...';
+                                            }
+                                            return value;
+                                        },
+                                        introfilter: function (value) {
+                                            if (value && value.length > 25) {
+                                                value = value.substring(0, 25) + '...';
+                                            }
+                                            return value;
+                                        },
+                                        numfilter: function (value) {
+                                            if (value > 10000) {
+                                                value = value / 10000;
+                                                return value + "万";
+                                            }
+                                            else if (value > 1000) {
+                                                value = value / 1000;
+                                                return value + "千";
+                                            }
+                                            else
+                                                return value;
+                                        },
+                                    },
+                                });
+                            </script>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-4" id="resDanmu">
                             <div class="clients-list" style="margin-top:0px;">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i>
@@ -340,7 +491,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div id="tab-2" class="tab-pane" style="height:470px">
                                         <div class="full-height-scroll">
                                             <div class="table-responsive">
@@ -382,243 +532,172 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    var res = new Vue({
-                        el:'#resources',
-                        data:{
-                            resId : '',
-                            curRes: '',
-                            danmus: '',
-                            hotResource : '',
-                            collectedNum : 0,
-                            isLogined: false,
-                            isCollected: false,
-                            isLiked : false,
-                            key : '',
-                        },
-                        beforeCreate: function () {
-                        },
-                        created: function () {
-                            this.resId = this.urlparse().file;
-                            this.getCurRes();
-                            this.getDanmus();
-                            this.getRecommend();
-                        },
-                        methods: {
-                            //url转换方法
-                            urlparse: function(){
-                                var url = window.location.href;
-                                var a = document.createElement('a');
-                                a.href = url;
-                                var obj = {
-                                    source: url,
-                                    protocol: a.protocol.replace(':', ''),
-                                    host: a.hostname,
-                                    port: a.port,
-                                    query: a.search,
-                                    file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
-                                    hash: a.hash.replace('#', ''),
-                                    path: a.pathname.replace(/^([^\/])/, '/$1'),
-                                    relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
-                                    segments: a.pathname.replace(/^\//, '').split('/'),
-                                    params: (function() {
-                                        var ret = {};
-                                        var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
-                                            if (v!==''&&v.indexOf('=')) {
-                                                return true;
+                        <script type="text/javascript">
+                            var resDanmu = new Vue({
+                                el:'#resDanmu',
+                                data:{
+                                    resId : '',
+                                    danmus: '',
+                                    hotResource : '',
+                                },
+                                created: function () {
+                                    this.resId = this.urlparse().file;
+                                    this.getDanmus();
+                                    this.getRecommend();
+                                },
+                                methods: {
+                                    //url转换方法
+                                    urlparse: function(){
+                                        var url = window.location.href;
+                                        var a = document.createElement('a');
+                                        a.href = url;
+                                        var obj = {
+                                            source: url,
+                                            protocol: a.protocol.replace(':', ''),
+                                            host: a.hostname,
+                                            port: a.port,
+                                            query: a.search,
+                                            file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                                            hash: a.hash.replace('#', ''),
+                                            path: a.pathname.replace(/^([^\/])/, '/$1'),
+                                            relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                                            segments: a.pathname.replace(/^\//, '').split('/'),
+                                            params: (function() {
+                                                var ret = {};
+                                                var seg = a.search.replace(/^\?/, '').split('&').filter(function(v,i){
+                                                    if (v!==''&&v.indexOf('=')) {
+                                                        return true;
+                                                    }
+                                                });
+                                                seg.forEach( function(element, index) {
+                                                    var idx = element.indexOf('=');
+                                                    var key = element.substring(0, idx);
+                                                    var val = element.substring(idx+1);
+                                                    ret[key] = val;
+                                                });
+                                                return ret;
+                                            })()
+                                        };
+                                        return obj;
+                                    },
+                                    getDanmus: function(){
+                                        var data = "resId=" + this.resId;
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/resource/getDanmuList",
+                                            data: data,
+                                            dataType: "json",
+                                            success: function(result){
+                                                if(result.code === 0){
+                                                    resDanmu.danmus = result.danmus;
+                                                    console.log(resDanmu.danmus);
+                                                }
                                             }
                                         });
-                                        seg.forEach( function(element, index) {
-                                            var idx = element.indexOf('=');
-                                            var key = element.substring(0, idx);
-                                            var val = element.substring(idx+1);
-                                            ret[key] = val;
+                                    },
+                                    getRecommend : function () {
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/resource/hotResource",
+                                            dataType: "json",
+                                            success: function(result){
+                                                if(result.code === 0){
+                                                    resDanmu.hotResource = result.hotResource;
+                                                }
+                                            }
                                         });
-                                        return ret;
-                                    })()
-                                };
-                                return obj;
-                            },
-                            getDanmus: function(){
-                                var data = "resId=" + this.resId;
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/resource/getDanmuList",
-                                    data: data,
-                                    dataType: "json",
-                                    success: function(result){
-                                        if(result.code === 0){
-                                            res.danmus = result.danmus;
-                                            console.log(result);
+                                    },
+                                    tagSplit : function (tags) {
+                                        return tags.split(",");
+                                    },
+                                },
+                                filters: {
+                                    namefilter: function (value) {
+                                        if (value && value.length > 10) {
+                                            value = value.substring(0, 10) + '...';
                                         }
-                                    }
-                                });
-                            },
-                            getRecommend : function () {
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/resource/hotResource",
-                                    dataType: "json",
-                                    success: function(result){
-                                        if(result.code === 0){
-                                            res.hotResource = result.hotResource;
+                                        return value;
+                                    },
+                                    introfilter: function (value) {
+                                        if (value && value.length > 25) {
+                                            value = value.substring(0, 25) + '...';
                                         }
-                                    }
-                                });
-                            },
-                            getCurRes:function () {
-                                var data = "resId=" + this.resId;
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/resource/getCurRes",
-                                    data: data,
-                                    dataType: "json",
-                                    success: function(result){
-                                        if(result.code === 0){
-                                            res.curRes = result.curRes;
-                                            res.collectedNum = result.collectedNum;
-                                            res.isLogined = result.isLogined;
-                                            res.isCollected = result.isCollected;
-                                            res.isLiked = result.isLiked;
-                                            console.log(res.isLogined);
-                                            console.log(res.isCollected);
-                                            console.log(res.isLiked);
+                                        return value;
+                                    },
+                                    numfilter: function (value) {
+                                        if (value > 10000) {
+                                            value = value / 10000;
+                                            return value + "万";
                                         }
-                                    }
-                                });
-                            },
-                            tagSplit : function (tags) {
-                                return tags.split(",");
-                            },
-                            collect : function () {
-                                if(this.isCollected){
-                                    alert("您已经收藏过了");
-                                    return ;
-                                }
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/resource/collectRes/" + res.resId,
-                                    dataType: "json",
-                                    success: function(result){
-                                        if(result.code === 0){
-                                            res.isCollected = true;
-                                            ++res.collectedNum;
+                                        else if (value > 1000) {
+                                            value = value / 1000;
+                                            return value + "千";
+                                        }
+                                        else
+                                            return value;
+                                    },
+                                    mintohour: function (value) {
+                                        if (value >= 60) {
+                                            var h = value / 60;
+                                            var min = value % 60;
+                                            return h + ":" + min;
                                         }
                                         else{
-                                            alert(result.msg);
+                                            if(value < 10){
+                                                return "00:0" + value;
+                                            }
+                                            else return "00:" + value;
                                         }
-                                    }
-                                });
-                            },
-                            like : function () {
-                                if(this.isLiked){
-                                    alert("您已经点过赞了");
-                                    return ;
-                                }
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/resource/likeRes/" + res.resId,
-                                    dataType: "json",
-                                    success: function(result){
-                                        if(result.code === 0){
-                                            res.isLiked = true;
-                                            ++res.curRes.resLikenum;
-                                        }
-                                        else{
-                                            alert(result.msg);
-                                        }
-                                    }
-                                });
-                            },
-                        },
-                        filters: {
-                            namefilter: function (value) {
-                                if (value && value.length > 10) {
-                                    value = value.substring(0, 10) + '...';
-                                }
-                                return value;
-                            },
-                            introfilter: function (value) {
-                                if (value && value.length > 25) {
-                                    value = value.substring(0, 25) + '...';
-                                }
-                                return value;
-                            },
-                            numfilter: function (value) {
-                                if (value > 10000) {
-                                    value = value / 10000;
-                                    return value + "万";
-                                }
-                                else if (value > 1000) {
-                                    value = value / 1000;
-                                    return value + "千";
-                                }
-                                else
-                                    return value;
-                            },
-                            mintohour: function (value) {
-                                if (value >= 60) {
-                                    var h = value / 60;
-                                    var min = value % 60;
-                                    return h + ":" + min;
-                                }
-                                else{
-                                    if(value < 10){
-                                        return "00:0" + value;
-                                    }
-                                    else return "00:" + value;
-                                }
-                            },
-                            dateFormat:function(val){
-                                var d = new Date(val);
-                                var year = d.getFullYear();
-                                var month = d.getMonth() + 1;
-                                var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
-                                var hour = d.getHours();
-                                var minutes = d.getMinutes();
-                                var seconds = d.getSeconds();
-                                return  year+ '年' + month + '月' + day + '日';
-                            },
-                            timefilter: function (val) {
-                                var d = new Date(val);
-                                var year = d.getFullYear();
-                                var month = d.getMonth() + 1;
-                                var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
-                                var hour = d.getHours();
-                                var minutes = d.getMinutes();
-                                var seconds = d.getSeconds();
-                                return  month + '月' + day + '日 '
-                                    + hour + ':' + minutes;
-                            },
-                            danmu_timefilter:function (value) {
-                                var second = value/10;
-                                var min = parseInt(second / 60);
-                                var sec = parseInt(second % 60);
-                                var minstr, secstr;
-                                // return parseInt(min) + ":" + parseInt(sec);
-                                if(min < 10)
-                                    minstr = "0" + min;
-                                else
-                                    minstr = min;
-                                if(sec < 10)
-                                    secstr = "0" + sec;
-                                else
-                                    secstr = sec;
+                                    },
+                                    dateFormat:function(val){
+                                        var d = new Date(val);
+                                        var year = d.getFullYear();
+                                        var month = d.getMonth() + 1;
+                                        var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                                        var hour = d.getHours();
+                                        var minutes = d.getMinutes();
+                                        var seconds = d.getSeconds();
+                                        return  year+ '年' + month + '月' + day + '日';
+                                    },
+                                    timefilter: function (val) {
+                                        var d = new Date(val);
+                                        var year = d.getFullYear();
+                                        var month = d.getMonth() + 1;
+                                        var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                                        var hour = d.getHours();
+                                        var minutes = d.getMinutes();
+                                        var seconds = d.getSeconds();
+                                        return  month + '月' + day + '日 '
+                                            + hour + ':' + minutes;
+                                    },
+                                    danmu_timefilter:function (value) {
+                                        var second = value/10;
+                                        var min = parseInt(second / 60);
+                                        var sec = parseInt(second % 60);
+                                        var minstr, secstr;
+                                        // return parseInt(min) + ":" + parseInt(sec);
+                                        if(min < 10)
+                                            minstr = "0" + min;
+                                        else
+                                            minstr = min;
+                                        if(sec < 10)
+                                            secstr = "0" + sec;
+                                        else
+                                            secstr = sec;
 
-                                return minstr + ":" + secstr;
-                            },
-                            danmu_textfilter:function(value){
-                                if (value && value.length > 12) {
-                                    value = value.substring(0, 12) + '...';
-                                }
-                                return value;
-                            },
-                        },
-                    });
-                </script>
-
+                                        return minstr + ":" + secstr;
+                                    },
+                                    danmu_textfilter:function(value){
+                                        if (value && value.length > 12) {
+                                            value = value.substring(0, 12) + '...';
+                                        }
+                                        return value;
+                                    },
+                                },
+                            });
+                        </script>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -712,14 +791,12 @@
             //用来接收弹幕信息的url
             urlToGetDanmu: "",
             //用来存储弹幕信息的url
-            urlToPostDanmu: "/resource/putDanmu/" + res.resId,
+            // urlToPostDanmu: "/resource/putDanmu/" + resInfo.resId,
+            urlToPostDanmu: "",
             maxCountInScreen: 40, //屏幕上的最大的显示弹幕数目,弹幕数量过多时,优先加载最新的。
             maxCountPerSec: 10 //每分秒秒钟最多的弹幕数目,弹幕数量过多时,优先加载最新的。
         });
-
-        $("#danmup .danmu-div").danmu("addDanmu", res.danmus);
-
-
+        $("#danmup .danmu-div").danmu("addDanmu", resDanmu.danmus);
     </script>
 
     <!-- 折叠ibox -->
