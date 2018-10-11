@@ -195,10 +195,10 @@
 						<h2 class="col-md-12 row_h2">修改头像</h2>
 					</div>					
 					<div class="row contest_top">
-						<div class="col-md-8" v-if="src==''">
-							<img src="/static/img/img_lxn/default.jpg" class="photo">
-						</div>
-						<div class="col-md-8" v-else>
+						<!--<div class="col-md-8" v-if="src==''">-->
+							<!--<img src="/static/img/img_lxn/default.jpg" class="photo">-->
+						<!--</div>-->
+						<div class="col-md-8">
 							<img v-if="prom.prom && prom.prom.promImg" :src="'/promcenter/previewsrc/' + prom.prom.promImg" class="photo">
 						</div>
 						<div class="col-md-4">
