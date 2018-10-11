@@ -12,12 +12,10 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.quartz.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,7 +36,18 @@ public class stumemberController extends AbstractController {
     @Autowired
     private UsersService usersService;
 
+    /*点击确认中止，置 发布方中止 为 项目中止*/
+    @PostMapping("/userApplyquit/{id}")
+    @ResponseBody
+    public boolean userApplyquit(@PathVariable("id") String id){
 
+        System.out.println(id);
+        Users user = usersService.selectOne(new EntityWrapper<Users>().eq("user_id",id));
+        user.setUserQuittme(new Date());
+
+        usersService.updateAllColumnById(user);
+        return true;
+    }
 
 
 

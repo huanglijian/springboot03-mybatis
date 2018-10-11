@@ -2,7 +2,9 @@ package cn.ck.controller.studio;
 
 import cn.ck.controller.AbstractController;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author 马圳彬
@@ -13,6 +15,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/studioPage")
 public class pageController extends AbstractController {
+
+
+
+    /*跳转竞标详情界面*/
+    @RequestMapping("/bpManager")
+    public String bpmanager(@RequestParam("bidId") String bidId, Model model){
+        model.addAttribute("id",bidId);
+        return "/studio/studio_bpManager";
+    }
+
+    @RequestMapping("/create")
+    public String create() {
+        return "studio/studio_creat";
+    }
+
+    @RequestMapping("/add")
+    public String add() {
+        return "studio/studio_add";
+    }
+
+    @RequestMapping("/index")
+    public String index() {
+        return "studio/studio_index";
+    }
 
     @RequestMapping("/bidding")
     public String bidding() {
@@ -34,7 +60,6 @@ public class pageController extends AbstractController {
         return "studio/studio_funds";
     }
 
-
     @RequestMapping("/jobInfo")
     public String jobInfo() {
         return "studio/studio_jobInfo";
@@ -52,6 +77,16 @@ public class pageController extends AbstractController {
     @RequestMapping("/memberReview")
     public String memberReview() {
         return "studio/studio_memberReview";
+    }
+
+    @RequestMapping("/infoUpdate")
+    public String infoUpdate() {
+        return "studio/studio_infoUpdate";
+    }
+
+    @RequestMapping("/headUpdate")
+    public String headUpdate() {
+        return "studio/studio_headUpdate";
     }
 
 }

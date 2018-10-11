@@ -26,13 +26,10 @@ public class StudioServiceImpl extends ServiceImpl<StudioMapper, Studio> impleme
 
 
     @Override
-    public String insertStudio(Studio studio,String yhid) {
+    public String insertStudio(Studio studio) {
 
-        studio.setStuCreatid(yhid);
-        studio.setStuImg("E:/ck/studio/touxiang/2.png");
-        studio.setStuCreattime(new Date());
-        studioMapper.insert(studio);
-        return  studio.getStuId();
+        baseMapper.insert(studio);
+        return  null;
 
     }
 

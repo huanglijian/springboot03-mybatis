@@ -212,12 +212,13 @@ public class RegisteredController extends AbstractController {
             userInfo.setUserAbipay(promulgator.getPromAbipay());
             userInfo.setUserPaypwd(promulgator.getPromPaypwd());
             userInfo.setUserName(promulgator.getPromName());
+            //设置为默认的图片
+            userInfo.setUserImg("default.jpg");
             usersService.updateById(userInfo);
         }
 
         else if(userAccount.getAllType().equals("发布者")){
             promulgator.setPromLogintime(new Date());
-            promulgator.setPromImg("");
             promulgatorService.updateById(promulgator);
         }
 
@@ -252,6 +253,12 @@ public class RegisteredController extends AbstractController {
         return "login/pwd_forget";
     }
 
+    /**
+     * 验证邮箱是否已经注册
+     * @param email
+     * @param code
+     * @return
+     */
     @RequestMapping("forget_validateEmail")
     @ResponseBody
     public ResponseBo forgetValidateEmail(String email, String code){
@@ -268,11 +275,21 @@ public class RegisteredController extends AbstractController {
         return ResponseBo.ok().put("next", "/registered/forgetSecond?UUID=" + alluser.getAllId());
     }
 
+    /**
+     * 注册第二步页面跳转
+     * @return
+     */
     @RequestMapping("forgetSecond")
     public String pwdForgetSecond(){
         return "login/pwd_forget_3";
     }
 
+    /**
+     * 更新密码
+     * @param UUID
+     * @param password
+     * @return
+     */
     @RequestMapping("forgetUpdate")
     @ResponseBody
     public ResponseBo pwdUpdate(String UUID, String password){
@@ -289,6 +306,10 @@ public class RegisteredController extends AbstractController {
         return doLogin(alluser.getAllEmail(), password).put("next", "/registered/forgetComplete");
     }
 
+    /**
+     * 完成修改密码页面
+     * @return
+     */
     @RequestMapping("forgetComplete")
     public String pwdForgetComolete(){
         return "login/pwd_forget_4";

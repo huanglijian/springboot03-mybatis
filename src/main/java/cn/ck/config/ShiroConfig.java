@@ -94,6 +94,7 @@ public class ShiroConfig {
 		chains.put("/resource/**", "anon");
 		chains.put("/studio/**", "anon");
 		chains.put("/honor/**", "anon");
+		chains.put("/admin/login", "anon");
 		chains.put("/mtest/**", "anon");
 		// 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		chains.put("/logout", "logout");

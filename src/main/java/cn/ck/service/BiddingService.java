@@ -29,4 +29,12 @@ public interface BiddingService extends IService<Bidding> {
      * @return
      */
     List<ProjectBid> selectSuggestProj(String keyword);
+
+    public List<Bidding> selectbidding1(String stuId);
+
+    public List<Bidding> selectbidding2(String stuId);
+
+    public List<Bidding> selectbidding3(String stuId);
+
+    public List<Bidding> selectbidding4(String stuId);
 }

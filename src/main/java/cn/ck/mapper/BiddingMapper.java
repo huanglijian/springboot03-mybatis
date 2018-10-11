@@ -30,4 +30,9 @@ public interface BiddingMapper extends BaseMapper<Bidding> {
      * @return
      */
     List<ProjectBid> selectSuggestProj(@Param("keyword") String keyword);
+
+    public List<Bidding> selectbidding1(String stuId);
+    public List<Bidding> selectbidding2(String stuId);
+    public List<Bidding> selectbidding3(String stuId);
+    public List<Bidding> selectbidding4(String stuId);
 }

@@ -45,5 +45,7 @@ public interface ProjectService extends IService<Project> {
 
     List<PjCol> selectPjCol(Map<String,Object> map);
 
+    public List<Project> selectProjlist1(String stuId);
 
+    public List<Project> selectProjlist2(String stuId);
 }

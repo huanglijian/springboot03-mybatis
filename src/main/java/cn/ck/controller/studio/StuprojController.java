@@ -3,23 +3,21 @@ package cn.ck.controller.studio;
 import cn.ck.controller.AbstractController;
 import cn.ck.entity.Bidding;
 import cn.ck.entity.Project;
+import cn.ck.entity.Promulgator;
 import cn.ck.entity.Users;
 import cn.ck.entity.bean.ProjectBid;
-import cn.ck.service.BiddingService;
-import cn.ck.service.ProjectService;
-import cn.ck.service.StudioService;
-import cn.ck.service.UsersService;
+import cn.ck.service.*;
 import cn.ck.utils.DateUtils;
 import cn.ck.utils.ResponseBo;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+import java.util.Date;
 
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -39,7 +37,8 @@ public class StuprojController extends AbstractController {
     private StudioService studioService;
     @Autowired
     private UsersService usersService;
-
+    @Autowired
+    private PromulgatorService promulgatorService;
 
 
     /*竞标项目*/
@@ -49,12 +48,15 @@ public class StuprojController extends AbstractController {
         String userId = getUser().getAllId();
         Users user = usersService.selectOne(new EntityWrapper<Users>().eq("user_id",userId)) ;
         String stuId = user.getUserStudio();
-        List<Bidding> bidList = biddingService.selectList(new EntityWrapper<Bidding>().eq("bid_studio",stuId).eq("bid_state","竞标超时").or("bid_state='竞标中'").or("bid_state='竞标中止'"));
+
+        List<Bidding> bidList = biddingService.selectbidding1(stuId);
+        /*System.out.println("工作室ID："+stuId);*/
         List<ProjectBid> projbidList = new ArrayList<ProjectBid>();
-        System.out.println(bidList);
+       /* System.out.println(bidList);*/
         for(Bidding bidding:bidList){
             int projId = bidding.getBidProj();
             Project project = projectService.selectOne(new EntityWrapper<Project>().eq("proj_id",projId));
+
             ProjectBid projectBid = new ProjectBid();
             projectBid.setProject(project);
             projectBid.setBidding(bidding);
@@ -66,7 +68,7 @@ public class StuprojController extends AbstractController {
             projectBid.setBidday(10-projectService.projBidTimeNum(project.getProjId()));
             projbidList.add(projectBid);
         }
-        return ResponseBo.ok().put("projectbid",projbidList);
+        return ResponseBo.ok().put("projectbid",projbidList).put("user",user);
     }
 
     /* 服务订单 */
@@ -78,50 +80,153 @@ public class StuprojController extends AbstractController {
         Users user = usersService.selectOne(new EntityWrapper<Users>().eq("user_id",userId)) ;
         String stuId = user.getUserStudio();
         /*进行中的项目*/
-        Set<String> set = new HashSet<>();
-        set.add("bid_starttime");
-        List<Bidding> bidList = biddingService.selectList(new EntityWrapper<Bidding>().eq("bid_studio",stuId).eq("bid_state","开发中").or("bid_state='发布者中止'").or("bid_state='承接方中止'").orderDesc(set));
+        List<Project> projList1 = projectService.selectProjlist1(stuId);
         List<ProjectBid> projbidList = new ArrayList<ProjectBid>();
 
-        for(Bidding bidding:bidList){
+        for(Project project:projList1){
+
             ProjectBid projBid = new ProjectBid();
              /*开发剩余时间 */
-            int projId = bidding.getBidProj();
+           /* int projId = bidding.getBidProj();
             Project project = projectService.selectOne(new EntityWrapper<Project>().eq("proj_id",projId));
+            System.out.println(projId+"|"+project.getProjState());*/
+
             int developday = project.getProjCycletime() - projectService.projDevelopTimeNum(project.getProjId());
             projBid.setDevelopday(developday);
-            projBid.setBidding(bidding);
+            /*projBid.setBidding(bidding);*/
             projBid.setProject(project);
-            projbidList.add(projBid);
+                projbidList.add(projBid);
         }
 
         /*已结束*/
-        Set<String> set1 = new HashSet<>();
-        set.add("bid_starttime");
-        List<Bidding> bidList1 = biddingService.selectList(new EntityWrapper<Bidding>().eq("bid_studio",stuId).eq("bid_state","开发完成").or("bid_state='项目中止'").orderDesc(set1));
+
+        List<Project> projectList2 = projectService.selectProjlist2(stuId);
         List<ProjectBid> projbidList1 = new ArrayList<ProjectBid>();
-        for(Bidding bidding:bidList1){
-            int projId = bidding.getBidProj();
-            Project project = projectService.selectOne(new EntityWrapper<Project>().eq("proj_id",projId));
+        for(Project project:projectList2){
+/*            int projId = bidding.getBidProj();
+            Project project = projectService.selectOne(new EntityWrapper<Project>().eq("proj_id",projId));*/
+
             ProjectBid projBid = new ProjectBid();
-            projBid.setBidding(bidding);
+            /*projBid.setBidding(bidding);*/
             projBid.setProject(project);
             projbidList1.add(projBid);
         }
 
-        return ResponseBo.ok().put("projectrun",projbidList).put("projectend",projbidList1);
+        return ResponseBo.ok().put("projectrun",projbidList).put("projectend",projbidList1).put("user",user);
     }
 
     /*竞标一览*/
     @GetMapping("/biddingAll")
+    @ResponseBody
     public ResponseBo biddingAll(){
         //工作室ID
         String userId = getUser().getAllId();
         Users user = usersService.selectOne(new EntityWrapper<Users>().eq("user_id",userId));
         String stuId = user.getUserStudio();
 
-        List<Project> projList = projectService.selectList(new EntityWrapper<Project>().eq("proj_studio",stuId));
+        List<Bidding> bidList2 = biddingService.selectbidding3(stuId);
+        List<ProjectBid> projBid2 = new ArrayList<>();
+        for(Bidding bidding:bidList2){
+            int projId = bidding.getBidProj();
+            Project project = projectService.selectOne(new EntityWrapper<Project>().eq("proj_id",projId));
+            String userId1 = project.getProjProm();
+            System.out.println(userId1);
+            Users user1 = usersService.selectOne(new EntityWrapper<Users>().eq("user_id",userId1));
+            System.out.println(user1);
 
-        return null;
+            ProjectBid projbid = new ProjectBid();
+            projbid.setBidding(bidding);
+            projbid.setProject(project);
+            projbid.setUsers(user1);
+            //竞标个数
+            int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
+            projbid.setBidnum(count);
+
+            projBid2.add(projbid);
+        }
+        return ResponseBo.ok().put("projectbid",projBid2).put("user",user);
     }
+
+    @GetMapping("/bpmanager/{id}")
+    @ResponseBody
+    public ResponseBo bpManager(@PathVariable("id") int id){
+        /* id为 竞标ID */
+        Bidding bidding = biddingService.selectOne(new EntityWrapper<Bidding>().eq("bid_id",id));
+        int projId = bidding.getBidProj();
+
+        Project project = projectService.selectOne(new EntityWrapper<Project>().eq("proj_id",projId));
+        String yhid = project.getProjProm();
+
+        Promulgator prom = promulgatorService.selectOne(new EntityWrapper<Promulgator>().eq("prom_id",yhid));
+
+        return ResponseBo.ok().put("bidding",bidding).put("project",project).put("promulgator",prom);
+    }
+
+    @PostMapping("/bidinfoAdd")
+    @ResponseBody
+    public void bidinfoAdd(HttpServletRequest request){
+        String bidId = request.getParameter("bidId");
+        Bidding bidding = biddingService.selectOne(new EntityWrapper<Bidding>().eq("bid_id",bidId));
+        bidding.setBidMoney(request.getParameter("bidMoney"));
+        bidding.setBidCycle(request.getParameter("bidCycle"));
+        bidding.setBidScheme(request.getParameter("bidScheme"));
+        bidding.setBidPhone(request.getParameter("bidPhone"));
+        bidding.setBidEmail(request.getParameter("bidEmail"));
+
+        System.out.println(bidding);
+        System.out.println("跳转成功");
+        biddingService.updateAllColumnById(bidding);
+    }
+
+    @PostMapping("/biddingEnd/{id}")
+    @ResponseBody
+    public boolean biddingEnd(@PathVariable("id") int id){
+
+        System.out.println(id);
+        Bidding bidding = biddingService.selectOne(new EntityWrapper<Bidding>().eq("bid_id",id));
+        bidding.setBidEndtime(new Date());
+        bidding.setBidState("竞标中止");
+
+        biddingService.updateAllColumnById(bidding);
+        return true;
+    }
+
+    /*置 中止合作 为 承接方中止*/
+    @PostMapping("/userQuit/{id}")
+    @ResponseBody
+    public boolean userQuit(@PathVariable("id") int id){
+
+        System.out.println(id);
+        Project project = projectService.selectOne(new EntityWrapper<Project>().eq("proj_id",id));
+        project.setProjState("承接方中止");
+        projectService.updateAllColumnById(project);
+        return true;
+    }
+
+    /*点击 取消中止，置 承接方中止 和 发布方中止 为 开发中*/
+    @PostMapping("/develop/{id}")
+    @ResponseBody
+    public boolean develop(@PathVariable("id") int id){
+
+        System.out.println(id);
+        Project project = projectService.selectOne(new EntityWrapper<Project>().eq("proj_id",id));
+        project.setProjState("开发中");
+        projectService.updateAllColumnById(project);
+        return true;
+    }
+
+    /*点击确认中止，置 发布方中止 为 项目中止*/
+    @PostMapping("/projectQuit/{id}")
+    @ResponseBody
+    public boolean projectQuit(@PathVariable("id") int id){
+
+        System.out.println(id);
+        Project project = projectService.selectOne(new EntityWrapper<Project>().eq("proj_id",id));
+        project.setProjState("项目中止");
+        project.setProjEndtime(new Date());
+        projectService.updateAllColumnById(project);
+        return true;
+    }
+
+
 }

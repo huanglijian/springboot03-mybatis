@@ -44,7 +44,7 @@ public class UserRealm extends AuthorizingRealm {
 		Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
 		String uuid = user.getAllId();
 
-		System.out.println("用户" + uuid + "获取权限-----ShiroRealm.doGetAuthorizationInfo");
+//		System.out.println("用户" + uuid + "获取权限-----ShiroRealm.doGetAuthorizationInfo");
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
 		// 获取用户角色集

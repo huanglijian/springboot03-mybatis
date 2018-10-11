@@ -219,7 +219,7 @@ public class MoneypromController {
                 mv.setViewName("/users/pc_payinresult");
 
             }
-            if(user.getAllType().equals("发布方")){
+            if(user.getAllType().equals("发布者")){
                 promulgator=promulgatorService.selectID(user.getAllId());
                 promname=promulgator.getPromName();
                 mv.setViewName("/promulgator/prom_payinresult");
@@ -329,10 +329,10 @@ public class MoneypromController {
             mv.setViewName("/users/pc_payoutresult");
             payee_account=users.getUserAbipay();
         }
-        if(user.getAllType().equals("发布方")){
+        if(user.getAllType().equals("发布者")){
             promulgator=promulgatorService.selectID(user.getAllId());
             promname=promulgator.getPromName();
-            mv.setViewName("/promulgator/prom_payinresult");
+            mv.setViewName("/promulgator/prom_payoutresult");
             payee_account=promulgator.getPromAbipay();
         }
         //转账金额

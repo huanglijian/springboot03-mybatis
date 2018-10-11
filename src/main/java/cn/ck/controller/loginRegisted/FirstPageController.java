@@ -25,8 +25,6 @@ import java.util.List;
 public class FirstPageController extends AbstractController {
 
     @Autowired
-    private AlluserService alluserService;
-    @Autowired
     private PromulgatorService promulgatorService;
     @Autowired
     private UsersService usersService;
@@ -57,7 +55,7 @@ public class FirstPageController extends AbstractController {
         user.setAllEmail(loginUser.getAllEmail());
         user.setAllType(loginUser.getAllType());
 
-        String imgpath, centerUrl;;
+        String imgpath, centerUrl;
         boolean isPromul = false;
         if(user.getAllType().equals("发布者")){
             Promulgator promulgator = promulgatorService.selectById(loginUser.getAllId());
@@ -70,7 +68,7 @@ public class FirstPageController extends AbstractController {
             //个人中心链接
             centerUrl = "/pcjump/account";
         }
-        else{
+        else if(user.getAllType().equals("普通用户")){
             Users users = usersService.selectById(loginUser.getAllId());
             //user的头像路径
             imgpath = users.getUserImg();
@@ -80,6 +78,11 @@ public class FirstPageController extends AbstractController {
             isPromul = false;
             //个人中心链接
             centerUrl = "/user/user_info";
+        }
+        else {
+            imgpath = "/file/showImg/default.jpg";
+            centerUrl = "";
+            isPromul = true;
         }
 
         return ResponseBo.ok().put("loginUser", user)
