@@ -1,28 +1,26 @@
 package cn.ck.controller;
 
-import cn.ck.entity.Bidding;
+import cn.ck.entity.*;
 
+import java.io.*;
 import java.util.*;
 
-import cn.ck.entity.Project;
-import cn.ck.entity.Promulgator;
-import cn.ck.entity.Studio;
-import cn.ck.service.BiddingService;
-import cn.ck.service.ProjectService;
-import cn.ck.service.PromulgatorService;
-import cn.ck.service.StudioService;
+import cn.ck.service.*;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.stream.Collectors;
 
 
@@ -38,13 +36,19 @@ public class ProjectContorller {
     PromulgatorService promulgatorservice;
     @Autowired
     StudioService studioService;
+    @Autowired
+    CollectpjService collectpjService;
 
+    String bid = null;
     String projectid = null; //记录项目详情页的项目id
 
     int start=1;//记录当前页 默认为“0“
-    int size = 1; //记录每页条目数，默认为”10“
-    String conditions = "0"; //条件
-    String values     = "0";  //值
+    int size = 5; //记录每页条目数，默认为”10“
+//    String conditions = "0"; //条件
+    String values     = "0";  //project值
+
+    Boolean orderByMoney = false;
+    Boolean orderByDate  = false;
 
     //关于搜索 参考哔哩哔哩
     //拥有1.keyword  （按字段进行搜索）它的值是按我们---
@@ -63,10 +67,36 @@ public class ProjectContorller {
     // money 0 代表所有
     String state="0"; //记录状态
     String classify="0"; //记录状态
-    String money="0"; //记录状态
+    String tag="0"; //记录状态
 
 
     //当点击上方的选择框时 跳转到下方的mapping
+
+    //判断是否登录，用户的ID是多少
+    @RequestMapping("/islogin")
+    public String islogin() {
+
+        if(true)
+            return "project/Project-Shouye";
+        else
+            return "login";
+
+    }
+    //将条件清零
+    @RequestMapping("/pjClear")
+    public String pjclear(){
+
+        this.values="0";
+        this.start = 1;
+        this.orderByMoney=false;
+        this.orderByDate =false;
+        this.classify="0";
+        this.state = "0";
+        return "project/Project-Shouye";
+    }
+    //接收一系列的参数
+
+
 
     @RequestMapping("/pjconditione")
     public String pjpageset(
@@ -76,61 +106,133 @@ public class ProjectContorller {
 
         this.state = state;
         this.classify = classify;
-        this.money = money;
-        if(conditions.equals("0"));
-        else
-            this.conditions = conditions;
-
-        if(values.equals("0"));
-        else
-            this.values = values;
 
         return "project/Project-Shouye";
     }
 
+    @RequestMapping("/toadduser")
+    public void toadduser(HttpServletRequest request){
+       String bid = request.getParameter("bid");
+       if(bid!=null) {
+           if (bid.equals("undefined"))
+               this.bid = null;
+           else
+               this.bid = bid;
+           System.out.println("in---toadduser");
+           System.out.println("this.bid" + this.bid);
+           System.out.println("bid" + bid);
+       }
+        return ;
+    }
 
+    //按预算 排序
+    @RequestMapping("/orderbymoney")
+    public String orderbymoney(){
+        //保证同时只有一个为真
+        orderByMoney = true;
+        orderByDate = false;
+        this.start = 1;
+        return "project/Project-Shouye";
+    }
 
+    //按时间排序
+    @RequestMapping("/orderbydate")
+    public String orderbydate(){
+        orderByDate = true;
+        orderByMoney = false;
+        this.start = 1;
+        return "project/Project-Shouye";
+    }
 
-
+    //value 即是项目的名字
     @RequestMapping("/pjpage")
     public String pjpageset(
             @RequestParam(value = "start", defaultValue = "1")  int start,
-            @RequestParam(value = "conditions", defaultValue = "0") String conditions,
             @RequestParam(value = "values", defaultValue = "0") String values){
-
         this.start=start;
-        if(conditions.equals("0"));
-        else
-        this.conditions = conditions;
-
-        if(values.equals("0"));
-        else
         this.values = values;
-
         return "project/Project-Shouye";
     }
+
+
+    @RequestMapping("/projectislike")
+    @ResponseBody
+    public Map<String,Object> projectislike() {
+        Map<String, Object> map = new HashMap<>();
+        String islikes[] = new String[16];
+        for(int i = 0 ; i<16;i++)
+            islikes[i] = "true";
+        map.put("islikes",islikes);
+        return map;
+    }
+
     //获取当前项目
     @RequestMapping("/projectpage")
     @ResponseBody
     public PageInfo<Project> get_projects(){
-        PageHelper.startPage(this.start,this.size);
-//        Map<String,Object> map=new HashMap<>();
-//        map.put("id",this.size);
-//        map.put("state",this.state);
-        EntityWrapper<Project>  wrappers = new EntityWrapper<Project>();
-//        conditions = "conditions"; values = "公开";
-//       if(this.conditions!=null){}
-//
+
+
+        System.out.println("state:"+this.state);
+         System.out.println("classify:"+this.classify);
         System.out.println("start:"+ this.start);
-        System.out.println("size:"+ this.size);
-        System.out.println("conditions:"+ this.conditions);
         System.out.println("values:"+ this.values);
-           if(!this.conditions.equals("0"))
-              wrappers.eq(conditions,values);
+        EntityWrapper<Project>  wrappers = new EntityWrapper<Project>();
+        if(!state.equals("0"))     //状态
+            wrappers.eq("proj_state",state);
+        if(!classify.equals("0"))  //分类
+            wrappers.eq("proj_type",classify);
+        wrappers.eq("proj_secret","公开"); //级别
+        if(!this.values.equals("0"))
+            wrappers.like("proj_name",values);
+        if(orderByMoney) {
+            wrappers.orderBy("proj_money", true);
+        }
+        if(orderByDate) {
+            wrappers.orderBy("proj_creattime", false);
+        }
+
+        PageHelper.startPage(this.start,this.size);
 
         List<Project> List= projectService.selectList(wrappers);
 
+
+        //未登录
+//        bid="e9ae842a-e70f-49b8-a9b5-bee24a13c8bb";
+
+//            for(Project p : List){
+//                //那些加 收藏
+//                p.setProjFile("true");
+//            }
+
+   if(this.bid!=null) {
+       for (Project p : List) {
+           //那些加 收藏
+           EntityWrapper<Collectpj> wrappers1 = new EntityWrapper<Collectpj>();
+//            System.out.println("in---addShuxXing");
+           wrappers1.eq("colp_pjid", p.getProjId());
+           wrappers1.eq("colp_user", this.bid);
+           Collectpj collectpj = collectpjService.selectOne(wrappers1);
+           if (collectpj == null) {
+//               System.out.println("no-result");
+               p.setProjFile(null);
+
+           } else {
+//               System.out.println("has-result");
+               p.setProjFile("true");
+
+           }
+//           System.out.println(p.getProjId());
+       }
+   }
+   else{
+       for (Project p : List) {
+           p.setProjFile(null);
+       }
+   }
+
         PageInfo<Project> page = new PageInfo<>(List);
+
+
         return page;
     }
 
@@ -175,7 +277,7 @@ public class ProjectContorller {
 
         return "project/Project-Detail";
     }
-//
+
 
 
     //用于获取两个推荐单之一的一个   的数据
@@ -195,7 +297,7 @@ public class ProjectContorller {
     }
     //用于获取两个推荐单之竞标最激烈的项目
     //根据v-for 的。。来确认返回的类型
-    @RequestMapping("/projectShouYeHtml")
+    @RequestMapping("/projectHot")
     @ResponseBody
     public  List<Project> GetMeg() {
         Map<String, Object> map = new HashMap<>();
@@ -207,9 +309,26 @@ public class ProjectContorller {
         // 2.首先查出所有的  项目！！！
         List<Project> projects = projectService.selectList(new EntityWrapper<Project>());
         List<Project> projectNeed = new ArrayList<Project>();
+        Date nowtime = new Date();
+        EntityWrapper<Project>  wrappers1 = new EntityWrapper<Project>();
+
+        for(Project p: projects){
+            Date creattime =p.getProjCreattime();
+            creattime.setDate(creattime.getDay()+10);
+
+            if(nowtime.after(creattime)) {
+                System.out.println(nowtime+"-----"+creattime);
+                System.out.println("超标了" + p.getProjId());
+                if(p.getProjState().equals("竞标中"))
+                    p.setProjState("竞标超时");
+                //修改状态
+            }
+        }
+        projectService.updateAllColumnBatchById(projects);
 
         int count;
         for(Project p: projects){
+
        count =  biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",p.getProjId()));
         jingBiaomap.put( p.getProjId().toString(),count);
 
@@ -391,6 +510,234 @@ public class ProjectContorller {
 //        System.out.println("1---------------------");
 //        return  result;
 //    }
+    //这是一个下载的函数
+//    @RequestMapping(value = "/down",method = RequestMethod.GET)
+//    public void download(HttpServletRequest request,HttpServletResponse response,String fileName) {
+//        try {
+//            //存放地址
+//            String realPath = "F:\\down";
+//            //获得服务器端某个文件的完整路径
+//            String fullPath = realPath + File.separator + fileName;
+//            //设置响应
+//            response.setContentType("application/force-download");
+//           //设置响应头信息
+//            response.setHeader("Content-Disposition", "attachment;fileName="+fileName);// 设置文件名
+//            //文件名有中文时设置编码
+//            response.setHeader("Content-Disposition", "attachment;filename="+new String(fileName.getBytes("GBK"),"ISO-8859-1"));
+//
+//
+//           File downloadFile = new File(fullPath);
+//           FileInputStream inputStream = new FileInputStream(downloadFile);
+//           OutputStream outputStream =  response.getOutputStream();
+//           IOUtils.copy(inputStream, outputStream);
+//            response.flushBuffer();
+//            outputStream.flush();
+//            outputStream.close();
+//            inputStream.close();
+//           } catch (IOException e) {
+//           e.printStackTrace();
+//            }
+//    }
+
+//    public void downloadLocal(HttpServletResponse response) throws FileNotFoundException {
+//        // 下载本地文件
+//        String fileName = "Operator.doc".toString(); // 文件的默认保存名
+//        // 读到流中
+//        InputStream inStream = new FileInputStream("c:/Operator.doc");// 文件的存放路径
+//        // 设置输出的格式
+//        response.reset();
+//        response.setContentType("bin");
+//        response.addHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+//        // 循环取出流中的数据
+//        byte[] b = new byte[100];
+//        int len;
+//        try {
+//            while ((len = inStream.read(b)) > 0)
+//                response.getOutputStream().write(b, 0, len);
+//            inStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+//    public void downloadNet(HttpServletResponse response) throws MalformedURLException {
+//        // 下载网络文件
+//        int bytesum = 0;
+//        int byteread = 0;
+//
+//        URL url = new URL("windine.blogdriver.com/logo.gif");
+//
+//        try {
+//            URLConnection conn = url.openConnection();
+//            InputStream inStream = conn.getInputStream();
+//            FileOutputStream fs = new FileOutputStream("c:/abc.gif");
+//
+//            byte[] buffer = new byte[1204];
+//            int length;
+//            while ((byteread = inStream.read(buffer)) != -1) {
+//                bytesum += byteread;
+//                System.out.println(bytesum);
+//                fs.write(buffer, 0, byteread);
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+
+
+    @RequestMapping("/jingbiao")
+    public  String jingbiao(HttpServletRequest request) {
+        //此时 已经确定是组长了
+        String  bidId = request.getParameter("bid1");
+        int pid = 0;
+        String  pidId = request.getParameter("pid1");
+        try {
+           pid = Integer.parseInt(pidId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            System.out.println("NumberFormatException");
+        }
+        EntityWrapper<Studio>  wrappers = new EntityWrapper<Studio>();
+        wrappers.eq("stu_creatid",bidId);
+        Studio  studio  =  studioService.selectOne(wrappers);
+
+        if(studio==null) {
+            System.out.println("不是工作室的Boss");
+            return "project/Project-Detail";
+            //用户名为空
+        }
+        else {
+            System.out.println(studio.getStuName());
+            System.out.println(studio.getStuId());
+            Date now = new Date();
+            String BidStudio = request.getParameter("BidStudio");
+            String BidEmail = request.getParameter("BidEmail");
+            String BidMoney = request.getParameter("BidMoney");
+            String BidPhone = request.getParameter("BidPhone");
+            String BidScheme = request.getParameter("BidScheme");
+            String BidCycle = request.getParameter("BidCycle");
+
+            //有两个属性不能为空
+
+            Bidding bidding = new Bidding();
+            bidding.setBidTime(now); //设置时间
+            bidding.setBidProj(pid);
+            bidding.setBidStudio(studio.getStuId());
+            bidding.setBidMoney(BidMoney);
+            bidding.setBidEmail(BidEmail);
+            bidding.setBidCycle(BidCycle);
+            bidding.setBidPhone(BidPhone);
+            bidding.setBidState("竞标中");
+            bidding.setBidScheme(BidScheme);
+
+            boolean ok = biddingService.insert(bidding);
+            System.out.println(pid);
+            System.out.println("---" + ok);
+            System.out.println(bidId);
+
+        }
+        return "project/Project-Detail";
+    }
+    //是不是组长
+    @RequestMapping("/isleader")
+    @ResponseBody
+    public Map<String,String> isleader(@RequestParam(value = "bidId", defaultValue = "")  String bidId) {
+        //获取用户id
+        Map<String,String> map = new HashMap<>();
+
+        String isleader = "false";
+        System.out.println("-----" + bidId + "---------");
+        if (bidId.equals("undefined")) {
+            System.out.println("in---login");
+            isleader ="bad";
+        }
+        else {
+            EntityWrapper<Studio> wrappers = new EntityWrapper<Studio>();
+            wrappers.eq("stu_creatid", bidId);
+            Studio studio = studioService.selectOne(wrappers);
+
+            if (studio == null) {
+                System.out.println("不是工作室的Boss");
+
+            } else {
+                isleader = "true";
+            }
+
+
+        }
+        map.put("keys",isleader);
+        System.out.println("readytojump");
+        return map;
+    }
+
+    //是否收藏
+    @RequestMapping("/islike")
+    @ResponseBody
+    public Map<String,Object> islike(@RequestParam(value = "bidId", defaultValue = "")  String bidId,
+                                        @RequestParam(value = "pidId", defaultValue = "")  String pidId
+    ) {
+        EntityWrapper<Collectpj>  wrappers = new EntityWrapper<Collectpj>();
+        wrappers.eq("colp_pjid",pidId);
+        wrappers.eq("colp_user",bidId);
+        Collectpj  collectpj  =  collectpjService.selectOne(wrappers);
+        Map<String,Object> map = new HashMap<>();
+        System.out.println("in---islike");
+        if(collectpj==null){
+        map.put("k1","false");
+            System.out.println("false");
+        }
+        else {
+            map.put("k1", "true");
+            System.out.println(collectpj.getColpId());
+            System.out.println("true");
+        }
+        return map;
+    }
+
+    //收藏
+    @RequestMapping("/addtolike")
+    @ResponseBody
+    public void addtolike(@RequestParam(value = "bidId", defaultValue = "")  String bidId,
+                           @RequestParam(value = "pidId", defaultValue = "")  String pidId){
+        //获取用户id  ----bidId
+        //获取项目id  ----pid
+        //获取当前时间
+        System.out.println("in---addtolike");
+        int pid = 0;
+        try {
+            pid = Integer.parseInt(pidId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            System.out.println("NumberFormatException");
+        }
+        Date now = new Date();
+        //生成实体类1
+        Collectpj collectpj = new Collectpj();
+        collectpj.setColpPjid(pid);
+        collectpj.setColpTime(now);
+        collectpj.setColpUser(bidId);
+        System.out.println(pid+bidId);
+        Boolean ok =  collectpjService.insert(collectpj);
+        System.out.println(ok);
+
+    }
+    @RequestMapping("/tocancellike")
+    @ResponseBody
+    public void tocancallike(@RequestParam(value = "bidId", defaultValue = "")  String bidId,
+                              @RequestParam(value = "pidId", defaultValue = "")  String pidId) {
+
+        System.out.println("in---tocancallike");
+        //删除记录
+        EntityWrapper<Collectpj>  wrappers = new EntityWrapper<Collectpj>();
+        wrappers.eq("colp_pjid",pidId);
+        wrappers.eq("colp_user",bidId);
+        boolean ok =  collectpjService.delete(wrappers);
+        System.out.println(ok);
+    }
+
 
 
 }
