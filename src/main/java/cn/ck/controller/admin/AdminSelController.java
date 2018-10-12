@@ -1,15 +1,10 @@
 package cn.ck.controller.admin;
 
-import cn.ck.entity.Bidding;
-import cn.ck.entity.Project;
-import cn.ck.entity.Promulgator;
-import cn.ck.entity.Studio;
+import cn.ck.entity.*;
 import cn.ck.entity.bean.AdminProj;
 import cn.ck.entity.bean.ProjectBid;
-import cn.ck.service.BiddingService;
-import cn.ck.service.ProjectService;
-import cn.ck.service.PromulgatorService;
-import cn.ck.service.StudioService;
+import cn.ck.service.*;
+import cn.ck.utils.EnityUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +15,7 @@ import java.awt.*;
 import java.awt.color.ProfileDataException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -32,6 +28,12 @@ public class AdminSelController {
     StudioService studioService;
     @Autowired
     BiddingService biddingService;
+    @Autowired
+    FundsService fundsService;
+    @Autowired
+    AlluserService alluserService;
+    @Autowired
+    UsersService usersService;
 
     /**
      * 跳转项目管理
@@ -39,7 +41,7 @@ public class AdminSelController {
      */
     @RequestMapping("/proj")
     public String proj(){
-        return "/admin/admin_project";
+        return "admin/admin_project";
     }
 
     @RequestMapping("/adminproj")
@@ -75,5 +77,34 @@ public class AdminSelController {
             adminProjList.add(adminProj);
         }
         return adminProjList;
+    }
+
+    /**
+     * 跳转资金管理
+     * @return
+     */
+    @RequestMapping("/funds")
+    public String funds(){
+        return "admin/admin_funds";
+    }
+
+    @RequestMapping("/adminfund")
+    @ResponseBody
+    public List<Funds> adminfund(){
+        List<Funds> fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income","平台"));
+        for (Funds funds:fundsList) {
+            String id=funds.getFundOutlay();
+            Alluser alluser=alluserService.selectById(id);
+            if(alluser.getAllType().equals("发布者")){
+                Promulgator promulgator=promulgatorService.selectById(id);
+                funds.setFundRemark(promulgator.getPromName());
+            } else if(alluser.getAllType().equals("普通用户")){
+                Users users=usersService.selectById(id);
+                funds.setFundRemark(users.getUserName());
+            } else{
+                funds.setFundRemark(funds.getFundOutlay());
+            }
+        }
+        return fundsList;
     }
 }
