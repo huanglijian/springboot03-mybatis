@@ -64,7 +64,7 @@ var updatePhoto = function () {
     }).toDataURL('image/png');
 
     $.ajax({
-        url: '/user//updatephoto', // 要上传的地址
+        url: '/user/updatephoto', // 要上传的地址
         type: 'post',
         data: {
             'dataURL': photo,

@@ -14,6 +14,7 @@ import cn.ck.utils.ShiroUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.apache.catalina.User;
 import org.apache.shiro.SecurityUtils;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -60,12 +61,15 @@ public class UsersController extends AbstractController {
     int size; //记录每页条目数，默认为”10“
     String state=null; //记录当前页状态
     String pwstate="0"; //记录修改状态
-    String upstate="0";
+    String upstate="0";//记录文件上传状态
+    String userId;
+
 
 
     //跳转当前登录用户主页
     @RequestMapping("/user_hp")
-    public String user_hp(){
+    public String user_hp(String userId){
+        this.userId=userId;
         return "users/pc_homepage";
     }
 
@@ -89,10 +93,18 @@ public class UsersController extends AbstractController {
 
     //跳转修改用户通知消息页面
     @RequestMapping("/user_sysn")
-    public String user_sysn(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "10") int size){
+    public String user_sysn(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "20") int size){
         this.start=start;
         this.size=size;
         return "users/pc_sysn";
+    }
+
+    //跳转修改用户通知消息页面
+    @RequestMapping("/user_sysn2")
+    public String user_sysn2(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "20") int size){
+        this.start=start;
+        this.size=size;
+        return "users/pc_sysn2";
     }
 
     //跳转用户项目收藏页面
@@ -170,6 +182,12 @@ public class UsersController extends AbstractController {
         return "users/pc_funs";
     }
 
+    //跳转用户资金管理页面
+    @RequestMapping("/test")
+    public String test(){
+        return "users/test";
+    }
+
 
     //获取用户头像
     @RequestMapping("/showImg")
@@ -182,6 +200,20 @@ public class UsersController extends AbstractController {
         File imgFile = new File(ConstCofig.RootPath + ConstCofig.ImgPath + path);
         //输出到页面
         FileController.responseFile(response, imgFile);
+    }
+
+    //获取个人主页信息
+    @RequestMapping("/hp")
+    @ResponseBody
+    public Map<String, Object> hp(){
+        Map<String,Object> user=new HashMap<>();
+        Users u = usersService.selectById(userId);
+        //把当前登录用户对象放入Map传到前台
+        user.put("user",u);
+        user.put("alluser",getUser());
+        user.put("pwstate",pwstate);
+        pwstate="0";
+        return user;
     }
 
     //获取当前登录用户信息
@@ -203,8 +235,10 @@ public class UsersController extends AbstractController {
     @ResponseBody
     public Map<String,Object> get_hp(){
         Users users=null;
-        List<Original> originals=originalService.selectList(new EntityWrapper<Original>().eq("orig_users",getUser().getAllId()));
-        Studio studio=studioService.selectById(usersService.selectById(getUser().getAllId()).getUserStudio());
+        Set<String> set = new HashSet<>();
+        set.add("orig_uploadtime");
+        List<Original> originals=originalService.selectList(new EntityWrapper<Original>().eq("orig_users",userId).orderDesc(set));
+        Studio studio=studioService.selectById(usersService.selectById(userId).getUserStudio());
         if(!(studio==null))
             users=usersService.selectById(studio.getStuCreatid());
         for(Original original:originals){
@@ -217,14 +251,49 @@ public class UsersController extends AbstractController {
         return map;
     }
 
+    //获取用户原创被收藏和分享次数
+    @RequestMapping("/get_share")
+    @ResponseBody
+    public Map<String,Object> get_share(){
+        int share=0;
+        int collected=0;
+        List<Original> originals=originalService.selectList(new EntityWrapper<Original>().eq("orig_users",userId));
+        share=originals.size();
+        for(Original original:originals){
+            collected+=collectoriService.selectList(new EntityWrapper<Collectori>().eq("colo_ogi",original.getOrigId())).size();
+        }
+        Map<String,Object> map=new HashMap<>();
+        map.put("share",share);
+        map.put("collected",collected);
+        return map;
+    }
+
     //获取当前登录用户的系统通知消息
     @RequestMapping("/get_sysn")
     @ResponseBody
     public PageInfo<Notice> get_sysn(){
-        PageHelper.startPage(start,size);//,"noti_time desc"
-        List<Notice> notices=noticeService.selectNoti(getUser().getAllId());
+        PageHelper.startPage(start,size,"noti_time desc");//,"noti_time desc"
+        List<Notice> notices=noticeService.selectList(new EntityWrapper<Notice>().eq("noti_foreid",getUser().getAllId()).eq("noti_state","否"));
         PageInfo<Notice> page = new PageInfo<>(notices);
         return page;
+    }
+
+    //获取当前登录用户的系统通知消息
+    @RequestMapping("/get_sysn2")
+    @ResponseBody
+    public PageInfo<Notice> get_sysn2(){
+        PageHelper.startPage(start,size,"noti_time desc");//,"noti_time desc"
+        List<Notice> notices=noticeService.selectList(new EntityWrapper<Notice>().eq("noti_state","是"));
+        PageInfo<Notice> page = new PageInfo<>(notices);
+        return page;
+    }
+
+    //获取当前登录用户的未读系统通知消息
+    @RequestMapping("/get_sysnnum")
+    @ResponseBody
+    public int get_sysnnum(){
+        List<Notice> notices=noticeService.selectList(new EntityWrapper<Notice>().eq("noti_state","否").eq("noti_foreid",getUser().getAllId()));
+        return notices.size();
     }
 
     //获取当前登录用户的收藏项目
@@ -358,6 +427,29 @@ public class UsersController extends AbstractController {
         return ResponseBo.ok();
     }
 
+    //更新消息为已读状态
+    @RequestMapping("update_sysn")
+    @ResponseBody
+    public boolean update_sysn(String notiId){
+        Notice notice=noticeService.selectById(notiId);
+        notice.setNotiState("是");
+        return noticeService.updateAllColumnById(notice);
+    }
+
+    //更新消息为已读状态
+    @RequestMapping("update_allsysn")
+    @ResponseBody
+    public int update_allsysn(String notiId){
+        List<Notice> notices=noticeService.selectList(new EntityWrapper<Notice>().eq("noti_state","否").eq("noti_foreid",getUser().getAllId()));
+        if(notices.size()!=0){
+            for (Notice notice:notices) {
+                notice.setNotiState("是");
+                noticeService.updateAllColumnById(notice);
+            }
+        }
+        return notices.size();
+    }
+
     //删除通知消息
     @RequestMapping("/delete_sysn")
     @ResponseBody
@@ -407,8 +499,6 @@ public class UsersController extends AbstractController {
         else
             return false;
     }
-
-
 
 
     //验证当前登录用户登录密码
@@ -463,6 +553,7 @@ public class UsersController extends AbstractController {
             upstate="2";
             return "redirect:/user/user_resupload";
         }
+
 
 
     }

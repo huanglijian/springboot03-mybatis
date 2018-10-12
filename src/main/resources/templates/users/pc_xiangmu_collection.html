@@ -119,7 +119,7 @@
 		<div class="col_left">
 			<div class="ul_contest">
 				<ul class="lefthead">
-					<li class="lefthead_li">
+					<li class="lefthead_li" id="notice">
 						<a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone">
 							个人中心
 							<span class="glyphicon glyphicon-chevron-up"></span>
@@ -132,7 +132,7 @@
 								<a href="/user/user_mfyinfo">修改资料</a>
 							</li>
 							<li>
-								<a href="/user/user_sysn">系统通知</a>
+								<i v-if="show" style="color: red;margin-left: -110px" class="fa fa-bell"></i><span v-if="show" style="line-height: 12px;padding: 1px 5px;background:red;position: relative;bottom:10px;right:5px;" class="label label-primary">{{num}}</span><a href="/user/user_sysn">系统通知</a>
 							</li>
 						</ul>
 					</li>
@@ -197,7 +197,7 @@
 				</div>
 			</div>
 			<div id="templeate" style="display: none">
-				<div class="col_right_xmc_down_items container-fluid" id="item">
+				<div  class="col_right_xmc_down_items container-fluid" id="item">
 					<div class="col_right_xmc_down_item_left">
 						<div class='col_right_xmc_down_item_title container-fluid'>
 							<span class="channel" style="float: left;">项目</span>
@@ -224,7 +224,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col_right_xmc_down" id="items">
+			<div class="col_right_xmc_down" id="items" style="padding-bottom: 10px;">
 				<project v-for="item in pjs" v-bind:project="item"></project>
 				<div  v-if="show"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
 			</div>
@@ -427,6 +427,21 @@
 
         new_scroll_position = last_scroll_position;
     });
+    new Vue({
+        el:'#notice',
+        data:{
+            show:true,
+            num:''
+        },
+        mounted:function () {
+            var self=this;
+            axios.get("/user/get_sysnnum").then(function (response) {
+                self.num=response.data;
+                if(response.data==0)
+                    self.show=!self.show;
+            })
+        }
+    })
 </script>
 </body>
 </html>
