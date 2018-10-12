@@ -31,6 +31,7 @@ public class FileController {
      */
     @RequestMapping("/showImg/{fileName}")
     public void showPicture(@PathVariable("fileName") String fileName, HttpServletResponse response){
+        System.out.println("fileName "+fileName);
         //将文件名分割成 文件名 和 格式
         //“ . " 需要用两次转义
         String [] path = fileName.split("\\.");
@@ -39,7 +40,6 @@ public class FileController {
         //输出到页面
         responseFile(response, imgFile);
     }
-
     /**
      * 响应输出图片文件
      * 文件转换为字节数组
