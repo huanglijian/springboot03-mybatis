@@ -4,6 +4,8 @@ import cn.ck.entity.*;
 import cn.ck.entity.bean.DanmuJson;
 import cn.ck.mapper.DanmuMapper;
 import cn.ck.service.*;
+import cn.ck.utils.EnityUtils;
+import cn.ck.utils.JsonUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.junit.Test;
@@ -14,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -63,6 +66,18 @@ public class ChuangApplicationTests {
 //        System.out.println(collectresService.isCollected("e9ae842a-e70f-49b8-a9b5-bee24a13c8bb", 2));
 //        List l = biddingService.selectRecommendProj();
 //        System.out.println(l);
+        List<Alluser> allusers = alluserService.selectList(new EntityWrapper<>());
+        List<Users> users = usersService.selectList(new EntityWrapper<>());
+
+        Alluser alluser = allusers.get(0);
+        Users users1 = users.get(0);
+
+        Map<String, Object> alluserMap = EnityUtils.entityToMap(alluser);
+        Map<String, Object> userMap = EnityUtils.entityToMap(users1);
+
+        alluserMap.putAll(userMap);
+        System.out.println(alluserMap);
+        System.out.println(alluser);
     }
 
     @Test
