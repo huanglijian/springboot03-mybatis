@@ -52,10 +52,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     public List<PjCol> selectPjCol(Map<String,Object> map) {
         return projectMapper.selectPjCol(map);
     }
-    @Override
-    public List<Project>  selectProjects(Map<String,Object> map) {
-        return projectMapper.selectProjects(map);
-    }
+
 
     @Override
     public List<Project> selectProjlist1(String stuId){
