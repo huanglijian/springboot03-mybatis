@@ -14,11 +14,23 @@
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/static/js/vue.js"></script>
+	<script src="http://how2j.cn/study/axios.min.js"></script>
 
 	<!-- jQuery Validation plugin javascript-->
 	<script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="/static/js/plugins/validate/messages_zh.min.js"></script>
 	<script type="text/javascript" src="/static/js/js_lxn/prom_pay.js" ></script>
+	<style rel="stylesheet">
+		.tab_fix_bottom {
+			position: absolute;
+			bottom: 0px;
+		}
+
+		.tab_fix {
+			position: fixed;
+			top: 0px;
+		}
+	</style>
 </head>
 
 <body>
@@ -121,7 +133,7 @@
 	<div class="col_left">
 		<div class="ul_contest">
 			<ul class="lefthead">
-				<li class="lefthead_li">
+				<li class="lefthead_li" id="notice">
 					<a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone">
 						个人中心
 						<span class="glyphicon glyphicon-chevron-up"></span>
@@ -134,7 +146,7 @@
 							<a href="/user/user_mfyinfo">修改资料</a>
 						</li>
 						<li>
-							<a href="/user/user_sysn">系统通知</a>
+							<i v-if="show" style="color: red;margin-left: -110px" class="fa fa-bell"></i><span v-if="show" style="line-height: 12px;padding: 1px 5px;background:red;position: relative;bottom:10px;right:5px;" class="label label-primary">{{num}}</span><a href="/user/user_sysn">系统通知</a>
 						</li>
 					</ul>
 				</li>
@@ -186,13 +198,12 @@
 			</ul>
 		</div>
 	</div>
-	<div class="col_right" style="background: #ffffff;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);"
-		 id="right">
+	<div class="col_right" style="background: #ffffff;"id="right">
 		<div class="c_r_contest">
 			<h2>
 				账户充值
 			</h2>
-			<div class="in_left col-md-12">
+			<div class="in_left col-md-12" style="box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);">
 				<div class="payform col-md-12">
 					<form action="/promcenter/alipayout" class="form-horizontal" id="signupForm">
 						<div class="form-group">
@@ -365,6 +376,21 @@
 
         new_scroll_position = last_scroll_position;
     });
+    new Vue({
+        el:'#notice',
+        data:{
+            show:true,
+            num:''
+        },
+        mounted:function () {
+            var self=this;
+            axios.get("/user/get_sysnnum").then(function (response) {
+                self.num=response.data;
+                if(response.data==0)
+                    self.show=!self.show;
+            })
+        }
+    })
 </script>
 </body>
 </html>

@@ -44,12 +44,12 @@
 				<div class="nav-main-right">
 					<nav class="cd-nav">
 						<ul>
-							<li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+							<li><a  href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
 							<li><a href="/project/xwh">项目大厅</a></li>
 							<li><a href="/stuhall/hall">服务大厅</a></li>
 							<li><a href="/resource/home">创客讲堂</a></li>
 							<li><a href="/original/all">原创中心</a></li>
-							<li><a href="/ForJob/search">在线求职</a></li>
+							<li><a href="/ForJob/search"class="active">在线求职</a></li>
 							<li><a href="/honor/honorPage">荣誉中心</a></li>
 						</ul>
 					</nav>
@@ -127,7 +127,8 @@
 			</script>
 		</div>
 	</header>
-	<div class="header-take-space"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
+	<div class="header-take-space" style="height: 70px"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
+		<br/>
 	<!--content-->
 	<div class="content container-fluid">
 		<!--左侧导航栏-->
@@ -136,7 +137,7 @@
 				<div class="ul_contest">
 					<ul class="lefthead">
 						<li class="lefthead_li">
-							<a href="/studioPage/index" style="line-height:60px;font-size:17px;color: black;">
+							<a href="studio_index.html" style="line-height:60px;font-size:17px;color: black;">
 								我的工作室
 							</a>
 						</li>
@@ -147,18 +148,28 @@
 							</a>
 							<ul id="projectmanage" class="panel-collapse collapse in">
 								<li>
-									<a href="/studioPage/bidding">竞标项目</a>
+									<a href="studio_bidding.html">竞标项目</a>
 								</li>
 								<li>
-									<a href="/studioPage/service">服务订单</a>
+									<a href="studio_service.html">服务订单</a>
 								</li>
 								<li>
-									<a href="/studioPage/biddingAll">竞标一览</a>
+									<a href="studio_biddingAll.html">竞标一览</a>
 								</li>
 							</ul>
 						</li>
-
-						<li class="lefthead_li" >
+						<li class="lefthead_li">
+							<a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree" onclick="selectimg(this.id)">
+								资金管理
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</a>
+							<ul id="pricemanage" class="panel-collapse collapse in">
+								<li>
+									<a href="studio_funds.html">资金记录</a>
+								</li>
+							</ul>
+						</li>
+						<li class="lefthead_li">
 							<a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
 								招聘管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
@@ -168,11 +179,11 @@
 									<a href="/studioPage/jobInfo">招聘信息</a>
 								</li>
 								<li>
-									<a href="/studioPage/jobReview">招聘审核</a>
+									<a href="studioPage/memberReview">招聘审核</a>
 								</li>
 							</ul>
 						</li>
-						<li class="lefthead_li" >
+						<li class="lefthead_li">
 							<a href="#membermanage" data-toggle="collapse" class="lefthead_li_a" id="five" onclick="selectimg(this.id)">
 								成员管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
@@ -193,8 +204,6 @@
 		
 		<!--右侧内容-->
 		<div class="main" id="jobreviewVue">
-
-			
 			<!--  招聘审核 -->
 			<div class="mainContent container-fluid ">
 		    <div class="row">
@@ -209,6 +218,7 @@
 
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="tabs_panels.html#tab-4">审核中</a>
+								<!--<li class="active"><a data-toggle="tab" href="'/jobdeal/pass/'+">审核中</a>-->
                                 </li>
                                 <li class=""><a data-toggle="tab" href="tabs_panels.html#tab-5">已审核</a>
                                 </li>
@@ -244,8 +254,15 @@
 															{{dts.jobuser.juState}}
 														</span></td>
 				                                        <td>
-									                        <button type="button" class="btn btn-primary btn-sm">通过</button>
-									                        <button type="button" class="btn btn-danger btn-sm">取消</button>                                            	
+									                        <!--<button type="button" class="btn btn-primary btn-sm">通过</button>-->
+															<a type="button" class="btn btn-primary btn-sm"
+															   :href="'/jobdeal/pass/'+dts.jobuser.juUsers+'/'+dts.jobuser.juId"
+															>通过</a>
+															<!--+dts.jobuser.juId+'/'+-->
+									                        <!--<button type="button" class="btn btn-danger btn-sm">忽略</button>-->
+															<a type="button" class="btn btn-danger btn-sm"
+															   :href="'/jobdeal/nopass/'+dts.jobuser.juId"
+															>忽略</a>
 				                                        </td>
 					                                </tr>
 
@@ -286,11 +303,13 @@
 														</span>
 													</td>
 													<td>
-														<button type="button" class="btn btn-primary btn-sm">通过</button>
-														<button type="button" class="btn btn-danger btn-sm">取消</button>
+														<!--<button type="button" class="btn btn-danger btn-sm">删除</button>-->
+														<a type="button" class="btn btn-danger btn-sm"
+														   :href="'/jobdeal/jUDel/'+dt.jobuser.juId"
+														>删除</a>
+
 													</td>
 												</tr>
-
 												</tbody>
 											</table>
 					                    </div>

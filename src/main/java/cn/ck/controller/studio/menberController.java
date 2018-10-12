@@ -59,4 +59,32 @@ public class menberController {
         System.out.println("-----a "+a);
         return "redirect:/studioPage/memberInfo";
     }
+
+    @GetMapping("/agree/{uid}")
+    public String agreequit(@PathVariable("uid")String uid){
+        System.out.println("uid "+uid);
+//        获取users对象--工作室id，进入离开时间置为null
+        Users users = usersService.selectById(uid);
+
+        System.out.println("users "+users);
+        users.setUserStudio(null);
+        users.setUserEntrytime(null);
+        users.setUserQuittme(null);
+
+        usersService.updateAllColumnById(users);    //更新users表
+        /*boolean a= usersService.update(users,new EntityWrapper<Users>().eq("user_id",uid));*/
+//        System.out.println("a "+a);
+        boolean a= jobuserService.delete(new EntityWrapper<Jobuser>().eq("ju_users",uid));
+        System.out.println("a-"+a);
+        return "redirect:/studioPage/memberReview";
+    }
+
+    @GetMapping("/noagree/{uid}")
+    public String noagreequit(@PathVariable("uid")String uid){
+        Users users = usersService.selectById(uid);
+        users.setUserQuittme(null);
+        boolean a= usersService.updateAllColumnById(users);    //更新users表
+        System.out.println("a-"+a);
+        return "redirect:/studioPage/memberReview";
+    }
 }

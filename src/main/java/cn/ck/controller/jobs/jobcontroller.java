@@ -478,6 +478,12 @@ public class jobcontroller extends AbstractController {
 
         return "redirect:/ForJob/search";
     }
+
+    @GetMapping("/test")
+    public String test(){
+        System.out.println("test111");
+        return "redirect:/ForJob/search";
+    }
 }
 
 

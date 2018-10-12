@@ -4,86 +4,145 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>项目详情</title>
-	
-<script src="/static/js/bootstrap.min.js"></script>
-<link href="http://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css " rel="stylesheet">
-<link href="/static/css/bootstrap.css" rel="stylesheet">
-<script src="/static/js/bootstrap.min.js"></script>
 
 
-<link href="/static/css/css_xwh/bs-is-fun.css" rel="stylesheet" />
-<script src="/static/js/js_xwh/brush.js"></script>
-<!-- <link href="css/style.css" rel="stylesheet"/> -->
-<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
+
+
+	<link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+	<link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+	<link href="/static/css/animate.css" rel="stylesheet">
+	<link href="/static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+	<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
+	<link href="/static/css/css_xwh/style.css?v=4.1.0" rel="stylesheet">
 	<link href="/static/css/css_xwh/ProjectsDetail.css" rel="stylesheet" />
-	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+	<link href="/static/css/css_xwh/bs-is-fun.css" rel="stylesheet" />
 
-	
-	
-	
-		<header>
-					<div class="container-fluid container-fluid_up">
-						<div class="row_up">
-							<ul class="list-unstyled">
-								<li>
-									<a href="#">帮助中心</a>
-								</li>
-								<li>
-									<a href="#">注册</a>
-								</li>
-								<li>
-									<a href="#">登录</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="container-fluid container-fluid_main">
-						<div class="row_main">
-							<div class="main_logo">
-								<img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
-							</div>
-							<div class="main_right">
-								<ul class="nav_psw list-unstyled">
-									<li class="active">
-										<a>首 页</a>
-									</li>
-									<li>
-										<a>项目大厅</a>
-									</li>
-									<li>
-										<a>服务大厅</a>
-									</li>
-									<li>
-										<a>创客讲堂</a>
-									</li>
-									<li>
-										<a>原创中心</a>
-									</li>
-									<li>
-										<a>荣誉中心</a>
-									</li>
-									<li>
-										<a>在线求职</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</header>
-	<body>	
+
+	<script src="/static/js/js_xwh/brush.js"></script>
+	<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/static/js/vue.js"></script>
+<style type="text/css">
+	[v-cloak]{
+		display: none;
+	}
+</style>
+	<script type="text/javascript">
+		function commit() {
+			alert("成功");
+        }
+
+	</script>
+
+	<header class="header-navigation" id="headerBar">
+		<div class="nav-content-filter">
+			<div class="row_main">
+				<!--logo-->
+				<div class="main_logo">
+					<img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
+				</div>
+				<!--超链接-->
+				<div class="nav-main-right">
+					<nav class="cd-nav">
+						<ul>
+							<li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+							<li><a href="/project/xwh">项目大厅</a></li>
+							<li><a href="/stuhall/hall">服务大厅</a></li>
+							<li><a href="/resource/home">创客讲堂</a></li>
+							<li><a href="/original/all">原创中心</a></li>
+							<li><a href="/ForJob/search">在线求职</a></li>
+							<li><a href="/honor/honorPage">荣誉中心</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!--头像、个人中心、注销等-->
+			<div id="headVue">
+				<ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
+							<!--没有登陆-->
+							<img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
+							<!--已经登录-->
+							<img class="nav-avatar" v-else :src="img"/>
+							<span class="caret"></span>
+						</a>
+
+						<ul class="dropdown-menu dropdown-alerts nav-dropdown-menu">
+							<!--##########未登录###############-->
+							<li v-if="!isLogined">
+								<a href="/login"><p class="nav-text-center">登录</p></a>
+							</li>
+							<li v-if="!isLogined">
+								<a href="/registered/select/new"><p class="nav-text-center">注册</p></a>
+							</li>
+							<!--##########已登录###############-->
+							<li v-if="isLogined">
+								<a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
+							</li>
+							<li v-if="isLogined && !isPromul">
+								<a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
+							</li>
+							<li v-if="isLogined">
+								<a href="/logout"><p class="nav-text-center">注销</p></a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<script type="text/javascript">
+                var nav_vue = new Vue({
+                    el:'#headVue',
+                    data:{
+                        loginUser: '',
+                        isLogined: false,
+                        isPromul : '',
+                        img : '',
+                        centerUrl : '',
+                    },
+                    created: function () {
+                        this.getUser();
+                    },
+                    methods: {
+                        getUser: function(){
+                            $.ajax({
+                                type: "POST",
+                                url: "/home/getLoginUser",
+                                dataType: "json",
+                                success: function(result){
+                                    if(result.code === 404){
+                                        nav_vue.isLogined = false;
+                                    }
+                                    else if(result.code === 0){
+                                        nav_vue.isLogined = true;
+                                        nav_vue.isPromul = result.isPromul;
+                                        nav_vue.loginUser = result.loginUser;
+                                        nav_vue.img = result.img;
+                                        nav_vue.centerUrl = result.centerUrl;
+                                    }
+                                }
+                            });
+                        },
+                    }
+                });
+			</script>
+		</div>
+	</header>
+	<div style="height: 65px" class="header-take-space"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
+<body >
 <div class="container-fluid_body" >
 		<div class="row">
-			<div class="ProjectProgress" id="ProgressAll">
+			<div class="ProjectProgress" id="ProgressAll"  v-cloak>
 
-<ul class="nav nav-pills nav-justified step step-progress">
-    <li id="Progress-01li" v-bind:class="{active: progressState1}">
+<ul class="nav nav-pills nav-justified step step-progress "style="background: white">
+    <li id="Progress-01li" v-bind:class="{active: progressState1}" style="background: white">
 
         <a id="progress01" >发包方提交了项目</a>
     </li>
-    <li id="Progress-03li"  v-bind:class="{active: progressState2}">
+    <li id="Progress-03li"  v-bind:class="{active: progressState2}" style="background: white">
         <a id="progress03">发包方选定承接人,项目进入开发</a>
     </li>
-    <li id="Progress-04li"  v-bind:class="{active: progressState3}">
+    <li id="Progress-04li"  v-bind:class="{active: progressState3}" style="background: white">
         <a id="progress04">开发完成</a>
     </li>
 </ul>
@@ -99,7 +158,7 @@
 
 
 
-        <div class="col-xs-10 col-md-8 ProjectMainAll" id="ProjectMainAll">
+        <div class="col-xs-10 col-md-8 ProjectMainAll" id="ProjectMainAll" v-cloak>
 	<div class="ProjectMian">
 				
 		<div class="ProjectTitle" id="ProjectTitle">
@@ -152,10 +211,27 @@
 				相关文件下载
 					<br>
 					<a :href=file>123</a>
-				</div>
 
 				</div>
-				
+
+					<a @click="down()">000</a>
+					<div v-cloak>
+			<div v-if="!(islogin)">
+					<img  isImg="0" @click="readytologin()" src="/static/img/img_xwh/selected1.png" >
+					&nbsp;收藏（未登录）
+			</div>
+			<div v-else-if="(islike)">
+						<img  isImg="0" @click="tolike()" src="/static/img/img_xwh/selected1.png" >
+						&nbsp;收藏
+			</div>
+			<div v-else>
+						<img  isImg="0" @click="tocancellike()" src="/static/img/img_xwh/selected2.png" >
+						&nbsp;已收藏
+			</div>
+					</div>
+
+
+				</div>
 				</div>		
 			</div>
 
@@ -167,9 +243,16 @@
 			  剩余竞标席位：<span>{{10-people}}</span>
 				</div>
 				<div class="col-sm-3 JingbiaoButton">
-				<div class="JingbiaoButton-inner">
-				<a href=""><span class="glyphicon glyphicon-king">我要竞标</span></a>
-				</div>
+					<!--风风火火//////{{islogin}}-->
+				<!--<a href=""><span class="glyphicon glyphicon-king">我要竞标</span></a>-->
+
+			<a  v-if="islogin" type="button"  @click="readytoinsert(loginUser,id)" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#Moda_jingbiao" style="position: relative;right: -20%;top:-5px;">
+				我要竞标
+			</a>
+                    <a v-else type="button"  @click="readytologin()" class="btn btn-outline btn-primary" data-toggle="modal" style="position: relative;right: -20%;top:-5px;">
+                        我不要竞标
+                    </a>
+
 				</div>
 				</div>
 			</div>
@@ -200,7 +283,6 @@
 				</div>
 				</div>
 		</div>
-		
    <div class="col-xs-8 col-md-8 ProjectNoteAll">
 		
 		<div class="ProjectNote1">
@@ -213,8 +295,8 @@
 		<div class="ProjectNote2">
 			如您有任何疑问 请咨询QQ客服<br/>
 			客服QQ<br/>
-			QQ客服1: &nbsp;&nbsp;<a href="#"><span class="glyphicon glyphicon-user">与我交流</span><br></a>
-			QQ客服2: &nbsp;&nbsp;<a href="#"><span class="glyphicon glyphicon-user">与我交流</span></a>
+			QQ客服1: &nbsp;&nbsp;<a href="https://web2.qq.com/" target=_blank><span class="glyphicon glyphicon-user">与我交流</span><br></a>
+			QQ客服2: &nbsp;&nbsp;<a href="https://web2.qq.com/" target=_blank><span class="glyphicon glyphicon-user">与我交流</span></a>
 		</div>
 		<div class="ProjectNote3">
 		  	<p>客服邮箱</p>
@@ -224,12 +306,104 @@
 		    <p>客服电话</p>
         <span>17876253455</span>
 		</div>
-		</div>
+		</div >
 		
 		</div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script type="text/javascript">
+
+	<div  class="modal inmodal"  id="Moda_jingbiao" tabindex="-1" role="dialog" aria-hidden="true">
+		<span v-if="isleader">
+		<div class="col-sm-4"
+		style="width: 600px; position: relative;left:35%; top:5%;">
+		<div class="ibox float-e-margins" style="display: table-cell; vertical-align: middle; text-align: center;">
+		<div class="ibox-title">
+		<h5>请填写竞标信息</h5>
+		<button data-dismiss="modal" class="close" type="button">
+		<span aria-hidden="true">×</span><span class="sr-only">Close</span>
+		</button>
+
+		</div>
+
+		<div class="ibox-content" style="width: 450px;font-weight: 100; font-size: 16px; font-family: 华文中宋 ">
+		<form action="/project/jingbiao" method="post" class="form-horizontal m-t" id="bidForm">
+		<!--项目的id-->
+		<input id="pid1" type="hidden" name="pid1"/>
+		<!--用户id-->
+		<input id="bid1" type="hidden" name="bid1"/>
+
+		<div class="form-group">
+		<!--项目报价-->
+		<label class="col-sm-3 control-label">项目报价:</label>
+		<div class="col-sm-7">
+		<input  name="BidMoney" id="proMoney" class="form-control" type="text">
+		</div>
+		<span style="border: 1px solid gainsboro;padding: 8px 14px 8px 14px;position: relative;top:7.5px;left:-3%;background-color: #eee;">元 </span>
+		</div>
+
+
+		<!--开发周期-->
+		<div class="form-group">
+		<label class="col-sm-3 control-label">开发周期:</label>
+		<div class="col-sm-7">
+		<input  name="BidCycle" id="proCycletime" class="form-control" type="text" value="30">
+		</div>
+		<span style="border: 1px solid gainsboro;padding: 8px 14px 8px 14px;position: relative;top:7.5px;left:-3%;background-color: #eee;">天</span>
+		</div>
+		<!--竞标方案-->
+		<div class="form-group">
+		<label class="col-sm-3 control-label">竞标方案:</label>
+		<div class="col-sm-7">
+		<textarea style="border: 1px solid gainsboro;" name="BidScheme" rows="10" cols="22"></textarea>
+		</div>
+		</div>
+
+		<div class="form-group">
+		<label class="col-sm-3 control-label">联系方式:</label>
+		<!--<span style="float:left;left:3%;border: 1px solid gainsboro;padding: 7px 14px 7px 14px;position: relative;background-color: #eee;">-->
+		<!--</span>-->
+		<div class="col-sm-7">
+		<input  name="BidPhone" class="form-control" type="text" >
+		</div>
+		</div>
+		<div class="form-group">
+		<label class="col-sm-3 control-label">邮箱:</label>
+		<div class="col-sm-7">
+		<input  name="BidEmail" class="form-control" type="text" >
+		</div>
+
+		</div>
+		<hr/>
+		<div class="form-group">
+		<div class="col-sm-8 col-sm-offset-3">
+		<button class="btn btn-primary" type="submitBtn" onclick="commit()" style="margin-right: 10px;">提交</button>
+		<span id="returnMessage" class="glyphicon"> </span>
+		<button class="btn btn-default" type="submit" data-dismiss="modal">取消</button>
+		</div>
+		</div>
+		</form>
+
+		</div>
+		</div>
+		</div>
+		</span>
+
+		<span v-else style="top: 40%">
+		<div  class="modal-dialog" style="width: 300px;height: 100px;">
+ <div class="modal-header"></div>
+                    <div class="modal-body" >
+                  <p style=" font-weight: 300;font-size: 20px; line-height: 100px">您不是组长不能进行竞标</p>
+                    </div>
+			<div class="modal-footer"></div>
+          </div>
+	</span>
+	</div>
+
+
+
+
+
+	<script type="text/javascript">
+
     $(document).ready(function () {
         $.getJSON("/project/projectDetailHtml", function (result) {
 
@@ -270,6 +444,7 @@
             new Vue({
                 el: '#ProjectMainAll',
                 data: {
+                    id:result.project.projId,
                     title: result.project.projName,
                     State: result.project.projState,
                     day :result.restday,
@@ -288,8 +463,9 @@
 					file:result.project.projFile,
                     ids: result.ids,
                     pros:result.pros,
-
-
+					islogin:"",
+                    loginUser:"",
+					islike:true,
                   mags:{
 					  object:{
                             name: result.pros[0],
@@ -329,6 +505,89 @@
 
 				  }
 
+                },
+                mounted: function (){
+                    var self=this;
+                   this.islogin   =  nav_vue.isLogined;
+                   this.loginUser = nav_vue.loginUser;
+                   console.log(this.loginUser.allId);
+                   this.id;
+                   // alert(this.islogin);
+                    $.ajax({
+                        type: "POST",
+                        url: "/project/islike?bidId="+this.loginUser.allId+"&pidId="+this.id,
+                        dataType: "json",
+                        success: function(result){
+                            self.islike=result.k1;
+                              // alert(self.islike);
+                        }
+                    });
+				},
+                methods:{
+                    tolike:function(){
+                        $.ajax({
+                            type: "POST",
+                            url: "/project/addtolike?bidId="+this.loginUser.allId+"&pidId="+this.id,
+                            dataType: "json",
+
+                        });
+                        this.islike=false;
+                    },
+
+                    tocancellike:function(){
+                        $.ajax({
+                            type: "POST",
+                            url: "/project/tocancellike?bidId="+this.loginUser.allId+"&pidId="+this.id,
+                            dataType: "json",
+
+                        });
+                        this.islike=true;
+					},
+                    readytologin:function(){
+                        window.location.href="/login";
+                    },
+				    down : function() {
+                        alert("in-down");
+                        $.ajax({
+                            type: "POST",
+                            url: "/project/down",
+                            dataType: "json",
+                            data:{
+                                "path":"F:\\001.jpg",
+                            }
+                        });
+                    }
+				   ,
+                    readytoinsert:function(obj1,obj2) {
+                        var stu = new Vue({
+                            el:'#Moda_jingbiao',
+                            data:{
+                                isleader:"",
+                            },
+                            mounted: function () {
+                                var self=this;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/project/isleader?bidId="+obj1.allId,
+                                    dataType: "json",
+                                    success: function(result){
+                                            if (result.keys == false) {
+                                                self.isleader = false;
+                                            }
+                                            if (result.keys == true) {
+                                                self.isleader = true;
+                                            }
+                                    }
+                                });
+                            },
+                        });
+                        console.log("in--readytoinsert");
+                        $("#pid1").val(obj2);
+                        $("#bid1").val(obj1.allId);
+
+
+
+                    }
                 }
 
             })
@@ -336,136 +595,107 @@
 
 
         });
+
     });
-
-
-    // 加载进度条的判断方法
-    // function Process()
-    // {
-    //
-    //     // $("#ProjectJingbiao01").hide();
-    //     // $("#ProjectJingbiao02").hide();
-    //     // $("#ProjectJingbiao02").show();
-    //     var status = 1;
-    //     var str01 = '发包方提交了项目1';  var strSpan01 = '2018-8-8';
-    //     var str02 = '审批通过，项目发布'; var strSpan02 = '2018-8-13';
-    //     var str03 = '发包方选定承接人,项目进入开发'; var strSpan03 = '2018-8-19';
-    //     var str04 = '开发完成'; var strSpan04 = '2018-8-27';
-    //
-    //     document.getElementById('progress01').innerHTML=str01;
-    //     document.getElementById('progress02').innerHTML=str02;
-    //     document.getElementById('progress03').innerHTML=str03;
-    //     document.getElementById('progress04').innerHTML=str04;
-    //     document.getElementById('progressSpan01').innerHTML=strSpan01;
-    //     document.getElementById('progressSpan02').innerHTML=strSpan02;
-    //     document.getElementById('progressSpan03').innerHTML=strSpan03;
-    //     document.getElementById('progressSpan04').innerHTML=strSpan04;
-    //     if(status=1){
-    //         $("#Progress-01li").addClass("active");
-    //         $("#Progress-02li").addClass("active");
-    //         // $("#Progress-03li").addClass("active");
-    //         // $("#Progress-04li").addClass("active");
-    //     }
-    //
-    //
-    // }
-    // window.onload = Process;
 </script>
 
 
 
 
-
-
-
 </div>
+
 </body>
-			<footer>
-				<div class="container-fluid_foot">
-					<div class="foot_panel">
-						<div class="foot_panel_left">
-							<div class="img">
-								<a href="#">
-									<img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
-								</a>
-							</div>
-							<div class="beian">
-								<p>创客网 © 2018－
-									<br>肇庆学院东软实训班第三组版权所有
-									<br>[粤ICP备xxxxxxx号-x] 标识
-									<br> 粤公网安备xxxxxxxxxx号</p>
-							</div>
-						</div>
-						<div class="foot_panel_right">
-							<div class="foot_panel_right_row">
-								<ul class="list-unstyled">
-									<li>
-										<h4>新手指南</h4>
-										<a href="/help/register">注册登录问题</a>
-										<br />
-										<a href="/help/process">项目交易流程</a>
-										<br />
-										<a href="/help/fund">充值提款问题</a>
-										<br />
-										<a href="help/about_agreement">用户注册协议</a>
-										<br />
-										<a href="/help/bid_payings">为何付费竞标</a>
-									</li>
-									<li>
-										<h4>特色服务</h4>
-										<a href="/help/renzheng">实名认证</a>
-										<br />
-										<a href="/help/searchs">精准搜索</a>
-										<br />
-										<a href="/help/workhour">小时报价</a>
-										<br />
-										<a href="/help/bumanyituikuan">不满意退款</a>
-										<br />
-										<a href="/help/bid_card">竞标卡规则</a>
-									</li>
-									<li>
-										<h4>评价信誉</h4>
-										<a href="/help/pingjiadengm">操作演示</a>
-										<br />
-										<a href="/help/service_payings">服务收费</a>
-										<br />
-										<a href="/help/evaluations">用户评价</a>
-										<br />
-										<a href="/help/jifens">积分体系</a>
-										<br />
-										<a href="/help/controversy">争议解决</a>
-									</li>
-									<li>
-										<h4>答疑中心</h4>
-										<a href="/help/pro_relase">项目发布问题</a>
-										<br />
-										<a href="/help/bid_joinings">参与竞标问题</a>
-										<br />
-										<a href="/help/pro_runnings">项目开发问题</a>
-										<br />
-										<a href="/help/pro_done">项目完工问题</a>
-										<br />
-										<a href="/help/it_realse">信息发布问题</a>
-									</li>
-									<li>
-										<h4>联系我们</h4>
-										<a href="/help/about_us">关于SXSOFT</a>
-										<br />
-										<a href="/help/about_company">公司概况</a>
-										<br />
-										<a href="/help/contact_us">联系方式</a>
-										<br />
-										<a href="/help/about_advertising">广告投放</a>
-										<br />
-										<a href="/help/links">友情链接</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
+<footer>
+	<div class="container-fluid_foot">
+		<div class="foot_panel">
+			<div class="foot_panel_left">
+				<div class="img">
+					<a href="#">
+						<img src="../../static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+					</a>
 				</div>
-			</footer>
-		
+				<div class="beian">
+					<p>创客网 © 2018－
+						<br>肇庆学院东软实训班第三组版权所有
+						<br>[粤ICP备xxxxxxx号-x] 标识
+						<br> 粤公网安备xxxxxxxxxx号</p>
+				</div>
+			</div>
+			<div class="foot_panel_right">
+				<div class="foot_panel_right_row">
+					<ul class="list-unstyled">
+						<li>
+							<h4>新手指南</h4>
+							<a href="/help/register">注册登录问题</a><br/>
+							<a href="/help/process">项目交易流程</a><br/>
+							<a href="/help/fund">充值提款问题</a><br/>
+							<a href="help/about_agreement">用户注册协议</a><br/>
+							<a href="/help/bid_payings">为何付费竞标</a>
+						</li>
+						<li>
+							<h4>特色服务</h4>
+							<a href="/help/renzheng">实名认证</a><br/>
+							<a href="/help/searchs">精准搜索</a><br/>
+							<a href="/help/workhour">小时报价</a><br/>
+							<a href="/help/bumanyituikuan">不满意退款</a><br/>
+							<a href="/help/bid_card">竞标卡规则</a>
+						</li>
+						<li>
+							<h4>评价信誉</h4>
+							<a href="/help/pingjiadengm">操作演示</a><br/>
+							<a href="/help/service_payings">服务收费</a><br/>
+							<a href="/help/evaluations">用户评价</a><br/>
+							<a href="/help/jifens">积分体系</a><br/>
+							<a href="/help/controversy">争议解决</a>
+						</li>
+						<li>
+							<h4>答疑中心</h4>
+							<a href="/help/pro_relase">项目发布问题</a><br/>
+							<a href="/help/bid_joinings">参与竞标问题</a><br/>
+							<a href="/help/pro_runnings">项目开发问题</a><br/>
+							<a href="/help/pro_done">项目完工问题</a><br/>
+							<a href="/help/it_realse">信息发布问题</a>
+						</li>
+						<li>
+							<h4>联系我们</h4>
+							<a href="/help/about_us">关于SXSOFT</a><br/>
+							<a href="/help/about_company">公司概况</a><br/>
+							<a href="/help/contact_us">联系方式</a><br/>
+							<a href="/help/about_advertising">广告投放</a><br/>
+							<a href="/help/links">友情链接</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!--导航条滚动js-->
+<script type="text/javascript">
+    var new_scroll_position = 0;
+    var last_scroll_position;
+    var header = document.getElementById("headerBar");
+
+    window.addEventListener('scroll', function (e) {
+        last_scroll_position = window.scrollY;
+
+        // Scrolling down
+        if (new_scroll_position < last_scroll_position && last_scroll_position > 80) {
+            // header.removeClass('slideDown').addClass('slideUp');
+            header.classList.remove("slideDown");
+            header.classList.add("slideUp");
+
+            // Scrolling up
+        } else if (new_scroll_position > last_scroll_position) {
+            // header.removeClass('slideUp').addClass('slideDown');
+            header.classList.remove("slideUp");
+            header.classList.add("slideDown");
+        }
+
+        new_scroll_position = last_scroll_position;
+    });
+</script>
 	
 	</html>
 					

@@ -3,7 +3,7 @@
 	<head>
 	    <meta charset="utf-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
+
 	    <title>招聘信息</title>
         <!--H+-->
 
@@ -11,28 +11,28 @@
 	    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 	    <link href="/static/css/animate.css" rel="stylesheet">
 	    <link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
-	    
+
 	    <!--mzb style-->
         <link href="/static/css/css_mzb/style2.css" rel="stylesheet">
         <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
         <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
-        
+
  		<link rel="stylesheet" href="/static/css/css_mzb/prom_updatephoto.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/cropper.min.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/标签/title.css" />
-        
+
         <!--  头部，尾部，菜单栏-->
-		
+
 		<link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
 		<script src="/static/js/jquery.min.js"></script>
 		<script src="/static/js/vue.js"></script>
 
-		
+
 	</head>
-	
-	
+
+
 	<body>
 	<!--header-->
 	<header class="header-navigation" id="headerBar">
@@ -46,12 +46,12 @@
 				<div class="nav-main-right">
 					<nav class="cd-nav">
 						<ul>
-							<li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+							<li><a  href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
 							<li><a href="/project/xwh">项目大厅</a></li>
 							<li><a href="/stuhall/hall">服务大厅</a></li>
 							<li><a href="/resource/home">创客讲堂</a></li>
 							<li><a href="/original/all">原创中心</a></li>
-							<li><a href="/ForJob/search">在线求职</a></li>
+							<li><a href="/ForJob/search"class="active">在线求职</a></li>
 							<li><a href="/honor/honorPage">荣誉中心</a></li>
 						</ul>
 					</nav>
@@ -129,7 +129,8 @@
 			</script>
 		</div>
 	</header>
-	<div class="header-take-space"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
+	<div class="header-take-space" style="height: 70px"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
+		<br/>
 	<!--content-->
 	<div class="content container-fluid">
 		<!--左侧导航栏-->
@@ -138,7 +139,7 @@
 				<div class="ul_contest">
 					<ul class="lefthead">
 						<li class="lefthead_li">
-							<a href="/studioPage/index" style="line-height:60px;font-size:17px;color: black;">
+							<a href="studio_index.html" style="line-height:60px;font-size:17px;color: black;">
 								我的工作室
 							</a>
 						</li>
@@ -149,17 +150,28 @@
 							</a>
 							<ul id="projectmanage" class="panel-collapse collapse in">
 								<li>
-									<a href="/studioPage/bidding">竞标项目</a>
+									<a href="studio_bidding.html">竞标项目</a>
 								</li>
 								<li>
-									<a href="/studioPage/service">服务订单</a>
+									<a href="studio_service.html">服务订单</a>
 								</li>
 								<li>
-									<a href="/studioPage/biddingAll">竞标一览</a>
+									<a href="studio_biddingAll.html">竞标一览</a>
 								</li>
 							</ul>
 						</li>
-						<li class="lefthead_li" >
+						<li class="lefthead_li">
+							<a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree" onclick="selectimg(this.id)">
+								资金管理
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</a>
+							<ul id="pricemanage" class="panel-collapse collapse in">
+								<li>
+									<a href="studio_funds.html">资金记录</a>
+								</li>
+							</ul>
+						</li>
+						<li class="lefthead_li">
 							<a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
 								招聘管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
@@ -173,7 +185,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class="lefthead_li" >
+						<li class="lefthead_li">
 							<a href="#membermanage" data-toggle="collapse" class="lefthead_li_a" id="five" onclick="selectimg(this.id)">
 								成员管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
@@ -191,18 +203,19 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!--右侧内容-->
 		<div class="main">
 			<!--  招 聘信 息-->
 			<div class="mainContent container-fluid ">
 			    <div class="row">
 					<h2 class="col-md-12 row_h2">招聘信息</h2>
-				</div>				
+				</div>
                 <button type="button" class="btn btn-w-m btn-primary"  data-toggle="modal" data-target="#myModal1" style="position: relative;top:20px;">
                 	发布招聘
-                </button>                   
-                <div class="modal inmodal" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">            	
+                </button>
+                <!--发布招聘模态窗-->
+                <div class="modal inmodal" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">
 	            <div class="col-sm-5" style="position: relative;left:30%;top:10%;">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
@@ -213,8 +226,9 @@
 	                            </a>
 	                        </div>
 	                    </div>
+						<!--模态窗，发布简历-->
 	                    <div class="ibox-content">
-	                        <form type="post" action="" class="form-horizontal m-t" id="jobForm">
+	                        <form type="post" action="/jobdeal/jobsend" class="form-horizontal m-t" id="jobForm" method="POST">
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">招聘岗位：</label>
 	                                <div class="col-sm-8">
@@ -230,12 +244,12 @@
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">薪资范围：</label>
 	                                <div class="col-sm-8">
-	                                    <input  name="jobMoney" id="jobMoney" class="form-control" type="text" placeholder="例：4k-6k">
+	                                    <input  name="jobMoney" id="jobMoney" class="form-control" type="text" placeholder="例：6k">
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">职位要求：</label>
-	                                <div class="col-sm-8">      
+	                                <div class="col-sm-8">
 	                                    <textarea name="jobDemand" id="jobDemand" class="form-control" rows="5"></textarea>
 	                                </div>
 	                            </div>
@@ -255,10 +269,10 @@
 	                        </form>
 	                    </div>
 	                </div>
-	            </div> 
+	            </div>
                 </div>
-                
-                
+
+
 	            <div class="col-sm-14">
 	                <div class="ibox float-e-margins" style="position: relative;top:40px;">
 	                    <div class="ibox-content_mzb"  id="jobVue">
@@ -279,16 +293,24 @@
                                         <td>{{dt.jobMoney}}</td>
                                         <td>{{dt.jobCreattime|dateFormat}}</td>
                                         <td>
-					                        <button type="button" class="btn btn-primary btn-sm">详 情</button>
-					                        <button type="button" class="btn btn-danger btn-sm">删 除</button>                                            	
+											<a type="button" class="btn btn-primary btn-sm"
+											   :href="'/ForJob/mes/'+dt.jobId"
+											   target="_blank">
+												详 情</a>
+											<!--<button type="button" class="btn btn-success btn-sm">修 改</button>-->
+
+					                        <!--<button type="button" class="btn btn-danger btn-sm">删 除</button>-->
+                                            <a type="button" class="btn btn-danger btn-sm"
+                                            :href = "'/jobdeal/jobdelete/'+dt.jobId">
+                                                删 除</a>
                                         </td>
 	                                </tr>
-	                                
+
 	                            </tbody>
 	                        </table>
 	                    </div>
 	                </div>
-	            </div>		            
+	            </div>
 			</div>
 		</div>
 	</div>
@@ -383,7 +405,7 @@
     <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
   <!--  <script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
     <script src="js/js_mzb/job-validate.js"></script> -->
-    
+
     <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/static/js/plugins/layer/layer.min.js"></script>
@@ -394,17 +416,17 @@
 
     <!-- 第三方插件 -->
    <script src="/static/js/plugins/pace/pace.min.js"></script>
-   
-   
+
+
      <!-- 自定义js -->
     <script src="/static/js/content.js?v=1.0.0"></script>
-   
+
      <!-- jQuery Validation plugin javascript-->
     <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/static/js/plugins/validate/messages_zh.min.js"></script>
     <script src="/static/js/demo/form-validate-demo.js"></script>
 
-    
+
    <!-- 林晓能导航栏JS效果-->
    <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
 
@@ -441,7 +463,6 @@
 		});
 
 	</script>
-
 	<!--导航条滚动js-->
 	<script type="text/javascript">
         var new_scroll_position = 0;
@@ -467,5 +488,6 @@
             new_scroll_position = last_scroll_position;
         });
 	</script>
+
 	</body>
 </html>

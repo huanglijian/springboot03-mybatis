@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <link href="/static/css/css_psw/pc_hp5.css" rel="stylesheet" />
+    <script src="http://how2j.cn/study/vue.min.js"></script>
+    <script src="http://how2j.cn/study/axios.min.js"></script>
+    <style>
+        .nav-tabs>li.active>a,
+        .nav-tabs>li.active>a:focus,
+        .nav-tabs>li.active>a:hover{
+            border: none;
+            border-bottom: 2px solid #1ab394;
+        }
+        td{
+            padding: 6px 6px;
+        }
+
+    </style>
+</head>
+
+<body>
+<header class="header-navigation" id="headerBar">
+    <div class="nav-content-filter">
+        <div class="row_main">
+            <!--logo-->
+            <div class="main_logo">
+                <img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
+            </div>
+            <!--超链接-->
+            <div class="nav-main-right">
+                <nav class="cd-nav">
+                    <ul>
+                        <li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+                        <li><a href="/project/xwh">项目大厅</a></li>
+                        <li><a href="/stuhall/hall">服务大厅</a></li>
+                        <li><a href="/resource/home">创客讲堂</a></li>
+                        <li><a href="/original/all">原创中心</a></li>
+                        <li><a href="/ForJob/search">在线求职</a></li>
+                        <li><a href="/honor/honorPage">荣誉中心</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!--头像、个人中心、注销等-->
+        <div id="headVue">
+            <ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
+                        <!--没有登陆-->
+                        <img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
+                        <!--已经登录-->
+                        <img class="nav-avatar" v-else :src="img"/>
+                        <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-alerts nav-dropdown-menu">
+                        <!--##########未登录###############-->
+                        <li v-if="!isLogined">
+                            <a href="/login"><p class="nav-text-center">登录</p></a>
+                        </li>
+                        <li v-if="!isLogined">
+                            <a href="/registered/select/new"><p class="nav-text-center">注册</p></a>
+                        </li>
+                        <!--##########已登录###############-->
+                        <li v-if="isLogined">
+                            <a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
+                        </li>
+                        <li v-if="isLogined && !isPromul">
+                            <a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
+                        </li>
+                        <li v-if="isLogined">
+                            <a href="/logout"><p class="nav-text-center">注销</p></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <script type="text/javascript">
+            var nav_vue = new Vue({
+                el:'#headVue',
+                data:{
+                    loginUser: '',
+                    isLogined: false,
+                    isPromul : '',
+                    img : '',
+                    centerUrl : '',
+                },
+                created: function () {
+                    this.getUser();
+                },
+                methods: {
+                    getUser: function(){
+                        $.ajax({
+                            type: "POST",
+                            url: "/home/getLoginUser",
+                            dataType: "json",
+                            success: function(result){
+                                if(result.code === 404){
+                                    nav_vue.isLogined = false;
+                                }
+                                else if(result.code === 0){
+                                    nav_vue.isLogined = true;
+                                    nav_vue.isPromul = result.isPromul;
+                                    nav_vue.loginUser = result.loginUser;
+                                    nav_vue.img = result.img;
+                                    nav_vue.centerUrl = result.centerUrl;
+                                }
+                            }
+                        });
+                    },
+                }
+            });
+        </script>
+    </div>
+</header>
+<div class="header-take-space" style="height: 70px"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
+<div id="fh5co-header" style="background-image: url(/static/img/img_psw/polygon.png); background-position: 0% 0%;background-repeat: no-repeat; background-size: cover; background-attached: fixed; height: 300px; width: 100%; position: relative; z-index: 2; -webkit-box-shadow: inset 0px -5px 11px -6px rgba(0, 0, 0, 0.25); -moz-box-shadow: inset 0px -5px 11px -6px rgba(0, 0, 0, 0.25); box-shadow: inset 0px -5px 11px -6px rgba(0, 0, 0, 0.25);" data-stellar-background-ratio="0.5">
+    <div class="overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 3; background: transparent;"></div>
+    <div class="bio-photo text-center" style="z-index: 20; position: absolute; bottom: 0; margin-bottom: -92px; left: 50%; margin-left: -92px;">
+        <a href="javascript:void(0)"><img class="img-responsive img-rounded" style="width:204px;height:204px;-webkit-border-radius: 50%; -moz-border-radius: 50%; -ms-border-radius: 50%; border-radius: 50%; border: 10px solid #fff;" src="/user/showImg" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
+    </div>
+</div>
+
+<div class="hp_main" style="width: 1080px;margin: 0 auto;margin-top: 25px;">
+    <div class="hp_left" style="float:left;padding:10px 15px 20px;width: 800px;background: white;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);">
+        <ul id="myTab" class="nav nav-tabs" style="border:none">
+            <li class="active">
+                <a href="#dota" data-toggle="tab" style="color:black">
+                    动态
+                </a>
+            </li>
+            <li><a href="#lol" data-toggle="tab" style="color:black">工作室</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content" style="margin-top: 15px">
+            <div id="templeate" style="display: none">
+                <div class="search-result" style="border:1px solid #E8E8E8;padding:10px 15px;margin-bottom: 15px;">
+                    <div>
+                        <span style="color: #8590a6;float:left">上传了</span>
+                        <span style="color: #8590a6;float:right">{{yc.origUploadtime}}</span>
+                    </div>
+                    <div class="clearfix"></div><div>
+                    <h5><a style="text-decoration: none" href="search_results.html#">{{yc.origName}}</a></h5>
+                    <span :title="yc.origIntro" style="overflow: hidden;-webkit-line-clamp: 2; -webkit-box-orient: vertical;display: -webkit-box;">{{yc.origIntro}}</span></div>
+                    <div class='col_right_cyc_down_item_bq '>
+                        类型：<span>{{yc.origType}}</span>
+                        标签：<span>{{yc.origTag}}</span>
+                    </div>
+                </div>
+            </div>
+            <div id="templeate2" style="display: none">
+                <div class="col_right_vec_down_items container-fluid" id="item item2">
+                    <div class="col_right_vec_down_item_left" style="width: 770px">
+                        <div class="col_right_vec_down_item_left_1">
+                            <a href="/v/ac4579297" target="_blank" class="thumb-preview ">
+                                <img data-aid="4579297" src="http://imgs.aixifan.com/content/2018_09_12/1536718943.jpg" class="preview">
+                            </a>
+                        </div>
+                        <div class="col_right_vec_down_item_left_2" style="width: 600px">
+                            <div class='col_right_vec_down_item_title'>
+                                <a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">{{studio.stuName}}</a>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col_right_vec_down_item_2">
+                                组长：<a class='col_right_vec_down_item_author' href="#">{{user.userName}}</a>
+                                &nbsp;&nbsp;/&nbsp;&nbsp;成立于
+                                <span class='col_right_vec_down_item_date'>{{studio.stuCreattime}}</span>
+                            </div>
+                            <div class='col_right_vec_down_item_jj ' style="margin-bottom: 4px;overflow: hidden;-webkit-line-clamp: 2; -webkit-box-orient: vertical;display: -webkit-box;">介绍：
+                                <span>{{studio.stuIntro}}</span>
+                            </div>
+                            <div class='col_right_cyc_down_item_bq '>
+                                领域：<span>{{studio.stuField}}</span>
+                                标签：<span>{{studio.stuTag}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade in active" id="dota">
+                <yc v-for="item in ycs" v-bind:yc="item"></yc>
+                <div  v-if="show1"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
+            </div>
+            <div class="tab-pane fade" id="lol">
+                <studio v-bind:studio="studio" v-bind:user="user"></studio>
+                <div  v-if="show"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
+            </div>
+        </div>
+    </div>
+    <div class="hp_right" style="float:right;width: 270px;">
+        <div class="right_1" style="padding:17px 10px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);background: white">
+            <div style="padding-bottom:6px;border-bottom: 1px dashed #ddd"><span style="font-size:16px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; font-synthesis: style;">个人资料</span></div>
+            <div>
+                <table>
+                    <tr><td>名&emsp;&emsp;字：</td><td style="color: #8590a6">{{user.userName}}</td></tr>
+                    <tr><td>关&emsp;&emsp;注：</td><td style="color: #8590a6">0</td></tr>
+                    <tr><td>粉&emsp;&emsp;丝：</td><td style="color: #8590a6">0</td></tr>
+                    <tr><td>签&emsp;&emsp;名：</td><td style="color: #8590a6">想变得更有趣</td></tr>
+                    <tr><td>个人简介：</td><td style="color: #8590a6">{{user.userIntro}}</td></tr>
+                    <tr><td>联系电话：</td><td style="color: #8590a6">{{user.userPhone}}</td></tr>
+                    <tr><td>注册时间：</td><td style="color: #8590a6">{{user.userLogintime}}</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="right_2" style="margin-top:15px;padding:17px 10px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);background: white">
+            <div style="padding-bottom:6px;border-bottom: 1px dashed #ddd"><span style="font-size:16px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; font-synthesis: style;">个人成就</span></div>
+            <div style="padding: 10px 8px;color: #646464;"><i class="fa fa-thumbs-up" style="color:#8590a6"></i>&emsp;获得 {{collected}} 次收藏</div>
+            <div style="padding: 10px 8px;color: #646464;"><i class="fa fa-share-alt" style="color:#8590a6"></i>&emsp;参与 {{share}} 次分享</div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!--<div class="container-fluid contest">
+    <div class="col_right">
+        <div class="col_right_ifm_up">
+            <div class="col_right_ifm_up_1">
+            </div>
+        </div>
+        <div class="col_right_ifm_down" style="margin-bottom: 30px" id="items">
+            <div class="col_right_ifm_down_left">
+                <div class="r_c_t_left">
+                    <div class="r_c_t_l_img">
+                        <img src="/user/showImg" alt="" class="imgsize" />
+                    </div>
+                </div>
+            </div>
+            <div class="col_right_ifm_down_right" id="info">
+                <div class="col_right_ifm_down_right_1">
+                    <span class="username">用户名：{{user.userName}}</span>
+                </div>
+                <div class="col_right_ifm_down_right_2">
+                    <span style="margin-right: 16px; color: rgb(77, 77, 77); font-size: 14px;">关注 0</span>
+                    <span style="margin-right: 16px; color: rgb(77, 77, 77); font-size: 14px;">粉丝 0</span>
+                </div>
+                <div class="col_right_ifm_down_right_3">
+                    <ul class="list-unstyled">
+                        <li class="intro">
+                            <span class="noWid">简介：</span>
+                            <span class="cont">{{user.userIntro}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="service_neirong" style="padding-bottom: 40px">
+            <div class="left">
+                <div class="Tabs service-content" id="Tabs">
+                    <div class="TabTitle">
+                        <ul class="nav nav-tabs navigation" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">博客</a>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">工作室</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content TabContent services-tab-content">
+                        <div id="templeate" style="display: none">
+                            <div class="col_right_cyc_down_items container-fluid" id="item">
+                                <div class="col_right_cyc_down_item_left ">
+                                    <div class='col_right_cyc_down_item_title container-fluid'>
+                                        <span class="channel" style="float: left;">原创</span>
+                                        <a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">{{yc.origName}}</a>
+                                    </div>
+                                    <div class="col_right_cyc_down_item_2 container-fluid">发布于
+                                        <span class='col_right_cyc_down_item_date'>{{yc.origUploadtime}}</span>
+                                    </div>
+                                    <div class='col_right_cyc_down_item_jj ' style="margin-bottom: 4px;">介绍：
+                                        <span>{{yc.origIntro}}</span>
+                                    </div>
+                                    <div class='col_right_cyc_down_item_bq '>
+                                        类型：<span>{{yc.origType}}</span>
+                                        标签：<span>{{yc.origTag}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="templeate2" style="display: none">
+                            <div class="col_right_vec_down_items container-fluid" id="item item2">
+                                <div class="col_right_vec_down_item_left ">
+                                    <div class="col_right_vec_down_item_left_1">
+                                        <a href="/v/ac4579297" target="_blank" class="thumb-preview ">
+                                            <img data-aid="4579297" src="http://imgs.aixifan.com/content/2018_09_12/1536718943.jpg" class="preview">
+                                        </a>
+                                    </div>
+                                    <div class="col_right_vec_down_item_left_2">
+                                        <div class='col_right_vec_down_item_title'>
+                                            <a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">{{studio.stuName}}</a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col_right_vec_down_item_2">
+                                            组长：<a class='col_right_vec_down_item_author' href="#">{{user.userName}}</a>
+                                            &nbsp;&nbsp;/&nbsp;&nbsp;成立于
+                                            <span class='col_right_vec_down_item_date'>{{studio.stuCreattime}}</span>
+                                        </div>
+                                        <div class='col_right_vec_down_item_jj ' style="margin-bottom: 4px;">介绍：
+                                            <span>{{studio.stuIntro}}</span>
+                                        </div>
+                                        <div class='col_right_cyc_down_item_bq '>
+                                            标签：<span>{{studio.stuTag}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane anli active" id="profile">
+                            <yc v-for="item in ycs" v-bind:yc="item"></yc>
+                            <div  v-if="show1"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="home">
+                            <studio v-bind:studio="studio" v-bind:user="user"></studio>
+                            <div  v-if="show"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>-->
+<footer>
+    <div class="container-fluid_foot">
+        <div class="foot_panel">
+            <div class="foot_panel_left">
+                <div class="img">
+                    <a href="#">
+                        <img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+                    </a>
+                </div>
+                <div class="beian">
+                    <p>创客网 © 2018－
+                        <br>肇庆学院东软实训班第三组版权所有
+                        <br>[粤ICP备xxxxxxx号-x] 标识
+                        <br> 粤公网安备xxxxxxxxxx号</p>
+                </div>
+            </div>
+            <div class="foot_panel_right">
+                <div class="foot_panel_right_row">
+                    <ul class="list-unstyled">
+                        <li>
+                            <h4>新手指南</h4>
+                            <a href="/help/register">注册登录问题</a>
+                            <br />
+                            <a href="/help/process">项目交易流程</a>
+                            <br />
+                            <a href="/help/fund">充值提款问题</a>
+                            <br />
+                            <a href="help/about_agreement">用户注册协议</a>
+                            <br />
+                            <a href="/help/bid_payings">为何付费竞标</a>
+                        </li>
+                        <li>
+                            <h4>特色服务</h4>
+                            <a href="/help/renzheng">实名认证</a>
+                            <br />
+                            <a href="/help/searchs">精准搜索</a>
+                            <br />
+                            <a href="/help/workhour">小时报价</a>
+                            <br />
+                            <a href="/help/bumanyituikuan">不满意退款</a>
+                            <br />
+                            <a href="/help/bid_card">竞标卡规则</a>
+                        </li>
+                        <li>
+                            <h4>评价信誉</h4>
+                            <a href="/help/pingjiadengm">操作演示</a>
+                            <br />
+                            <a href="/help/service_payings">服务收费</a>
+                            <br />
+                            <a href="/help/evaluations">用户评价</a>
+                            <br />
+                            <a href="/help/jifens">积分体系</a>
+                            <br />
+                            <a href="/help/controversy">争议解决</a>
+                        </li>
+                        <li>
+                            <h4>答疑中心</h4>
+                            <a href="/help/pro_relase">项目发布问题</a>
+                            <br />
+                            <a href="/help/bid_joinings">参与竞标问题</a>
+                            <br />
+                            <a href="/help/pro_runnings">项目开发问题</a>
+                            <br />
+                            <a href="/help/pro_done">项目完工问题</a>
+                            <br />
+                            <a href="/help/it_realse">信息发布问题</a>
+                        </li>
+                        <li>
+                            <h4>联系我们</h4>
+                            <a href="/help/about_us">关于SXSOFT</a>
+                            <br />
+                            <a href="/help/about_company">公司概况</a>
+                            <br />
+                            <a href="/help/contact_us">联系方式</a>
+                            <br />
+                            <a href="/help/about_advertising">广告投放</a>
+                            <br />
+                            <a href="/help/links">友情链接</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script type="text/javascript" src="/static/js/js_psw/PersonCenter-jquery.js"></script>
+
+<script>
+    new Vue({
+        el:'.right_1',
+        data:{
+            user:''
+        },
+        mounted:function () {
+            var self=this;
+            axios.get("/user/hp").then(function (response) {
+                self.user=response.data.user;
+            })
+        }
+    });
+    new Vue({
+        el:'.right_2',
+        data:{
+            share:'',
+            collected:''
+        },
+        mounted:function () {
+            var self=this;
+            axios.get("/user/get_share").then(function (response) {
+                self.share=response.data.share;
+                self.collected=response.data.collected;
+            })
+        }
+    });
+    var templeateDiv=$("#templeate").html();
+    var templeateObject={
+        props:['yc'],
+        template:templeateDiv
+    }
+    Vue.component("yc",templeateObject);
+    var templeateDiv2=$("#templeate2").html();
+    var templeateObject2={
+        props:['studio','user'],
+        template:templeateDiv2
+    }
+    Vue.component("studio",templeateObject2);
+    var url="/user/get_hp";
+    new Vue({
+        el:'#dota',
+        data:{
+            ycs:'',
+            show1:false
+        },
+        mounted:function () {
+            var self=this;
+            axios.get(url).then(function(response){
+                self.ycs=response.data.originals;
+                if(response.data.originals[0]==null)
+                    self.show1=true;
+                new Vue({
+                    el:'#lol',
+                    data:{
+                        studio:response.data.studio,
+                        user:response.data.user,
+                        show:false
+                    },
+                    mounted:function () {
+                        if(response.data.studio==null)
+                            this.show=!this.show;
+                    }
+                })
+            })
+        }
+    })
+</script>
+<!--导航条滚动js-->
+<script type="text/javascript">
+    var new_scroll_position = 0;
+    var last_scroll_position;
+    var header = document.getElementById("headerBar");
+
+    window.addEventListener('scroll', function (e) {
+        last_scroll_position = window.scrollY;
+
+        // Scrolling down
+        if (new_scroll_position < last_scroll_position && last_scroll_position > 80) {
+            // header.removeClass('slideDown').addClass('slideUp');
+            header.classList.remove("slideDown");
+            header.classList.add("slideUp");
+
+            // Scrolling up
+        } else if (new_scroll_position > last_scroll_position) {
+            // header.removeClass('slideUp').addClass('slideDown');
+            header.classList.remove("slideUp");
+            header.classList.add("slideDown");
+        }
+
+        new_scroll_position = last_scroll_position;
+    });
+</script>
+</body>
+
+</html>
