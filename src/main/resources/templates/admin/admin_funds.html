@@ -56,83 +56,33 @@
                                 },
                                 "columns": [
                                     {
-                                        "name": "projName",
-                                        "title": "项目名称",
+                                        "name": "fundId",
+                                        "title": "交易号",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "proPromName",
-                                        "title": "发布者",
+                                        "name": "fundMoney",
+                                        "title": "交易金额",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projSecret",
-                                        "title": "保密类型",
+                                        "name": "fundType",
+                                        "title": "资金类型",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projState",
-                                        "title": "项目状态",
+                                        "name": "fundDatetime",
+                                        "title": "交易时间",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projType",
-                                        "title": "项目类型",
+                                        "name": "fundRemark",
+                                        "title": "交易方",
                                         "type": "text",
-                                    },
-                                    {
-                                        "name": "projnum",
-                                        "title": "收藏人数",
-                                        "type": "text",
-                                    },
-                                    {
-                                        "name": "projCreattime",
-                                        "title": "创建时间",
-                                        "type": "text",
-                                    },
-                                    {
-                                        "name": "proStuName",
-                                        "title": "承接方",
-                                        "breakpoints": "all",
-                                        "formatter": function(value, options, rowData){
-                                            if(value === "")
-                                                value = "暂无承接方";
-                                            return value;
-                                        },
-                                    },
-                                    {
-                                        "name": "bidnum",
-                                        "title": "竞标个数",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projMoney",
-                                        "title": "项目预算",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projCycletime",
-                                        "title": "开发周期",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projStarttime",
-                                        "title": "开始时间",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projEndtime",
-                                        "title": "结束时间",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projIntro",
-                                        "title": "项目介绍",
-                                        "breakpoints": "all"
                                     },
                                 ],
 
-                                "rows": $.get("/admin/adminproj"),
+                                "rows": $.get("/admin/adminfund"),
                             });
                         });
                     </script>

@@ -7,10 +7,8 @@ public class getAlluser extends  AbstractController{
 
 
     public Alluser aa(){
-        System.out.println("333");
         Alluser alluser = new Alluser();
         alluser = super.getUser();
-        System.out.println(alluser);
         return  alluser;
     }
 }

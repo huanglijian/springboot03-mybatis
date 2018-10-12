@@ -1,23 +1,16 @@
 package cn.ck.controller.admin;
 
-import cn.ck.entity.Bidding;
-import cn.ck.entity.Project;
-import cn.ck.entity.Promulgator;
-import cn.ck.entity.Studio;
+import cn.ck.entity.*;
+import cn.ck.entity.bean.AdminJob;
 import cn.ck.entity.bean.AdminProj;
-import cn.ck.entity.bean.ProjectBid;
-import cn.ck.service.BiddingService;
-import cn.ck.service.ProjectService;
-import cn.ck.service.PromulgatorService;
-import cn.ck.service.StudioService;
+import cn.ck.entity.bean.Adminoriginal;
+import cn.ck.service.*;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.awt.*;
-import java.awt.color.ProfileDataException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +25,22 @@ public class AdminSelController {
     StudioService studioService;
     @Autowired
     BiddingService biddingService;
+    @Autowired
+    FundsService fundsService;
+    @Autowired
+    AlluserService alluserService;
+    @Autowired
+    UsersService usersService;
+    @Autowired
+    OriginalService originalService;
+    @Autowired
+    CollectoriService collectoriService;
+    @Autowired
+    CollectpjService collectpjService;
+    @Autowired
+    JobsService jobsService;
+    @Autowired
+    JobuserService jobuserService;
 
     /**
      * 跳转项目管理
@@ -39,7 +48,7 @@ public class AdminSelController {
      */
     @RequestMapping("/proj")
     public String proj(){
-        return "/admin/admin_project";
+        return "admin/admin_project";
     }
 
     @RequestMapping("/adminproj")
@@ -72,8 +81,107 @@ public class AdminSelController {
             }
             int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",project.getProjId()));
             adminProj.setBidnum(count);
+            int projcount=collectpjService.selectCount(new EntityWrapper<Collectpj>().eq("colp_pjid",project.getProjId()));
+            adminProj.setProjnum(projcount);
             adminProjList.add(adminProj);
         }
         return adminProjList;
+    }
+
+    /**
+     * 跳转资金管理
+     * @return
+     */
+    @RequestMapping("/funds")
+    public String funds(){
+        return "admin/admin_funds";
+    }
+
+    @RequestMapping("/adminfund")
+    @ResponseBody
+    public List<Funds> adminfund(){
+        List<Funds> fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income","平台"));
+        for (Funds funds:fundsList) {
+            String id=funds.getFundOutlay();
+            Alluser alluser=alluserService.selectById(id);
+            if(alluser.getAllType().equals("发布者")){
+                Promulgator promulgator=promulgatorService.selectById(id);
+                funds.setFundRemark(promulgator.getPromName());
+            } else if(alluser.getAllType().equals("普通用户")){
+                Users users=usersService.selectById(id);
+                funds.setFundRemark(users.getUserName());
+            } else{
+                funds.setFundRemark(funds.getFundOutlay());
+            }
+        }
+        return fundsList;
+    }
+
+    /**
+     * 跳转原创中心界面
+     * @return
+     */
+    @RequestMapping("/origin")
+    public String origin(){
+        return "admin/admin_origin";
+    }
+
+    @RequestMapping("/adminorigin")
+    @ResponseBody
+    public List<Adminoriginal> adminorigin(){
+        List<Adminoriginal> adminoriginalList=new ArrayList<>();
+        List<Original> originalList=originalService.selectList(new EntityWrapper<>());
+        for (Original original:originalList) {
+            Adminoriginal adminoriginal=new Adminoriginal();
+            adminoriginal.setOrigId(original.getOrigId());
+            adminoriginal.setOrigGrade(original.getOrigGrade());
+            adminoriginal.setOrigName(original.getOrigName());
+            adminoriginal.setOrigIntro(original.getOrigIntro());
+            adminoriginal.setOrigTag(original.getOrigTag());
+            adminoriginal.setOrigType(original.getOrigType());
+            adminoriginal.setOrigUploadtime(original.getOrigUploadtime());
+
+            Users users=usersService.selectById(original.getOrigUsers());
+            adminoriginal.setUserName(users.getUserName());
+
+            int count=collectoriService.selectCount(new EntityWrapper<Collectori>().eq("colo_ogi",original.getOrigId()));
+            adminoriginal.setCount(count);
+            adminoriginalList.add(adminoriginal);
+        }
+        return adminoriginalList;
+    }
+
+    /**
+     * 跳转职位界面
+     * @return
+     */
+    @RequestMapping("/jobs")
+    public String jobs(){
+        return "admin/admin_jobs";
+    }
+
+    @RequestMapping("/adminjob")
+    @ResponseBody
+    public List<AdminJob> adminjob(){
+        List<AdminJob> adminJobList=new ArrayList<>();
+        List<Jobs> jobsList=jobsService.selectList(new EntityWrapper<>());
+        for (Jobs jobs:jobsList) {
+            AdminJob adminJob=new AdminJob();
+            adminJob.setJobId(jobs.getJobId());
+            adminJob.setJobName(jobs.getJobName());
+            adminJob.setJobCreattime(jobs.getJobCreattime());
+            adminJob.setJobIntro(jobs.getJobIntro());
+            adminJob.setJobMoney(jobs.getJobMoney());
+            adminJob.setJobRequire(jobs.getJobRequire());
+            adminJob.setJobState(jobs.getJobState());
+            adminJob.setJobType(jobs.getJobType());
+            adminJob.setJobNum(jobs.getJobNum());
+            Studio studio=studioService.selectById(jobs.getJobStudio());
+            adminJob.setJobStudio(studio.getStuName());
+            int count=jobuserService.selectCount(new EntityWrapper<Jobuser>().eq("ju_jobs",jobs.getJobId()));
+            adminJob.setUsernum(count);
+            adminJobList.add(adminJob);
+        }
+        return  adminJobList;
     }
 }

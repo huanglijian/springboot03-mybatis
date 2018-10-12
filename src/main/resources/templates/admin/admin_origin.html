@@ -56,83 +56,48 @@
                                 },
                                 "columns": [
                                     {
-                                        "name": "projName",
-                                        "title": "项目名称",
+                                        "name": "origName",
+                                        "title": "文件名",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "proPromName",
-                                        "title": "发布者",
+                                        "name": "origType",
+                                        "title": "类型",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projSecret",
-                                        "title": "保密类型",
+                                        "name": "origUsers",
+                                        "title": "上传者",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projState",
-                                        "title": "项目状态",
+                                        "name": "origGrade",
+                                        "title": "评分",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projType",
-                                        "title": "项目类型",
-                                        "type": "text",
-                                    },
-                                    {
-                                        "name": "projnum",
+                                        "name": "count",
                                         "title": "收藏人数",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projCreattime",
-                                        "title": "创建时间",
+                                        "name": "origUploadtime",
+                                        "title": "上传时间",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "proStuName",
-                                        "title": "承接方",
-                                        "breakpoints": "all",
-                                        "formatter": function(value, options, rowData){
-                                            if(value === "")
-                                                value = "暂无承接方";
-                                            return value;
-                                        },
-                                    },
-                                    {
-                                        "name": "bidnum",
-                                        "title": "竞标个数",
+                                        "name": "origTag",
+                                        "title": "标签",
                                         "breakpoints": "all"
                                     },
                                     {
-                                        "name": "projMoney",
-                                        "title": "项目预算",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projCycletime",
-                                        "title": "开发周期",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projStarttime",
-                                        "title": "开始时间",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projEndtime",
-                                        "title": "结束时间",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projIntro",
-                                        "title": "项目介绍",
+                                        "name": "origIntro",
+                                        "title": "原创介绍",
                                         "breakpoints": "all"
                                     },
                                 ],
 
-                                "rows": $.get("/admin/adminproj"),
+                                "rows": $.get("/admin/adminorigin"),
                             });
                         });
                     </script>
