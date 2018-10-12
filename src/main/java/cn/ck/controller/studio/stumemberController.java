@@ -43,7 +43,7 @@ public class stumemberController extends AbstractController {
 
         System.out.println(id);
         Users user = usersService.selectOne(new EntityWrapper<Users>().eq("user_id",id));
-        user.setUserQuittme(new Date());
+//        user.setUserQuittme(new Date());
 
         usersService.updateAllColumnById(user);
         return true;

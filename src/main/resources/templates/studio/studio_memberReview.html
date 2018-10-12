@@ -219,9 +219,19 @@
                                         <td>{{dt.users.userEntrytime}}</td>
                                         <td>{{dt.users.userQuittme}}</td>
                                         <td>
-					                        <button type="button" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#myModal">确 定</button>
-				                        
-					                        <button type="button" class="btn btn-danger btn-sm">取 消</button>                                            	
+					                        <!--<button type="button" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#myModal"-->
+											<!--&gt;同 意</button>-->
+
+				                        	<a type="button" class="btn btn-primary btn-sm"
+											   :href = "'/member/agree/'+dt.users.userId"
+											>同 意</a>
+											<!--@click = "agree(dt.users.userId)"-->
+
+											<a type="button" class="btn btn-danger btn-sm"
+											   :href = "'/member/noagree/'+dt.users.userId"
+											>拒 绝</a>
+											<!--<button type="button" class="btn btn-danger btn-sm"-->
+											<!--&gt;拒 绝</button>-->
                                         </td>
 	                                </tr>
 	                                <tr>
@@ -343,8 +353,10 @@
         var jobReview = new Vue({
             el:'#mreviewVue',
             data:{
-                jobusers:''
+                jobusers:'',
             },
+			methods:{
+			},
             created:function () {
                 $.ajax({
                     type:'get',

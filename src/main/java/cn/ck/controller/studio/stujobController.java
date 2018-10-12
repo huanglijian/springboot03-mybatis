@@ -39,8 +39,6 @@ public class stujobController extends AbstractController {
     private UsersService usersService;
 
 
-
-
     @GetMapping("/jobList")
     @ResponseBody
     public ResponseBo mList(){
