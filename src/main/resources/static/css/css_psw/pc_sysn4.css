@@ -20,7 +20,7 @@ body {
 }
 
 .col_right_sysn_up_1 {
-	width: 810px;
+	width: 800px;
 	margin-left: 15px;
 	height: 40px;
 	background: #ffffff;
@@ -34,20 +34,19 @@ body {
 
 .col_right_sysn_up_1 span {
 	margin-top: 17px;
-	margin-right: 10px;
+	margin-right: 12px;
 	float: right;
 	border: none;
 	font-size: 13px;
 }
 
 .c_r_contest {
-	width: 810px;
+	width: 800px;
 }
 
 .c_r_c_notice {
-	padding: 20px 0px 10px;
+	padding: 10px 0px 0px;
 	background: #FFFFFF;
-	border-bottom: 1px dashed #ebebeb;
 	width: 100%;
 }
 
@@ -76,4 +75,17 @@ body {
 .c_r_c_notice>a:active,
 .c_r_c_notice>a:visited{
 	color: #fff;
+}
+
+.col_right_sysn_up_1_condition {
+	margin-top: 17px;
+	margin-left:15px;
+	float: left;
+}
+
+.col_right_sysn_up_1_condition .channel3,
+.col_right_sysn_up_1_condition .channel3:hover{
+	color: #ffffff;
+	background:#1ab394;
+	cursor: default;
 }

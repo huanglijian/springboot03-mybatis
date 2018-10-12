@@ -302,8 +302,10 @@
 			data:{},
 			mounted:function () {
 				axios.get(url).then(function (response) {
-					if(response.data=="1")
-					    alert("上传成功");
+					if(response.data=="1") {
+                        alert("上传成功");
+                        window.location.href="/user/user_yc";
+                    }
 					else if(response.data=="2")
 					    alert("上传失败");
                 })

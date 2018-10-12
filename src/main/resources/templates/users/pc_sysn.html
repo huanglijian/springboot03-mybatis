@@ -11,12 +11,18 @@
 	<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-	<link href="/static/css/css_psw/pc_sysn12.css" rel="stylesheet" />
+	<link href="/static/css/css_psw/pc_sysn4.css" rel="stylesheet" />
 	<link href="/static/css/css_psw/toPage1.css" rel="stylesheet" />
 	<script type="text/javascript" src="/static/js/js_psw/toPage1.js"></script>
 	<script src="http://how2j.cn/study/vue.min.js"></script>
 	<script src="http://how2j.cn/study/axios.min.js"></script>
 	<script src="https://cdn.bootcss.com/qs/6.5.2/qs.min.js"></script>
+	<style rel="stylesheet">
+		.modal {
+			position: fixed;
+			top: 20%;
+		}
+	</style>
 </head>
 
 <body>
@@ -119,7 +125,7 @@
 	<div class="col_left">
 		<div class="ul_contest">
 			<ul class="lefthead">
-				<li class="lefthead_li">
+				<li class="lefthead_li" id="notice">
 					<a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone">
 						个人中心
 						<span class="glyphicon glyphicon-chevron-up"></span>
@@ -132,7 +138,7 @@
 							<a href="/user/user_mfyinfo">修改资料</a>
 						</li>
 						<li class="current">
-							<a href="/user/user_sysn">系统通知</a>
+							<i v-if="show" style="color: red;margin-left: -110px" class="fa fa-bell"></i><span v-if="show" style="line-height: 12px;padding: 1px 5px;background:red;position: relative;bottom:10px;right:5px;" class="label label-primary">{{num}}</span><a href="/user/user_sysn">系统通知</a>
 						</li>
 					</ul>
 				</li>
@@ -187,12 +193,46 @@
 	<div class="col_right" style="min-height: 640px">
 		<div class="col_right_sysn_up">
 			<div class="col_right_sysn_up_1" id="total">
+				<div class="col_right_sysn_up_1_condition">
+					消息状态：&nbsp;
+					<a href="javascript:void(0);" class="channel3">未读</a>&nbsp;&nbsp;
+					<a href="/user/user_sysn2" >已读</a>
+				</div>
 				<span>共 {{total}} 条</span>
 			</div>
 		</div>
 		<div id="templeate" style="display: none">
 			<div class="c_r_c_notice">
-				<p class="c_r_c_message">
+				<div class="alert alert-success alert-dismissable" style="padding:8px 0 4px;margin-bottom: 0px;background: #fcfcfc;border: 1px solid #eee;">
+					<a data-toggle="modal" :data-target="'#'+notice.notiId"><span class="col-sm-2 col-md-2 col-lg-2" style="color: #c66;">系统</span>
+					<!--<span>&nbsp;&nbsp;&nbsp;&nbsp;{{notice.notiTime}}</span>-->
+					<span class="col-sm-7 col-md-7 col-lg-7" style="border-left: 1px dashed #ddd;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;font-size: 13px;color: #8a8a8a;margin-bottom: 8px;">{{notice.notiMsg}}</span>
+					<span class="col-sm-3 col-md-3 col-lg-3" style="border-left: 1px dashed #ddd;">{{notice.notiTime}}</span></a>
+					<!--<a type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#'+notice.notiId">
+						打开示例窗口{{notice.notiId}}
+					</a>-->
+					<div class="modal inmodal" :id="notice.notiId" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content animated bounceInRight">
+								<div class="modal-header">
+									<small class="font-bold">系统通知</small>
+								</div>
+								<div class="modal-body">
+									<span style="color:#000;"> 发件人：</span><span style="color: #c66">系统</span>&nbsp;&nbsp;/&nbsp;&nbsp;{{notice.notiTime}}
+									<br /><br />
+									<span style="color:#000;"> 主 &nbsp;&nbsp;&nbsp;题：</span><span>{{notice.notiMsg}}</span>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" @click="updateNotice(notice.notiId)">已读</button>
+									<button type="button" class="btn btn-danger" @click="deleteNotice(notice.notiId)">删除</button>
+									<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<!--<p class="c_r_c_message">
 					{{notice.notiMsg}}
 				</p>
 				<p class="c_r_c_time">
@@ -200,12 +240,20 @@
 				</p>
 				<a title="删除收藏" href="#nowhere" class="btn btn-delete" @click="deleteNotice(notice.notiId)">
 					<i class="fa fa-remove"></i>删除</a>
-				<div class="clearfix"></div>
+				<div class="clearfix"></div>-->
 			</div>
 		</div>
-		<div class="col_right_sysn_down" id="items">
+		<div id="read" style="margin:5px 15px 0;padding-bottom:5px;border-bottom: 1px dashed #ddd;"><button @click="updateAllNotice" style="border: none;float: right;background: #1ab394;color: white">全部标为已读</button><div class="clearfix"></div></div>
+		<div style="padding: 10px 15px 0px;">
+			<span class="col-sm-2 col-md-2 col-lg-2">发件人</span>
+			<span class="col-sm-7 col-md-7 col-lg-7" style="border-left: 1px dashed #ddd;border-right:1px dashed #ddd; ">主题</span>
+			<span class="col-sm-3 col-md-3 col-lg-3">时间</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="col_right_sysn_down" id="items" style="padding-bottom: 10px;">
 			<div class="c_r_contest" id="item">
 				<notice v-for="item in notices" v-bind:notice="item"></notice>
+
 				<div  v-if="show"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
 			</div>
 		</div>
@@ -298,6 +346,7 @@
 	</div>
 </footer>
 <script type="text/javascript" src="/static/js/js_psw/PersonCenter-jquery.js"></script>
+<script type="text/javascript" src="/static/js/js_psw/js_con.js"></script>
 <script>
     var templeateDiv=$("#templeate").html();
     var templeateObject={
@@ -313,6 +362,16 @@
                        if(response.data)
                            window.location.reload();
 				});
+            },
+			updateNotice:function (id) {
+                var postData={
+                    notiId:id
+                }
+                axios.post('/user/update_sysn',window.Qs.stringify(postData), {headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                }).then(function (response) {
+                    if(response.data)
+                        window.location.reload();
+                });
             }
         }
     }
@@ -386,6 +445,40 @@
 
         new_scroll_position = last_scroll_position;
     });
+    new Vue({
+        el:'#notice',
+        data:{
+            show:true,
+            num:''
+        },
+        mounted:function () {
+            var self=this;
+            axios.get("/user/get_sysnnum").then(function (response) {
+                self.num=response.data;
+                if(response.data==0)
+                    self.show=!self.show;
+            })
+        }
+    });
+    new Vue({
+		el:"#read",
+		data:{
+
+		},
+		methods:{
+           	updateAllNotice:function(){
+                axios.get("/user/update_allsysn").then(function (response) {
+                    if(response.data==0)
+                        alert("暂无未读消息！");
+                    else
+					{
+					    alert("操作成功！");
+					    window.location.reload();
+					}
+                })
+			}
+        }
+	})
 </script>
 </body>
 </html>
