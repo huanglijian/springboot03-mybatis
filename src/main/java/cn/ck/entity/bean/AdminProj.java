@@ -23,6 +23,15 @@ public class AdminProj {
     private String projProm;
     private String proPromName;
     private int bidnum;
+    private int projnum;
+
+    public int getProjnum() {
+        return projnum;
+    }
+
+    public void setProjnum(int projnum) {
+        this.projnum = projnum;
+    }
 
     public Integer getProjId() {
         return projId;

@@ -56,83 +56,58 @@
                                 },
                                 "columns": [
                                     {
-                                        "name": "projName",
-                                        "title": "项目名称",
+                                        "name": "jobName",
+                                        "title": "职位名称",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "proPromName",
-                                        "title": "发布者",
+                                        "name": "jobType",
+                                        "title": "职位类型",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projSecret",
-                                        "title": "保密类型",
+                                        "name": "jobState",
+                                        "title": "招聘状态",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projState",
-                                        "title": "项目状态",
+                                        "name": "jobNum",
+                                        "title": "招聘人数",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projType",
-                                        "title": "项目类型",
+                                        "name": "jobMoney",
+                                        "title": "职位资金",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projnum",
-                                        "title": "收藏人数",
+                                        "name": "usernum",
+                                        "title": "投递人数",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "projCreattime",
+                                        "name": "jobStudio",
+                                        "title": "创建工作室",
+                                        "type": "text",
+                                    },
+                                    {
+                                        "name": "jobCreattime",
                                         "title": "创建时间",
                                         "type": "text",
                                     },
                                     {
-                                        "name": "proStuName",
-                                        "title": "承接方",
-                                        "breakpoints": "all",
-                                        "formatter": function(value, options, rowData){
-                                            if(value === "")
-                                                value = "暂无承接方";
-                                            return value;
-                                        },
-                                    },
-                                    {
-                                        "name": "bidnum",
-                                        "title": "竞标个数",
+                                        "name": "jobIntro",
+                                        "title": "职位介绍",
                                         "breakpoints": "all"
                                     },
                                     {
-                                        "name": "projMoney",
-                                        "title": "项目预算",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projCycletime",
-                                        "title": "开发周期",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projStarttime",
-                                        "title": "开始时间",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projEndtime",
-                                        "title": "结束时间",
-                                        "breakpoints": "all"
-                                    },
-                                    {
-                                        "name": "projIntro",
-                                        "title": "项目介绍",
+                                        "name": "jobRequire",
+                                        "title": "职位需求",
                                         "breakpoints": "all"
                                     },
                                 ],
 
-                                "rows": $.get("/admin/adminproj"),
+                                "rows": $.get("/admin/adminjob"),
                             });
                         });
                     </script>
