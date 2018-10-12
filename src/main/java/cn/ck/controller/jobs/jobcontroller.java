@@ -37,6 +37,7 @@ public class jobcontroller extends AbstractController {
     //    @RequestMapping("/search")
     @GetMapping("/search")
     public String search() {
+        System.out.println("search-----");
         Jobs jobs = new Jobs();
 //        获得所有的招聘信息
         List<Jobs> jobss = jobsService.selectList(new EntityWrapper<Jobs>());
@@ -429,8 +430,9 @@ public class jobcontroller extends AbstractController {
 
     //    上传简历
     @PostMapping("/upload")
-    @RequiresRoles("users")
+//    @RequiresRoles("users")
     public String submit(int jid, resume r, HttpServletRequest request)throws Exception{
+        System.out.println("------222");
         System.out.println("jid: "+jid);
         //如果文件不为空
         if (!r.getResume().isEmpty()){
@@ -453,17 +455,25 @@ public class jobcontroller extends AbstractController {
             j.setJuState("审核中");
             j.setJuJobs(jid);
 
+
 //            获取当前登录的用户
             AbstractController a = new AbstractController();
             Alluser alluser = new Alluser();
-
             getAlluser g = new getAlluser();
+
             alluser = g.aa();
+            System.out.println("----alluser "+alluser);
+
             j.setJuUsers(alluser.getAllId());
-            System.out.println(alluser.getAllId());
+
+            System.out.println("allid"+alluser.getAllId());
+            System.out.println("-----3");
+
+            System.out.println("---j " +j);
 
             boolean i = jobuserService.insert(j);
             System.out.println("---i: "+i);
+            System.out.println("end");
         }
 
         return "redirect:/ForJob/search";

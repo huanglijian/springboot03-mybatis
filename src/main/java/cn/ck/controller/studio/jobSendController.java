@@ -15,7 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.xml.crypto.Data;
 import java.util.Date;
+
+/**
+ * @author 黄栎健
+ */
 
 @Controller
 @RequestMapping("/jobdeal")
@@ -87,6 +92,8 @@ public class jobSendController {
         Users users = new Users();
         users = usersService.selectById(uid);
         users.setUserStudio(id);
+        Date date = new Date();
+        users.setUserEntrytime(date);
         boolean b = usersService.update(users,new EntityWrapper<Users>().eq("user_id",uid));
 
         return "redirect:/studioPage/jobReview";
