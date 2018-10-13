@@ -10,6 +10,7 @@
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 	<link href="/static/css/css_psw/pc_hp5.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/static/css/css_psw/Vidage.css" />
 	<script src="http://how2j.cn/study/vue.min.js"></script>
 	<script src="http://how2j.cn/study/axios.min.js"></script>
 	<style>
@@ -125,12 +126,22 @@
 <div id="fh5co-header" style="background-image: url(/static/img/img_psw/polygon.png); background-position: 0% 0%;background-repeat: no-repeat; background-size: cover; background-attached: fixed; height: 300px; width: 100%; position: relative; z-index: 2; -webkit-box-shadow: inset 0px -5px 11px -6px rgba(0, 0, 0, 0.25); -moz-box-shadow: inset 0px -5px 11px -6px rgba(0, 0, 0, 0.25); box-shadow: inset 0px -5px 11px -6px rgba(0, 0, 0, 0.25);" data-stellar-background-ratio="0.5">
 	<div class="overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 3; background: transparent;"></div>
 	<div class="bio-photo text-center" style="z-index: 20; position: absolute; bottom: 0; margin-bottom: -92px; left: 50%; margin-left: -92px;">
-		<a href="javascript:void(0)"><img class="img-responsive img-rounded" style="width:204px;height:204px;-webkit-border-radius: 50%; -moz-border-radius: 50%; -ms-border-radius: 50%; border-radius: 50%; border: 10px solid #fff;" src="/user/showImg" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
+		<a href="javascript:void(0)"><img class="img-responsive img-rounded" style="width:204px;height:204px;-webkit-border-radius: 50%; -moz-border-radius: 50%; -ms-border-radius: 50%; border-radius: 50%; border: 10px solid #fff;" src="/user/showImg2" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
 	</div>
 </div>
+<div id="videoshow" style="padding-bottom: 20px;">
+	<div class="Vidage">
+		<div class="Vidage__image"></div>
 
+		<video id="VidageVideo" class="Vidage__video" preload="metadata" loop autoplay muted>
+			<source src="/static/img/img_psw/videos/bg.webm" type="video/webm">
+			<source src="/static/img/img_psw/videos/bg.mp4" type="video/mp4">
+		</video>
+
+		<div class="Vidage__backdrop"></div>
+	</div>
 <div class="hp_main" style="width: 1080px;margin: 0 auto;margin-top: 25px;">
-	<div class="hp_left" style="float:left;padding:10px 15px 20px;width: 800px;background: white;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);">
+	<div class="hp_left" style="min-height:891px;float:left;padding:10px 15px 20px;width: 800px;background: white;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);">
 		<ul id="myTab" class="nav nav-tabs" style="border:none">
 			<li class="active">
 				<a href="#dota" data-toggle="tab" style="color:black">
@@ -184,11 +195,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="tab-pane fade in active" id="dota">
+			<div class="tab-pane fade in active" id="dota" style="border-top:1px dashed #ddd;padding: 10px 0;">
 				<yc v-for="item in ycs" v-bind:yc="item"></yc>
 				<div  v-if="show1"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
 			</div>
-			<div class="tab-pane fade" id="lol">
+			<div class="tab-pane fade" id="lol" style="border-top:1px dashed #ddd;padding: 10px 0;">
 				<studio v-bind:studio="studio" v-bind:user="user"></studio>
 				<div  v-if="show"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
 			</div>
@@ -209,99 +220,27 @@
 				</table>
 			</div>
 		</div>
-		<div class="right_2" style="margin-top:15px;padding:17px 10px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);background: white">
+		<div class="right_2" style="min-height:300px;margin-top:15px;padding:17px 10px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);background: white">
 			<div style="padding-bottom:6px;border-bottom: 1px dashed #ddd"><span style="font-size:16px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; font-synthesis: style;">个人成就</span></div>
 			<div style="padding: 10px 8px;color: #646464;"><i class="fa fa-thumbs-up" style="color:#8590a6"></i>&emsp;获得 {{collected}} 次收藏</div>
 			<div style="padding: 10px 8px;color: #646464;"><i class="fa fa-share-alt" style="color:#8590a6"></i>&emsp;参与 {{share}} 次分享</div>
 		</div>
+		<div class="right_3" style="padding: 10px 0 10px 5px; font-size: 13px; line-height: 2; color: #8590a6;">
+			<table>
+				<tr><td>创客指南 | 创客协议 | 隐私政策</td></tr>
+				<tr><td>侵权举报 | 网上有害信息举报专区</td></tr>
+				<tr><td>违法和不良信息举报：010-0000000</td></tr>
+				<tr><td>儿童色情信息举报专区</td></tr>
+				<tr><td>电信与服务业务经营许可证</td></tr>
+				<tr><td>网络文化经营许可证</td></tr>
+				<tr><td>联系我们 © 2018 创客</td></tr>
+			</table>
+		</div>
 	</div>
 	<div class="clearfix"></div>
 </div>
-<footer>
-	<div class="container-fluid_foot">
-		<div class="foot_panel">
-			<div class="foot_panel_left">
-				<div class="img">
-					<a href="#">
-						<img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
-					</a>
-				</div>
-				<div class="beian">
-					<p>创客网 © 2018－
-						<br>肇庆学院东软实训班第三组版权所有
-						<br>[粤ICP备xxxxxxx号-x] 标识
-						<br> 粤公网安备xxxxxxxxxx号</p>
-				</div>
-			</div>
-			<div class="foot_panel_right">
-				<div class="foot_panel_right_row">
-					<ul class="list-unstyled">
-						<li>
-							<h4>新手指南</h4>
-							<a href="/help/register">注册登录问题</a>
-							<br />
-							<a href="/help/process">项目交易流程</a>
-							<br />
-							<a href="/help/fund">充值提款问题</a>
-							<br />
-							<a href="help/about_agreement">用户注册协议</a>
-							<br />
-							<a href="/help/bid_payings">为何付费竞标</a>
-						</li>
-						<li>
-							<h4>特色服务</h4>
-							<a href="/help/renzheng">实名认证</a>
-							<br />
-							<a href="/help/searchs">精准搜索</a>
-							<br />
-							<a href="/help/workhour">小时报价</a>
-							<br />
-							<a href="/help/bumanyituikuan">不满意退款</a>
-							<br />
-							<a href="/help/bid_card">竞标卡规则</a>
-						</li>
-						<li>
-							<h4>评价信誉</h4>
-							<a href="/help/pingjiadengm">操作演示</a>
-							<br />
-							<a href="/help/service_payings">服务收费</a>
-							<br />
-							<a href="/help/evaluations">用户评价</a>
-							<br />
-							<a href="/help/jifens">积分体系</a>
-							<br />
-							<a href="/help/controversy">争议解决</a>
-						</li>
-						<li>
-							<h4>答疑中心</h4>
-							<a href="/help/pro_relase">项目发布问题</a>
-							<br />
-							<a href="/help/bid_joinings">参与竞标问题</a>
-							<br />
-							<a href="/help/pro_runnings">项目开发问题</a>
-							<br />
-							<a href="/help/pro_done">项目完工问题</a>
-							<br />
-							<a href="/help/it_realse">信息发布问题</a>
-						</li>
-						<li>
-							<h4>联系我们</h4>
-							<a href="/help/about_us">关于SXSOFT</a>
-							<br />
-							<a href="/help/about_company">公司概况</a>
-							<br />
-							<a href="/help/contact_us">联系方式</a>
-							<br />
-							<a href="/help/about_advertising">广告投放</a>
-							<br />
-							<a href="/help/links">友情链接</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-</footer>
+</div>
+
 <script type="text/javascript" src="/static/js/js_psw/PersonCenter-jquery.js"></script>
 
 <script>
@@ -396,6 +335,11 @@
 
         new_scroll_position = last_scroll_position;
     });
+</script>
+<!-- Vidage init -->
+<script src="/static/js/js_psw/Vidage.min3.js"></script>
+<script>
+    new Vidage('#VidageVideo');
 </script>
 </body>
 

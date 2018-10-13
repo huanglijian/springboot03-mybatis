@@ -202,6 +202,19 @@ public class UsersController extends AbstractController {
         FileController.responseFile(response, imgFile);
     }
 
+    //获取用户头像
+    @RequestMapping("/showImg2")
+    public void previewsrc2(HttpServletResponse response) {
+        //将文件名分割成 文件名 和 格式
+        //“ . " 需要用两次转义
+        Users u=usersService.selectById(userId);
+        String path = u.getUserImg();
+        //获取服务器中的文件
+        File imgFile = new File(ConstCofig.RootPath + ConstCofig.ImgPath + path);
+        //输出到页面
+        FileController.responseFile(response, imgFile);
+    }
+
     //获取个人主页信息
     @RequestMapping("/hp")
     @ResponseBody
