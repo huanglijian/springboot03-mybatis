@@ -17,6 +17,11 @@
 	<script src="http://how2j.cn/study/vue.min.js"></script>
 	<script src="http://how2j.cn/study/axios.min.js"></script>
 	<script src="https://cdn.bootcss.com/qs/6.5.2/qs.min.js"></script>
+	<style>
+		[v-cloak]{
+			display: none;
+		}
+	</style>
 
 </head>
 
@@ -120,7 +125,7 @@
 		<div class="col_left">
 			<div class="ul_contest">
 				<ul class="lefthead">
-					<li class="lefthead_li" id="notice">
+					<li class="lefthead_li" id="notice" v-cloak>
 						<a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone">
 							个人中心
 							<span class="glyphicon glyphicon-chevron-up"></span>
@@ -187,7 +192,7 @@
 		</div>
 		<div class="col_right" style="min-height: 640px">
 			<div class="col_right_cec_up">
-				<div class="col_right_cec_up_1" id="total">
+				<div class="col_right_cec_up_1" id="total" v-cloak="">
 					<span>共 {{total}} 条</span>
 				</div>
 			</div>
