@@ -398,7 +398,6 @@ public class jobcontroller extends AbstractController {
         int num = jobs.size();
         System.out.println("--------num "+num);
         PageInfo<Jobs> jobPageInfo=new PageInfo<>(jobs);
-
         return ResponseBo.ok().put("jobsStudios", jobsStudios).put("num",num).put("pageinfo",jobPageInfo);
     }
 
