@@ -5,13 +5,17 @@ import cn.ck.entity.bean.AdminJob;
 import cn.ck.entity.bean.AdminProj;
 import cn.ck.entity.bean.Adminoriginal;
 import cn.ck.service.*;
+import cn.ck.utils.ResponseBo;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Controller
@@ -41,6 +45,8 @@ public class AdminSelController {
     JobsService jobsService;
     @Autowired
     JobuserService jobuserService;
+    @Autowired
+    AccountService accountService;
 
     /**
      * 跳转项目管理
@@ -183,5 +189,73 @@ public class AdminSelController {
             adminJobList.add(adminJob);
         }
         return  adminJobList;
+    }
+
+    /**
+     * 跳转主页界面
+     * @return
+     */
+    @RequestMapping("/index")
+    public String index(){
+        return "admin/admin_index";
+    }
+
+    @RequestMapping("/adminindex")
+    @ResponseBody
+    public ResponseBo adminindex(){
+        //账户余额
+        Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
+        Account account=accountService.selectOne(new EntityWrapper<Account>().eq("acc_foreid",user.getAllId()));
+        //当前月份
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH) + 1;
+        //本月活跃用户人数
+        int promnum=promulgatorService.selectCount(new EntityWrapper<Promulgator>().addFilter("DATE_FORMAT(prom_logintime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )",""));
+        int usernum=usersService.selectCount(new EntityWrapper<Users>().addFilter("DATE_FORMAT(user_logintime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )",""));
+        int activeusernum=promnum+usernum;
+        //本月新项目数
+        int projnum=projectService.selectCount(new EntityWrapper<Project>().addFilter("DATE_FORMAT(proj_creattime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )",""));
+        int preprojnum=projectService.selectCount(new EntityWrapper<Project>().addFilter("DATE_FORMAT( CURDATE( ) , '%Y%m' ) - DATE_FORMAT(proj_creattime, '%Y%m' ) =1",""));
+        System.out.println(projnum+"----"+preprojnum);
+        int projtip=0;
+        int projpercent=0;
+        if(preprojnum==0){
+            projtip=1;
+            projpercent=100;
+        }else if(projnum<preprojnum){
+            projpercent=100-(projnum/preprojnum)*100;
+            projtip=0;
+        }else{
+            projpercent=(projnum/preprojnum)*100-100;
+            projtip=1;
+        }
+        //本月资金
+        double fundnum=0;double fundprenum=0;
+        List<Funds> fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income","平台").addFilter("DATE_FORMAT(fund_datetime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )",""));
+        for (Funds funds:fundsList) {
+            fundnum=fundnum+funds.getFundMoney();
+        }
+        List<Funds> fundpreList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income","平台").addFilter("DATE_FORMAT( CURDATE( ) , '%Y%m' ) - DATE_FORMAT(fund_datetime, '%Y%m' ) = 1",""));
+        for (Funds funds:fundpreList) {
+            fundprenum=fundprenum+funds.getFundMoney();
+        }
+        double fundtip=0;double fundpercent=0;
+        if(fundprenum==0){
+            fundtip=1;
+            fundpercent=100;
+        }else if(fundnum<fundprenum){
+            fundpercent=100-(fundnum/fundprenum)*100;
+            fundtip=0;
+        }else{
+            fundpercent=(fundnum/fundprenum)*100-100;
+            fundtip=1;
+        }
+        DecimalFormat df = new DecimalFormat("#.00");
+        fundnum=Double.valueOf(df.format(fundnum));
+        fundpercent=Double.valueOf(df.format(fundpercent));
+
+        return ResponseBo.ok().put("account",account.getAccMoney()).put("month",month).put("usernum",activeusernum)
+                .put("projnum",projnum).put("projtip",projtip).put("projpercent",projpercent)
+                .put("fundnum",fundnum).put("fundtip",fundtip).put("fundpercent",fundpercent);
     }
 }
