@@ -46,7 +46,6 @@ public class AlluserServiceImpl extends ServiceImpl<AlluserMapper, Alluser> impl
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void encodePwd(Alluser user) {
         String salt = RandomStringUtils.randomAlphanumeric(20);
         user.setAllSalt(salt);

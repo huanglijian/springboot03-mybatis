@@ -37,4 +37,15 @@
         select * from resource r,collectres cr where r.res_id=cr.colr_res and cr.colr_users=#{0} order by cr.colr_time desc
     </select>
 
+    <resultMap id="ResColNum" type="cn.ck.entity.bean.ResColNum" extends="BaseResultMap">
+        <result column="colnum" property="resColnum" />
+    </resultMap>
+
+    <select id="getResColNum" resultMap="ResColNum">
+        SELECT res_id, res_tag, res_likenum, res_long, colnum
+        FROM creatcenter.resource r
+        left join (select colr_res, count(*) colnum from collectres group by colr_res) a
+        on r.res_id = a.colr_res
+    </select>
+
 </mapper>

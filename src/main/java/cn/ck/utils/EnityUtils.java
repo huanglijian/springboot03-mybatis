@@ -4,6 +4,9 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 实体类转成Map<string, Object>
+ */
 public class EnityUtils {
 
 

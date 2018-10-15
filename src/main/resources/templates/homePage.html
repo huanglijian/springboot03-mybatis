@@ -277,10 +277,11 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-4">
                 <div class="ibox-content" style="background:#ffffff; border-width: 0px;margin-left: -5%;">
-                    <form action="/home/searchResult">
-                        <input type="text" name="page" value="1" style="display: none"/>
+                    <form action="/project/pjconditione" method="get">
+                        <input type="text" name="classify" value="" style="display: none"/>
+                        <input type="text" name="state" value="" style="display: none"/>
                         <span class="search">
-                            <input type="text" id="search" name="key" baiduSug="1" placeholder="请输入关键词" />
+                            <input type="text" id="search" name="values" baiduSug="1" placeholder="请输入关键词" />
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
                             </ul>
                         </span>

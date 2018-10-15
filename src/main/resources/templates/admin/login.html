@@ -83,7 +83,7 @@
                             },
                             methods: {
                                 refreshCode: function(){
-                                    this.src = "captcha.jpg?t=" + $.now();
+                                    this.src = "/captcha.jpg?t=" + $.now();
                                 },
                                 login: function (event) {
                                     var data = "email="+vm.email+"&password="+vm.password+"&captcha="+vm.captcha;
