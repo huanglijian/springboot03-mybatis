@@ -7,6 +7,7 @@ import cn.ck.entity.bean.Adminoriginal;
 import cn.ck.service.*;
 import cn.ck.utils.ResponseBo;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import io.swagger.models.auth.In;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -214,11 +215,10 @@ public class AdminSelController {
         int usernum=usersService.selectCount(new EntityWrapper<Users>().addFilter("DATE_FORMAT(user_logintime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )",""));
         int activeusernum=promnum+usernum;
         //本月新项目数
-        int projnum=projectService.selectCount(new EntityWrapper<Project>().addFilter("DATE_FORMAT(proj_creattime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )",""));
-        int preprojnum=projectService.selectCount(new EntityWrapper<Project>().addFilter("DATE_FORMAT( CURDATE( ) , '%Y%m' ) - DATE_FORMAT(proj_creattime, '%Y%m' ) =1",""));
-        System.out.println(projnum+"----"+preprojnum);
+        double projnum=projectService.selectCount(new EntityWrapper<Project>().addFilter("DATE_FORMAT(proj_creattime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )",""));
+        double preprojnum=projectService.selectCount(new EntityWrapper<Project>().addFilter("DATE_FORMAT( CURDATE( ) , '%Y%m' ) - DATE_FORMAT(proj_creattime, '%Y%m' ) =1",""));
         int projtip=0;
-        int projpercent=0;
+        double projpercent=0;
         if(preprojnum==0){
             projtip=1;
             projpercent=100;
@@ -229,6 +229,7 @@ public class AdminSelController {
             projpercent=(projnum/preprojnum)*100-100;
             projtip=1;
         }
+        System.out.println(projnum+"----"+preprojnum+"---"+projpercent);
         //本月资金
         double fundnum=0;double fundprenum=0;
         List<Funds> fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income","平台").addFilter("DATE_FORMAT(fund_datetime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )",""));
@@ -253,6 +254,7 @@ public class AdminSelController {
         DecimalFormat df = new DecimalFormat("#.00");
         fundnum=Double.valueOf(df.format(fundnum));
         fundpercent=Double.valueOf(df.format(fundpercent));
+        projpercent=Double.valueOf(df.format(projpercent));
 
         return ResponseBo.ok().put("account",account.getAccMoney()).put("month",month).put("usernum",activeusernum)
                 .put("projnum",projnum).put("projtip",projtip).put("projpercent",projpercent)
@@ -263,9 +265,50 @@ public class AdminSelController {
     @RequestMapping("/projchart")
     @ResponseBody
     public ResponseBo projchart(){
+        Calendar now=Calendar.getInstance();
+        List<String> datalist=new ArrayList<>();
+        int ri=now.get(Calendar.DAY_OF_MONTH);
+        for(int i=1;i<=ri;i++){
+            String ridate=String.valueOf(i)+"号";
+            datalist.add(ridate);
+        }
+        List<Integer> projnum=new ArrayList<>();
+        List<Integer> projstartnum=new ArrayList<>();
+        List<Integer> projendnum=new ArrayList<>();
+        for (int i=ri-1;i>=0;i--){
+            int count=projectService.selectCount(new EntityWrapper<Project>().addFilter("DATE_FORMAT( CURDATE( ) , '%Y%m%d' ) - DATE_FORMAT(proj_creattime, '%Y%m%d' ) = {0}",i));
+            int startcount=projectService.selectCount(new EntityWrapper<Project>().addFilter("DATE_FORMAT( CURDATE( ) , '%Y%m%d' ) - DATE_FORMAT(proj_starttime, '%Y%m%d' ) = {0}",i));
+            int endcount=projectService.selectCount(new EntityWrapper<Project>().addFilter("DATE_FORMAT( CURDATE( ) , '%Y%m%d' ) - DATE_FORMAT(proj_endtime, '%Y%m%d' ) = {0}",i));
 
+            projnum.add(count);
+            projstartnum.add(startcount);
+            projendnum.add(endcount);
+        }
 
-        return ResponseBo.ok();
+        return ResponseBo.ok().put("xtime",datalist).put("projnum",projnum).put("projstartnum",projstartnum).put("projendnum",projendnum);
     }
 
+    @RequestMapping("/fundschart")
+    @ResponseBody
+    public ResponseBo fundschart(){
+        Calendar now=Calendar.getInstance();
+        List<String> datalist=new ArrayList<>();
+        int ri=now.get(Calendar.DAY_OF_MONTH);
+        for(int i=1;i<=ri;i++){
+            String ridate=String.valueOf(i)+"号";
+            datalist.add(ridate);
+        }
+        List<Double> fundcount=new ArrayList<>();
+        for (int i=ri-1;i>=0;i--) {
+            double fundnum=0;
+            List<Funds> fundsList=fundsService.selectList(new EntityWrapper<Funds>().eq("fund_income","平台").addFilter("DATE_FORMAT( CURDATE( ) , '%Y%m%d' ) - DATE_FORMAT(fund_datetime, '%Y%m%d' ) = {0}",i));
+            for (Funds funds:fundsList) {
+                fundnum=fundnum+funds.getFundMoney();
+            }
+            DecimalFormat df = new DecimalFormat("#.00");
+            fundnum=Double.valueOf(df.format(fundnum));
+            fundcount.add(fundnum);
+        }
+        return ResponseBo.ok().put("xtime",datalist).put("fundcount",fundcount);
+    }
 }

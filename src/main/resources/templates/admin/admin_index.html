@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <!-- Gritter -->
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
+    <!-- 全局js -->
+    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/js/vue.js"></script>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content" id="vue">
+    <div class="row" id="adminmeg">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>账户</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">{{a.account}}</h1>
+                    <small>总金额</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-info pull-right">最近一个月</span>
+                    <h5>活跃用户</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">{{a.usernum}}</h1>
+                    <small>{{a.month}}月</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-info pull-right">最近一个月</span>
+                    <h5>新项目</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">{{a.projnum}}</h1>
+                    <div v-if="a.projtip==1">
+                        <div class="stat-percent font-bold text-info">{{a.projpercent}}% <i class="fa fa-level-up"></i>
+                        </div>
+                    </div>
+                    <div v-if="a.projtip==0">
+                        <div class="stat-percent font-bold text-danger">{{a.projpercent}}% <i
+                                class="fa fa-level-down"></i></div>
+                    </div>
+                    <small>{{a.month}}月</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-info pull-right">最近一个月</span>
+                    <h5>月收入</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">{{a.fundnum}}</h1>
+                    <div v-if="a.fundtip==1">
+                        <div class="stat-percent font-bold text-info">{{a.fundpercent}}% <i class="fa fa-level-up"></i>
+                        </div>
+                    </div>
+                    <div v-if="a.fundtip==0">
+                        <div class="stat-percent font-bold text-danger">{{a.fundpercent}}% <i
+                                class="fa fa-level-down"></i></div>
+                    </div>
+                    <small>{{a.month}}月</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>本月项目情况</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="projchart" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>本月资金情况</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="fundchart" style="height: 300px;"></div>
+                        </div>
+                        <!--<div class="col-sm-4">-->
+                            <!--<div id="fundtypechart" style="height: 300px;"></div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<!-- ECharts单文件引入 -->
+<script src="/static/js/js_lxn/echarts.js"></script>
+<script src="/static/js/js_lxn/macarons.js"></script>
+<script type="text/javascript">
+    //将echart初始化到div中
+    var myChart = echarts.init(document.getElementById("projchart"), 'macarons');
+    //指定图表的配置项和数据
+    $.get('/admin/projchart').done(function (data) {
+        myChart.setOption({
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['新建项目个数', '开始开发项目个数', '完结项目个数']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: {
+                        show: true,
+                        type: ['line', 'bar']
+                    },
+                    saveAsImage: {
+                        show: true
+                    }
+                }
+            },
+            calculable: true,
+            xAxis: [{
+                type: 'category',
+                boundaryGap: false,
+                data: data.xtime
+            }],
+            yAxis: [{
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} 个'
+                }
+            }],
+            series: [
+                {
+                    name: '新建项目个数',
+                    type: 'line',
+                    data: data.projnum,
+                    markPoint: {
+                        data: [{
+                            type: 'max',
+                            name: '最大值'
+                        },
+                            {
+                                type: 'min',
+                                name: '最小值'
+                            }
+                        ]
+                    },
+                },
+                {
+                    name: '开始开发项目个数',
+                    type: 'line',
+                    data: data.projstartnum,
+                    markPoint: {
+                        data: [{
+                            type: 'max',
+                            name: '最大值'
+                        },
+                            {
+                                type: 'min',
+                                name: '最小值'
+                            }
+                        ]
+                    },
+                },
+                {
+                    name: '完结项目个数',
+                    type: 'line',
+                    data: data.projendnum,
+                    markPoint: {
+                        data: [{
+                            type: 'max',
+                            name: '最大值'
+                        },
+                            {
+                                type: 'min',
+                                name: '最小值'
+                            }
+                        ]
+                    },
+                },
+            ]
+        });
+    });
+
+</script>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#adminmeg',
+        data: {
+            a: ''
+        },
+        created: function () {
+            $.ajax({
+                type: 'get',
+                url: '/admin/adminindex',
+                success: function (result) {
+                    console.log(result);
+                    vm.a = result;
+                }
+            })
+        }
+    })
+
+</script>
+
+<script type="text/javascript">
+    //将echart初始化到div中
+    var fundChart = echarts.init(document.getElementById("fundchart"), 'macarons');
+    //指定图表的配置项和数据
+    $.get('/admin/fundschart').done(function (data) {
+        fundChart.setOption({
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['资金收入']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: {
+                        show: true,
+                        type: ['line', 'bar']
+                    },
+                    saveAsImage: {
+                        show: true
+                    }
+                }
+            },
+            calculable: true,
+            xAxis: {
+                type: 'category',
+                data: data.xtime
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                name:'资金收入',
+                data: data.fundcount,
+                type: 'line',
+                markPoint: {
+                    data: [{
+                        type: 'max',
+                        name: '最大值'
+                    },
+                        {
+                            type: 'min',
+                            name: '最小值'
+                        }
+                    ]
+                },
+            }]
+
+        })
+    });
+
+
+</script>
+
+</body>
+
+</html>
