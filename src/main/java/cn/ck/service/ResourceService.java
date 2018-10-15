@@ -2,6 +2,7 @@ package cn.ck.service;
 
 import cn.ck.entity.Resource;
 import cn.ck.entity.bean.ResCol;
+import cn.ck.entity.bean.ResColNum;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.baomidou.mybatisplus.service.IService;
@@ -20,13 +21,10 @@ import java.util.List;
 public interface ResourceService extends IService<Resource> {
 
     /**
-     * MP分页方式，弃用
-     * 分页查询点赞数最多的视频
-     * @param page 分页器
+     * 获取最多人点赞的视频集合
+     * 点赞数降序
      * @return
      */
-    Page<Resource> getMostLikeResPage(Page<Resource> page);
-
     List<Resource> getMostLikeResPage();
 
     /**
@@ -36,15 +34,14 @@ public interface ResourceService extends IService<Resource> {
     List<Resource> getLatestResPage();
 
     /**
-     * MP分页方式，弃用
-     * 获取搜索建议
-     * @param page 分页器
-     * @param keyword 搜索关键字
+     * keyword 模糊查询视频名字，视频介绍
+     * 上传时间降序
+     * @param keyword
      * @return
      */
-    Page<Resource> getSuggestPage(Page<Resource> page, String keyword);
-
     List<Resource> getSuggestPage(String keyword);
+
+    List<ResColNum> getResColNum();
 
     /**
      * 根据标签查询资源

@@ -2,6 +2,7 @@ package cn.ck.mapper;
 
 import cn.ck.entity.Resource;
 import cn.ck.entity.bean.ResCol;
+import cn.ck.entity.bean.ResColNum;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 
@@ -22,7 +23,12 @@ public interface ResourceMapper extends BaseMapper<Resource> {
      * @return
      */
     List<Resource> getMostLike();
-//    List<Resource> getMostLike(Pagination page);
+
+    /**
+     * 取出视频信息和收藏人数
+     * @return
+     */
+    List<ResColNum> getResColNum();
 
     //关联resource表跟collectres表
     List<ResCol> selectDesc(String id);

@@ -239,7 +239,7 @@ public class ResourceController extends AbstractController {
         likeres.setLikrRes(resId);
         likeres.setLikrUser(alluser.getAllId());
         likeresService.insert(likeres);
-        //更新视频点赞人数
+        //更新视频点赞人数,从数据库查出来点赞总数
         int count = likeresService.getLikedNumByRes(resId);
         resource.setResLikenum(count);
         resourceService.updateById(resource);

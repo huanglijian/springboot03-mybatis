@@ -31,7 +31,8 @@ public interface AlluserService extends IService<Alluser> {
     boolean updatePassword(String userUUID, String password);
 
     /**
-     * 保存用户
+     * 为用户生成盐
+     * 用盐加密用户密码
      */
     void encodePwd(Alluser user);
 
