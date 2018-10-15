@@ -1,0 +1,27 @@
+.col_right {
+	height: 640px;
+	border-bottom: 1px solid #E8E8E8;
+	background: #ffffff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.col_right_udp_up_1 {
+	width: 810px;
+	margin-left: 15px;
+	height: 40px;
+	background: #ffffff;
+	border-bottom: 1px dashed #ddd;
+}
+
+.col_right_udp_down {
+	width: 800px;
+	margin-left: 15px;
+}
+
+.col_right_udp_up_1 span {
+	margin-top: 17px;
+	margin-right: 10px;
+	float: right;
+	border: none;
+	font-size: 13px;
+}

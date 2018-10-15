@@ -1,13 +1,4 @@
 
-.row_h2{
-	font-size: 20px;
-	color: #999999;
-	background: #FFFFFF;
-	padding: 20px 15px 10px;
-	margin: 0;
-	border-bottom: 3px solid #1ab394;
-}
-
 .contest_top{
 	margin-top: 15px;
 	padding-top: 20px;
@@ -26,7 +17,7 @@
 	padding: 20px;
 	border-radius: 10px;
 	background: #d9edf7;
-	color: #31708f;	
+	color: #31708f;
 }
 
 #photo {
@@ -44,8 +35,8 @@
 }
 
 #result {
-	width: 125px;
-	height: 125px;
+	width: 182px;
+	height: 132px;
 }
 
 

@@ -176,6 +176,7 @@ public class StuprojController extends AbstractController {
         System.out.println(bidding);
         System.out.println("跳转成功");
         biddingService.updateAllColumnById(bidding);
+
     }
 
     @PostMapping("/biddingEnd/{id}")

@@ -17,8 +17,8 @@
         <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
         <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
         
- 		<link rel="stylesheet" href="/static/css/css_mzb/prom_updatephoto.css" />
-		<link rel="stylesheet" href="/static/css/css_mzb/cropper.min.css" />
+ 		<link rel="stylesheet" href="/static/css/css_mzb/caijian/prom_updatephoto.css" />
+		<link rel="stylesheet" href="/static/css/css_mzb/caijian/cropper.min.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/标签/title.css" />
         
@@ -381,7 +381,7 @@
                                  	</div>
                                  	<div class="btRight">
                                  		<div style="float: right;position: relative;top:40px;">
-                                        <p><button type="button" class="btn btn-w-m btn-primary">查看项目</button></p>
+                                        <p><button @click="jumpProject(dts.project.projId)" class="btn btn-w-m btn-primary">查看项目</button></p>
                                         </div>
                                  	</div>
                                  </div>
@@ -556,6 +556,10 @@
                         }
                     })
                 },
+                jumpProject:function(projId){
+                    window.location.href="/project/projectDetail?id="+projId;
+                },
+
                 develop:function(projId){
                     $.ajax({
                         type:'POST',

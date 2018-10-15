@@ -1,10 +1,10 @@
 package cn.ck.controller.studio;
 
 import cn.ck.controller.AbstractController;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author 马圳彬
@@ -80,7 +80,8 @@ public class pageController extends AbstractController {
     }
 
     @RequestMapping("/infoUpdate")
-    public String infoUpdate() {
+    public String infoUpdate( )
+    {
         return "studio/studio_infoUpdate";
     }
 

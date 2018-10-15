@@ -6,7 +6,9 @@
 	
 	    <title>工作室</title>
         <!--H+-->
-	    <link rel="shortcut icon" href="favicon.ico"> 
+	    <link rel="shortcut icon" href="favicon.ico">
+		<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+		<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
 	    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 	    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 	    <link href="/static/css/animate.css" rel="stylesheet">
@@ -14,23 +16,56 @@
 	    
 	    <!--mzb style-->
         <link href="/static/css/css_mzb/style2.css" rel="stylesheet">
-        <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
-        <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
-        
- 		<link rel="stylesheet" href="/static/css/css_mzb/prom_updatephoto.css" />
-		<link rel="stylesheet" href="/static/css/css_mzb/cropper.min.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css" />
+		
+		<link rel="stylesheet" href="/static/css/css_mzb/标签/layui.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/标签/title.css" />
 		
         <!--  头部，尾部，菜单栏-->
+		
 		<link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
-		
-		
+
+
+		<link rel="stylesheet" href="/static/css/css_mzb/bootstrapValidator.min.css" />
+		<script src="/static/js/js_mzb/validate/bootstrapValidator.min.js"></script>
+		<script >
+            $(function () {
+                $('form').bootstrapValidator({
+                    message: 'This value is not valid',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        stuName: {
+                            message: '工作室名称验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '工作室名称不能为空'
+                                },
+                                stringLength: {
+                                    min: 4,
+                                    max: 7,
+                                    message: '工作室名称长度必须在4到7位之间'
+                                },
+                                regexp: {
+                                    regexp: /^[a-zA-Z\u4e00-\u9fa5]+$/,
+                                    message: '用户名只能包含中文和英文'
+                                }
+                            }
+                        }
+
+                    }
+                });
+            });
+		</script>
+		<script src="/static/js/vue.js"></script>
 	</head>
 	
 	
-	<body>
+	<body style="background-color: gainsboro;">
 	<!--header-->
 	<header class="header-navigation" id="headerBar">
 		<div class="nav-content-filter">
@@ -156,7 +191,6 @@
 								</li>
 							</ul>
 						</li>
-
 						<li class="lefthead_li" >
 							<a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
 								招聘管理
@@ -192,118 +226,172 @@
 		
 		<!--右侧内容-->
 		<div class="main">
-			
-			<!-- 修改工作室信息-->
-			<div class="mainContent container-fluid ">
-			<div class="row">
-				<h2 class="col-md-12 row_h2">修改工作室信息</h2>
-			</div>	
-	        <div class="row">
-	            <div class="col-sm-14">
-	                    <div class="ibox-content">
-	                        <form method="get" class="form-horizontal" id="studioForm">
-	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">工作室名称</label>
-	
-	                                <div class="col-sm-10">
-	                                    <input type="text" class="form-control" name="stu_name" >
-	                                </div>
-	                            </div>
-	                            <div class="hr-line-dashed"></div>
-	                            
-	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label"> 所属地区 </label>
-	                                <div class="col-sm-10">
-				                        <span style="position: relative;left:0%;" >
-											<select id="s_province" name="s_province" class="studioSelect1" >
-												<input type="text" name="stu_province">
-											</select>  
-											<select id="s_city" name="s_city" class="studioSelect1" >
-												<input type="text" name="stu_city">
-											</select>  
-											<select id="s_county" name="s_county" class="studioSelect2">
-												<input type="text" name="stu_county">
-											</select>	     		
-								     	</span>
-								     	<div class="show">
-								     		
-								     	</div>
-	                                </div>
-	                            </div>
-	                            
-	                            <div class="hr-line-dashed"></div>
-	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">擅长领域</label>
-	                                <div class="col-sm-8">
-		                                <div  id="mySelect" class="mySelect">
-		                                	<input type="text" name="stuField">
-		                                </div>
-	                                </div>
-	                            </div>
-	                            
-	                            <div class="hr-line-dashed"></div>
-	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">技能标签</label>
-	
-	                                <div class="col-sm-10">
-										<div class="wrap">
-											<div class="label-selected">
-												<a href="javascript:;" class="layui-btn layui-btn-sm  show-labelitem" style="background-color:#1ab394;float: right; margin: 4px; display: block;line-height: 30px;">展开标签库 </a>
-												<a href="javascript:;" class="layui-btn layui-btn-sm  hide-labelitem" style="background-color:#1ab394;float: right; margin: 4px; display: none;line-height: 30px;">收起标签库 </a>
-												<input type="text" name="label">
-											</div>
-											
-											<div class="layui-col-md12" id="labelItem">
-											  <div class="label-item">
-											  	<div class="changeone">	
-												<li data="java教程"><span>java 教程</span></li>
-												<li data="SEM"><span>SEM</span></li>
-												<li data="17"><span>SEM基础</span></li>
-												<li data="6"><span>柚说</span></li>
-												<li data="18"><span>关键词</span></li>
-												<li data="19"><span>创意</span></li>
-												<li data="10"><span>公众号</span></li>
-												<li data="20"><span>排名</span></li>
-												<li data="12"><span>网络营销</span></li>
-												<li data="13"><span>SEM</span></li>
-												<li data="14"><span>网络推广</span></li>
-												</div>
-												<hr/>
-												<a href="javascript:void(0)">
-										    		<span class="huan" style="position: relative;float: right;right: 1%;">
-										    		    换一批
-										    	   </span>
-										    	</a> 												
-											  </div>
-											</div>	
-											<!--<a href="javascript:;" class="layui-btn" id="cell">获取</a>-->
-										</div>	                                    
-	                                </div>
-	                            </div>
-	                            <div class="hr-line-dashed"></div>
-	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">工作室简介</label>
-	
-	                                <div class="col-sm-7">
-	                                    <textarea name="stu_Intro" rows="10" cols="94" style="border:1px solid gainsboro"></textarea>
-	                                </div>
-	                            </div>
-	                            <div class="hr-line-dashed"></div>
+			<div class="mainContent container-fluid" >
+				<div class="row">
+					<div class="col-sm-14">
+							<div class="ibox-content" id="studioVue">
+								<form method="post" action="/studio/studioUpdate" class="form-horizontal" id="studioForm" >
+									<div class="form-group">
+										<label class="col-sm-2 control-label">工作室名称</label>
 
-	                            <div class="form-group">
-	                                <div class="col-sm-4 col-sm-offset-2">
-	                                	<span id="returnMessage" class="glyphicon"> </span>
-	                                    <button class="btn btn-primary" type="submitBtn">创建</button>
-	                                    <button class="btn btn-white" type="submit">取消</button>
-	                                </div>
-	                            </div>
-	                        </form>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>			
-		</div>	        
-			</div>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="stuName" v-model="studio.stuName">
+										</div>
+									</div>
+									<div class="hr-line-dashed"></div>
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label"> 所属地区 </label>
+										<div class="col-sm-10">
+											<span style="position: relative;left:0%;" >
+												<select id="s_province" name="s_province" class="studioSelect1" >
+													<input type="hidden" name="stuProvince" v-model="studio.stuProvince" id="sp1">
+												</select>  
+												<select id="s_city" name="s_city" class="studioSelect1" >
+													<input type="hidden" name="stuCity" v-model="studio.stuCity" id="sc">
+												</select>  
+												<select id="s_county" name="s_county" class="studioSelect2">
+													<input type="hidden" name="stuArea" v-model="studio.stuArea" id="sa">
+												</select>
+											</span>
+											<div class="show">
+
+											</div>
+										</div>
+									</div>
+
+									<div class="hr-line-dashed"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">擅长领域</label>
+										<div class="col-sm-10">
+											<div  id="mySelect" class="mySelect">
+												<input type="hidden" name="stuField" v-model="studio.stuField" id="f_value">
+                                                <div class="inputWrap">
+                                                    <ul>
+                                                        <li v-for="dts in field">
+                                                            <span v-if="dts != ''">
+                                                                <span>{{dts}}</span>&nbsp;&nbsp;
+                                                                <i :data-value="dts" class="fa fa-close"></i>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </div>
+											</div>
+										</div>
+									</div>
+
+									<div class="hr-line-dashed"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">技能标签</label>
+
+										<div class="col-sm-10">
+											<div class="wrap">
+												<div class="label-selected">
+													<a href="javascript:;" class="layui-btn layui-btn-sm  show-labelitem" style="background-color:#1ab394;float: right; margin: 4px; display: block;line-height: 30px;">展开标签库 </a>
+													<a href="javascript:;" class="layui-btn layui-btn-sm  hide-labelitem" style="background-color:#1ab394;float: right; margin: 4px; display: none;line-height: 30px;">收起标签库 </a>
+
+													<input type="hidden" name="stuTag" v-model="studio.stuTag">
+													<li  v-for="dt in tag" :data="dt">x {{dt}}</li>
+												</div>
+
+												<div class="layui-col-md12" id="labelItem">
+												  <div class="label-item">
+													<div class="changeone">
+														<li data="Android"><span>Android</span></li>
+														<li data="IOS"><span>IOS</span></li>
+														<li data="ipad"><span>ipad</span></li>
+														<li data="Windows"><span>Windows</span></li>
+														<li data="Linux"><span>Linux</span></li>
+														<li data="Python"><span>Python</span></li>
+														<li data="C/C++"><span>C/C++</span></li>
+														<li data="Visual C++"><span>Visual C++</span></li>
+														<li data="Visual Basic"><span>Visual Basic</span></li>
+														<li data=".NET"><span>.NET</span></li>
+														<li data="C#"><span>C#</span></li>
+														<li data="ASP"><span>ASP</span></li>
+														<li data="ASP.NET"><span>ASP.NET</span></li>
+														<li data="Java"><span>Java</span></li>
+														<li data="J2EE"><span>J2EE</span></li>
+														<li data="PHP"><span>PHP</span></li>
+														<li data="JSP"><span>JSP</span></li>
+														<li data="HTML"><span>HTML</span></li>
+														<li data="DHTML"><span>DHTML</span></li>
+														<li data="JavaScript"><span>JavaScript</span></li>
+														<li data="CSS"><span>CSS</span></li>
+														<li data="Oracle"><span>Oracle</span></li>
+														<li data="MySQL"><span>MySQL</span></li>
+														<li data="SQL Server"><span>SQL Server</span></li>
+														<li data="Access"><span>Access</span></li>
+														<li data="DB2"><span>DB2</span></li>
+														<li data="Securitsy"><span>Securitsy</span></li>
+														<li data="Flash"><span>Flash</span></li>
+														<li data="Photoshop"><span>Photoshop</span></li>
+														<li data="3dStudio MAX"><span>3dStudio MAX</span></li>
+														<li data="UI"><span>UI</span></li>
+														<li data="PowerPoint"><span>PowerPoint</span></li>
+														<li data="Dreamweaver"><span>Dreamweaver</span></li>
+														<li data="GUI"><span>GUI</span></li>
+														<li data="UML"><span>UML</span></li>
+														<li data="Corel Draw"><span>Corel Draw</span></li>
+														<li data="MFC/ATL"><span>MFC/ATL</span></li>
+														<li data="Fox Pro"><span>Fox Pro</span></li>
+														<li data="Visual FoxPro"><span>Visual FoxPro</span></li>
+														<li data="Autocad"><span>Autocad</span></li>
+													</div>
+													<hr/>
+													<a href="javascript:void(0)">
+														<span class="huan" style="position: relative;float: right;right: 1%;">
+															换一批
+													   </span>
+													</a>
+												  </div>
+												</div>
+												<!--<a href="javascript:;" class="layui-btn" id="cell">获取</a>-->
+											</div>
+										</div>
+									</div>
+									<div class="hr-line-dashed"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">工作室简介</label>
+
+										<div class="col-sm-10">
+											<textarea name="stuIntro" rows="10" cols="90" style="border:1px solid gainsboro;resize:none;" v-model="studio.stuIntro">
+
+											</textarea>
+										</div>
+									</div>
+									<div class="hr-line-dashed"></div>
+
+									<div class="form-group">
+										<div class="col-sm-4 col-sm-offset-2">
+											<span id="returnMessage" class="glyphicon"> </span>
+											<a class="btn btn-primary"  data-toggle="modal" data-target="#myModal2">
+                                                修改
+                                            </a>
+                                            <div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog"  aria-hidden="true">
+                                                <div class="modal-dialog modal-sm" style="position: relative;top:30%;">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <h2 style="">你确定要修改信息?</h2>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-warning">确定</button>
+                                                            <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+	            </div><!-- row -->
+	        </div> <!-- mainContent -->
+
+		</div>
 		</div>
 	</div>
 	<!--footer-->
@@ -393,12 +481,49 @@
 			</div>
 		</footer>
     <!-- 全局js -->
-    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
-    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
-		
-		<script type="text/javascript" src="/static/js/js_mzb/jquery.min.js?v=1.10.2"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>	    
-    <script src="/static/js/js_mzb/studio-validate.js"></script>
+    <!--下拉框-->
+
+    <script src="/static/js/hplus.js?v=1.10.2"></script>
+    <script type="text/javascript" src="/static/js/js_mzb/select.js"></script>
+    <script type="text/javascript" src="/static/js/js_mzb/xlk.js"></script>
+	<script>
+        var indexList = new Vue({
+            el:'#studioVue',
+            data:{
+                studio:'',
+                tag:'',
+                field:''
+            } ,
+            created:function () {
+                $.ajax({
+                    type:'get',
+                    url:'/studio/infoUpdate',
+                    success:function(result){
+                        console.log(result);
+                        indexList.studio = result.studio;
+                        indexList.tag = result.tag;
+                        indexList.field = result.field;
+                    }
+                })
+            },
+            filters: {
+                dateFormat:function(val){
+                    if(val==null)
+                        return null;
+                    var d = new Date(val);
+                    var year = d.getFullYear();
+                    var month = d.getMonth() + 1;
+                    var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                    var hour = d.getHours();
+                    var minutes = d.getMinutes();
+                    var seconds = d.getSeconds();
+                    return  year+ '-' + month + '-' + day ;
+                },
+            }
+        });
+
+	</script>
+
     
     <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -410,39 +535,35 @@
 
     <!-- 第三方插件 -->
    <script src="/static/js/plugins/pace/pace.min.js"></script>
-  
-   <!--上传插件-->
-   <!--<script src="/static/js/js_mzb/upload.js"></script>-->
-   
+    
+    
    <!-- 林晓能导航栏JS效果-->
    <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
    
     <!--省级联动-->
-    <script class="resources library" src="/static/js/js_mzb/area.js" type="text/javascript"></script>
+    <script class="resources library" src="/static/js/js_mzb/area2.js" type="text/javascript"></script>
     <script type="text/javascript">_init_area();</script>
 	<script type="text/javascript">
+	
 	$("select#s_province").change(function(){
-		$("input[name='stu_province']").val($(this).val());
+		$("input[name='stuProvince']").val($(this).val());
 	});
 	$("select#s_city").change(function(){
-		$("input[name='stu_city']").val($(this).val());
+		$("input[name='stuCity']").val($(this).val());
 	});		
 	$("select#s_county").change(function(){
-		$("input[name='stu_county']").val($(this).val());
-	});	
-	</script>    
+		$("input[name='stuArea']").val($(this).val());
+	});		
 
-   <!--下拉框-->
-  <!-- <script src="js/hplus.js?v=1.10.2"></script>-->
-   <script type="text/javascript" src="/static/js/js_mzb/select.js"></script>
-   <script type="text/javascript" src="/static/js/js_mzb/xlk.js"></script>
+	</script>     
+   
+
 	
 	<!--标签-->
-	<!--<script type="text/javascript" src="js/js_mzb/title/jquery.min.js"></script>-->
+
 	<script type="text/javascript" src="/static/js/js_mzb/title/layer.js"></script>
 	<script type="text/javascript" src="/static/js/js_mzb/title/title.js"></script>
 	<script type="text/javascript" src="/static/js/js_mzb/title/huanyihuan.js"></script>
-
 	<!--导航条滚动js-->
 	<script type="text/javascript">
         var new_scroll_position = 0;
@@ -468,5 +589,6 @@
             new_scroll_position = last_scroll_position;
         });
 	</script>
+
 	</body>
 </html>
