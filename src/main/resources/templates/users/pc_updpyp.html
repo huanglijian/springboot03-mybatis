@@ -320,8 +320,6 @@
 				var self=this;
 				axios.get(url).then(function (response) {
 					self.user=response.data.user;
-                    if(response.data.pwstate=="2")
-                        alert("修改成功");
                 })
             }
 		});
@@ -348,8 +346,10 @@
                 }
                 axios.post('/user/update_ppw',window.Qs.stringify(postData), {headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 }).then(function (response) {
-                    if(response.data)
+                    if(response.data){
+                        alert("修改成功！");
                         window.location.reload();
+                    }
                 });
 			}
 
