@@ -11,6 +11,8 @@ import cn.ck.utils.DateUtils;
 import cn.ck.utils.ResponseBo;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +47,7 @@ public class StuprojController extends AbstractController {
     @GetMapping("/projectbid")
     @ResponseBody
     public ResponseBo bidproject(){
+        PageHelper.startPage(1,1);
         String userId = getUser().getAllId();
         Users user = usersService.selectOne(new EntityWrapper<Users>().eq("user_id",userId)) ;
         String stuId = user.getUserStudio();
@@ -68,7 +71,8 @@ public class StuprojController extends AbstractController {
             projectBid.setBidday(10-projectService.projBidTimeNum(project.getProjId()));
             projbidList.add(projectBid);
         }
-        return ResponseBo.ok().put("projectbid",projbidList).put("user",user);
+        PageInfo<ProjectBid> page=new PageInfo<>(projbidList);
+        return ResponseBo.ok().put("page",page).put("user",user);
     }
 
     /* 服务订单 */

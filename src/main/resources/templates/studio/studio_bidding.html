@@ -6,7 +6,8 @@
 	
 	    <title>工作室</title>
         <!--H+-->
-	    <link rel="shortcut icon" href="favicon.ico"> 
+	    <link rel="shortcut icon" href="favicon.ico">
+		<script src="/static/js/jquery.min.js"></script>
 	    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 	    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 	    <link href="/static/css/animate.css" rel="stylesheet">
@@ -16,9 +17,7 @@
         <link href="/static/css/css_mzb/style2.css" rel="stylesheet">
         <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
         <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
-        
- 		<link rel="stylesheet" href="/static/css/css_mzb/caijian/prom_updatephoto.css" />
-		<link rel="stylesheet" href="/static/css/css_mzb/caijian/cropper.min.css" />
+
 		<link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/标签/title.css" />
         <!--  头部，尾部，菜单栏-->
@@ -26,6 +25,11 @@
 		<link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
 
+		<!-- 分页  -->
+		<link href="/static/css/css_psw/toPage1.css" rel="stylesheet" />
+		<script type="text/javascript" src="/static/js/js_psw/toPage1.js"></script>
+
+		<script src="/static/js/vue.js"></script>
 		
 	</head>
 	
@@ -145,7 +149,7 @@
 								<span class="glyphicon glyphicon-chevron-up"></span>
 							</a>
 							<ul id="projectmanage" class="panel-collapse collapse in">
-								<li>
+								<li class="current">
 									<a href="/studioPage/bidding">竞标项目</a>
 								</li>
 								<li>
@@ -257,6 +261,11 @@
 
 
                                </ul>
+
+									<div class="FenYe">
+										<div class="page_1"></div>
+									</div>
+
 	                            </div>
 	                       
 	                            <!--已结束-->
@@ -406,8 +415,7 @@
    <!-- 林晓能导航栏JS效果-->
    <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
 
-	<script src="/static/js/jquery.min.js"></script>
-	<script src="/static/js/vue.js"></script>
+
 	<script>
         var projbidlist = new Vue({
             el:'#biddingVue',
@@ -421,10 +429,19 @@
                     url:'/stuproject/projectbid',
                     success:function (result) {
                         console.log(result);
-                        projbidlist.projectbid = result.projectbid;
+                        projbidlist.projectbid = result.page.list;
                         projbidlist.user = result.user;
+
+                        var obj_1={
+                            obj_box:'.page_1',//翻页容器
+                            total_item:result.page.total,   //条目总数
+                            per_num:result.page.pageSize,     //每页条目数*/
+                            current_page:result.page.pageNum   //当前页
+                        };
+                        page_ctrl(obj_1);
                     }
                 })
+
             },
             methods:{
                 bpmanager:function (bidId) {
@@ -459,7 +476,6 @@
                 },
             }
         });
-
 
 	</script>
 

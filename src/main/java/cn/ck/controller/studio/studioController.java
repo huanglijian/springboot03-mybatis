@@ -43,6 +43,8 @@ public class studioController extends AbstractController {
     private JobuserService jobuserService;
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private NoticeService noticeService;
 
     @RequestMapping("/studioNone")
     public String test1(){
@@ -64,6 +66,16 @@ public class studioController extends AbstractController {
         System.out.println(getUser().getAllId());
         return stu;
     }*/
+    @GetMapping("/notice")
+    @ResponseBody
+    public ResponseBo notice(){
+        Users u = usersService.selectById(getUser().getAllId());
+        String id = u.getUserId();
+        List<Notice> noticeList = noticeService.selectList(new EntityWrapper<Notice>().eq("noti_foreid",id));
+
+        return ResponseBo.ok().put("notice",noticeList);
+    }
+
 
     @GetMapping("/indexList")
     @ResponseBody
