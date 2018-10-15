@@ -95,6 +95,7 @@ public class FileController {
     //这是一个下载的函数
     @RequestMapping(value = "/down",method = RequestMethod.GET)
     public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
+        System.out.println("in--down---and--filename--is:"+fileName);
         try {
             //存放地址
             String realPath = "F:\\down";

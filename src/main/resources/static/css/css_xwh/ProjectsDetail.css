@@ -1,6 +1,23 @@
 body{
 			background-color: #F0F0F0;
 		}
+.projectFile a{
+	color: blue;
+}
+.NoEnding-progress-dedtil{
+	margin-left:  112px;
+	margin-right: 100px;
+
+}
+.ending-progress-dedtil{
+	margin-left: 113px;
+
+}
+.addtolike{
+    float: right;
+	font-size: 18px;
+	margin-right: 20px;
+}
 		li{
 			margin-bottom:10px;
 		}
@@ -116,19 +133,19 @@ body{
 		.JingbiaoButton{
 			margin-top: 40px;
 			  margin-bottom: 30px;
-			 padding-bottom: 20px; 
+			 padding-bottom: 20px;
 			float: right;
 			background: lightgreen;
-			
+
 		}
 		.JingbiaoButton-inner{
-		
+
 			line-height: 40px;
 			text-align: center;
 			width: 150px;
 			height: 40px;
 
-			
+
 		}
 		.JingbiaoButton-inner a{
 			color: white;
@@ -182,13 +199,11 @@ body{
 			margin-right: 15px;
 			margin-top: 10px;
 		}
-   .NoEnding-progress-dedtil{
-	margin-right: 115px;
-	margin-left:  115px;
-}
-   .ending-progress-dedtil{
-	margin-left: 102px;
-}
+
+/*.ending-progress-dedtil{*/
+	/*margin-left: 102px;*/
+/*}*/
+
 	.ProjectMainAll{
 		width: 854px;
 	}

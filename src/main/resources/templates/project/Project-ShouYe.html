@@ -8,9 +8,21 @@
 
 
 	<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+	<!-- 底下的三个是日期控件所需要的js/css -->
+	<script src="https://cdn.bootcss.com/moment.js/2.18.1/moment-with-locales.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
 	<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
 	<script type="text/javascript" src="/static/js/js_psw/toPage1.js"></script>
 	<script src="/static/js/vue.js"></script>
+	<!--关键字的js -->
+	<script type="text/javascript" src="/static/js/js_psw/aspect.js"></script>
+	<script type="text/javascript" src="/static/js/js_psw/keyWord.js"></script>
+
+
+<!-- 需要给它加上一个js-->
+	<!-- 底下的是日期控件所需要的css -->
+	<link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
 	<link href="/static/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/static/css/css_xwh/ProjectsShouYe.css" rel="stylesheet" />
@@ -25,7 +37,7 @@
 
 
 	<!--<script src="http://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>-->
-	<script src="/static/js/bootstrap.min.js"></script>
+
 	<script type="text/javascript">
         function  EntrySearch() {
             var box = document.getElementsByClassName("item active");
@@ -34,8 +46,8 @@
             var state = box[1].text;    //项目状态
 			var tag    =  $("#keyWord_skill_1").val();            //标签
 			var keyword = $("#keyWord_skill_2").val();            //关键字
-			var starttime=$("#keyWord_serive_1").val();           //开始
-		    var endtime  =$("#keyWord_serive_2").val();           //结束
+			var starttime=$("#starttime").val();           //开始
+		    var endtime  =$("#endtime").val();           //结束
 
             if(classfiy=="项目分类")
                 classfiy = 0;
@@ -43,25 +55,22 @@
                 state = 0;
 			// 全部放在？里
 
-        window.location.href="/project/pjconditione?values="+keyword+"&classify="+classfiy+"&state="+state;
+        window.location.href=
+            "/project/pjconditione?values="+keyword+"&classify="+classfiy+"&state="+state+"&strattime="+starttime+"&endtime="+endtime+"&tags="+tag;
 
         }
-
-
-
-
-
+        //日期控件的js
+        $(function () {
+            $("#starttime").datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn')
+            });
+            $("#endtime").datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn')
+            });
+        });
 		$(function() {
-			// $(".projectBody4 img").click(function() {
-			// 		if($(this).attr("isImg") == 0) {
-			// 			$(this).attr("src", "/static/img/img_xwh/selected2.png");
-			// 			$(this).attr("isImg", "1");
-			// 		} else {
-			// 			$(this).attr("src", "/static/img/img_xwh/selected1.png");
-			// 			$(this).attr("isImg", "0");
-			// 		}
-			//
-			// });
               $(".paixus li a").click(function() {
                   $(".paixus a[class='item active']").each(function() {
                       $(this).removeClass();
@@ -113,8 +122,8 @@
 				<div class="nav-main-right">
 					<nav class="cd-nav">
 						<ul>
-							<li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
-							<li><a href="/project/xwh">项目大厅</a></li>
+							<li><a href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+							<li><a class="active" href="/project/xwh">项目大厅</a></li>
 							<li><a href="/stuhall/hall">服务大厅</a></li>
 							<li><a href="/resource/home">创客讲堂</a></li>
 							<li><a href="/original/all">原创中心</a></li>
@@ -196,6 +205,7 @@
 			</script>
 		</div>
 	</header>
+	<div style="height: 105px" class="header-take-space"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
 
 
 		<div class="container-fluid_body">
@@ -241,23 +251,27 @@
 						<li datatype="ProjectStatus" class="moneys">
 							<a vals="allPs" class="item active">项目状态</a>
 
-							<a vals="退款项目" href="javascript:void(0);" datatype="竞标中">竞标中</a>
-							<a vals="退款项目" href="javascript:void(0);" datatype="竞标超时">竞标超时</a>
-							<a vals="退款项目" href="javascript:void(0);" datatype="开发中">开发中</a>
-							<a vals="退款项目" href="javascript:void(0);" datatype="完工">完工</a>
-							<a vals="退款项目" href="javascript:void(0);" datatype="弃标项目">弃标项目</a>
+							<a vals="竞标中" href="javascript:void(0);" datatype="竞标中">竞标中</a>
+							<a vals="竞标超时" href="javascript:void(0);" datatype="竞标超时">竞标超时</a>
+							<a vals="开发中" href="javascript:void(0);" datatype="开发中">开发中</a>
+							<a vals="完工" href="javascript:void(0);" datatype="完工">完工</a>
+							<a vals="弃标项目" href="javascript:void(0);" datatype="弃标项目">弃标项目</a>
 							<a vals="退款项目" href="javascript:void(0);" datatype="退款项目">退款项目</a>
 						</li>
 
 						<li datatype="" class="" style="">
 							<span class="span-title">找项目</span>
-							<input id="keyWord_skill_1" class="span-input input-fix" type="text" placeholder="输入技能标签" value="">
-							<input id="keyWord_skill_2" class="span-input input-fix" type="text" placeholder="输入项目关键字" value="">
+	<!--<input class="form-control" id="wordInput" type="text" name="" placeholder="请输入关键词以空格结尾">-->
+	<!--<input class="form-control" id="wordHiddenInput" type="hidden" name="tag" >-->
+
+						<input id="keyWord_skill_2" class="span-input input-fix" type="text" placeholder="输入项目关键字" value="">
 						</li>
 						<li datatype="" class="" style="">
-							<span class="span-title">发布日期</span>
-							<input id="keyWord_serive_1" class="span-input" type="datetime" placeholder="开始日期" value=""> 至
-							<input id="keyWord_serive_2" class="span-input input-fix" type="text" placeholder="结束日期" value="">
+							<span style="float: left; line-height: 30px" class="span-title">发布日期</span>
+
+							<input type='text' style="width: 175px; height: 30px; float: left;margin-right: 25px" class="form-control" placeholder="开始日期" id='starttime' />
+							<span style="float: left;line-height: 30px" class="span-title">至</span>
+							<input type='text' style="width: 175px; height: 30px; float: left;margin-right: 15px" class="form-control" placeholder="结束日期" id='endtime' />
 							<a onclick="EntrySearch()" class="btn btn-success icon-glyphicon-search time-search  service-glyphicon-search" href="javascript:void(0);">
 								<i class="glyphicon glyphicon-search"></i>
 							</a>
@@ -379,21 +393,14 @@
 
 
 					<script type="text/javascript">
-							// 可以通过location.search 来获取？后的参数
-                        var app5 = new Vue({
-                            el: '#shaixuan',
-                            data: {
-                                message: 'Hello Vue.js!'
-                            },
-                            methods: {
-                                a: function () {
-
-                                    window.location.href= "/project/pjpage?start=2&conditions=proj_secret&values=公开";
-                                }
-                            }
-                        })
-
-
+                        $(function () {
+                            var keyWord = $("#wordInput").keyWord({
+                                panel: '#wordTags',
+                                value: '#wordHiddenInput',
+                                max: 5,
+                                tips: '最多只能输入5项'
+                            });
+                        });
 
                       var vn =   new Vue({
                             el: '#ProjectLike1',
@@ -463,9 +470,11 @@
                                  url: "/project/toadduser",
                                  dataType: "json",
 								 data:{
-                                     "bid":nav_vue.loginUser.allId
+                                     "bid":nav_vue.loginUser.allId,
+                                     "islogin": nav_vue.isLogined,
 								 },
                                  success: function(result){
+                                     alert("intoadduser");
                                  }
                              });
 
@@ -529,18 +538,15 @@
                                 },
                                 mounted: function () {
                                     var self=this;
-                                // alert(nav_vue.loginUser);
-                                    // $.ajax({
-                                    //     type: "POST",
-                                    //     url: "/project/projectpage",
-                                    //     dataType: "json",
-                                    //     success: function(result){
-                                    //         self.total =result.total;
-                                    //     },
-                                    // });
-
-
-
+                                    // alert(nav_vue.isLogined);
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/project/projectpage",
+                                        dataType: "json",
+                                        success: function(result){
+                                            self.total =result.total;
+                                        },
+                                    });
                                 },
 
                             });
@@ -653,6 +659,7 @@
             new_scroll_position = last_scroll_position;
         });
 	</script>
+
 	</body>
 
 

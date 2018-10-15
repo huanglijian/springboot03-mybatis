@@ -9,30 +9,33 @@
 
 
 	<link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+	<link href="http://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet" />
+
 	<link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 	<link href="/static/css/animate.css" rel="stylesheet">
 	<link href="/static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
 	<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
-	<link href="/static/css/css_xwh/style.css?v=4.1.0" rel="stylesheet">
+
 	<link href="/static/css/css_xwh/ProjectsDetail.css" rel="stylesheet" />
+	<link href="/static/css/css_xwh/style.css?v=4.1.0" rel="stylesheet">
 	<link href="/static/css/css_xwh/bs-is-fun.css" rel="stylesheet" />
 
 
-	<script src="/static/js/js_xwh/brush.js"></script>
 	<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+	<!--<script src="/static/js/js_xwh/project-Detail.js"></script>-->
+	<script src="/static/js/js_xwh/brush.js"></script>
 	<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="http://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
 	<script src="/static/js/vue.js"></script>
+
+
 <style type="text/css">
 	[v-cloak]{
 		display: none;
 	}
 </style>
-	<script type="text/javascript">
-		function commit() {
-			alert("成功");
-        }
 
-	</script>
+
 
 	<header class="header-navigation" id="headerBar">
 		<div class="nav-content-filter">
@@ -129,30 +132,31 @@
 		</div>
 	</header>
 	<div style="height: 65px" class="header-take-space"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
+
+
 <body >
 <div class="container-fluid_body" >
 		<div class="row">
 			<div class="ProjectProgress" id="ProgressAll"  v-cloak>
 
-<ul class="nav nav-pills nav-justified step step-progress "style="background: white">
-    <li id="Progress-01li" v-bind:class="{active: progressState1}" style="background: white">
-
+<ul  class="nav nav-pills nav-justified step step-progress"style="background: white;">
+    <li id="Progress-01li" v-bind:class="{active: progressState1}"style="background: white">
         <a id="progress01" >发包方提交了项目</a>
     </li>
-    <li id="Progress-03li"  v-bind:class="{active: progressState2}" style="background: white">
+    <li id="Progress-03li"  v-bind:class="{active: progressState2}"style="background: white">
         <a id="progress03">发包方选定承接人,项目进入开发</a>
     </li>
-    <li id="Progress-04li"  v-bind:class="{active: progressState3}" style="background: white">
+    <li id="Progress-04li"  v-bind:class="{active: progressState3}"style="background: white">
         <a id="progress04">开发完成</a>
     </li>
 </ul>
 
-				<div class="progress-dedtil">
-				<span class="NoEnding-progress-dedtil" id="progressSpan01">{{creattime}}</span>
-				<span class="NoEnding-progress-dedtil" id="progressSpan03" >{{strattime|dateFormat}}</span>
-				<span class="ending-progress-dedtil"   id="progressSpan04" >{{endtime|dateFormat}}</span>
+		<div class="progress-dedtil">
+				<span display:block class="NoEnding-progress-dedtil" id="progressSpan01">{{creattime}}</span>
+				<span display:block class="NoEnding-progress-dedtil" id="progressSpan03" >{{strattime|dateFormat}}</span>
+				<span display:block class="ending-progress-dedtil"   id="progressSpan04" >{{endtime|dateFormat}}</span>
 
-				</div>
+		</div>
 </div>
 			
 
@@ -165,6 +169,20 @@
 				<p class="title">{{title}}
 				<span class="status">{{State}}<span  v-if="State=='竞标中'">:剩余{{day}}天</span></span></p>
 				</div>
+		<div v-cloak class="addtolike">
+			<div v-if="!(islogin)">
+				<img  isImg="0" @click="readytologin()" src="/static/img/img_xwh/selected1.png" >
+				&nbsp;收藏（未登录）
+			</div>
+			<div style="color: blue" v-else-if="(islike)">
+				<img  isImg="0" @click="tocancellike()" src="/static/img/img_xwh/selected2.png" >
+				&nbsp;已收藏
+			</div>
+			<div v-else>
+				<img  isImg="0" @click="tolike()" src="/static/img/img_xwh/selected1.png" >
+				&nbsp;收藏
+			</div>
+		</div>
 				<div class="ProjectOwner" id="ProjectOwner">
 					<p>	发布方</span>
 						<a>{{promulgator}}</a>
@@ -199,42 +217,31 @@
 					</div>
 				<div class="ProjectDetail1" style="clear: both;">
 				<span>项目内容描述</span>
-				
+
+
+
 				<div class="ProjectDetail2">
                &nbsp; &nbsp;
 				{{intro}}
-
+            <hr>
                 <div v-if="file==null">
 
 				</div>
-				<div v-else>
-				相关文件下载
+				<div class="projectFile" v-else>
+		        <span style="margin: 0px; font-family: 仿宋; font-size: 18px">相关文件下载</span>
 					<br>
-					<a :href=file>123</a>
+					&nbsp;
+					<!--<a :href="/file/down?filename=">{{filename}}</a>-->
+					<a :href="[path+filename]">{{filename}}</a>
 
 				</div>
 
-					<a @click="down()">000</a>
-					<div v-cloak>
-			<div v-if="!(islogin)">
-					<img  isImg="0" @click="readytologin()" src="/static/img/img_xwh/selected1.png" >
-					&nbsp;收藏（未登录）
-			</div>
-			<div v-else-if="(islike)">
-						<img  isImg="0" @click="tolike()" src="/static/img/img_xwh/selected1.png" >
-						&nbsp;收藏
-			</div>
-			<div v-else>
-						<img  isImg="0" @click="tocancellike()" src="/static/img/img_xwh/selected2.png" >
-						&nbsp;已收藏
-			</div>
-					</div>
 
 
 				</div>
 				</div>		
 			</div>
-
+			<!--<a data-toggle="modal" data-target="#Moda_jingbiao" >校验</a>-->
 			
 			<div class="ProjectJingbiao" id="ProjectJingbiao01" v-if="State=='竞标中'" >
 				<div class="col-sm-12">
@@ -242,20 +249,39 @@
 				竞标人数：<span>{{people}}</span>   &nbsp;&nbsp;&nbsp;&nbsp;
 			  剩余竞标席位：<span>{{10-people}}</span>
 				</div>
-				<div class="col-sm-3 JingbiaoButton">
-					<!--风风火火//////{{islogin}}-->
-				<!--<a href=""><span class="glyphicon glyphicon-king">我要竞标</span></a>-->
-
-			<a  v-if="islogin" type="button"  @click="readytoinsert(loginUser,id)" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#Moda_jingbiao" style="position: relative;right: -20%;top:-5px;">
-				我要竞标
+				<div class="col-sm-4" style="margin-top:10px; float: right; ">
+            <!--未登录-->
+            <div v-if="!(islogin)">
+			<a  type="button"  @click="readytologin()" class="btn btn-outline btn-primary" style="position: relative;right: -20%;top:-5px;">
+				我要竞标1
 			</a>
-                    <a v-else type="button"  @click="readytologin()" class="btn btn-outline btn-primary" data-toggle="modal" style="position: relative;right: -20%;top:-5px;">
-                        我不要竞标
-                    </a>
+			</div>
+			<!--已登录-->
+			<div v-else>
+				<!--是组长-->
+			<div v-if="(isleader)">
+				 <!--未竞标-->
+            <a   v-if="!(isalreadybid)" type="button"   class="btn btn-outline btn-primary" data-toggle="modal" data-target="#Moda_jingbiao"  style="position: relative;right: -20%;top:-5px;">
+                        我要竞标
+			</a>
+				<!--已竞标-->
+				<span   v-else  style="border:0px; position: relative;right: -20%;top:-5px; font-size: 18px">
+					您已经参与了竞标
+				</span>
+			</div>
+				<!--不是组长弹出提示1-->
+			<div v-else>
+			<a  type="button"  class="btn btn-outline btn-primary" data-toggle="modal" data-target="#tip1"   style="position: relative;right: -20%;top:-5px;">
+						我要竞标
+			</a>
+			</div>
+			</div>
 
 				</div>
+
 				</div>
 			</div>
+
 			<div class="ProjectJingbiao" id="ProjectJingbiao02" v-if="State=='开发完成'" >
 				<div class="col-sm-12" style="text-align: center;
 				line-height: 45px; font-size: 20px; font-family: '微软雅黑'; font-weight: 100;">
@@ -309,295 +335,561 @@
 		</div >
 		
 		</div>
-
-
 	<div  class="modal inmodal"  id="Moda_jingbiao" tabindex="-1" role="dialog" aria-hidden="true">
-		<span v-if="isleader">
-		<div class="col-sm-4"
-		style="width: 600px; position: relative;left:35%; top:5%;">
-		<div class="ibox float-e-margins" style="display: table-cell; vertical-align: middle; text-align: center;">
-		<div class="ibox-title">
-		<h5>请填写竞标信息</h5>
-		<button data-dismiss="modal" class="close" type="button">
-		<span aria-hidden="true">×</span><span class="sr-only">Close</span>
-		</button>
+		<div  class="col-sm-4"
+			 style="width: 600px; position: relative;left:35%; top:0%;">
+			<div class="ibox float-e-margins" style="display: table-cell; vertical-align: middle; text-align: center;">
+				<div class="ibox-title">
+					<h5>请填写竞标信息</h5>
+					<button data-dismiss="modal" class="close" type="button">
+						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
+					</button>
+
+				</div>
+
+				<div class="ibox-content" style="width: 450px;font-weight: 100; font-size: 16px; font-family: 华文中宋 ">
+					<form action="/project/jingbiao" method="post" class="form-horizontal m-t" id="f3">
+						<!--项目的id-->
+						<input id="pid1" type="hidden" name="pid1"/>
+						<!--用户id-->
+						<input id="bid1" type="hidden" name="bid1"/>
+
+						<div class="form-group">
+							<!--项目报价-->
+							<label class="col-sm-3 control-label">项目报价:</label>
+							<div class="col-sm-7">
+								<input  name="BidMoney" id="proMoney" class="form-control" type="text">
+							</div>
+							<span style="border: 1px solid gainsboro;padding: 8px 14px 8px 14px;position: relative;top:7.5px;left:-3%;background-color: #eee;">元 </span>
+						</div>
+						<!--开发周期-->
+						<div class="form-group">
+							<label class="col-sm-3 control-label">开发周期:</label>
+							<div class="col-sm-7">
+								<input  name="BidCycle" id="proCycletime" class="form-control" type="text" value="30">
+							</div>
+							<span style="border: 1px solid gainsboro;padding: 8px 14px 8px 14px;position: relative;top:7.5px;left:-3%;background-color: #eee;">天</span>
+						</div>
+						<!--竞标方案-->
+						<div class="form-group">
+							<label class="col-sm-3 control-label">竞标方案:</label>
+							<div class="col-sm-7">
+								<textarea style="border: 1px solid gainsboro;" name="BidScheme" rows="10" cols="22"></textarea>
+							</div>
+						</div>
+						<!--联系方式-->
+						<div class="form-group">
+							<label class="col-sm-3 control-label">联系方式:</label>
+							<div class="col-sm-7">
+								<input  name="BidPhone" class="form-control" type="text" >
+							</div>
+						</div>
+						<!--邮箱-->
+						<div class="form-group">
+							<label class="col-sm-3 control-label">邮箱:</label>
+							<div class="col-sm-7">
+								<input  name="BidEmail" class="form-control" type="text" >
+							</div>
+
+						</div>
+						<hr/>
+						<div class="form-group">
+							<div class="col-sm-8 col-sm-offset-3">
+								<button class="btn btn-primary" type="submit" onclick="ok()"  style="margin-right: 10px;">提交</button>
+								<span id="returnMessage" class="glyphicon"> </span>
+								<button class="btn btn-default" type="submit" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
 
 		</div>
+	<!--弹出提示框  -->
+	<div class="modal fade" id="tip1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" style="position: relative;left:10%;top:25%;">
+			<div class="modal-content" style="width: 300px;">
+				<div class="modal-header">
+					<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">提示</h4>
+				</div>
+				<div class="modal-body" >
 
-		<div class="ibox-content" style="width: 450px;font-weight: 100; font-size: 16px; font-family: 华文中宋 ">
-		<form action="/project/jingbiao" method="post" class="form-horizontal m-t" id="bidForm">
-		<!--项目的id-->
-		<input id="pid1" type="hidden" name="pid1"/>
-		<!--用户id-->
-		<input id="bid1" type="hidden" name="bid1"/>
+					<p style="font-size: 16px;">您不是组长,不能竞标！</p>
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal"  class="btn btn-primary" id="btn123" type="button">确认</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div>
 
-		<div class="form-group">
-		<!--项目报价-->
-		<label class="col-sm-3 control-label">项目报价:</label>
-		<div class="col-sm-7">
-		<input  name="BidMoney" id="proMoney" class="form-control" type="text">
-		</div>
-		<span style="border: 1px solid gainsboro;padding: 8px 14px 8px 14px;position: relative;top:7.5px;left:-3%;background-color: #eee;">元 </span>
-		</div>
+	<!--弹出竞标成功提示框  -->
+	<div class="modal fade" id="tip2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" style="position: relative;left:10%;top:25%;">
+			<div class="modal-content" style="width: 300px;">
+				<div class="modal-header">
+					<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">提示</h4>
+				</div>
+				<div class="modal-body" >
 
-
-		<!--开发周期-->
-		<div class="form-group">
-		<label class="col-sm-3 control-label">开发周期:</label>
-		<div class="col-sm-7">
-		<input  name="BidCycle" id="proCycletime" class="form-control" type="text" value="30">
-		</div>
-		<span style="border: 1px solid gainsboro;padding: 8px 14px 8px 14px;position: relative;top:7.5px;left:-3%;background-color: #eee;">天</span>
-		</div>
-		<!--竞标方案-->
-		<div class="form-group">
-		<label class="col-sm-3 control-label">竞标方案:</label>
-		<div class="col-sm-7">
-		<textarea style="border: 1px solid gainsboro;" name="BidScheme" rows="10" cols="22"></textarea>
-		</div>
-		</div>
-
-		<div class="form-group">
-		<label class="col-sm-3 control-label">联系方式:</label>
-		<!--<span style="float:left;left:3%;border: 1px solid gainsboro;padding: 7px 14px 7px 14px;position: relative;background-color: #eee;">-->
-		<!--</span>-->
-		<div class="col-sm-7">
-		<input  name="BidPhone" class="form-control" type="text" >
-		</div>
-		</div>
-		<div class="form-group">
-		<label class="col-sm-3 control-label">邮箱:</label>
-		<div class="col-sm-7">
-		<input  name="BidEmail" class="form-control" type="text" >
-		</div>
-
-		</div>
-		<hr/>
-		<div class="form-group">
-		<div class="col-sm-8 col-sm-offset-3">
-		<button class="btn btn-primary" type="submitBtn" onclick="commit()" style="margin-right: 10px;">提交</button>
-		<span id="returnMessage" class="glyphicon"> </span>
-		<button class="btn btn-default" type="submit" data-dismiss="modal">取消</button>
-		</div>
-		</div>
-		</form>
-
-		</div>
-		</div>
-		</div>
-		</span>
-
-		<span v-else style="top: 40%">
-		<div  class="modal-dialog" style="width: 300px;height: 100px;">
- <div class="modal-header"></div>
-                    <div class="modal-body" >
-                  <p style=" font-weight: 300;font-size: 20px; line-height: 100px">您不是组长不能进行竞标</p>
-                    </div>
-			<div class="modal-footer"></div>
-          </div>
-	</span>
+					<p style="font-size: 16px;">您已经成功参与！</p>
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal"  class="btn btn-primary" id="btn123" type="button">确认</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
 	</div>
 
 
 
-
-
+    <!--原Js存放的地方-->
+	<!--再来一个js?-->
 	<script type="text/javascript">
-
-    $(document).ready(function () {
-        $.getJSON("/project/projectDetailHtml", function (result) {
-
-
-            new Vue({
-                el: '#ProgressAll',
-                data: {
-                    progressState1:result.progressState1,
-                    progressState2:result.progressState2,
-                    progressState3:result.progressState3,
-                    isactive:true,
-                    strattime: result.project.projStarttime,
-					endting:result.project.projEndtime,
-                    creattime: result.project.projCreattime.toString().substring(0,10),
-                    // endting:result.project.projEndtime.toString().substring(0,10),
-                    // strattime: result.project.projCreattime.toString().substring(0,10),
-					 // startday:result.startday,
-					 // endday:result.endday,
+        $(function () {
+            $('#f3').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
                 },
-                filters: {
-                    dateFormat:function(val){
-                        if(val==null)
-                            return null;
-                        var d = new Date(val);
-                        var year = d.getFullYear();
-                        var month = d.getMonth() + 1;
-                        var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
-                        var hour = d.getHours();
-                        var minutes = d.getMinutes();
-                        var seconds = d.getSeconds();
-                        return  year+ '-' + month + '-' + day ;
-                    },
-                }
-            })
-
-
-            // var project=reslut.project;
-            new Vue({
-                el: '#ProjectMainAll',
-                data: {
-                    id:result.project.projId,
-                    title: result.project.projName,
-                    State: result.project.projState,
-                    day :result.restday,
-                    promulgator: result.promulgator,
-                    creattime: result.project.projCreattime.toString().substring(0,10),
-                    ProjectType:  result.project.projType,
-                    ProjectMoney:  result.project.projMoney,
-                    ProjectNeedDays: result.project.projCycletime,
-                    tags: result.tags,
-                    pros: result.pros,
-					intro:result.project.projIntro,
-					people:result.people,
-                    studio:result.studioname,
-                    States:"4",
-					// files:result.file,
-					file:result.project.projFile,
-                    ids: result.ids,
-                    pros:result.pros,
-					islogin:"",
-                    loginUser:"",
-					islike:true,
-                  mags:{
-					  object:{
-                            name: result.pros[0],
-						    tag : result.tag[0],
-						    href: result.ids[0],
-						    money:result.money[0],
-						    restday:result.restdays[0],
-						},
-                      object1:{
-                          name: result.pros[1],
-                          tag : result.tag[1],
-                          href: result.ids[1],
-                          money:result.money[1],
-                          restday:result.restdays[1],
-                      },
-                      object2:{
-                          name: result.pros[2],
-                          tag : result.tag[2],
-                          href: result.ids[2],
-                          money:result.money[2],
-                          restday:result.restdays[2],
-                      },
-                      object3:{
-                          name: result.pros[3],
-                          tag : result.tag[3],
-                          href: result.ids[3],
-                          money:result.money[3],
-                          restday:result.restdays[3],
-                      },
-                      object4:{
-                          name: result.pros[4],
-                          tag : result.tag[4],
-                          href: result.ids[4],
-                          money:result.money[4],
-                          restday:result.restdays[4],
-                      }
-
-				  }
-
-                },
-                mounted: function (){
-                    var self=this;
-                   this.islogin   =  nav_vue.isLogined;
-                   this.loginUser = nav_vue.loginUser;
-                   console.log(this.loginUser.allId);
-                   this.id;
-                   // alert(this.islogin);
-                    $.ajax({
-                        type: "POST",
-                        url: "/project/islike?bidId="+this.loginUser.allId+"&pidId="+this.id,
-                        dataType: "json",
-                        success: function(result){
-                            self.islike=result.k1;
-                              // alert(self.islike);
+                fields: {
+                    BidMoney: {
+                        message: '项目预算验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '项目预算不能为空'
+                            },
+                            stringLength: {
+                                min: 3,
+                                max: 10,
+                                message: '项目预算必须在3到10位之间'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]+$/,
+                                message: '项目预算只能包含数字'
+                            }
                         }
-                    });
-				},
-                methods:{
-                    tolike:function(){
-                        $.ajax({
-                            type: "POST",
-                            url: "/project/addtolike?bidId="+this.loginUser.allId+"&pidId="+this.id,
-                            dataType: "json",
-
-                        });
-                        this.islike=false;
                     },
-
-                    tocancellike:function(){
-                        $.ajax({
-                            type: "POST",
-                            url: "/project/tocancellike?bidId="+this.loginUser.allId+"&pidId="+this.id,
-                            dataType: "json",
-
-                        });
-                        this.islike=true;
-					},
-                    readytologin:function(){
-                        window.location.href="/login";
+                    BidCycle: {
+                        message: '开发周期验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '开发周期不能为空'
+                            },
+                            stringLength: {
+                                min: 1,
+                                max: 3,
+                                message: '开发周期必须在1到3位之间'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]+$/,
+                                message: '开发周期只能包含数字'
+                            }
+                        }
                     },
-				    down : function() {
-                        alert("in-down");
+                    BidScheme: {
+                        message: '竞标方案验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '竞标方案不能为空'
+                            },
+                            stringLength: {
+                                min: 5,
+                                message: '竞标方案必须在5位以上'
+                            }
+                        }
+                    },
+                    BidPhone: {
+                        message: '电话验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '电话不能为空'
+                            },
+                            stringLength: {
+                                min: 11,
+                                max: 11,
+                                message: '电话号码是11位的'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]+$/,
+                                message: '电话号码只能包含数字'
+                            }
+
+                        }
+                    },
+                    BidEmail: {
+                        message: '邮箱验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '邮箱不能为空'
+                            },
+                            stringLength: {
+                                min: 8,
+                                max: 16,
+                                message: '请输入正确的的E-mail'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9.@]+$/,
+                                message: '请输入正确的的E-mail'
+                            }
+                        }
+                    },
+                },
+
+
+
+
+            });
+
+
+        });
+        // 解决二次校验问题方法
+		//1先加载 2 . 摧毁 3.再加载
+        $("#Moda_jingbiao").on('hidden.bs.modal',function(e){
+            $("#f3").data('bootstrapValidator').destroy();
+            $('#f3').data('bootstrapValidator',null);
+            $('#f3').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    BidMoney: {
+                        message: '项目预算验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '项目预算不能为空'
+                            },
+                            stringLength: {
+                                min: 3,
+                                max: 10,
+                                message: '项目预算必须在3到10位之间'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]+$/,
+                                message: '项目预算只能包含数字'
+                            }
+                        }
+                    },
+                    BidCycle: {
+                        message: '开发周期验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '开发周期不能为空'
+                            },
+                            stringLength: {
+                                min: 1,
+                                max: 3,
+                                message: '开发周期必须在1到3位之间'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]+$/,
+                                message: '开发周期只能包含数字'
+                            }
+                        }
+                    },
+                    BidScheme: {
+                        message: '竞标方案验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '竞标方案不能为空'
+                            },
+                            stringLength: {
+                                min: 5,
+                                message: '竞标方案必须在5位以上'
+                            }
+                        }
+                    },
+                    BidPhone: {
+                        message: '电话验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '电话不能为空'
+                            },
+                            stringLength: {
+                                min: 11,
+                                max: 11,
+                                message: '电话号码是11位的'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]+$/,
+                                message: '电话号码只能包含数字'
+                            }
+
+                        }
+                    },
+                    BidEmail: {
+                        message: '邮箱验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '邮箱不能为空'
+                            },
+                            stringLength: {
+                                min: 8,
+                                max: 16,
+                                message: '请输入正确的的E-mail'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9.@]+$/,
+                                message: '请输入正确的的E-mail'
+                            }
+                        }
+                    },
+                },
+
+
+
+
+            });
+		})
+		// function ok() { //
+		// 	alert("ok?");
+        // }
+        $(document).ready(function () {
+            $.getJSON("/project/projectDetailHtml", function (result) {
+
+
+                new Vue({
+                    el: '#ProgressAll',
+                    data: {
+                        progressState1:result.progressState1,
+                        progressState2:result.progressState2,
+                        progressState3:result.progressState3,
+                        isactive:true,
+                        strattime: result.project.projStarttime,
+                        endtime:result.project.projEndtime,
+                        creattime: result.project.projCreattime.toString().substring(0,10),
+                        // endting:result.project.projEndtime.toString().substring(0,10),
+                        // strattime: result.project.projCreattime.toString().substring(0,10),
+                        // startday:result.startday,
+                        // endday:result.endday,
+                    },
+                    filters: {
+                        dateFormat:function(val){
+                            if(val==null)
+                                return null;
+                            var d = new Date(val);
+                            var year = d.getFullYear();
+                            var month = d.getMonth() + 1;
+                            var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                            var hour = d.getHours();
+                            var minutes = d.getMinutes();
+                            var seconds = d.getSeconds();
+                            return  year+ '-' + month + '-' + day ;
+                        },
+                    }
+                })
+
+
+                // var project=reslut.project;
+                new Vue({
+                    el: '#ProjectMainAll',
+                    data: {
+                        // 文件的路径可以截取，先放着
+                        path:"/file/down?fileName=",
+                        id:result.project.projId,
+                        title: result.project.projName,
+                        State: result.project.projState,
+                        day :result.restday,
+                        promulgator: result.promulgator,
+                        creattime: result.project.projCreattime.toString().substring(0,10),
+                        ProjectType:  result.project.projType,
+                        ProjectMoney:  result.project.projMoney,
+                        ProjectNeedDays: result.project.projCycletime,
+                        tags: result.tags,
+                        pros: result.pros,
+                        intro:result.project.projIntro,
+                        people:result.people,
+                        studio:result.studioname,
+                        States:"4",
+                        // files:result.file,
+                        file:result.project.projFile,
+                        filename:result.project.projFilename,
+                        ids: result.ids,
+                        pros:result.pros,
+                        islogin:false,
+                        loginUser:"",
+                        islike:false,
+                        isleader:false,
+                        isalreadybid:false,
+                        mags:{
+                            object:{
+                                name: result.pros[0],
+                                tag : result.tag[0],
+                                href: result.ids[0],
+                                money:result.money[0],
+                                restday:result.restdays[0],
+                            },
+                            object1:{
+                                name: result.pros[1],
+                                tag : result.tag[1],
+                                href: result.ids[1],
+                                money:result.money[1],
+                                restday:result.restdays[1],
+                            },
+                            object2:{
+                                name: result.pros[2],
+                                tag : result.tag[2],
+                                href: result.ids[2],
+                                money:result.money[2],
+                                restday:result.restdays[2],
+                            },
+                            object3:{
+                                name: result.pros[3],
+                                tag : result.tag[3],
+                                href: result.ids[3],
+                                money:result.money[3],
+                                restday:result.restdays[3],
+                            },
+                            object4:{
+                                name: result.pros[4],
+                                tag : result.tag[4],
+                                href: result.ids[4],
+                                money:result.money[4],
+                                restday:result.restdays[4],
+                            }
+
+                        }
+
+                    },
+                    mounted: function (){
+                        var self=this;
+                        this.islogin   =  nav_vue.isLogined;
+                        this.loginUser = nav_vue.loginUser;
+                        console.log(this.loginUser.allId);
+                        this.id;
+                        // alert(this.islogin);
                         $.ajax({
                             type: "POST",
-                            url: "/project/down",
+                            url: "/project/islike?bidId="+this.loginUser.allId+"&pidId="+this.id,
                             dataType: "json",
-                            data:{
-                                "path":"F:\\001.jpg",
+                            success: function(result){
+                                // 传来的是字符串而不是 布尔值
+                                //需要在这里转换  或者在url 哪里设置返回布尔值
+                                if(result.k1=="false")
+                                    self.islike=false;
+                                else
+                                    self.islike=true;
+                                // alert(self.islike);
                             }
                         });
-                    }
-				   ,
-                    readytoinsert:function(obj1,obj2) {
-                        var stu = new Vue({
-                            el:'#Moda_jingbiao',
-                            data:{
-                                isleader:"",
-                            },
-                            mounted: function () {
-                                var self=this;
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/project/isleader?bidId="+obj1.allId,
-                                    dataType: "json",
-                                    success: function(result){
+                        $.ajax({
+                            type: "POST",
+                            url: "/project/isleader?bidId="+this.loginUser.allId,
+                            dataType: "json",
+							async:false,
+                            success: function(result1){
+                                if (result1.keys == "false") {
+                                    self.isleader = false;
+                                }
+                                if (result1.keys == "true") {
+                                    self.isleader = true;
+                                }
+
+                            }
+                        });
+                        $.ajax({
+                            type: "POST",
+                            url: "/project/isalreadybid?pidId="+this.id,
+                            dataType: "json",
+                            async:false,
+                            success: function(result2){
+                                self.isalreadybid=result2;
+                            }
+                        });
+
+                        console.log(self.isalreadybid);
+
+                        $("#pid1").val(this.id);
+                        $("#bid1").val(this.loginUser.allId);
+                        // alert(self.isalreadybid+"是否有记录");
+
+                    },
+                    methods:{
+                        tolike:function(){
+                            $.ajax({
+                                type: "POST",
+                                url: "/project/addtolike?bidId="+this.loginUser.allId+"&pidId="+this.id,
+                                dataType: "json",
+
+                            });
+                            this.islike=true;
+                        },
+
+                        tocancellike:function(){
+                            $.ajax({
+                                type: "POST",
+                                url: "/project/tocancellike?bidId="+this.loginUser.allId+"&pidId="+this.id,
+                                dataType: "json",
+
+                            });
+                            this.islike=false;
+                        },
+                        readytologin:function(){
+                            window.location.href="/login";
+                        },
+                        //废弃的方法
+                        down : function() {
+                            alert("in-down");
+                            $.ajax({
+                                type: "POST",
+                                url: "/project/down",
+                                dataType: "json",
+                                data:{
+                                    "path":"F:\\001.jpg",
+                                }
+                            });
+                        }
+                        ,
+                        readytoinsert:function(obj1,obj2) {
+                            var stu = new Vue({
+                                el:'#Moda_jingbiao',
+                                data:{
+                                    isleader:"",
+                                },
+                                mounted: function () {
+                                    var self=this;
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/project/isleader?bidId="+obj1.allId,
+                                        dataType: "json",
+                                        success: function(result){
                                             if (result.keys == false) {
                                                 self.isleader = false;
                                             }
                                             if (result.keys == true) {
                                                 self.isleader = true;
                                             }
-                                    }
-                                });
-                            },
-                        });
-                        console.log("in--readytoinsert");
-                        $("#pid1").val(obj2);
-                        $("#bid1").val(obj1.allId);
+                                        }
+                                    });
+                                },
+                            });
+                            console.log("in--readytoinsert");
+                            $("#pid1").val(obj2);
+                            $("#bid1").val(obj1.allId);
 
 
 
+                        }
                     }
-                }
 
-            })
+                })
 
 
+
+            });
 
         });
 
-    });
-</script>
+     </script>
 
 
 
