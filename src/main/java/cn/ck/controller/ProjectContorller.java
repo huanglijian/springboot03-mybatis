@@ -48,8 +48,8 @@ public class ProjectContorller {
     String strattime = "2000-0-0"; //搜寻条件之---开始时间
     String endtime   = "2099-12-31";   //搜寻条件之---结束时间
 
-    int start=1;//记录当前页 默认为“0“
-    int size = 5; //记录每页条目数，默认为”10“
+    int start=1;//记录当前页 默认为“1“
+    int size = 5; //记录每页条目数，默认为”5“
 //    String conditions = "0"; //条件
     String values     = "0";  //project值
 
@@ -323,12 +323,28 @@ public class ProjectContorller {
         // 2.首先查出所有的  项目！！！
         List<Project> projects = projectService.selectList(new EntityWrapper<Project>());
         List<Project> projectNeed = new ArrayList<Project>();
-        Date nowtime = new Date();
-        EntityWrapper<Project>  wrappers1 = new EntityWrapper<Project>();
 
-        for(Project p: projects){
+        EntityWrapper<Project>  wrappers1 = new EntityWrapper<Project>();
+//方法一
+//        for(Project p: projects){
+//            Date nowtime = new Date();
+//            Date creattime =p.getProjCreattime();
+//            creattime.setDate(creattime.getDay()+10);
+//
+////            if(nowtime.after(creattime)) {
+////                System.out.println(nowtime+"-----"+creattime);
+////                System.out.println("超标了" + p.getProjId());
+////                if(p.getProjState().equals("竞标中"))
+////                    p.setProjState("竞标超时");
+////                //修改状态
+////            }
+//        }
+        //方法二
+                for(Project p: projects){
+            Date nowtime = new Date();
             Date creattime =p.getProjCreattime();
-            creattime.setDate(creattime.getDay()+10);
+
+             nowtime.setDate(nowtime.getDay()-10);
 
             if(nowtime.after(creattime)) {
                 System.out.println(nowtime+"-----"+creattime);
@@ -338,6 +354,8 @@ public class ProjectContorller {
                 //修改状态
             }
         }
+
+
         projectService.updateAllColumnBatchById(projects);
 
         int count;
