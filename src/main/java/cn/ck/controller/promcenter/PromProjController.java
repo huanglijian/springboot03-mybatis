@@ -146,7 +146,8 @@ public class PromProjController {
         //查询更新后竞标中的项目
         Set<String> set = new HashSet<>();
         set.add("proj_creattime");
-        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","竞标中止").or("proj_state='竞标超时'").or("proj_state='开发中'").or("proj_state='发布者中止'").or("proj_state='承接方中止'").or("proj_state='项目中止'").or("proj_state='开发完成'").eq("proj_prom",user.getAllId()).orderDesc(set));
+//        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_prom",user.getAllId()).orNew("(proj_state='竞标中止' OR proj_state='竞标超时')").orderDesc(set));
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().addFilter("proj_prom={0} AND (proj_state='竞标中止' OR proj_state='竞标超时')",user.getAllId()).orderDesc(set));
         List<ProjectBid> bidList1=new ArrayList<ProjectBid>();
 
         for (Project project1:projectList1) {
@@ -254,7 +255,7 @@ public class PromProjController {
         Set<String> set = new HashSet<>();
         set.add("proj_starttime");
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
-        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","开发中").or("proj_state='发布者中止'").or("proj_state='承接方中止'").eq("proj_prom",user.getAllId()).orderDesc(set));
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().addFilter("proj_prom={0} AND (proj_state='开发中' OR proj_state='发布者中止' OR proj_state='承接方中止')",user.getAllId()).orderDesc(set));
         return ResponseBo.ok().put("project",projectList1);
     }
 
@@ -268,7 +269,7 @@ public class PromProjController {
         Set<String> set = new HashSet<>();
         set.add("proj_endtime");
         Alluser user = (Alluser) SecurityUtils.getSubject().getPrincipal();
-        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().eq("proj_state","项目中止").or("proj_state='开发完成'").eq("proj_prom",user.getAllId()).orderDesc(set));
+        List<Project> projectList1=projectService.selectList(new EntityWrapper<Project>().addFilter("proj_prom={0} AND (proj_state='项目中止' OR proj_state='开发完成')",user.getAllId()).orderDesc(set));
         return ResponseBo.ok().put("project",projectList1);
     }
 }

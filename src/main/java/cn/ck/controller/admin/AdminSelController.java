@@ -258,4 +258,14 @@ public class AdminSelController {
                 .put("projnum",projnum).put("projtip",projtip).put("projpercent",projpercent)
                 .put("fundnum",fundnum).put("fundtip",fundtip).put("fundpercent",fundpercent);
     }
+
+
+    @RequestMapping("/projchart")
+    @ResponseBody
+    public ResponseBo projchart(){
+
+
+        return ResponseBo.ok();
+    }
+
 }
