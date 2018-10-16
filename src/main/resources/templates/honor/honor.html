@@ -79,28 +79,33 @@
             </div>
             <script type="text/javascript">
                 var nav_vue = new Vue({
-                    el:'#headVue',
-                    data:{
+                    el: '#headVue',
+                    data: {
                         loginUser: '',
                         isLogined: false,
-                        isPromul : '',
-                        img : '',
-                        centerUrl : '',
+                        isPromul: '',
+                        img: '',
+                        centerUrl: '',
                     },
                     created: function () {
                         this.getUser();
+                        /*this.getStudios()*/
+
                     },
+                    /*mounted: function () {
+                        this.getStudios()
+                    },*/
                     methods: {
-                        getUser: function(){
+                        getUser: function () {
                             $.ajax({
                                 type: "POST",
                                 url: "/home/getLoginUser",
                                 dataType: "json",
-                                success: function(result){
-                                    if(result.code === 404){
+                                success: function (result) {
+                                    if (result.code === 404) {
                                         nav_vue.isLogined = false;
                                     }
-                                    else if(result.code === 0){
+                                    else if (result.code === 0) {
                                         nav_vue.isLogined = true;
                                         nav_vue.isPromul = result.isPromul;
                                         nav_vue.loginUser = result.loginUser;
@@ -110,14 +115,30 @@
                                 }
                             });
                         },
-                    }
-                });
+
+/*                        getStudios: function () {
+                            var self = this;
+                            $.ajax({
+                                type: "POST",
+                                url: "/honor/getStudios",
+                                dataType: "json",
+                                success: function (result) {
+                                    if (result.code === 0) {
+                                        this.data = result.list;
+                                    }
+                                }
+                            })
+                        },*/
+
+                    },
+                })
             </script>
         </div>
     </header>
     <div class="header-take-space"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
 
-    <div class="container" style="padding: 0;">
+    <div class="container" style="width: 1080px;
+		margin: 0 auto;padding: 0;">
         <div class="good-works">
             <div class="top">
 
@@ -132,25 +153,25 @@
                 <span>总收入</span>
                 <span>荣誉积分</span>
             </div>
-            <div class="goods-list">
-                <ul>
-                    <li>
+            <div class="goods-list" id="good-list">
+                <ul v-for="(rank,index) in list">
+                    <li >
                         <div class="rank">
-                            <i class="first">1</i>
+                            <i :class="addClass(index+1)" ><!--:id="index+1"--> {{index+1}}</i>
                         </div>
                         <div class="name">
-                            <p>人人工作室</p>
+                            <p>{{rank.stuName}}</p>
                         </div>
                         <div class="thumb">
-                            <a href="###" target="_blank"><img src=""/></a>
+                            <a href="###" target="_blank"><img> <!--:src=rank.stuImg--> </img></a>
                         </div>
-                        <div class="amount">94</div>
-                        <div class="benefit"><span><i><img src="../../static/img/img_hhm/money.png"/></i><b>10000</b></span>
+                        <div class="amount">{{rank.stuMembernum}}</div>
+                        <div class="benefit"><span><i><img src="/static/img/img_hhm/money.png"/></i><b>{{rank.stuIncome}}</b></span>
                         </div>
-                        <div class="score"><span><i><img src="../../static/img/img_hhm/point-gray.png"/></i><b>94</b></span>
+                        <div class="score"><span><i><img src="/static/img/img_hhm/point-gray.png"/></i><b>{{rank.stuGrade}}</b></span>
                         </div>
                     </li>
-                    <li>
+                    <!--<li>
 
                         <div class="rank">
                             <i class="second">2</i>
@@ -201,7 +222,7 @@
                         </div>
                         <div class="score"><span><i><img src="../../static/img/img_hhm/point-gray.png"/></i><b>94</b></span>
                         </div>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
             <div class="more"><a href="###">查看更多</a></div>
@@ -297,6 +318,50 @@
             }
 
             new_scroll_position = last_scroll_position;
+        });
+        new Vue({
+            el:'#good-list',
+            data:{
+                list:''
+            },
+            created:function () {
+                var self = this;
+                $.ajax({
+                    type: "POST",
+                    url: "/honor/getStudios",
+                    async:false,
+                    dataType: "json",
+                    success: function (result) {
+                        self.list = result;
+                        console.log(self.list);
+                    }
+                })
+            },
+            methods:{
+                addClass:function (id) {
+                    if(id==1)
+                        return "first";
+                    else if(id==2)
+                        return "second";
+                    else if(id==3)
+                        return "third";
+                }
+            }
+               /* mounted: function() {
+                    $("#good-list").find(".rank").each(function () {
+
+                        var id = $(this).find("i").attr("id");
+
+                        if (id == 1)
+                            $(this).find("i").addClass("first");
+                        else if (id == 2)
+                            $(this).find("i").addClass("second");
+                        else if (id == 3)
+                            $(this).find("i").addClass("third");
+
+                    })
+                }*/
+
         });
     </script>
 </body>

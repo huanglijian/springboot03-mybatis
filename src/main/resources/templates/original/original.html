@@ -2,13 +2,13 @@
 <html xmlns:v-on="http://www.w3.org/1999/xhtml">
 
 	<head>
-		
+
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>原创中心</title>
 		<script src="http://how2j.cn/study/vue.min.js"></script>
 		<script src="http://how2j.cn/study/axios.min.js"></script>
 		<script src="/static/js/jquery.min.js"></script>
-		<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+		<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
 		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
 		<link href="/static/css/css_xwh/ProjectsShouYe.css" rel="stylesheet" />
 		<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
@@ -18,60 +18,107 @@
 		<script src="http://how2j.cn/study/axios.min.js"></script>
 		<script type="text/javascript" src="../../static/js/js_hhm/jquery.raty.js"></script>
 		<link href="../../static/css/css_hhm/original.css" rel="stylesheet" />
-	
-		
+
+
+
 	</head>
 
 	<body>
-	<header>
-		<div class="container-fluid container-fluid_up">
-			<div class="row_up">
-				<ul class="list-unstyled">
-					<li>
-						<a href="#">帮助中心</a>
-					</li>
-					<li>
-						<a href="#">注册</a>
-					</li>
-					<li>
-						<a href="#">登录</a>
+	<header class="header-navigation" id="headerBar">
+		<div class="nav-content-filter">
+			<div class="row_main">
+				<!--logo-->
+				<div class="main_logo">
+					<img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
+				</div>
+				<!--超链接-->
+				<div class="nav-main-right">
+					<nav class="cd-nav">
+						<ul>
+							<li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+							<li><a href="/project/xwh">项目大厅</a></li>
+							<li><a href="/stuhall/hall">服务大厅</a></li>
+							<li><a href="/resource/home">创客讲堂</a></li>
+							<li><a href="/original/all">原创中心</a></li>
+							<li><a href="/ForJob/search">在线求职</a></li>
+							<li><a href="/honor/honorPage">荣誉中心</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!--头像、个人中心、注销等-->
+			<div id="headVue">
+				<ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
+							<!--没有登陆-->
+							<img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
+							<!--已经登录-->
+							<img class="nav-avatar" v-else :src="img"/>
+							<span class="caret"></span>
+						</a>
+
+						<ul class="dropdown-menu dropdown-alerts nav-dropdown-menu">
+							<!--##########未登录###############-->
+							<li v-if="!isLogined">
+								<a href="/login"><p class="nav-text-center">登录</p></a>
+							</li>
+							<li v-if="!isLogined">
+								<a href="/registered/select/new"><p class="nav-text-center">注册</p></a>
+							</li>
+							<!--##########已登录###############-->
+							<li v-if="isLogined">
+								<a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
+							</li>
+							<li v-if="isLogined && !isPromul">
+								<a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
+							</li>
+							<li v-if="isLogined">
+								<a href="/logout"><p class="nav-text-center">注销</p></a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</div>
-		</div>
-		<div class="container-fluid container-fluid_main">
-			<div class="row_main">
-				<div class="main_logo">
-					<img class="img-responsive img-rounded" src="/static/img/img_psw/logo2.png" />
-				</div>
-				<div class="main_right">
-					<ul class="nav_psw list-unstyled">
-						<li>
-							<a>首 页</a>
-						</li>
-						<li>
-							<a>项目大厅</a>
-						</li>
-						<li>
-							<a>服务大厅</a>
-						</li>
-						<li>
-							<a>创客讲堂</a>
-						</li>
-						<li class="active">
-							<a>原创中心</a>
-						</li>
-						<li>
-							<a>荣誉中心</a>
-						</li>
-						<li>
-							<a>在线求职</a>
-						</li>
-					</ul>
-				</div>
-			</div>
+			<script type="text/javascript">
+                var nav_vue = new Vue({
+                    el:'#headVue',
+                    data:{
+                        loginUser: '',
+                        isLogined: false,
+                        isPromul : '',
+                        img : '',
+                        centerUrl : '',
+                    },
+                    created: function () {
+                        this.getUser();
+                    },
+                    methods: {
+                        getUser: function(){
+                            $.ajax({
+                                type: "POST",
+                                url: "/home/getLoginUser",
+                                dataType: "json",
+                                success: function(result){
+                                    if(result.code === 404){
+                                        nav_vue.isLogined = false;
+                                    }
+                                    else if(result.code === 0){
+                                        nav_vue.isLogined = true;
+                                        nav_vue.isPromul = result.isPromul;
+                                        nav_vue.loginUser = result.loginUser;
+                                        nav_vue.img = result.img;
+                                        nav_vue.centerUrl = result.centerUrl;
+                                    }
+                                }
+                            });
+                        },
+                    }
+                });
+			</script>
 		</div>
 	</header>
+	<div class="header-take-space" style="height: 50px"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
 	<div class="content">
 		<div class="search">
 			<form id="hesernform">
@@ -303,7 +350,7 @@
 
 
 						<div class='ui relaxed divided items' id='git-discover-list'>
-							<div class='item' v-for="pro in highscore">
+							<div class='item' v-for="pro in highscore" v-cloak>
 								<a href="/shuzheng" class="project-creator-link ui avatar image pull-left":title=pro.users.userName ><img src="/static/img/img_hhm/renren.png" />
 								</a>
 								<div class='project-content'>
@@ -312,7 +359,7 @@
 											<h3>
 												<a  :href="'/original/details/'+pro.origId" class="title project-namespace-path" target="_blank" :title=pro.origName style="float: left;">{{pro.origName}}</a>
 											</h3>
-											<div id="star" style="margin: 4px 10px;"></div>
+											<div :id="pro.origGrade" class="star" style="margin: 4px 10px;"></div>
 
 										</div>
 										<div class='git-project-header-actions'>
@@ -324,7 +371,7 @@
 									<div class='project-desc'>{{pro.origIntro}}</div>
 									<div class='project-meta'>
 										<a href="/explore/starred?lang=Java" class="ui small  lang-label">{{pro.origType}}</a>
-										<a href="/explore/starred/webframework" class="ui small  lang-label">{{pro.origTag}}</a>
+										<a style="margin-right:8px; " href="/explore/starred/webframework" class="ui small  lang-label" v-for="item in pro.origTag">{{item}}</a>
 
 										<div class='pull-right'>
 
@@ -453,6 +500,30 @@
 			</div>
 		</div>
 	</footer>
+	<script type="text/javascript">
+        var new_scroll_position = 0;
+        var last_scroll_position;
+        var header = document.getElementById("headerBar");
+
+        window.addEventListener('scroll', function (e) {
+            last_scroll_position = window.scrollY;
+
+            // Scrolling down
+            if (new_scroll_position < last_scroll_position && last_scroll_position > 80) {
+                // header.removeClass('slideDown').addClass('slideUp');
+                header.classList.remove("slideDown");
+                header.classList.add("slideUp");
+
+                // Scrolling up
+            } else if (new_scroll_position > last_scroll_position) {
+                // header.removeClass('slideUp').addClass('slideDown');
+                header.classList.remove("slideUp");
+                header.classList.add("slideDown");
+            }
+
+            new_scroll_position = last_scroll_position;
+        });
+	</script>
 	<script>
         $(function() {
             $(".sort-section1 a").click(function() {
@@ -474,19 +545,14 @@
             })
         })
 
-        $('#star').raty({
-            readOnly: true,
-            score: 5,
-            hints: ["1", "2", "3", "4", "5"]
-        });
 
-        $('#star2').raty({
+   /*     $('#star2').raty({
             readOnly: true,
             score: 5,
             hints: ["1", "2", "3", "4", "5"]
-        });
-        $(function() {
-            $(".item span").click(function() {
+        });*/
+  /*      $(function() {
+            /!*$(".item span").click(function() {
                 if($(this).find("img").attr("isImg") == 1) {
 
                     $(this).find("img").attr("src", "/static/img/img_hhm/xing.png");
@@ -496,8 +562,11 @@
                     $(this).find("img").attr("isImg", "1");
                 }
 
-            });
-        })
+            });*!/
+            /!*$("#git-discover-list").delegate('.item','each',function () {
+				alert("123");
+            });*!/
+        })*/
 
 		 new Vue({
             el:'#git-discover-list',
@@ -512,11 +581,13 @@
                      var now = new Date();
                      var year = now.getFullYear()-d.getFullYear();
                      var month = now.getMonth()-d.getMonth() ;
+                     var total = year*12+month;
+                     if (total==0) total=total+1;
                      // var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
                      // // var hour = d.getHours();
                      // // var minutes = d.getMinutes();
                      // // var seconds = d.getSeconds();
-                     return  year*12+month+"个月前" ;
+                     return  total+"个月前" ;
                  },
              },
             created:function () {
@@ -524,14 +595,19 @@
                 $.ajax({
                     type:'POST',
                     url:'/original/all1',
+                    async:false,
 					dataType:'json',
                     success:function (result) {
                         self.highscore = result.list;
-
-                        var obj_1={
+                       /* alert(result.list[0].origTag);*/
+						for(var i=0;i<result.list.length;i++){
+						    var s=result.list[i].origTag.split(",");
+                            result.list[i].origTag=s;
+						}
+                       /* var obj_1={
                             obj_box:'.page_1',//翻页容器
                             total_item:result.total,   //条目总数
-                            per_num:result.pageSize,     //每页条目数*/
+                            per_num:result.pageSize,     //每页条目数*!/
                             current_page:result.pageNum   //当前页
                         };
                         page_ctrl(obj_1);
@@ -539,23 +615,73 @@
                             var that=$(this);
                             if(that.hasClass('prev_page')){
 
-                                window.location.href="allpage?start="+result.prePage;
+                                window.location.href="/original/allpage?start="+result.prePage;
                             }
                             else if(that.hasClass('next_page')){
-                                window.location.href="allpage?start="+result.nextPage;
+                                window.location.href="/original/allpage?start="+result.nextPage;
                             }
                             else if(that.hasClass('page_num')&&!that.hasClass('current_page')){
 
-                                window.location.href="allpage?start="+that.html();
+                                window.location.href="/original/allpage?start="+that.html();
                             }
                             else if(that.hasClass('to_page_num')){
-                                window.location.href="allpage?start="+that.siblings('.input_page_num').val();
+                                window.location.href="/original/allpage?start="+that.siblings('.input_page_num').val();
                             }
-                        });
-
+                        });*/
                     }
-                })
+                });
+
             },
+			 mounted:function () {
+                 var self=this;
+                 $.ajax({
+                     type:'POST',
+                     url:'/original/all1',
+                     async:false,
+                     dataType:'json',
+                     success:function (result) {
+                         /*self.highscore = result.list;
+                         /!* alert(result.list[0].origTag);*!/
+                         for(var i=0;i<result.list.length;i++){
+                             var s=result.list[i].origTag.split(",");
+                             result.list[i].origTag=s;
+                         }*/
+                         var obj_1={
+                             obj_box:'.page_1',//翻页容器
+                             total_item:result.total,   //条目总数
+                             per_num:result.pageSize,     //每页条目数*/
+                             current_page:result.pageNum   //当前页
+                         };
+                         page_ctrl(obj_1);
+                         $(' .page_ctrl').on('click','button',function () {
+                             var that=$(this);
+                             if(that.hasClass('prev_page')){
+
+                                 window.location.href="/original/allpage?start="+result.prePage;
+                             }
+                             else if(that.hasClass('next_page')){
+                                 window.location.href="/original/allpage?start="+result.nextPage;
+                             }
+                             else if(that.hasClass('page_num')&&!that.hasClass('current_page')){
+
+                                 window.location.href="/original/allpage?start="+that.html();
+                             }
+                             else if(that.hasClass('to_page_num')){
+                                 window.location.href="/original/allpage?start="+that.siblings('.input_page_num').val();
+                             }
+                         });
+
+                     }
+                 });
+                $("#git-discover-list").find(".item").each( function () {
+                    var grade=$(this).find(".star").attr("id");
+					$(this).find(".star").raty({
+                        readOnly: true,
+                        score:grade,
+                        hints: ["1", "2", "3", "4", "5"]
+                    });
+                })
+             }
 
         });
 

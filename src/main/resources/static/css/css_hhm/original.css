@@ -461,3 +461,6 @@ a:active {
 .pull-right {
 	padding-right: 10px;
 }
+ [v-cloak] {
+	 display: none;
+ }

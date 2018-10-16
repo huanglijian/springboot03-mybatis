@@ -33,11 +33,19 @@ public class OriginalServiceImpl extends ServiceImpl<OriginalMapper, Original> i
         return originalMapper.selectDesc(id);
     }
 
-
+    @Override
+    public OriUser selectOriUser(int id) {
+        return baseMapper.selectOriUser(id);
+    }
 
     @Override
     public List<OriUser> selectAllOri() {
         return baseMapper.selectAllOri();
+    }
+
+    @Override
+    public List<OriUser> selectOther(int id, String tag) {
+        return baseMapper.selectOther(id,tag);
     }
 
     @Override

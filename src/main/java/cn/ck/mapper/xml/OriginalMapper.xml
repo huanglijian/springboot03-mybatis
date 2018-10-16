@@ -44,6 +44,14 @@
 
 
     <select id="selectAllOri" resultMap="AllOriginalCollection">
-         select * from original,users  where original.orig_users=users.user_id
+         select * from original,users  where original.orig_users=users.user_id ORDER BY orig_grade DESC
+    </select>
+
+    <select id="selectOriUser" resultMap="AllOriginalCollection">
+        select * from original , users  where original.orig_id=#{id} and original.orig_users=users.user_id
+    </select>
+
+    <select id="selectOther" resultMap="AllOriginalCollection">
+        select * from original , users  where original.orig_id!=#{id} and original.orig_users=users.user_id and original.orig_name like '%' #{tag} '%'
     </select>
 </mapper>

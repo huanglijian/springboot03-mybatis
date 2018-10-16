@@ -4,6 +4,7 @@ import cn.ck.entity.Original;
 import cn.ck.entity.bean.OriColUser;
 import cn.ck.entity.bean.OriUser;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,4 +20,8 @@ public interface OriginalMapper extends BaseMapper<Original> {
     List<OriColUser> selectDesc(String id);
 
     List<OriUser> selectAllOri();
+
+    OriUser selectOriUser(@Param("id") int id);
+
+    List<OriUser> selectOther(@Param("id") int id,@Param("tag") String tag);
 }

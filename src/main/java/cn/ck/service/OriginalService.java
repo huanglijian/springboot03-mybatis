@@ -30,5 +30,7 @@ public interface OriginalService extends IService<Original> {
 
     List<OriUser> selectAllOri();
 
+    OriUser selectOriUser(int id);
 
+    List<OriUser> selectOther(int id,String tag);
 }

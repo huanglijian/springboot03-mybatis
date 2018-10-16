@@ -5,93 +5,146 @@
 		<meta charset="utf-8">
 		<title>项目详情</title>
 
-		<link href="/static/css/bootstrap.min.css" rel="stylesheet" />
-		<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
-		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
-		<script type="text/javascript" src="/static/js/vue.js"></script>
+
+		<link href="/static/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+		<link href="/static/css/css_psw/style_head.css" rel="stylesheet"/>
+		<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+		<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+		<script src="/static/js/vue.js"></script>
 		<script type="text/javascript" src="/static/js/js_hhm/star.js"></script>
 		<script type="text/javascript" src="/static/js/js_hhm/jquery.raty.js"></script>
-
 		<link href="/static/css/css_hhm/detail.css" rel="stylesheet" />
+
+
+
+
 	</head>
 
 	<body>
-		<header>
-			<div class="container-fluid container-fluid_up">
-				<div class="row_up">
-					<ul class="list-unstyled">
-						<li>
-							<a href="#">帮助中心</a>
-						</li>
-						<li>
-							<a href="#">注册</a>
-						</li>
-						<li>
-							<a href="#">登录</a>
-						</li>
-					</ul>
+	<header class="header-navigation" id="headerBar">
+		<div class="nav-content-filter">
+			<div class="row_main">
+				<!--logo-->
+				<div class="main_logo">
+					<img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
+				</div>
+				<!--超链接-->
+				<div class="nav-main-right">
+					<nav class="cd-nav">
+						<ul>
+							<li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+							<li><a href="/project/xwh">项目大厅</a></li>
+							<li><a href="/stuhall/hall">服务大厅</a></li>
+							<li><a href="/resource/home">创客讲堂</a></li>
+							<li><a href="/original/all">原创中心</a></li>
+							<li><a href="/ForJob/search">在线求职</a></li>
+							<li><a href="/honor/honorPage">荣誉中心</a></li>
+						</ul>
+					</nav>
 				</div>
 			</div>
-			<div class="container-fluid container-fluid_main">
-				<div class="row_main">
-					<div class="main_logo">
-						<img class="img-responsive img-rounded" src="../../static/img/img_psw/logo2.png" />
-					</div>
-					<div class="main_right">
-						<ul class="nav_psw list-unstyled">
-							<li>
-								<a>首 页</a>
+			<!--头像、个人中心、注销等-->
+			<div id="headVue">
+				<ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
+							<!--没有登陆-->
+							<img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
+							<!--已经登录-->
+							<img class="nav-avatar" v-else :src="img"/>
+							<span class="caret"></span>
+						</a>
+
+						<ul class="dropdown-menu dropdown-alerts nav-dropdown-menu">
+							<!--##########未登录###############-->
+							<li v-if="!isLogined">
+								<a href="/login"><p class="nav-text-center">登录</p></a>
 							</li>
-							<li>
-								<a>项目大厅</a>
+							<li v-if="!isLogined">
+								<a href="/registered/select/new"><p class="nav-text-center">注册</p></a>
 							</li>
-							<li>
-								<a>服务大厅</a>
+							<!--##########已登录###############-->
+							<li v-if="isLogined">
+								<a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
 							</li>
-							<li>
-								<a>创客讲堂</a>
+							<li v-if="isLogined && !isPromul">
+								<a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
 							</li>
-							<li class="active">
-								<a>原创中心</a>
-							</li>
-							<li>
-								<a>荣誉中心</a>
-							</li>
-							<li>
-								<a>在线求职</a>
+							<li v-if="isLogined">
+								<a href="/logout"><p class="nav-text-center">注销</p></a>
 							</li>
 						</ul>
-					</div>
-				</div>
+					</li>
+				</ul>
 			</div>
-		</header>
-		<div class="container" id="ori_details">
+			<script type="text/javascript">
+                var nav_vue = new Vue({
+                    el:'#headVue',
+                    data:{
+                        loginUser: '',
+                        isLogined: false,
+                        isPromul : '',
+                        img : '',
+                        centerUrl : '',
+                    },
+                    created: function () {
+                        this.getUser();
+                    },
+                    methods: {
+                        getUser: function(){
+                            $.ajax({
+                                type: "POST",
+                                url: "/home/getLoginUser",
+                                dataType: "json",
+                                success: function(result){
+                                    if(result.code === 404){
+                                        nav_vue.isLogined = false;
+                                    }
+                                    else if(result.code === 0){
+                                        nav_vue.isLogined = true;
+                                        nav_vue.isPromul = result.isPromul;
+                                        nav_vue.loginUser = result.loginUser;
+                                        nav_vue.img = result.img;
+                                        nav_vue.centerUrl = result.centerUrl;
+                                    }
+                                }
+                            });
+                        },
+                    }
+                });
+			</script>
+		</div>
+	</header>
+	<div class="header-take-space"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
+
+	<div class="container" id="ori_details" v-cloak>
 			<div class="top">
 				<div class="categories">
-					<a href="/explore">开源项目</a>
+					<a href="/original/all">开源项目</a>
+					<span class='symbol'>></span>详情
+					<!--<a href="/explore/starred/web-app-develop">{{curOri.origType}}</a>
 					<span class='symbol'>></span>
-					<a href="/explore/starred/web-app-develop">Java</a>
-					<span class='symbol'>></span>
-					<a href="/explore/starred/webframework">权限管理</a>
+					<a href="/explore/starred/webframework">{{curOri.origTag}}</a>-->
 
 				</div>
 				<div class="header-details">
 					<div class="project-title" style="display: flex;">
 						<h3 style="display: flex;">
-<a  class="title project-namespace-path" target="_blank" title="人人开源项目" style="float: left;">人人工作室</a><p>/人人开源项目</p>
+<a  class="title project-namespace-path" target="_blank" :title=curOri.origName style="float: left;">{{users.userName}}</a><p>/{{curOri.origName}}</p>
 </h3>
 						<div class='project-meta' style="display: flex;">
-							<p class="ui small  lang-label" title="主要编程语言">Java</p>
-							<p class="ui small  lang-label" title="">Web开发框架</p>
+							<p class="ui small  lang-label" :title=curOri.origType>{{curOri.origType}}</p>
+							<p class="ui small  lang-label" :title=tag v-for="tag in curOri.origTag" >{{tag}}</p>
 
 						</div>
-						<div id="star"></div>
+						<div :grade="curOri.origGrade" id="star"></div>
 					</div>
 
 					<div class="project-actions">
 
-						<span><a href="##" ><img isImg="0" src="../../static/img/img_hhm/xing.png"/>收藏</a></span>
-						<span style="margin-left: 20px;"><a href="###" ><img src="../../static/img/img_hhm/download.png"/>下载</a></span>
+						<span><a href="javascript:void(0)" @click="colori(curOri.origId)"><i v-if="show1" style="color:red;" class="fa fa-star"></i><i v-if="show2" class="fa fa-star"></i>收藏</a></span>
+						<span style="margin-left: 20px;"><a :href="'/file/down?fileName='+curOri.origName+'.zip'" ><img src="/static/img/img_hhm/download.png"/>下载</a></span>
 
 
 					</div>
@@ -102,7 +155,7 @@
 			<div class="clearfix"></div>
 			<div class="content">
 				<div class="file-title">
-					<img src="../../static/img/img_hhm/document.png" /><span>README</span>
+					<img src="../../static/img/img_hhm/document.png" /><span>README</span><p style="display: inline; margin-left: 20px; font-size: small">提交于 {{curOri.origUploadtime|dateFormat}}</p>
 
 				</div>
 				<div class="file-content">
@@ -131,34 +184,35 @@
 
 			<div class="other">
 				<h3>相关推荐</h3>
-				<div class='item'>
+				<div class='item' v-for="pro in other">
+
 					<a href="/shuzheng" class="project-creator-link ui avatar image pull-left"><img src="../../static/img/img_hhm/renren.png" />
 					</a>
 					<div class='project-content'>
 						<div class='project-title1'>
 							<h3 style="margin-top: 0;">
-<a  class="title project-namespace-path" target="_blank" title="人人开源项目" style="float: left;">人人开源项目</a>
-
+<a  class="title project-namespace-path" target="_blank" :title=pro.origName style="float: left;">{{pro.origName}}</a>
+								<!--<a  class="title project-namespace-path" target="_blank"  style="float: left;">人人开源项目</a>-->
 </h3>
-							<div id="star2"></div>
+							<div :id="pro.origGrade" class="star"></div>
 
 
 						</div>
-						<div class='project-desc'>基于Spring+SpringMVC+Mybatis分布式敏捷开发系统架构，提供整套公共微服务服务模块：集中权限管理（单点登录）、内容管理、支付中心、用户管理（支持第三方登录）、微信平台、存储系统、配置中心、日志分析、任务和通知等，支持服务治理、监控和追踪，努力为中小型企业打造全方位J2EE企业级开发解决方案。</div>
+						<div class='project-desc'>{{pro.origIntro}}</div>
 						<div class='project-meta'>
-							<a href="/explore/starred?lang=Java" class="ui small  lang-label">Java</a>
-							<a href="/explore/starred/webframework" class="ui small  lang-label">Web开发框架</a>
-							<a href="/explore/starred?license=MIT" class="ui small  lang-label">MIT</a>
+							<a href="/explore/starred?lang=Java" class="ui small  lang-label">{{pro.origType}}</a>
+							<a href="/explore/starred/webframework"  style="margin-right: 5px" class="ui small  lang-label" v-for="item in pro.origTag">{{item}}</a>
+
 							<div class='pull-right'>
-								<a href="##" class="ui small  lang-label" style="font-size: 14px; margin-right: 5px;">人人工作室</a>
-								<span class='timeago' title='2个月前'>
-2个月前
-</span>
+								<a href="##" class="ui small  lang-label" style="font-size: 14px; margin-right: 5px;">{{pro.users.userName}}</a>
+								<span class='timeago' :title=pro.origUploadtime|dateFormat>
+							{{pro.origUploadtime|dateFormat}}
+							</span>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class='item'>
+<!--				<div class='item'>
 					<a href="/shuzheng" class="project-creator-link ui avatar image pull-left"><img src="../../static/img/img_hhm/renren.png" />
 					</a>
 					<div class='project-content'>
@@ -211,7 +265,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>-->
 			</div>
 
 		</div>
@@ -282,74 +336,152 @@
 				</div>
 			</div>
 		</footer>
+	<script type="text/javascript">
+        var new_scroll_position = 0;
+        var last_scroll_position;
+        var header = document.getElementById("headerBar");
+
+        window.addEventListener('scroll', function (e) {
+            last_scroll_position = window.scrollY;
+
+            // Scrolling down
+            if (new_scroll_position < last_scroll_position && last_scroll_position > 80) {
+                // header.removeClass('slideDown').addClass('slideUp');
+                header.classList.remove("slideDown");
+                header.classList.add("slideUp");
+
+                // Scrolling up
+            } else if (new_scroll_position > last_scroll_position) {
+                // header.removeClass('slideUp').addClass('slideDown');
+                header.classList.remove("slideUp");
+                header.classList.add("slideDown");
+            }
+
+            new_scroll_position = last_scroll_position;
+        });
+	</script>
 		<script type="text/javascript">
 
-            $('#rating1').star({
+            /*$('#rating1').star({
                 readOnly:false,
                 num: 5
             });
             $('#rating1').on('chosen',function(){
                 $('#rating1').star('unbindEvent');
-            })
+            })*/
 
 
-            $('#star').raty({
+/*            $('#star').raty({
                 readOnly: true,
                 score: 5,
                 hints: ["1", "2", "3", "4", "5"]
-            });
+            });*/
 
-                $(function() {
+           /*     $(function() {
                     $(".project-actions span").click(function() {
-                        if($(this).find("img").attr("isImg") == 1) {
+                        if($(this).find("i").attr("isImg") == 1) {
 
-                            $(this).find("img").attr("src", "../../static/img/img_hhm/xing.png");
-                            $(this).find("img").attr("isImg", "0");
+                            $(this).find("i").css("color","#000000");
+                            $(this).find("i").attr("isImg", "0");
                         } else {
-                            $(this).find("img").attr("src", "../../static/img/img_hhm/xing1.png");
-                            $(this).find("img").attr("isImg", "1");
+                            $(this).find("i").css("color","red")
+                            $(this).find("i").attr("isImg", "1");
                         }
 
                     });
-                })
+                })*/
 
 
 
+            /*
+                        $('#star2').raty({
+                            readOnly: true,
+                            score: 5,
+                            hints: ["1", "2", "3", "4", "5"]
+                        });
 
 
-            $('#star2').raty({
-                readOnly: true,
-                score: 5,
-                hints: ["1", "2", "3", "4", "5"]
-            });
+                        $('#star3').raty({
+                            readOnly: true,
+                            score: 5,
+                            hints: ["1", "2", "3", "4", "5"]
+                        });
 
-            $('#star3').raty({
-                readOnly: true,
-                score: 5,
-                hints: ["1", "2", "3", "4", "5"]
-            });
-
-            $('#star4').raty({
-                readOnly: true,
-                score: 5,
-                hints: ["1", "2", "3", "4", "5"]
-            });
+                        $('#star4').raty({
+                            readOnly: true,
+                            score: 5,
+                            hints: ["1", "2", "3", "4", "5"]
+                        });
+            */
 
             var ori = new Vue({
                 el:'#ori_details',
                 data:{
                    	oriId : '',
                     curOri: '',
+					users:'',
                     isLogined: false,
                     isCollected: false,
                     isScored : false,
+					show1:false,
+					show2:false,
+					other:''
                 },
                 created: function () {
                     this.oriId = this.urlparse().file;
                     this.getCurOri();
-
                 },
                 methods: {
+                    colori:function(id){
+                        if(!ori.isLogined){
+                            alert("请登录！");
+                            return;
+						}
+						else if(!ori.isCollected) {
+                            var url = "/original/insertColOri?oriId=" + id;
+                            $.ajax({
+                                url: url,
+                                type: 'GET',
+
+
+                                dataType: "json",
+                                success: function (result) {
+                                    ori.show1=true;
+                                    ori.show2=false;
+                                    ori.isCollected=true;
+                                   return;
+                                }
+                            })
+                        }/*else{
+                            var url = "/original/insertColOri?oriId=" + id+"&isCol="+ori.isCollected;
+                            $.ajax({
+                                url: url,
+                                type: 'GET',
+                                dataType: "json",
+                                success: function (result) {
+                                    ori.show1=result;
+                                    ori.show2=!result;
+                                    ori.isCollected=result;
+                                    return;
+                                }
+                            })
+                        }
+                    },*/
+                        else{
+                            var url = "/original/deleteColOri?oriId=" + id;
+                            $.ajax({
+                                url: url,
+                                type: 'GET',
+                                dataType: "json",
+                                success: function (result) {
+                                    ori.show2=true;
+                                    ori.show1=false;
+                                    ori.isCollected=false;
+                                    return;
+                                }
+                            })
+						}
+					},
                     //url转换方法
                     urlparse: function(){
                         var url = window.location.href;
@@ -387,21 +519,39 @@
 
                     getCurOri:function () {
                         var data = "origId=" + this.oriId;
+                        var self=this;
                         $.ajax({
                             type: "POST",
                             url: "/original/getDetails",
                             data: data,
+							async:false,
                             dataType: "json",
                             success: function(result){
+
                                 if(result.code === 0){
-                                    ori.curOri = result.curOri;
-                                    ori.isLogined = result.isLogined;
-                                    ori.isCollected = result.isCollected;
-                                    ori.isLiked = result.isScored;
-                                    console.log(ori.isLogined);
-                                    console.log(ori.isCollected);
-                                    console.log(ori.isScored);
-                                    console.log(ori.curOri);
+                                    self.users=result.curOri.users;
+                                    self.curOri = result.curOri;
+                                    self.curOri.origTag = result.curOri.origTag.split(",");
+                                    self.other=result.other;
+                                    for(var i=0;i<result.other.length;i++){
+                                        var s=result.other[i].origTag.split(",");
+                                        /*console.log("@@@"+result.other[i].origTag);
+                                        console.log(s);*/
+                                        result.other[i].origTag=s;
+                                    }
+                                    self.isLogined = result.isLogined;
+                                    self.isCollected = result.isCollected;
+                                    self.isLiked = result.isScored;
+                                    console.log(self.isLogined);
+                                    console.log(self.isCollected);
+                                    console.log(self.isScored);
+                                    console.log(self.curOri);
+                                    if(!self.isLogined)
+                                        self.show2=true;
+                                    else {if(self.isCollected)
+                                        self.show1=true;
+                                    else
+                                        self.show2=true;}
                                 }
                             }
                         });
@@ -448,21 +598,54 @@
                     },*/
                 },
                 filters: {
-
                     dateFormat:function(val){
+                        if(val==null)
+                            return null;
                         var d = new Date(val);
-                        var year = d.getFullYear();
-                        var month = d.getMonth() + 1;
-                        var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
-                        var hour = d.getHours();
-                        var minutes = d.getMinutes();
-                        var seconds = d.getSeconds();
-                        return  year+ '年' + month + '月' + day + '日';
+                        var now = new Date();
+                        var year = now.getFullYear()-d.getFullYear();
+                        var month = now.getMonth()-d.getMonth() ;
+                        var total = year*12+month;
+                        if (total==0) total=total+1;
+                        // var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+                        // // var hour = d.getHours();
+                        // // var minutes = d.getMinutes();
+                        // // var seconds = d.getSeconds();
+                        return  total+"个月前" ;
                     },
-
-
-
                 },
+				mounted:function () {
+
+                    /*$('#star').raty({
+                        readOnly: true,
+                        score: 3,
+                        hints: ["1", "2", "3", "4", "5"]
+                    });*/
+
+                    /*$(".other").find(".item").each( function () {
+                        alert("123");
+                        var grade=$(this).find(".star").attr("id");
+
+                        $(this).find(".star").raty({
+                            readOnly: true,
+                            score:grade,
+                            hints: ["1", "2", "3", "4", "5"]
+                        });
+                    })*/
+                    $('#star').raty({
+                        readOnly: true,
+                        score: $("#star").attr("grade"),
+                        hints: ["1", "2", "3", "4", "5"]
+                    });
+                    $(".other").find(".item").each( function () {
+                        var grade=$(this).find(".star").attr("id");
+                        $(this).find(".star").raty({
+                            readOnly: true,
+                            score:grade,
+                            hints: ["1", "2", "3", "4", "5"]
+                        });
+                    })
+                }
             });
 		</script>
 	</body>
