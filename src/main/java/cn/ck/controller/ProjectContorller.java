@@ -73,7 +73,7 @@ public class ProjectContorller {
     // money 0 代表所有
     String state="0"; //记录状态
     String classify="0"; //记录状态
-    String tag="0"; //记录状态
+    String tags="0"; //记录状态
 
 
 
@@ -100,6 +100,7 @@ public class ProjectContorller {
         this.state = "0";
         this.strattime="2000-1-1";
         this.endtime  ="2099-12-31";
+        this.tags  ="0";
         return "project/Project-Shouye";
     }
     //接收一系列的参数
@@ -112,13 +113,15 @@ public class ProjectContorller {
             @RequestParam(value = "classify", defaultValue = "0") String classify,
             @RequestParam(value = "values", defaultValue = "0") String values,
             @RequestParam(value = "strattime", defaultValue = "2000-0-0") String strattime,
-            @RequestParam(value = "endtime", defaultValue = "2099-12-31") String endtime){
+            @RequestParam(value = "endtime", defaultValue = "2099-12-31") String endtime,
+            @RequestParam(value = "tags", defaultValue = "0") String tags){
 
         this.state = state;
         this.classify = classify;
         this.strattime = strattime;
         this.endtime = endtime;
         this.values = values;
+        this.tags = tags;
         return "project/Project-Shouye";
     }
 
@@ -206,6 +209,14 @@ public class ProjectContorller {
             wrappers.orderBy("proj_creattime", false);
         }
          wrappers.between("proj_creattime",this.strattime,this.endtime);
+        if(!this.tags.equals("0")){
+            String t[] = tags.split(",");
+            System.out.println(t.length);
+            for(int index = 0; index<t.length;index++) {
+                wrappers.like("proj_tag", t[index]);
+                System.out.println(t[index]);
+            }
+        }
 
         PageHelper.startPage(this.start,this.size);
         List<Project> List= projectService.selectList(wrappers);

@@ -33,6 +33,8 @@
 	<link href="/static/css/animate.css" rel="stylesheet">
 	<link href="/static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
 
+	<link rel="stylesheet" href="/static/css/css_psw/index.css" />
+
 
 
 
@@ -40,12 +42,16 @@
 
 	<script type="text/javascript">
         function  EntrySearch() {
+
+
             var box = document.getElementsByClassName("item active");
             //拿到数值，条件
             var classfiy = box[0].text; //类别
             var state = box[1].text;    //项目状态
-			var tag    =  $("#keyWord_skill_1").val();            //标签
+			var tag    =  $("#wordHiddenInput").val();          //标签
+
 			var keyword = $("#keyWord_skill_2").val();            //关键字
+
 			var starttime=$("#starttime").val();           //开始
 		    var endtime  =$("#endtime").val();           //结束
 
@@ -53,8 +59,9 @@
                 classfiy = 0;
             if(state=="项目状态")
                 state = 0;
+            if(tag=="")
+                tag=0;
 			// 全部放在？里
-
         window.location.href=
             "/project/pjconditione?values="+keyword+"&classify="+classfiy+"&state="+state+"&strattime="+starttime+"&endtime="+endtime+"&tags="+tag;
 
@@ -260,16 +267,17 @@
 						</li>
 
 						<li datatype="" class="" style="">
-							<span class="span-title">找项目</span>
-	<!--<input class="form-control" id="wordInput" type="text" name="" placeholder="请输入关键词以空格结尾">-->
-	<!--<input class="form-control" id="wordHiddenInput" type="hidden" name="tag" >-->
+							<span style="float: left; line-height: 30px" class="span-title">找项目</span>
+	<div    style="margin-left: 83px" id="wordTags"></div>
+	<input  style="width: 190px; height: 30px; float: left;margin-right: 28px;margin-left: 14px" class="form-control" id="wordInput" type="text" name="" placeholder="请输入关键词以空格结尾">
+	<input class="form-control" id="wordHiddenInput" type="hidden" name="tag" >
 
-						<input id="keyWord_skill_2" class="span-input input-fix" type="text" placeholder="输入项目关键字" value="">
+						<input  style="width: 190px; height: 30px;margin-left: 341px;" id="keyWord_skill_2" class="form-control" type="text" placeholder="输入项目关键字" value="">
 						</li>
 						<li datatype="" class="" style="">
 							<span style="float: left; line-height: 30px" class="span-title">发布日期</span>
 
-							<input type='text' style="width: 175px; height: 30px; float: left;margin-right: 25px" class="form-control" placeholder="开始日期" id='starttime' />
+							<input type='text' style="width: 190px; height: 30px; float: left;margin-right: 25px" class="form-control" placeholder="开始日期" id='starttime' />
 							<span style="float: left;line-height: 30px" class="span-title">至</span>
 							<input type='text' style="width: 175px; height: 30px; float: left;margin-right: 15px" class="form-control" placeholder="结束日期" id='endtime' />
 							<a onclick="EntrySearch()" class="btn btn-success icon-glyphicon-search time-search  service-glyphicon-search" href="javascript:void(0);">
@@ -302,8 +310,11 @@
 				<li id="templeate" style="display: none">
 					<div>
 					<div class="projectBody2">
-						<div class="divnew"><img src="/static/img/img_xwh/lefttop-newicon.png"></div>
-						<img :src=project.projImg />
+						<div v-if="project.projState=='竞标中'"  class="divnew">
+                            <img  src="/static/img/img_xwh/lefttop-newicon.png"/>
+                        </div>
+
+                        <img :src=project.projImg />
 					</div>
 					<div class="projectBody3">
 						<a :href="['projectDetail?id='+project.projId]" target="_blank">
@@ -474,7 +485,7 @@
                                      "islogin": nav_vue.isLogined,
 								 },
                                  success: function(result){
-                                     alert("intoadduser");
+                                     // alert("intoadduser");
                                  }
                              });
 
