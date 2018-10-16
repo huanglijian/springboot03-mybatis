@@ -58,21 +58,36 @@ public class stujobController extends AbstractController {
         return ResponseBo.ok().put("jobs",joblist).put("pageinfo",jobPageInfo);
     }
 
+    /* 招聘审核 */
     @GetMapping("/jobreviewList")
     @ResponseBody
     public ResponseBo jrList(){
-        List<Jobuser> juList = jobuserService.selectList(new EntityWrapper<Jobuser>());
+        System.out.println("跳转 至 招聘审核");
+        Users u = usersService.selectById(getUser().getAllId());
+        String stuId = u.getUserStudio();
+        List<Jobs> jobList = jobsService.selectList(new EntityWrapper<Jobs>().eq("job_studio",stuId));
         List<JobUsers> jusList = new ArrayList<>();
-        for(Jobuser ju:juList){
-            String userId = ju.getJuUsers();
-            Users user = usersService.selectOne(new EntityWrapper<Users>().eq("user_id",userId));
-            int jobId = ju.getJuJobs();
-            Jobs jobs = jobsService.selectOne(new EntityWrapper<Jobs>().eq("job_id",jobId));
-            JobUsers jus = new JobUsers();
-            jus.setUsers(user);
-            jus.setJobs(jobs);
-            jus.setJobuser(ju);
-            jusList.add(jus);
+
+        for(Jobs job:jobList) {
+
+            int jobId = job.getJobId();
+            List<Jobuser> juList = jobuserService.selectList(new EntityWrapper<Jobuser>().eq("ju_jobs", jobId));
+            System.out.println(juList);
+
+
+            for (Jobuser ju : juList) {
+                String userId = ju.getJuUsers();
+                Users user = usersService.selectOne(new EntityWrapper<Users>().eq("user_id", userId));
+
+                int jobId1 = ju.getJuJobs();
+                Jobs jobs = jobsService.selectOne(new EntityWrapper<Jobs>().eq("job_id", jobId1));
+
+                JobUsers jus = new JobUsers();
+                jus.setUsers(user);
+                jus.setJobs(jobs);
+                jus.setJobuser(ju);
+                jusList.add(jus);
+            }
         }
         return ResponseBo.ok().put("jobusers",jusList);
     }

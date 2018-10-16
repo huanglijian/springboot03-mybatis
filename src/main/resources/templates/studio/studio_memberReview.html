@@ -16,9 +16,7 @@
         <link href="/static/css/css_mzb/style2.css" rel="stylesheet">
         <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
         <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
-        
- 		<link rel="stylesheet" href="/static/css/css_mzb/prom_updatephoto.css" />
-		<link rel="stylesheet" href="/static/css/css_mzb/cropper.min.css" />
+
 		<link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/标签/title.css" />
         
@@ -27,11 +25,14 @@
 		<link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
 
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+		<script src="/static/js/vue.js"></script>
 		
 	</head>
 	
 	
-	<body>
+	<body style="background-color: gainsboro;background:url(/static/img/img_mzb/timg.gif) ;background-size: cover; ">
 	<!--header-->
 	<header class="header-navigation" id="headerBar">
 		<div class="nav-content-filter">
@@ -152,19 +153,18 @@
 								<li>
 									<a href="/studioPage/service">服务订单</a>
 								</li>
-								<li>
+						<!--		<li>
 									<a href="/studioPage/biddingAll">竞标一览</a>
-								</li>
+								</li>-->
 							</ul>
 						</li>
-
-						<li class="lefthead_li" >
+						<li class="lefthead_li" v-if=" user.userEntrytime == null">
 							<a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
 								招聘管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
 							</a>
 							<ul id="safemanage" class="panel-collapse collapse in">
-								<li>
+								<li >
 									<a href="/studioPage/jobInfo">招聘信息</a>
 								</li>
 								<li>
@@ -172,7 +172,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class="lefthead_li" >
+						<li class="lefthead_li" v-if="user.userEntrytime == null">
 							<a href="#membermanage" data-toggle="collapse" class="lefthead_li_a" id="five" onclick="selectimg(this.id)">
 								成员管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
@@ -195,8 +195,8 @@
 		<div class="main" id="mreviewVue">
 			<!-- 退出审核 -->
 			<div class="mainContent container-fluid ">
-			    <div class="row">
-					<h2 class="col-md-12 row_h2">退出审核</h2>
+			    <div class="row_mzb">
+					退出审核
 				</div>				
 	            <div class="col-sm-14">
 	                <div class="ibox float-e-margins" style="position: relative;top:40px;">
@@ -331,8 +331,6 @@
 			</div>
 		</footer>
     <!-- 全局js -->
-    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
-    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
     <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/static/js/plugins/layer/layer.min.js"></script>
@@ -347,8 +345,6 @@
     
    <!-- 林晓能导航栏JS效果-->
    <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
-	<script src="/static/js/jquery.min.js"></script>
-	<script src="/static/js/vue.js"></script>
 	<script>
         var jobReview = new Vue({
             el:'#mreviewVue',

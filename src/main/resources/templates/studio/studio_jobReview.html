@@ -6,7 +6,10 @@
 	
 	    <title>工作室</title>
         <!--H+-->
-	    <link rel="shortcut icon" href="favicon.ico"> 
+	    <link rel="shortcut icon" href="favicon.ico">
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+		<script src="/static/js/vue.js"></script>
 	    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 	    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 	    <link href="/static/css/animate.css" rel="stylesheet">
@@ -16,9 +19,7 @@
         <link href="/static/css/css_mzb/style2.css" rel="stylesheet">
         <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
         <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
-        
- 		<link rel="stylesheet" href="/static/css/css_mzb/prom_updatephoto.css" />
-		<link rel="stylesheet" href="/static/css/css_mzb/cropper.min.css" />
+
 		<link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/标签/title.css" />
         
@@ -31,7 +32,7 @@
 	</head>
 	
 	
-	<body>
+	<body style="background-color: gainsboro;background:url(/static/img/img_mzb/timg.gif) ;background-size: cover; ">
 	<!--header-->
 	<header class="header-navigation" id="headerBar">
 		<div class="nav-content-filter">
@@ -137,7 +138,7 @@
 				<div class="ul_contest">
 					<ul class="lefthead">
 						<li class="lefthead_li">
-							<a href="studio_index.html" style="line-height:60px;font-size:17px;color: black;">
+							<a href="/studioPage/index" style="line-height:60px;font-size:17px;color: black;">
 								我的工作室
 							</a>
 						</li>
@@ -148,28 +149,17 @@
 							</a>
 							<ul id="projectmanage" class="panel-collapse collapse in">
 								<li>
-									<a href="studio_bidding.html">竞标项目</a>
+									<a href="/studioPage/bidding">竞标项目</a>
 								</li>
 								<li>
-									<a href="studio_service.html">服务订单</a>
+									<a href="/studioPage/service">服务订单</a>
 								</li>
-								<li>
-									<a href="studio_biddingAll.html">竞标一览</a>
-								</li>
+							<!--	<li>
+									<a href="/studioPage/biddingAll">竞标一览</a>
+								</li>-->
 							</ul>
 						</li>
-						<!--<li class="lefthead_li">-->
-							<!--<a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree" onclick="selectimg(this.id)">-->
-								<!--资金管理-->
-								<!--<span class="glyphicon glyphicon-chevron-up"></span>-->
-							<!--</a>-->
-							<!--<ul id="pricemanage" class="panel-collapse collapse in">-->
-								<!--<li>-->
-									<!--<a href="studio_funds.html">资金记录</a>-->
-								<!--</li>-->
-							<!--</ul>-->
-						<!--</li>-->
-						<li class="lefthead_li">
+						<li class="lefthead_li" v-if=" user.userEntrytime == null">
 							<a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
 								招聘管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
@@ -183,7 +173,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class="lefthead_li">
+						<li class="lefthead_li" v-if="user.userEntrytime == null">
 							<a href="#membermanage" data-toggle="collapse" class="lefthead_li_a" id="five" onclick="selectimg(this.id)">
 								成员管理
 								<span class="glyphicon glyphicon-chevron-up"></span>
@@ -206,8 +196,8 @@
 		<div class="main" id="jobreviewVue">
 			<!--  招聘审核 -->
 			<div class="mainContent container-fluid ">
-		    <div class="row">
-				<h2 class="col-md-12 row_h2">招聘审核</h2>
+		    <div class="row_mzb">
+				招聘审核
 			</div>				
             <div class="col-sm-13">
                 <div class="panel blank-panel">
@@ -413,8 +403,7 @@
 			</div>
 		</footer>
     <!-- 全局js -->
-    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
-    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+
     <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/static/js/plugins/layer/layer.min.js"></script>
@@ -429,8 +418,7 @@
     
    <!-- 林晓能导航栏JS效果-->
    <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
-	<script src="/static/js/jquery.min.js"></script>
-	<script src="/static/js/vue.js"></script>
+
 	<script>
 		var jobReview = new Vue({
 			el:'#jobreviewVue',

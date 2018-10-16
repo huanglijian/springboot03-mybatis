@@ -26,7 +26,7 @@
 
 	</head>
 
-	<body style="background-color: gainsboro ">
+	<body style="background-color: gainsboro;background:url(/static/img/img_mzb/timg.gif) ;background-size: cover; ">
 	<!--header-->
 	<header class="header-navigation" id="headerBar">
 		<div class="nav-content-filter">
@@ -147,9 +147,9 @@
 								<li>
 									<a href="/studioPage/service">服务订单</a>
 								</li>
-								<li>
+<!--								<li>
 									<a href="/studioPage/biddingAll">竞标一览</a>
-								</li>
+								</li>-->
 							</ul>
 						</li>
 
@@ -338,12 +338,21 @@
 	                        	<!--工作室简介-->
 	                            <div id="tab-4" class="tab-pane active">
 	                            	<div style="position: relative;left:2%;">
-		                                <h2>擅长领域</h2>
-		                                <p>{{studio.stuField}}</p>
-		                                <h2>技能标签</h2>
-		                                <p>{{studio.stuTag}}</p>
-		                                <h2>工作室简介</h2>
-		                                <p>{{studio.stuIntro}}</p>
+										<br/>
+		                                <h3>擅长领域</h3>
+										<br/>
+		                                <p style="margin-left: 10px;">{{studio.stuField}}</p>
+										<hr/>
+
+		                                <h3>技能标签</h3>
+										<br/>
+		                                <p style="margin-left: 10px;">{{studio.stuTag}}</p>
+										<hr/>
+
+		                                <h3>工作室简介</h3>
+										<br/>
+		                                <p style="margin-left: 10px;">{{studio.stuIntro}}</p>
+										<br/>
 	                               </div>
 	                            </div>
 	

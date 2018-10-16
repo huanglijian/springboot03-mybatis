@@ -17,8 +17,6 @@
     <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
     <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="/static/css/css_mzb/prom_updatephoto.css"/>
-    <link rel="stylesheet" href="/static/css/css_mzb/cropper.min.css"/>
     <link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css"/>
     <link rel="stylesheet" href="/static/css/css_mzb/标签/title.css"/>
 
@@ -27,9 +25,12 @@
     <link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
     <link rel="stylesheet" href="/static/css/css_psw/style_head.css"/>
 
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/js/vue.js"></script>
 
 </head>
-<body>
+<body style="background-color: gainsboro;background:url(/static/img/img_mzb/timg.gif) ;background-size: cover; ">
 <!--header-->
 <header class="header-navigation" id="headerBar">
     <div class="nav-content-filter">
@@ -135,48 +136,34 @@
             <div class="ul_contest">
                 <ul class="lefthead">
                     <li class="lefthead_li">
-                        <a href="studio_index.html" style="line-height:60px;font-size:17px;color: black;">
+                        <a href="/studioPage/index" style="line-height:60px;font-size:17px;color: black;">
                             我的工作室
                         </a>
                     </li>
                     <li class="lefthead_li">
-                        <a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo"
-                           onclick="selectimg(this.id)">
+                        <a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo" onclick="selectimg(this.id)">
                             项目管理
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </a>
                         <ul id="projectmanage" class="panel-collapse collapse in">
                             <li>
-                                <a href="studio_bidding.html">竞标项目</a>
+                                <a href="/studioPage/bidding">竞标项目</a>
                             </li>
                             <li>
-                                <a href="studio_service.html">服务订单</a>
+                                <a href="/studioPage/service">服务订单</a>
                             </li>
-                            <li>
-                                <a href="studio_biddingAll.html">竞标一览</a>
-                            </li>
+                        <!--    <li>
+                                <a href="/studioPage/biddingAll">竞标一览</a>
+                            </li>-->
                         </ul>
                     </li>
-                    <!--<li class="lefthead_li">-->
-                        <!--<a href="#fundsmanage" data-toggle="collapse" class="lefthead_li_a" id="athree"-->
-                           <!--onclick="selectimg(this.id)">-->
-                            <!--资金管理-->
-                            <!--<span class="glyphicon glyphicon-chevron-up"></span>-->
-                        <!--</a>-->
-                        <!--<ul id="fundsmanage" class="panel-collapse collapse in">-->
-                            <!--<li>-->
-                                <!--<a href="studio_funds.html">资金记录</a>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</li>-->
-                    <li class="lefthead_li">
-                        <a href="#jobmanage" data-toggle="collapse" class="lefthead_li_a" id="four"
-                           onclick="selectimg(this.id)">
+                    <li class="lefthead_li" v-if=" user.userEntrytime == null">
+                        <a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
                             招聘管理
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </a>
-                        <ul id="jobmanage" class="panel-collapse collapse in">
-                            <li>
+                        <ul id="safemanage" class="panel-collapse collapse in">
+                            <li class="current">
                                 <a href="/studioPage/jobInfo">招聘信息</a>
                             </li>
                             <li>
@@ -184,9 +171,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="lefthead_li">
-                        <a href="#membermanage" data-toggle="collapse" class="lefthead_li_a" id="five"
-                           onclick="selectimg(this.id)">
+                    <li class="lefthead_li" v-if="user.userEntrytime == null">
+                        <a href="#membermanage" data-toggle="collapse" class="lefthead_li_a" id="five" onclick="selectimg(this.id)">
                             成员管理
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </a>
@@ -210,8 +196,8 @@
         <div id="vue1">
             <!-- 成员信息 -->
             <div class="mainContent container-fluid ">
-                <div class="row">
-                    <h2 class="col-md-12 row_h2">成员信息</h2>
+                <div class="row_mzb">
+                    成员信息
                 </div>
                 <div class="col-sm-14">
                     <div class="ibox float-e-margins" style="position: relative;top:40px;">
@@ -440,8 +426,6 @@
     </div>
 </footer>
 <!-- 全局js -->
-<script src="/static/js/jquery.min.js?v=2.1.4"></script>
-<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
 <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/static/js/plugins/layer/layer.min.js"></script>
@@ -453,25 +437,9 @@
 <!-- 第三方插件 -->
 <script src="/static/js/plugins/pace/pace.min.js"></script>
 
-
 <!-- 林晓能导航栏JS效果-->
 <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js"></script>
-<!-- layerDate plugin javascript -->
-<script src="/static/js/plugins/layer/laydate/laydate.js"></script>
-<script>
-    //外部js调用
-    laydate({
-        elem: '#hello', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
-        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
-    });
-    laydate({
-        elem: '#hello1',
-        event: 'focus'
-    });
 
-</script>
-<script src="/static/js/jquery.min.js"></script>
-<script src="/static/js/vue.js"></script>
 <script>
     var jobReview = new Vue({
         el: '#memberVue',

@@ -17,8 +17,7 @@
     <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
     <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="/static/css/css_mzb/prom_updatephoto.css"/>
-    <link rel="stylesheet" href="/static/css/css_mzb/cropper.min.css"/>
+
     <link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css"/>
     <link rel="stylesheet" href="/static/css/css_mzb/标签/title.css"/>
 
@@ -27,11 +26,80 @@
     <link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
     <link rel="stylesheet" href="/static/css/css_psw/style_head.css"/>
     <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <link rel="stylesheet" href="/static/css/css_mzb/bootstrapValidator.min.css" />
+    <script src="/static/js/js_mzb/validate/bootstrapValidator.min.js"></script>
+    <script >
+        $(function () {
+            $('form').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    jobName: {
+                        message: '招聘岗位验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '招聘岗位不能为空'
+                            },
+                            stringLength: {
+                                min: 3,
+                                max: 8,
+                                message: '招聘岗位长度必须在3到8位之间'
+                            },
+                        }
+                    },
+                    jobNum: {
+                        message: '招聘人数验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '招聘人数不能为空'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]*$/,
+                                message: '开发周期只能输入数字'
+                            }
+                        }
+                    },
+                    jobMoney: {
+                        message: '薪资范围验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '薪资范围不能为空'
+                            }
+
+                        }
+                    },
+                    jobDemand: {
+                        message: '职位要求验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '职位要求不能为空'
+                            }
+                        }
+                    },
+                    jobIntro: {
+                        validators: {
+                            notEmpty: {
+                                message: '职位介绍不能为空'
+                            }
+                        }
+                    }
+
+                }
+            });
+        });
+
+    </script>
     <script src="/static/js/vue.js"></script>
 
 
 </head>
-<body>
+<body style="background-color: gainsboro;background:url(/static/img/img_mzb/timg.gif) ;background-size: cover; ">
 <!--header-->
 <header class="header-navigation" id="headerBar">
     <div class="nav-content-filter">
@@ -138,43 +206,29 @@
             <div class="ul_contest">
                 <ul class="lefthead">
                     <li class="lefthead_li">
-                        <a href="studio_index.html" style="line-height:60px;font-size:17px;color: black;">
+                        <a href="/studioPage/index" style="line-height:60px;font-size:17px;color: black;">
                             我的工作室
                         </a>
                     </li>
                     <li class="lefthead_li">
-                        <a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo"
-                           onclick="selectimg(this.id)">
+                        <a href="#projectmanage" data-toggle="collapse" class="lefthead_li_a" id="atwo" onclick="selectimg(this.id)">
                             项目管理
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </a>
                         <ul id="projectmanage" class="panel-collapse collapse in">
                             <li>
-                                <a href="studio_bidding.html">竞标项目</a>
+                                <a href="/studioPage/bidding">竞标项目</a>
                             </li>
                             <li>
-                                <a href="studio_service.html">服务订单</a>
+                                <a href="/studioPage/service">服务订单</a>
                             </li>
-                            <li>
-                                <a href="studio_biddingAll.html">竞标一览</a>
-                            </li>
+                         <!--   <li>
+                                <a href="/studioPage/biddingAll">竞标一览</a>
+                            </li>-->
                         </ul>
                     </li>
-                    <!--<li class="lefthead_li">-->
-                        <!--<a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree"-->
-                           <!--onclick="selectimg(this.id)">-->
-                            <!--资金管理-->
-                            <!--<span class="glyphicon glyphicon-chevron-up"></span>-->
-                        <!--</a>-->
-                        <!--<ul id="pricemanage" class="panel-collapse collapse in">-->
-                            <!--<li>-->
-                                <!--<a href="studio_funds.html">资金记录</a>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</li>-->
-                    <li class="lefthead_li">
-                        <a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four"
-                           onclick="selectimg(this.id)">
+                    <li class="lefthead_li" v-if=" user.userEntrytime == null">
+                        <a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four" onclick="selectimg(this.id)">
                             招聘管理
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </a>
@@ -187,9 +241,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="lefthead_li">
-                        <a href="#membermanage" data-toggle="collapse" class="lefthead_li_a" id="five"
-                           onclick="selectimg(this.id)">
+                    <li class="lefthead_li" v-if="user.userEntrytime == null">
+                        <a href="#membermanage" data-toggle="collapse" class="lefthead_li_a" id="five" onclick="selectimg(this.id)">
                             成员管理
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </a>
@@ -210,8 +263,8 @@
     <div class="main">
         <!--  招 聘信 息-->
         <div class="mainContent container-fluid ">
-            <div class="row">
-                <h2 class="col-md-12 row_h2">招聘信息</h2>
+            <div class="row_mzb">
+                招聘信息
             </div>
             <button type="button" class="btn btn-w-m btn-primary" data-toggle="modal" data-target="#myModal1"
                     style="position: relative;top:20px;">
@@ -455,8 +508,7 @@
     </div>
 </footer>
 <!-- 全局js -->
-<script src="/static/js/jquery.min.js?v=2.1.4"></script>
-<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+
 <!--  <script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
   <script src="js/js_mzb/job-validate.js"></script> -->
 
@@ -470,10 +522,6 @@
 
 <!-- 第三方插件 -->
 <script src="/static/js/plugins/pace/pace.min.js"></script>
-
-
-<!-- 自定义js -->
-<script src="/static/js/content.js?v=1.0.0"></script>
 
 <!-- jQuery Validation plugin javascript-->
 <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
