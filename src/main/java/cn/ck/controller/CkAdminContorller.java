@@ -41,9 +41,9 @@ public class CkAdminContorller {
     String values     = "0";  //值
 
     @RequestMapping("/cwh")
-    @RequiresRoles("admin")
+    //@RequiresRoles("admin")
     public String cwhTest(){
-        return "resource/resource_player";
+        return "resource/res_search_results";
     }
 
     @RequestMapping("/search")
@@ -68,7 +68,7 @@ public class CkAdminContorller {
 
     @RequestMapping("/psw")
     public String pswtest(){
-        return "users/pc_mfy_information";
+        return "original/ori_search_results";
     }
     @RequestMapping("/mzb")
     public String mzbtest(){
