@@ -200,8 +200,8 @@
 			<div class="mainContent container-fluid" >
 	            <div class="col-sm-14">
 	                <div class="panel blank-panel">
-						<div class="row">
-							<h2 class="col-md-12 row_h2">竞标项目</h2>
+						<div class="row_mzb">
+							竞标项目
 						</div>		
 	                    <div class="panel-heading">
 
@@ -251,7 +251,7 @@
 											<p><button @click="quitBidding(dt.bidding.bidId)" class="btn btn-w-m btn-danger">放弃竞标</button></p>
                                         </div>
 										<div style="float: right;position: relative;top:10px;" v-else>
-											<p><a  class="btn btn-w-m btn-primary" href="#">查看项目</a></p>
+											<p><button  @click="jumpProject(dt.project.projId)" class="btn btn-w-m btn-primary" >查看项目</button></p>
 										</div>
 
                                  	</div>
@@ -295,7 +295,7 @@
                                  	</div>
                                  	<div class="btRight">
                                  		<div style="float: right;position: relative;top:20px;">
-                                        <p><button type="button" class="btn btn-w-m btn-primary">查看项目</button></p>
+                                        <p><button @click="jumpProject(dts.project.projId)" class="btn btn-w-m btn-primary">查看项目</button></p>
  
                                         </div>
                                  	</div>
@@ -398,8 +398,8 @@
 			</div>
 		</footer>
     <!-- 全局js -->
-    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
-    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
     <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/static/js/plugins/layer/layer.min.js"></script>
@@ -446,6 +446,9 @@
             methods:{
                 bpmanager:function (bidId) {
                     window.location.href="/studioPage/bpManager?bidId="+bidId;
+                },
+                jumpProject:function(projId){
+                    window.location.href="/project/projectDetail?id="+projId;
                 },
 				quitBidding:function(bidId){
                     $.ajax({

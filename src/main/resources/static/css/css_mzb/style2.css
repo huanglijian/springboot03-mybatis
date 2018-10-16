@@ -1,4 +1,5 @@
-			.ibox-content_mzb1 {
+
+                .ibox-content_mzb1 {
 			    background-color: #ffffff;
 			    color: inherit;
 			    padding: 0px 0px 0px 0px;
@@ -391,3 +392,12 @@
 /*           .nav-tabs{
            	border-bottom:1px solid #ddd;
            	}*/
+
+				.row_mzb{
+					font-size: 20px;
+					color: #999999;
+					background: #FFFFFF;
+					padding: 15px 15px 10px;
+					margin-bottom: 15px;
+					border-bottom: 3px solid #1ab394;
+				}

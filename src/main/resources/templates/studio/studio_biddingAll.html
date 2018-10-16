@@ -6,7 +6,11 @@
 	
 	    <title>工作室</title>
         <!--H+-->
-	    <link rel="shortcut icon" href="favicon.ico"> 
+	    <link rel="shortcut icon" href="favicon.ico">
+
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+		<script src="/static/js/vue.js"></script>
 	    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 	    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 	    <link href="/static/css/animate.css" rel="stylesheet">
@@ -17,8 +21,7 @@
         <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
         <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
         
- 		<link rel="stylesheet" href="/static/css/css_mzb/caijian/prom_updatephoto.css" />
-		<link rel="stylesheet" href="/static/css/css_mzb/caijian/cropper.min.css" />
+
 		<link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/标签/title.css" />
         
@@ -26,6 +29,7 @@
 		
 		<link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
+
 		
 	</head>
 	
@@ -196,46 +200,25 @@
 			
 			<!-- 竞标一览-->
 			<div class="mainContent container-fluid">
-			    <div class="row">
-					<h2 class="col-md-12 row_h2">竞标一览</h2>
+			    <div class="row_mzb">
+					竞标一览
 				</div>	
-	            <div class="bidAllTop">
+<!--	            <div class="bidAllTop">
 	            	<form>
-	            	<p>	
-	            		<input type="text" name="bidSearch" placeholder="关键词" class="bidInput"/>
-	            		<select name="xiangmuyusuan" class="bidSelect">
-	            			<option value="" selected="">按预算筛选</option>
-	            			<option value="1000">1千以下</option>
-	            			<option value="5000">1千~5千</option>
-	            			<option value="10000">5千~1万</option>
-	            			<option value="50000">1万~5万</option>
-	            			<option value="100000">5万~10万</option>
-	            			<option value="100001">10万以上</option>
-	            			<option value="0">待商议</option>
-	            		</select>
-	            		<select name="xiangmuzhuangtai" class="bidSelect" style="margin-right: 30px;">
+	            	<p>
+	            		<select name="xiangmuzhuangtai" class="bidSelect" style="margin-right: 5px;">
 	            			<option value="" selected="">按状态筛选</option>
 	            			<option value="jbz">竞标中</option>
 	            			<option value="jbcs">竞标超时</option>
 	            			<option value="kfz">竞标中止</option>
-	            			<option value="wg">开发中</option>
-	            			<option value="qbxm">开发完成</option>
-	            			<option value="tkxm">项目中止</option>
 	            		</select>
-	            		<span>日期从</span> 
-	            		<span> 
-                          <input id="hello" class="bidInput" name="startTime" placeholder="开始时间">
-                        </span>
-                        <span>至</span>
-                        <span>
-                        <input  id="hello1" class="bidInput" name="endTime" placeholder="结束时间">
                         <button type="button" class="bidaButton">
                         	<img src="/static/img/img_mzb/搜索.png"/>
                         </button>
-                        </span>
 	            	</p>
 	            	</form>
-	            </div>
+
+	            </div>-->
 	            <div class="bidAllBottom">
 		            <div class="col-sm-14">
 		                <div class="ibox float-e-margins" style="position: relative;top:40px;">
@@ -362,8 +345,7 @@
 			</div>
 		</footer>
     <!-- 全局js -->
-    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
-    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+
     
     <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -375,29 +357,11 @@
 
     <!-- 第三方插件 -->
     <script src="/static/js/plugins/pace/pace.min.js"></script>
-    
-    <!-- 自定义js -->
-    <script src="/static/js/content.js?v=1.0.0"></script>
 
 	<!-- 林晓能导航栏JS效果-->
     <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
 
-    <!-- layerDate plugin javascript -->
-    <script src="/static/js/plugins/layer/laydate/laydate.js"></script>
-    <script>
-        //外部js调用
-        laydate({
-            elem: '#hello', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
-            event: 'focus' //响应事件。如果没有传入event，则按照默认的click
-        });
-        laydate({
-            elem: '#hello1', 
-            event: 'focus'        	
-        });
 
-    </script>
-	<script src="/static/js/jquery.min.js"></script>
-	<script src="/static/js/vue.js"></script>
 	<script>
         var projbidlist = new Vue({
             el:'#bidallVue',

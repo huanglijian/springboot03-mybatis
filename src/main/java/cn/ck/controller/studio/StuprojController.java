@@ -166,9 +166,9 @@ public class StuprojController extends AbstractController {
         return ResponseBo.ok().put("bidding",bidding).put("project",project).put("promulgator",prom);
     }
 
-    @PostMapping("/bidinfoAdd")
-    @ResponseBody
-    public void bidinfoAdd(HttpServletRequest request){
+    @RequestMapping("/bidinfoAdd")
+    /*@ResponseBody*/
+    public String bidinfoAdd(HttpServletRequest request){
         String bidId = request.getParameter("bidId");
         Bidding bidding = biddingService.selectOne(new EntityWrapper<Bidding>().eq("bid_id",bidId));
         bidding.setBidMoney(request.getParameter("bidMoney"));
@@ -181,6 +181,7 @@ public class StuprojController extends AbstractController {
         System.out.println("跳转成功");
         biddingService.updateAllColumnById(bidding);
 
+        return "redirect:/studioPage/bpManager?bidId="+bidId;
     }
 
     @PostMapping("/biddingEnd/{id}")
