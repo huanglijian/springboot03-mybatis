@@ -31,8 +31,6 @@
 
 
 </head>
-
-
 <body>
 <!--header-->
 <header class="header-navigation" id="headerBar">
@@ -82,7 +80,7 @@
                         <li v-if="isLogined">
                             <a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
                         </li>
-                        <li v-if="isLogined && !isPromul">
+                        <li v-if="isLogined && !isPromul" >
                             <a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
                         </li>
                         <li v-if="isLogined">
@@ -162,18 +160,18 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="lefthead_li">
-                        <a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree"
-                           onclick="selectimg(this.id)">
-                            资金管理
-                            <span class="glyphicon glyphicon-chevron-up"></span>
-                        </a>
-                        <ul id="pricemanage" class="panel-collapse collapse in">
-                            <li>
-                                <a href="studio_funds.html">资金记录</a>
-                            </li>
-                        </ul>
-                    </li>
+                    <!--<li class="lefthead_li">-->
+                        <!--<a href="#pricemanage" data-toggle="collapse" class="lefthead_li_a" id="athree"-->
+                           <!--onclick="selectimg(this.id)">-->
+                            <!--资金管理-->
+                            <!--<span class="glyphicon glyphicon-chevron-up"></span>-->
+                        <!--</a>-->
+                        <!--<ul id="pricemanage" class="panel-collapse collapse in">-->
+                            <!--<li>-->
+                                <!--<a href="studio_funds.html">资金记录</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
                     <li class="lefthead_li">
                         <a href="#safemanage" data-toggle="collapse" class="lefthead_li_a" id="four"
                            onclick="selectimg(this.id)">
@@ -181,7 +179,7 @@
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </a>
                         <ul id="safemanage" class="panel-collapse collapse in">
-                            <li>
+                            <li class="current">
                                 <a href="/studioPage/jobInfo">招聘信息</a>
                             </li>
                             <li>
@@ -208,7 +206,6 @@
             </div>
         </div>
     </div>
-
     <!--右侧内容-->
     <div class="main">
         <!--  招 聘信 息-->
@@ -241,13 +238,16 @@
                                         <label class="col-sm-3 control-label">招聘岗位：</label>
                                         <div class="col-sm-8">
                                             <input name="jobName" id="jobName" class="form-control" type="text"
+                                                   style="width: 200px"
                                                    placeholder="例：Java开发工程师">
+
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">招聘人数：</label>
                                         <div class="col-sm-8">
                                             <input name="jobNum" id="jobNum" class="form-control" type="text"
+                                                   style="width: 100px"
                                                    placeholder="例：20">
                                         </div>
                                     </div>
@@ -255,6 +255,7 @@
                                         <label class="col-sm-3 control-label">薪资范围：</label>
                                         <div class="col-sm-8">
                                             <input name="jobMoney" id="jobMoney" class="form-control" type="text"
+                                                   style="width: 100px"
                                                    placeholder="例：6k">
                                         </div>
                                     </div>
@@ -553,7 +554,6 @@
             },
         }
     });
-
 </script>
 <!--导航条滚动js-->
 <script type="text/javascript">
