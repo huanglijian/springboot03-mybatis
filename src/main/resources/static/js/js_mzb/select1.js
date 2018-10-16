@@ -53,13 +53,10 @@
         /*下拉框的HTML代码*/
         initOption: function () {
             //初始化输入框和option
-            var data = document.getElementById("f_value").value;
-            var str = data.split(",");
-
-            /*this.ele.append('<div class="inputWrap" ><ul><li v-for="data in field"><span>\'+{{data}}+\'</span>&nbsp;&nbsp;<i :data-value="data" class="fa fa-close"></i></li></ul><i class="fa fa-angle-down"></i></div>');*/
+            this.ele.append('<div class="inputWrap"><ul></ul><i class="fa fa-angle-down"></i></div>');
             this.ele.append('<div class="mySelect-option"></div>');
             for(var i= 0;i<this.options.option.length;i++){
-                this.ele.find(".mySelect-option").append('<div data-value="'+this.options.option[i].value+'" ><span>'+this.options.option[i].label+'</span><i class="fa fa-check"></i></div>')
+                this.ele.find(".mySelect-option").append('<div data-value="'+this.options.option[i].value+'"><span>'+this.options.option[i].label+'</span><i class="fa fa-check"></i></div>')
             }
         },
         

@@ -170,13 +170,13 @@
 				<div class="col_right_vec_down_items container-fluid" id="item item2">
 					<div class="col_right_vec_down_item_left" style="width: 770px">
 						<div class="col_right_vec_down_item_left_1">
-							<a href="/v/ac4579297" target="_blank" class="thumb-preview ">
-								<img data-aid="4579297" src="http://imgs.aixifan.com/content/2018_09_12/1536718943.jpg" class="preview">
+							<a :href="'/stuhall/detail?stuid='+studio.stuId" target="_blank" class="thumb-preview ">
+								<img data-aid="4579297" :src="'/file/showImg/' + studio.stuImg" class="preview">
 							</a>
 						</div>
 						<div class="col_right_vec_down_item_left_2" style="width: 600px">
 							<div class='col_right_vec_down_item_title'>
-								<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;text-decoration: none">{{studio.stuName}}</a>
+								<a :href="'/stuhall/detail?stuid='+studio.stuId" class="" target="_blank" title="人人开源项目" style="float: left;text-decoration: none">{{studio.stuName}}</a>
 							</div>
 							<div class="clearfix"></div>
 							<div class="col_right_vec_down_item_2">

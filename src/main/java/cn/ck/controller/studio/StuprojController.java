@@ -11,6 +11,8 @@ import cn.ck.utils.DateUtils;
 import cn.ck.utils.ResponseBo;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +47,7 @@ public class StuprojController extends AbstractController {
     @GetMapping("/projectbid")
     @ResponseBody
     public ResponseBo bidproject(){
+        PageHelper.startPage(1,1);
         String userId = getUser().getAllId();
         Users user = usersService.selectOne(new EntityWrapper<Users>().eq("user_id",userId)) ;
         String stuId = user.getUserStudio();
@@ -68,7 +71,8 @@ public class StuprojController extends AbstractController {
             projectBid.setBidday(10-projectService.projBidTimeNum(project.getProjId()));
             projbidList.add(projectBid);
         }
-        return ResponseBo.ok().put("projectbid",projbidList).put("user",user);
+        PageInfo<ProjectBid> page=new PageInfo<>(projbidList);
+        return ResponseBo.ok().put("page",page).put("user",user);
     }
 
     /* 服务订单 */
@@ -162,9 +166,9 @@ public class StuprojController extends AbstractController {
         return ResponseBo.ok().put("bidding",bidding).put("project",project).put("promulgator",prom);
     }
 
-    @PostMapping("/bidinfoAdd")
-    @ResponseBody
-    public void bidinfoAdd(HttpServletRequest request){
+    @RequestMapping("/bidinfoAdd")
+    /*@ResponseBody*/
+    public String bidinfoAdd(HttpServletRequest request){
         String bidId = request.getParameter("bidId");
         Bidding bidding = biddingService.selectOne(new EntityWrapper<Bidding>().eq("bid_id",bidId));
         bidding.setBidMoney(request.getParameter("bidMoney"));
@@ -176,6 +180,8 @@ public class StuprojController extends AbstractController {
         System.out.println(bidding);
         System.out.println("跳转成功");
         biddingService.updateAllColumnById(bidding);
+
+        return "redirect:/studioPage/bpManager?bidId="+bidId;
     }
 
     @PostMapping("/biddingEnd/{id}")

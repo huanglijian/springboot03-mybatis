@@ -18,8 +18,8 @@ $(function(){
     var labelHTML = "<li data='"+id+"''>x "+text+"</li>";
     if($(this).hasClass("selected")){
       return false;
-    }else if($(".label-selected").children("li").length >= 8){
-      layer.msg("最多可以选择5个哦");
+    }else if($(".label-selected").children("li").length >= 4){
+      layer.msg("最多可以选择4个哦");
       return false;
     }
     $(".label-selected").append(labelHTML);

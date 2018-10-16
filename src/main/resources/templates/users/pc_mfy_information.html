@@ -354,7 +354,7 @@
             user:'',
             alluser:''
         },
-        mounted:function () {
+        created:function () {
             var self=this;
             axios.get(url).then(function (response) {
                 self.user=response.data.user;
@@ -362,11 +362,6 @@
                 if(response.data.pwstate=="2")
                     alert("修改成功");
             })
-        },
-        methods:{
-            deleteNotice:function(){
-                alert("123");
-            }
         }
     })
 </script>
@@ -397,14 +392,14 @@
     new Vue({
         el:'#notice',
         data:{
-            show:true,
+            show:false,
             num:''
         },
         mounted:function () {
             var self=this;
             axios.get("/user/get_sysnnum").then(function (response) {
                 self.num=response.data;
-                if(response.data==0)
+                if(response.data>0)
                     self.show=!self.show;
             })
         }

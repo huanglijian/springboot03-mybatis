@@ -6,7 +6,8 @@
 	
 	    <title>工作室</title>
         <!--H+-->
-	    <link rel="shortcut icon" href="favicon.ico"> 
+	    <link rel="shortcut icon" href="favicon.ico">
+		<script src="/static/js/jquery.min.js"></script>
 	    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 	    <link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 	    <link href="/static/css/animate.css" rel="stylesheet">
@@ -16,17 +17,19 @@
         <link href="/static/css/css_mzb/style2.css" rel="stylesheet">
         <link href="/static/css/css_mzb/tanchuan.css" rel="stylesheet">
         <link href="/static/css/css_mzb/upload.css" rel="stylesheet">
-        
- 		<link rel="stylesheet" href="/static/css/css_mzb/prom_updatephoto.css" />
-		<link rel="stylesheet" href="/static/css/css_mzb/cropper.min.css" />
+
 		<link rel="stylesheet" href="/static/css/css_mzb/xialakuang.css" />
 		<link rel="stylesheet" href="/static/css/css_mzb/标签/title.css" />
         <!--  头部，尾部，菜单栏-->
-		
-		<!--<link rel="stylesheet" href="/static//static//static//static//static//static//static//static/css/css_lxn/prom_layout-lxn.css" />-->
+
 		<link rel="stylesheet" type="text/css" href="/static/css/css_mzb/Nav_mzb.css"/>
 		<link rel="stylesheet" href="/static/css/css_psw/style_head.css" />
 
+		<!-- 分页  -->
+		<link href="/static/css/css_psw/toPage1.css" rel="stylesheet" />
+		<script type="text/javascript" src="/static/js/js_psw/toPage1.js"></script>
+
+		<script src="/static/js/vue.js"></script>
 		
 	</head>
 	
@@ -146,7 +149,7 @@
 								<span class="glyphicon glyphicon-chevron-up"></span>
 							</a>
 							<ul id="projectmanage" class="panel-collapse collapse in">
-								<li>
+								<li class="current">
 									<a href="/studioPage/bidding">竞标项目</a>
 								</li>
 								<li>
@@ -197,8 +200,8 @@
 			<div class="mainContent container-fluid" >
 	            <div class="col-sm-14">
 	                <div class="panel blank-panel">
-						<div class="row">
-							<h2 class="col-md-12 row_h2">竞标项目</h2>
+						<div class="row_mzb">
+							竞标项目
 						</div>		
 	                    <div class="panel-heading">
 
@@ -248,7 +251,7 @@
 											<p><button @click="quitBidding(dt.bidding.bidId)" class="btn btn-w-m btn-danger">放弃竞标</button></p>
                                         </div>
 										<div style="float: right;position: relative;top:10px;" v-else>
-											<p><a  class="btn btn-w-m btn-primary" href="#">查看项目</a></p>
+											<p><button  @click="jumpProject(dt.project.projId)" class="btn btn-w-m btn-primary" >查看项目</button></p>
 										</div>
 
                                  	</div>
@@ -258,6 +261,11 @@
 
 
                                </ul>
+
+									<div class="FenYe">
+										<div class="page_1"></div>
+									</div>
+
 	                            </div>
 	                       
 	                            <!--已结束-->
@@ -287,7 +295,7 @@
                                  	</div>
                                  	<div class="btRight">
                                  		<div style="float: right;position: relative;top:20px;">
-                                        <p><button type="button" class="btn btn-w-m btn-primary">查看项目</button></p>
+                                        <p><button @click="jumpProject(dts.project.projId)" class="btn btn-w-m btn-primary">查看项目</button></p>
  
                                         </div>
                                  	</div>
@@ -390,8 +398,8 @@
 			</div>
 		</footer>
     <!-- 全局js -->
-    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
-    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
     <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/static/js/plugins/layer/layer.min.js"></script>
@@ -407,8 +415,7 @@
    <!-- 林晓能导航栏JS效果-->
    <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
 
-	<script src="/static/js/jquery.min.js"></script>
-	<script src="/static/js/vue.js"></script>
+
 	<script>
         var projbidlist = new Vue({
             el:'#biddingVue',
@@ -422,14 +429,26 @@
                     url:'/stuproject/projectbid',
                     success:function (result) {
                         console.log(result);
-                        projbidlist.projectbid = result.projectbid;
+                        projbidlist.projectbid = result.page.list;
                         projbidlist.user = result.user;
+
+                        var obj_1={
+                            obj_box:'.page_1',//翻页容器
+                            total_item:result.page.total,   //条目总数
+                            per_num:result.page.pageSize,     //每页条目数*/
+                            current_page:result.page.pageNum   //当前页
+                        };
+                        page_ctrl(obj_1);
                     }
                 })
+
             },
             methods:{
                 bpmanager:function (bidId) {
                     window.location.href="/studioPage/bpManager?bidId="+bidId;
+                },
+                jumpProject:function(projId){
+                    window.location.href="/project/projectDetail?id="+projId;
                 },
 				quitBidding:function(bidId){
                     $.ajax({
@@ -460,7 +479,6 @@
                 },
             }
         });
-
 
 	</script>
 

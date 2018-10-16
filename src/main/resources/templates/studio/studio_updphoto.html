@@ -4,19 +4,23 @@
 <head>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-	<link href="/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-	<link href="/static/css/animate.css" rel="stylesheet">
 	<link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
 	<link rel="stylesheet" href="/static/css/css_psw/person-layout-lxn.css" />
 	<link href="/static/css/css_psw/style_head.css" rel="stylesheet" />
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-	<link href="/static/css/css_psw/pc_vec2.css" rel="stylesheet" />
-	<link href="/static/css/css_psw/toPage1.css" rel="stylesheet" />
-	<script type="text/javascript" src="/static/js/js_psw/toPage1.js"></script>
+
+	<!--图片上传与剪辑-->
+	<link rel="stylesheet" href="/static/css/css_psw/prom_updatephoto2.css" />
+	<link rel="stylesheet" href="/static/css/css_psw/cropper1.min.css" />
+
+	<script type="text/javascript" src="/static/js/js_psw/cropper1.min.js"></script>
+	<script type="text/javascript" src="/static/js/js_psw/prom-jquery.js"></script>
+	<script type="text/javascript" src="/static/js/js_psw/prom_updatePhoto1.js"></script>
+	<link href="/static/css/css_psw/pc_udph.css" rel="stylesheet" />
+
 	<script src="http://how2j.cn/study/vue.min.js"></script>
 	<script src="http://how2j.cn/study/axios.min.js"></script>
-	<script src="https://cdn.bootcss.com/qs/6.5.2/qs.min.js"></script>
 </head>
 
 <body>
@@ -119,7 +123,7 @@
 		<div class="col_left">
 			<div class="ul_contest">
 				<ul class="lefthead">
-					<li class="lefthead_li" id="notice">
+					<li class="lefthead_li">
 						<a href="#personcenter" data-toggle="collapse" class="lefthead_li_a" id="aone">
 							个人中心
 							<span class="glyphicon glyphicon-chevron-up"></span>
@@ -128,11 +132,11 @@
 							<li>
 								<a href="/user/user_info">个人资料</a>
 							</li>
-							<li>
+							<li class="current">
 								<a href="/user/user_mfyinfo">修改资料</a>
 							</li>
 							<li>
-								<i v-if="show" style="color: red;margin-left: -110px" class="fa fa-bell"></i><span v-if="show" style="line-height: 12px;padding: 1px 5px;background:red;position: relative;bottom:10px;right:5px;" class="label label-primary">{{num}}</span><a href="/user/user_sysn">系统通知</a>
+								<a href="/user/user_sysn">系统通知</a>
 							</li>
 						</ul>
 					</li>
@@ -145,7 +149,7 @@
 							<li>
 								<a href="/user/user_pjcol">项目收藏</a>
 							</li>
-							<li class="current">
+							<li>
 								<a href="/user/user_veocol">视频收藏</a>
 							</li>
 							<li>
@@ -184,53 +188,52 @@
 				</ul>
 			</div>
 		</div>
-		<div class="col_right" style="min-height: 640px">
-			<div class="col_right_vec_up">
-				<div class="col_right_vec_up_1" id="total">
-					<span>共 {{total}} 条</span>
+		<div class="col_right" id="right">
+			<div class="col_right_udp_up">
+				<div class="col_right_udp_up_1">
 				</div>
 			</div>
-			<div id="templeate" style="display: none">
-				<div class="col_right_vec_down_items container-fluid" id="item">
-					<div class="col_right_vec_down_item_left ">
-						<div class="col_right_vec_down_item_left_1">
-							<a :href="'/resource/player/'+resource.resId" target="_blank" class="thumb-preview">
-								<img data-aid="4579297" :src="'/file/showImg/' + resource.resImg" class="preview">
-							</a>
+			<div class="container-fluid ">
+				<div class="row contest_top" id="userimg">
+					<div class="col-md-8" id="img">
+						<img src="/user/showImg" id="photo" class="photo" >
+					</div>
+					<div class="col-md-4">
+						<div>
+							<p>
+								预览(125*125)：
+							</p>
+							<div class="img-preview">
+							</div>
 						</div>
-						<div class="col_right_vec_down_item_left_2">
-							<div class='col_right_vec_down_item_title container-fluid'>
-								<span class="channel" style="float: left;">视频</span>
-								<a :href="'/resource/player/'+resource.resId" class="" target="_blank" title="人人开源项目" style="float: left;">{{resource.resName}}</a>
-							</div>
-							<div class="col_right_vec_down_item_2 container-fluid">
-								<a class='col_right_vec_down_item_author' target="_blank" href="/resource/home">创客讲堂</a>
-								&nbsp;&nbsp;/&nbsp;&nbsp;发布于
-								<span class='col_right_vec_down_item_date'>{{resource.resUploadtime}}</span>
-								&nbsp;&nbsp;/&nbsp;&nbsp;播放:
-								<span class='col_right_vec_down_item_date'>3565</span>
-								&nbsp;点赞:
-								<span class='col_right_vec_down_item_date'>{{resource.resLikenum}}</span>
-								&nbsp;收藏:
-								<span class='col_right_vec_down_item_date'>5</span>
-							</div>
-							<div class='col_right_vec_down_item_jj ' style="margin-bottom: 4px;">介绍：
-								<span>{{resource.resIntro}}</span>
-							</div>
-							<div class='col_right_vec_down_item_bq'>
-								标签：<span>{{resource.resTag}}</span>
-							</div>
-							<a title="删除收藏" class="btn btn-delete" @click="deleteVeoCol(resource.collectres.colrId)">
-								<i class="fa fa-remove"></i>删除收藏</a>
+						<button class="btn btn-primary btn_crop" onclick="crop()">裁剪图片</button>
+						<div>
+							<br/>
+							<p>
+								裁剪结果：
+							</p>
+							<img src="/static/img/img_psw/white.jpg" alt="裁剪结果" id="result">
 						</div>
 					</div>
 				</div>
+				<div class="row contest_buttom">
+					<div class="col-md-2">
+						<label for="input" class="btn btn-primary" id="">
+							<span>选择图片</span>
+							<input type="file" id="input" class="sr-only">
+						</label>
+					</div>
+					<div class="col-md-2">
+						<!--上传具体代码操作看js-->
+						<button class="btn btn-danger" onclick="updatePhoto()">上传图片</button>
+					</div>
+				</div>
+				<div class="row contest_tips">
+					<div class="col-md-12">
+						<p>友情提示：推荐上传真实头像或者公司LOGO，将有利于增加信任度，塑造品牌 （支持格式： "jpg","png"等）,头像以裁剪结果为主</p>
+					</div>
+				</div>
 			</div>
-			<div class="col_right_vec_down" id="items" style="padding-bottom: 10px;">
-				<resource v-for="item in resources" v-bind:resource="item"></resource>
-				<div  v-if="show"><img style="display:block;margin: 0 auto" src="/static/img/img_psw/null.png" /> </div>
-			</div>
-			<div class="page_1"></div>
 		</div>
 	</div>
 	<footer>
@@ -254,62 +257,42 @@
 						<ul class="list-unstyled">
 							<li>
 								<h4>新手指南</h4>
-								<a href="/help/register">注册登录问题</a>
-								<br />
-								<a href="/help/process">项目交易流程</a>
-								<br />
-								<a href="/help/fund">充值提款问题</a>
-								<br />
-								<a href="help/about_agreement">用户注册协议</a>
-								<br />
+								<a href="/help/register">注册登录问题</a><br />
+								<a href="/help/process">项目交易流程</a><br />
+								<a href="/help/fund">充值提款问题</a><br />
+								<a href="help/about_agreement">用户注册协议</a><br />
 								<a href="/help/bid_payings">为何付费竞标</a>
 							</li>
 							<li>
 								<h4>特色服务</h4>
-								<a href="/help/renzheng">实名认证</a>
-								<br />
-								<a href="/help/searchs">精准搜索</a>
-								<br />
-								<a href="/help/workhour">小时报价</a>
-								<br />
-								<a href="/help/bumanyituikuan">不满意退款</a>
-								<br />
+								<a href="/help/renzheng">实名认证</a><br />
+								<a href="/help/searchs">精准搜索</a><br />
+								<a href="/help/workhour">小时报价</a><br />
+								<a href="/help/bumanyituikuan">不满意退款</a><br />
 								<a href="/help/bid_card">竞标卡规则</a>
 							</li>
 							<li>
 								<h4>评价信誉</h4>
-								<a href="/help/pingjiadengm">操作演示</a>
-								<br />
-								<a href="/help/service_payings">服务收费</a>
-								<br />
-								<a href="/help/evaluations">用户评价</a>
-								<br />
-								<a href="/help/jifens">积分体系</a>
-								<br />
+								<a href="/help/pingjiadengm">操作演示</a><br />
+								<a href="/help/service_payings">服务收费</a><br />
+								<a href="/help/evaluations">用户评价</a><br />
+								<a href="/help/jifens">积分体系</a><br />
 								<a href="/help/controversy">争议解决</a>
 							</li>
 							<li>
 								<h4>答疑中心</h4>
-								<a href="/help/pro_relase">项目发布问题</a>
-								<br />
-								<a href="/help/bid_joinings">参与竞标问题</a>
-								<br />
-								<a href="/help/pro_runnings">项目开发问题</a>
-								<br />
-								<a href="/help/pro_done">项目完工问题</a>
-								<br />
+								<a href="/help/pro_relase">项目发布问题</a><br />
+								<a href="/help/bid_joinings">参与竞标问题</a><br />
+								<a href="/help/pro_runnings">项目开发问题</a><br />
+								<a href="/help/pro_done">项目完工问题</a><br />
 								<a href="/help/it_realse">信息发布问题</a>
 							</li>
 							<li>
 								<h4>联系我们</h4>
-								<a href="/help/about_us">关于SXSOFT</a>
-								<br />
-								<a href="/help/about_company">公司概况</a>
-								<br />
-								<a href="/help/contact_us">联系方式</a>
-								<br />
-								<a href="/help/about_advertising">广告投放</a>
-								<br />
+								<a href="/help/about_us">关于SXSOFT</a><br />
+								<a href="/help/about_company">公司概况</a><br />
+								<a href="/help/contact_us">联系方式</a><br />
+								<a href="/help/about_advertising">广告投放</a><br />
 								<a href="/help/links">友情链接</a>
 							</li>
 						</ul>
@@ -319,71 +302,6 @@
 		</div>
 	</footer>
 	<script type="text/javascript" src="/static/js/js_psw/PersonCenter-jquery.js"></script>
-	<script type="text/javascript" src="/static/js/js_psw/js_con.js"></script>
-	<script>
-        var templeateDiv=$("#templeate").html();
-        var templeateObject={
-            props:['resource'],
-            template:templeateDiv,
-			methods:{
-                deleteVeoCol:function(id){
-                    var postData={
-                        vcid:id
-                    }
-                    axios.post('/user/delete_veocol',window.Qs.stringify(postData), {headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                    }).then(function (response) {
-                        if(response.data)
-                            window.location.reload();
-                    });
-                }
-			}
-        }
-        Vue.component("resource",templeateObject);
-        var url="/user/get_veocol";
-        new Vue({
-			el:'#items',
-			data:{
-			    resources:'',
-				show:false
-			},
-			mounted:function () {
-				var self=this;
-				axios.get(url).then(function(response){
-                    new Vue({
-                        el:'#total',
-                        data:{
-                            total:response.data.total
-                        }
-                    })
-				    self.resources=response.data.list;
-                    if(response.data.list[0]==null)
-                        self.show=!self.show;
-                    var obj_1={
-                        obj_box:'.page_1',//翻页容器
-                        total_item:response.data.total,//条目总数
-                        per_num:response.data.pageSize,//每页条目数*/
-                        current_page:response.data.pageNum//当前页
-                    };
-                    page_ctrl(obj_1);
-                    $(' .page_ctrl').on('click','button',function () {
-                        var that=$(this);
-                        if(that.hasClass('prev_page')){
-                            window.location.href="/user/user_veocol?start="+response.data.prePage;
-                        }
-                        else if(that.hasClass('next_page')){
-                            window.location.href="/user/user_veocol?start="+response.data.nextPage;
-                        }
-                        else if(that.hasClass('page_num')&&!that.hasClass('current_page')){
-                            window.location.href="/user/user_veocol?start="+that.html();
-                        }
-                        else if(that.hasClass('to_page_num')){
-                            window.location.href="/user/user_veocol?start="+that.siblings('.input_page_num').val();
-                        }
-                    });
-				})
-            }
-		})
-	</script>
 <!--导航条滚动js-->
 <script type="text/javascript">
     var new_scroll_position = 0;
@@ -408,21 +326,7 @@
 
         new_scroll_position = last_scroll_position;
     });
-    new Vue({
-        el:'#notice',
-        data:{
-            show:true,
-            num:''
-        },
-        mounted:function () {
-            var self=this;
-            axios.get("/user/get_sysnnum").then(function (response) {
-                self.num=response.data;
-                if(response.data==0)
-                    self.show=!self.show;
-            })
-        }
-    })
 </script>
 </body>
+
 </html>

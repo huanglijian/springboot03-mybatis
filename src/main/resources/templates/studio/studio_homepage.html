@@ -120,8 +120,13 @@
 						<div class="right_title">
 							{{studio.stuName}}
 						</div>
-						<div class="right_introduce">
-							{{studio.stuIntro}}
+						<div class="right_biaoqian">
+							<span class="biaoqian_head" style="font-size: 13px">组长：</span>
+							<span class="biaoqian_body"><a target="_blank" :href="'/user/user_hp?userId='+user.userId">{{user.userName}}</a></span>
+						</div>
+						<div class="right_biaoqian">
+							<span class="biaoqian_head" style="font-size: 13px">简介：</span>
+							<span class="biaoqian_body">{{studio.stuIntro}}</span>
 						</div>
 						<div class="right_biaoqian">
 							<span class="biaoqian_head">领域：</span>

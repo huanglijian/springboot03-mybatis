@@ -10,7 +10,7 @@
 	                validating: 'glyphicon glyphicon-refresh'
 	            },
 	            fields: {
-	                studioName: {
+	                stuName: {
 	                    message: '工作室名称不合法',
 	                    validators: {
 	                        notEmpty: {
@@ -25,7 +25,7 @@
 	                    }
 	                }
                      ,
-                    studioTag: {
+                    stuTag: {
 	                    validators: {
 	                        notEmpty: {
 	                            message: '技能标签不能为空'

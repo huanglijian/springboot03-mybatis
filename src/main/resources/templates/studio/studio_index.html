@@ -26,7 +26,7 @@
 
 	</head>
 
-	<body>
+	<body style="background-color: gainsboro ">
 	<!--header-->
 	<header class="header-navigation" id="headerBar">
 		<div class="nav-content-filter">
@@ -131,7 +131,7 @@
 				<div class="ul_contest">
 					<ul class="lefthead">
 						<li class="lefthead_li">
-							<a href="/studioPage/index" style="line-height:60px;font-size:17px;color: black;">
+							<a href="/studioPage/index" style="line-height:60px;font-size:17px;color: black;" >
 								我的工作室
 							</a>
 						</li>
@@ -191,7 +191,7 @@
 			<div class="mainTop" >
 				<div class="logo">
 					 <!--头像大小220x170-->
-					<img src="/static/img/img_mzb/tx.png" />
+					<img class="img-responsive img-rounded" style="width: 222px; height: 172px;"  src="/studio/showImg" />
 					<div class="settingimg" v-if="user.userEntrytime == null">
 						<a style="color:white" href="/studioPage/headUpdate">
 							修 改 头 像
@@ -206,9 +206,9 @@
 							<img src="/static/img/img_mzb/renzheng.png" >
 							&nbsp;已认证	
 							<span style="position: relative;right: -6%;top:-5px;" v-if="user.userStudio!=null && user.userEntrytime==null">
-								<a  href="/studioPage/infoUpdate" class="btn btn-outline btn-primary" >
+								<button  @click="jumpInfoupdate(studio.stuId)" class="btn btn-outline btn-primary" >
 									修改信息
-								</a>
+								</button>
 								&nbsp;
 								<button   class="btn btn-outline btn-danger btn-sm " data-toggle="modal" data-target="#myModal4">
 									解散退出
@@ -355,7 +355,7 @@
 									        <div class="memberList" v-for="dt in member">
 										       	<div class="mTop">
 										       		<!--图片像素 160 X 160-->
-										       		<img src="/static/img/img_mzb/160X160.png" />
+										       		<img :src="dt.userImgpath" />
 										       	</div>
 										       	<div class="mBottom">
 										       		<div class="mbLeft">
@@ -364,7 +364,7 @@
 										       			<h5 style="position: relative;top:0px;color: black;font-size: 12px;">{{dt.users.userEntrytime|dateFormat}}&nbsp;加入</h5>
 										       		</div>
 										       		<div class="mbRight">
-										       			<button type="button" class="btn btn-primary btn-sm" style="position:relative;top:3px;" onclick="personPage(dt.users.userId)">
+										       			<button type="button" class="btn btn-primary btn-sm" style="position:relative;top:3px;" @click="jumpPerson(dt.users.userId)">
 															主 页
 														</button>
 										       		</div>
@@ -383,25 +383,22 @@
 									        <div class="projectList">
 										       	<div class="pTop">
 										       		<!--图片像素 160 X 160-->
-										       		<img src="/static/img/img_mzb/220x220.png" />
+										       		<img :src="data.projImgpath" />
 										       	</div>
 										       	<div class="pCenter">
 										       		 <p>
 	                                                     <p>
-	                                                     	<span style="font-size: 17px;margin-left: 5px;color: black;">{{data.projName}}</span>
+	                                                     	<span style="font-size: 17px;margin-left: 5px;color: black;">{{data.project.projName}}</span>
 	                                                     </p>
 	                                                     <p style="position: relative;top:-10px;margin-left: 5px;">
-	                                                        <span style="margin-right:60px;color: black;">{{data.projType}}</span>
-	                                                        <span style="font-size: 18px;color: orange;">{{data.projMoney}}/{{data.projCycletime}}天</span>
+	                                                        <span style="margin-right:60px;color: black;">{{data.project.projType}}</span>
+	                                                        <span style="font-size: 18px;color: orange;">{{data.project.projMoney}}/{{data.project.projCycletime}}天</span>
 	                                                     </p>
                                                     </p>
 										       	 </div>
 										       	 <div class="pBottom">
 										       	 	<span style="position: relative;top: -17px;margin-right: 5px;">
-										       	 	 <a class="btn btn-primary" href="buttons.html#">详情</a>
-										       	 	 <a class="btn btn-danger" href="buttons.html#" v-if="user.userStudio!=null && user.userEntrytime==null">
-														 删除
-													 </a>
+										       	 	 <button class="btn btn-primary" @click="jumpProject(data.projId)">详情</button>
 										       	 	</span>
 										       	 </div>
 									         </div>
@@ -515,11 +512,7 @@
     <!-- 第三方插件 -->
    <script src="/static/js/plugins/pace/pace.min.js"></script>
 
-   <!--上传插件-->
 
-    <!--省级联动-->
-    <script class="resources library" src="/static/js/js_mzb/area.js" type="text/javascript"></script>
-    <script type="text/javascript">_init_area();</script>
 
    <!-- 林晓能导航栏JS效果-->
    <script type="text/javascript" src="/static/js/js_mzb/PersonCenter-jquery.js" ></script>
@@ -560,6 +553,15 @@
                             }
                         }
                     })
+                },
+				jumpPerson:function(userId){
+                    window.location.href="/user/user_hp?userId="+userId;
+				},
+                jumpProject:function(projId){
+                    window.location.href="/project/projectDetail?id="+projId;
+                },
+				jumpInfoupdate:function (stuId) {
+                    window.location.href="/studioPage/infoUpdate";
                 }
             },
             filters: {
@@ -578,15 +580,6 @@
             }
         });
 
-
-
-
-        /*跳转到个人主页*/
-        function personPage(userId) {
-
-        }
-        
-        
 	</script>
 
 

@@ -42,8 +42,14 @@ public class ProjectContorller {
     String bid = null;
     String projectid = null; //记录项目详情页的项目id
 
-    int start=1;//记录当前页 默认为“0“
-    int size = 5; //记录每页条目数，默认为”10“
+    String stuidid = null;
+
+    //这里给开始时间设置一个无限小的值，给结束时间设置一个无限大的值
+    String strattime = "2000-0-0"; //搜寻条件之---开始时间
+    String endtime   = "2099-12-31";   //搜寻条件之---结束时间
+
+    int start=1;//记录当前页 默认为“1“
+    int size = 5; //记录每页条目数，默认为”5“
 //    String conditions = "0"; //条件
     String values     = "0";  //project值
 
@@ -67,7 +73,8 @@ public class ProjectContorller {
     // money 0 代表所有
     String state="0"; //记录状态
     String classify="0"; //记录状态
-    String tag="0"; //记录状态
+    String tags="0"; //记录状态
+
 
 
     //当点击上方的选择框时 跳转到下方的mapping
@@ -85,13 +92,15 @@ public class ProjectContorller {
     //将条件清零
     @RequestMapping("/pjClear")
     public String pjclear(){
-
         this.values="0";
         this.start = 1;
         this.orderByMoney=false;
         this.orderByDate =false;
         this.classify="0";
         this.state = "0";
+        this.strattime="2000-1-1";
+        this.endtime  ="2099-12-31";
+        this.tags  ="0";
         return "project/Project-Shouye";
     }
     //接收一系列的参数
@@ -102,27 +111,34 @@ public class ProjectContorller {
     public String pjpageset(
             @RequestParam(value = "state", defaultValue = "1")  String state,
             @RequestParam(value = "classify", defaultValue = "0") String classify,
-            @RequestParam(value = "money", defaultValue = "0") String money){
+            @RequestParam(value = "values", defaultValue = "0") String values,
+            @RequestParam(value = "strattime", defaultValue = "2000-0-0") String strattime,
+            @RequestParam(value = "endtime", defaultValue = "2099-12-31") String endtime,
+            @RequestParam(value = "tags", defaultValue = "0") String tags){
 
         this.state = state;
         this.classify = classify;
-
+        this.strattime = strattime;
+        this.endtime = endtime;
+        this.values = values;
+        this.tags = tags;
         return "project/Project-Shouye";
     }
 
     @RequestMapping("/toadduser")
+    @ResponseBody
     public void toadduser(HttpServletRequest request){
        String bid = request.getParameter("bid");
-       if(bid!=null) {
+        String islogin = request.getParameter("islogin");
+       if(islogin.equals("true")) {
            if (bid.equals("undefined"))
                this.bid = null;
            else
                this.bid = bid;
-           System.out.println("in---toadduser");
-           System.out.println("this.bid" + this.bid);
-           System.out.println("bid" + bid);
+
        }
-        return ;
+        System.out.println(islogin);
+
     }
 
     //按预算 排序
@@ -171,11 +187,13 @@ public class ProjectContorller {
     @ResponseBody
     public PageInfo<Project> get_projects(){
 
-
         System.out.println("state:"+this.state);
          System.out.println("classify:"+this.classify);
         System.out.println("start:"+ this.start);
         System.out.println("values:"+ this.values);
+        System.out.println("this.strattime:"+ this.strattime);
+        System.out.println("this.endtime:"+ this.endtime);
+        System.out.println("this.bid:"+ this.bid);
         EntityWrapper<Project>  wrappers = new EntityWrapper<Project>();
         if(!state.equals("0"))     //状态
             wrappers.eq("proj_state",state);
@@ -190,11 +208,18 @@ public class ProjectContorller {
         if(orderByDate) {
             wrappers.orderBy("proj_creattime", false);
         }
+         wrappers.between("proj_creattime",this.strattime,this.endtime);
+        if(!this.tags.equals("0")){
+            String t[] = tags.split(",");
+            System.out.println(t.length);
+            for(int index = 0; index<t.length;index++) {
+                wrappers.like("proj_tag", t[index]);
+                System.out.println(t[index]);
+            }
+        }
 
         PageHelper.startPage(this.start,this.size);
-
         List<Project> List= projectService.selectList(wrappers);
-
 
         //未登录
 //        bid="e9ae842a-e70f-49b8-a9b5-bee24a13c8bb";
@@ -309,12 +334,28 @@ public class ProjectContorller {
         // 2.首先查出所有的  项目！！！
         List<Project> projects = projectService.selectList(new EntityWrapper<Project>());
         List<Project> projectNeed = new ArrayList<Project>();
-        Date nowtime = new Date();
-        EntityWrapper<Project>  wrappers1 = new EntityWrapper<Project>();
 
-        for(Project p: projects){
+        EntityWrapper<Project>  wrappers1 = new EntityWrapper<Project>();
+//方法一
+//        for(Project p: projects){
+//            Date nowtime = new Date();
+//            Date creattime =p.getProjCreattime();
+//            creattime.setDate(creattime.getDay()+10);
+//
+////            if(nowtime.after(creattime)) {
+////                System.out.println(nowtime+"-----"+creattime);
+////                System.out.println("超标了" + p.getProjId());
+////                if(p.getProjState().equals("竞标中"))
+////                    p.setProjState("竞标超时");
+////                //修改状态
+////            }
+//        }
+        //方法二
+                for(Project p: projects){
+            Date nowtime = new Date();
             Date creattime =p.getProjCreattime();
-            creattime.setDate(creattime.getDay()+10);
+
+             nowtime.setDate(nowtime.getDay()-10);
 
             if(nowtime.after(creattime)) {
                 System.out.println(nowtime+"-----"+creattime);
@@ -324,6 +365,8 @@ public class ProjectContorller {
                 //修改状态
             }
         }
+
+
         projectService.updateAllColumnBatchById(projects);
 
         int count;
@@ -586,14 +629,37 @@ public class ProjectContorller {
 //        }
 //    }
 
+    //这里是判断是否已经参与竞标的函数
+    //同理他已经是组长了
+    @RequestMapping("/isalreadybid")
+    @ResponseBody
+    public Boolean isalready(@RequestParam(value = "pidId", defaultValue = "")  String pidId
+    ) {
+        Boolean isalreadybid = null;
+     //是否存在竞标记录
+      EntityWrapper<Bidding>  wrappers = new EntityWrapper<Bidding>();
+      wrappers.eq("bid_studio",this.stuidid);
+      wrappers.eq("bid_proj",pidId);
+      Bidding bid =  biddingService.selectOne(wrappers);
+      //存在
+      if(bid!=null){
+          isalreadybid = true;
+      }
+        System.out.println("in---isalready and result is"+isalreadybid);
+        return isalreadybid;
+    }
 
 
     @RequestMapping("/jingbiao")
     public  String jingbiao(HttpServletRequest request) {
         //此时 已经确定是组长了
+        //不是组长的话必然存在错误
         String  bidId = request.getParameter("bid1");
         int pid = 0;
         String  pidId = request.getParameter("pid1");
+        System.out.println("in---jingbiao");
+        System.out.println("userid:"+bidId);
+        System.out.println("pid:"+pidId);
         try {
            pid = Integer.parseInt(pidId);
         } catch (NumberFormatException e) {
@@ -610,6 +676,8 @@ public class ProjectContorller {
             //用户名为空
         }
         else {
+
+
             System.out.println(studio.getStuName());
             System.out.println(studio.getStuId());
             Date now = new Date();
@@ -635,7 +703,7 @@ public class ProjectContorller {
 
             boolean ok = biddingService.insert(bidding);
             System.out.println(pid);
-            System.out.println("---" + ok);
+           System.out.println("---" + ok);
             System.out.println(bidId);
 
         }
@@ -650,6 +718,7 @@ public class ProjectContorller {
 
         String isleader = "false";
         System.out.println("-----" + bidId + "---------");
+
         if (bidId.equals("undefined")) {
             System.out.println("in---login");
             isleader ="bad";
@@ -663,6 +732,8 @@ public class ProjectContorller {
                 System.out.println("不是工作室的Boss");
 
             } else {
+                //知道了是组长后，将工作室的id赋值给全局变量
+                this.stuidid = studio.getStuId();
                 isleader = "true";
             }
 

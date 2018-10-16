@@ -1,9 +1,11 @@
 package cn.ck.controller.studio;
 
 
+import cn.ck.entity.Invite;
 import cn.ck.entity.Project;
 import cn.ck.entity.Studio;
 import cn.ck.entity.Users;
+import cn.ck.service.InviteService;
 import cn.ck.service.ProjectService;
 import cn.ck.service.StudioService;
 import cn.ck.service.UsersService;
@@ -28,6 +30,8 @@ public class StudioHall {
     UsersService usersService;
     @Autowired
     ProjectService projectService;
+    @Autowired
+    InviteService inviteService;
 
     int start;//记录当前页 默认为“0“
     int size; //记录每页条目数，默认为”10“
@@ -36,6 +40,8 @@ public class StudioHall {
     String studioName;
     String sort;
     String stuid;
+    String pormId;
+    Integer proId;
 
     //跳转工作室大厅
     @RequestMapping("/hall")
@@ -51,7 +57,9 @@ public class StudioHall {
 
     //跳转工作室大厅
     @RequestMapping("/hall2")
-    public String hall2(@RequestParam(value = "type",defaultValue = "不限") String type,@RequestParam(value = "local",defaultValue = "不限") String local,@RequestParam(value = "studioName",defaultValue = "") String studioName,@RequestParam(value = "sort",required = false) String sort,@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "4") int size){
+    public String hall2(@RequestParam(value = "type",defaultValue = "不限") String type,@RequestParam(value = "local",defaultValue = "不限") String local,@RequestParam(value = "studioName",defaultValue = "") String studioName,@RequestParam(value = "sort",required = false) String sort,@RequestParam(value = "proId",required = true) Integer proId,@RequestParam(value = "pormId",required = true) String pormId,@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "4") int size){
+        this.pormId=pormId;
+        this.proId=proId;
         this.type=type;
         this.local=local;
         this.studioName=studioName;
@@ -81,6 +89,8 @@ public class StudioHall {
         map.put("local",local);
         map.put("studioName",studioName);
         map.put("sort",sort);
+        map.put("pormId",pormId);
+        map.put("proId",proId);
         return map;
     }
 
@@ -97,6 +107,28 @@ public class StudioHall {
         map.put("user",user);
         map.put("projects",projectList);
         return map;
+    }
+
+    //插入邀请竞标表
+    @RequestMapping("/insert_invite")
+    @ResponseBody
+    public String insert_invite(String stuId){
+        Invite invite=inviteService.selectOne(new EntityWrapper<Invite>().eq("inv_project",proId).eq("inv_studio",stuId).eq("inv_prom",pormId));
+        System.out.println(proId);
+        System.out.println(pormId);
+        System.out.println("----------------------");
+        if(invite==null){
+            Invite invite2=new Invite();
+            invite2.setInvProject(proId);
+            invite2.setInvCreattime(new Date());
+            invite2.setInvProm(pormId);
+            invite2.setInvStudio(stuId);
+            if(inviteService.insertAllColumn(invite2))
+                return "1";
+            else
+                return "0";
+        }
+        return "2";
     }
 
 }

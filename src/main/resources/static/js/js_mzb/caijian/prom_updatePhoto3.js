@@ -2,7 +2,7 @@
 var initCropper = function(img, input) {
 	var $image = img;
 	var options = {
-		aspectRatio: 1, // 纵横比
+		aspectRatio: 1.3, // 纵横比
 		viewMode: 2,
 		preview: '.img-preview' // 预览图的class名
 	};
@@ -42,8 +42,8 @@ var crop = function() {
 	var $image = $('#photo');
 	var $target = $('#result');
 	$image.cropper('getCroppedCanvas', {
-		width: 220, // 裁剪后的长宽
-		height: 170
+		width: 222, // 裁剪后的长宽
+		height: 172
 	}).toBlob(function(blob) {
 		// 裁剪后将图片放到指定标签
 		$target.attr('src', URL.createObjectURL(blob));
@@ -58,26 +58,21 @@ $(function() {
 //cropper上传图片到服务器
 var updatePhoto = function () {
     // 得到PNG格式的dataURL
-    var photo = $('#photo').cropper('getCroppedCanvas', {
-        width: 300,
-        height: 300
+    var photo = $('.photo').cropper('getCroppedCanvas', {
+        width: 222,
+        height: 172
     }).toDataURL('image/png');
 
     $.ajax({
-        url: '上传地址', // 要上传的地址
+        url: '/studio/updatephoto', // 要上传的地址
         type: 'post',
         data: {
-            'imgData': photo
+            'dataURL': photo,
         },
         dataType: 'json',
         success: function (data) {
-            if (data.status == 0) {
-                // 将上传的头像的地址填入，为保证不载入缓存加个随机数
-                $('.user-photo').attr('src', '头像地址?t=' + Math.random());
-                $('#changeModal').modal('hide');
-            } else {
-                alert(data.info);
-            }
+            alert(data.msg);
+            window.location.reload();
         }
     });
 }

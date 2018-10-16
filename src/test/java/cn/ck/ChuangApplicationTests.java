@@ -18,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -65,9 +62,20 @@ public class ChuangApplicationTests {
 
     @Test
     public void promtest() {
-        String id = "af8cfc18-b84d-4825-a49c-e0f6cb527858";
-        Promulgator prom = new Promulgator();
-        prom = promservice.selectID(id);
-        System.out.println(prom);
+        double projnum=projectService.selectCount(new EntityWrapper<Project>().addFilter("DATE_FORMAT(proj_creattime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )",""));
+        double preprojnum=projectService.selectCount(new EntityWrapper<Project>().addFilter("DATE_FORMAT( CURDATE( ) , '%Y%m' ) - DATE_FORMAT(proj_creattime, '%Y%m' ) =1",""));
+        int projtip=0;
+        double projpercent;
+        if(preprojnum==0){
+            projtip=1;
+            projpercent=100;
+        }else if(projnum<preprojnum){
+            projpercent=100-(projnum/preprojnum)*100;
+            projtip=0;
+        }else{
+            projpercent=projnum/preprojnum;
+            projtip=1;
+        }
+        System.out.println(projnum+"----"+preprojnum+"---"+projpercent);
     }
 }

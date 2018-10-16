@@ -3,7 +3,7 @@
 		//index 相当于 for中的i，从 0 开始
 		// element 相当于当前元素
 		$(".changeone li").each(function(index,element){      
-			if(index/4<changeindex){
+			if(index/15<changeindex){
                 
 				element.className="change"+changeindex;
 			}else{

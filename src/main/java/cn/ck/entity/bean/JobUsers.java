@@ -16,6 +16,7 @@ public class JobUsers {
     private Jobs jobs;
     private Jobuser jobuser;
     private Users users;
+    private String userImgpath;
 
     private String jobName;
     private String userName;
@@ -44,6 +45,14 @@ public class JobUsers {
 
     public void setUsers(Users users) {
         this.users = users;
+    }
+
+    public String getUserImgpath() {
+        return userImgpath;
+    }
+
+    public void setUserImgpath(String userImgpath) {
+        this.userImgpath = userImgpath;
     }
 
     public String getJobName() {
@@ -84,6 +93,7 @@ public class JobUsers {
                 "jobs=" + jobs +
                 ", jobuser=" + jobuser +
                 ", users=" + users +
+                ", userImgpath='" + userImgpath + '\'' +
                 ", jobName='" + jobName + '\'' +
                 ", userName='" + userName + '\'' +
                 ", userImg='" + userImg + '\'' +

@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="/static/js/js_psw/toPage1.js"></script>
 	<script src="http://how2j.cn/study/vue.min.js"></script>
 	<script src="http://how2j.cn/study/axios.min.js"></script>
+	<script src="https://cdn.bootcss.com/qs/6.5.2/qs.min.js"></script>
 	<style>
 
 	</style>
@@ -211,7 +212,7 @@
 					<div class="service-body-service">
 						<a href="#" target="_blank" :href="jumpto(studio.stuId)">
 							<div class="small-card">
-								<img style="width: 250px;height: 169.3px" class="img-responsive img-rounded" :src="'/file/showImg/' + studio.stuImg"  alt="商标设计（原创设计修改至满意为止包过注册）">
+								<img style="width: 250px;height: 169.3px" class="img-responsive img-rounded" :src="'/file/showImg/' + studio.stuImg">
 							</div>
 						</a>
 						<div class="service_content">
@@ -228,7 +229,7 @@
 									<div class="service-jbf-name" :title="studio.stuName">
 										<a class="nowrap" :href="jumpto(studio.stuId)" target="_blank">{{studio.stuName}}</a>
 									</div>
-									<div class="huiyuanleixing"><a style="color: white">邀请竞标</a></div>
+									<div class="huiyuanleixing"><a style="color: white" @click="invite(studio.stuId)">邀请竞标</a></div>
 								</div>
 							</div>
 						</div>
@@ -337,6 +338,20 @@
         methods:{
             jumpto:function (id) {
                 return "/stuhall/detail?stuid="+id;
+            },
+			invite:function (stuId) {
+                var postData={
+                    stuId:stuId
+                }
+                axios.post('/stuhall/insert_invite',window.Qs.stringify(postData), {headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                }).then(function (response) {
+                    if(response.data=="1")
+                        alert("邀请成功！");
+                    else if(response.data=="2")
+                        alert("你已邀请过该工作室！");
+                    else
+                        alert("邀请失败！");
+                });
             }
         }
     }
@@ -346,7 +361,7 @@
         el:'#studiohall',
         data:{
             studios:'',
-            show:false
+            show:false,
         },
         mounted:function () {
             var self=this;
@@ -366,20 +381,20 @@
                             if(this.type==type)
                                 return "javascript:return false";
                             else
-                                return "/stuhall/hall?type="+type+"&local="+this.local+"&studioName="+this.studioName;
+                                return "/stuhall/hall2?type="+type+"&local="+this.local+"&studioName="+this.studioName+"&proId="+response.data.proId+"&pormId="+response.data.pormId;
                         },
                         jumpType2:function(local){
                             if(this.local==local)
                                 return "javascript:return false";
                             else
-                                return "/stuhall/hall?type="+this.type+"&local="+local+"&studioName="+this.studioName;
+                                return "/stuhall/hall2?type="+this.type+"&local="+local+"&studioName="+this.studioName+"&proId="+response.data.proId+"&pormId="+response.data.pormId;
                         },
                         jumpType3:function(){
                             if(this.studioName=="") {
-                                return "/stuhall/hall";
+                                return "/stuhall/hall2?proId="+response.data.proId+"&pormId="+response.data.pormId;
                             }
                             else
-                                return "/stuhall/hall?studioName="+this.studioName;
+                                return "/stuhall/hall2?studioName="+this.studioName+"&proId="+response.data.proId+"&pormId="+response.data.pormId;
                         },
                         addClass:function(type){
                             if(this.type==type)
@@ -412,9 +427,9 @@
                     methods:{
                         toggle: function(){
                             if(response.data.sort=='1')
-                                window.location.href="/stuhall/hall?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort=2";
+                                window.location.href="/stuhall/hall2?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort=2"+"&proId="+response.data.proId+"&pormId="+response.data.pormId;
                             else
-                                window.location.href="/stuhall/hall?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort=1";
+                                window.location.href="/stuhall/hall2?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort=1"+"&proId="+response.data.proId+"&pormId="+response.data.pormId;
                         }
                     }
                 });
@@ -428,16 +443,16 @@
                 $(' .page_ctrl').on('click','button',function () {
                     var that=$(this);
                     if(that.hasClass('prev_page')){
-                        window.location.href="/stuhall/hall?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort="+response.data.sort+"&start="+response.data.page.prePage;
+                        window.location.href="/stuhall/hall2?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort="+response.data.sort+"&proId="+response.data.proId+"&pormId="+response.data.pormId+"&start="+response.data.page.prePage;
                     }
                     else if(that.hasClass('next_page')){
-                        window.location.href="/stuhall/hall?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort="+response.data.sort+"&start="+response.data.page.nextPage;
+                        window.location.href="/stuhall/hall2?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort="+response.data.sort+"&proId="+response.data.proId+"&pormId="+response.data.pormId+"&start="+response.data.page.nextPage;
                     }
                     else if(that.hasClass('page_num')&&!that.hasClass('current_page')){
-                        window.location.href="/stuhall/hall?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort="+response.data.sort+"&start="+that.html();
+                        window.location.href="/stuhall/hall2?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort="+response.data.sort+"&proId="+response.data.proId+"&pormId="+response.data.pormId+"&start="+that.html();
                     }
                     else if(that.hasClass('to_page_num')){
-                        window.location.href="/stuhall/hall?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort="+response.data.sort+"&start="+that.siblings('.input_page_num').val();
+                        window.location.href="/stuhall/hall2?type="+response.data.type+"&local="+response.data.local+"&studioName="+response.data.studioName+"&sort="+response.data.sort+"&proId="+response.data.proId+"&pormId="+response.data.pormId+"&start="+that.siblings('.input_page_num').val();
                     }
                 });
             })

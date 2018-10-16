@@ -1,7 +1,7 @@
 
        
         .mySelect .inputWrap{
-            width:678.33px;
+            width:653.33px;
             min-height: 40px;
             
             border: 1px solid gainsboro;
@@ -31,7 +31,7 @@
             color: #237eff;
         }
         .mySelect .mySelect-option{
-            width: 678.33px;
+            width: 651.33px;
             border: 1px solid #ccc;
             max-height: 200px;
             overflow-y: scroll;

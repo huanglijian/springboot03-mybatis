@@ -43,9 +43,7 @@ public class testController extends AbstractController {
 
     @RequestMapping("/jump")
     public String pageTest(){
-        Jobs jobs = jobsService.selectById(1);
-        System.out.println(jobs);
-        return "studio/studio_test";
+        return "studio/studio_biddingAll";
     }
 
 
