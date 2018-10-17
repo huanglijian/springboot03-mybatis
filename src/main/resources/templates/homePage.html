@@ -585,7 +585,7 @@
                             </div>
                             <div class="studioCard_back">
                                 <div class="studioCard_inner">
-                                    <p>{{s.stuIntro}}</p>
+                                    <p>{{s.stuIntro | introfilter}}</p>
                                 </div>
                             </div>
                         </div>
@@ -619,9 +619,10 @@
                         });
                     },
                     toStudio: function (stuId){
-                        let url = "" + stuId;
-                        window.open("","_blank");
+                        let url = "/stuhall/detail?stuid=" + stuId;
+                        window.open(url,"_blank");
                     }
+
                 },
                 filters: {
                     studioNamefilter: function (value) {
@@ -645,31 +646,6 @@
                         var minutes = d.getMinutes();
                         var seconds = d.getSeconds();
                         return  year+ '年' + month + '月' + day + '日';
-                    },
-                    numfilter: function(value){
-                        if(value > 10000){
-                            value = value / 10000;
-                            return value + "万";
-                        }
-                        else if(value > 1000){
-                            value = value /1000;
-                            return value + "千";
-                        }
-                        else
-                            return value;
-                    },
-                    mintohour: function (value) {
-                        if(value >= 60){
-                            var h = value / 60;
-                            var min = value % 60;
-                            return h + ":" + min;
-                        }
-                        else{
-                            if(value < 10){
-                                return "00:0" + value;
-                            }
-                            else return "00:" + value;
-                        }
                     },
                 },
             });

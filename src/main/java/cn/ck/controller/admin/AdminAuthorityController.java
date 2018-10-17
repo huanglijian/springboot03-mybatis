@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,6 +44,8 @@ public class AdminAuthorityController extends AbstractController {
     private ResourceService resourceService;
     @Autowired
     private CollectresService collectresService;
+    @Autowired
+    private ProjectService projectService;
 
     /**
      * 管理员信息页面
@@ -111,7 +114,6 @@ public class AdminAuthorityController extends AbstractController {
 
         return ResponseBo.ok();
     }
-
 
     /**
      * 用户信息页面
@@ -241,9 +243,7 @@ public class AdminAuthorityController extends AbstractController {
 
         for(Resource o : enitylist){
 
-            Map<String, Object> mid = new HashMap<>();
-
-            mid.putAll(EnityUtils.entityToMap(o));
+            Map<String, Object> mid = new HashMap<>(EnityUtils.entityToMap(o));
             mid.put("collectNum", collectresService.getCollectedNumByRes(o.getResId()));
 
             list.add(mid);
@@ -316,7 +316,7 @@ public class AdminAuthorityController extends AbstractController {
                 tagMap.put(t, (likenum + tagMap.getOrDefault(t, 0)));
             }
         }
-
+        //map排序
         Map<String, Integer> result = tagMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
@@ -357,7 +357,7 @@ public class AdminAuthorityController extends AbstractController {
                 tagMap.put(t, (num + tagMap.getOrDefault(t, 0)));
             }
         }
-
+        //map排序
         Map<String, Integer> result = tagMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
@@ -366,5 +366,70 @@ public class AdminAuthorityController extends AbstractController {
 
         //categories : 标签， data ： 标签收藏数
         return ResponseBo.ok().put("categories", result.keySet()).put("data", result.values());
+    }
+
+    /**
+     * 项目标签图
+     * @return
+     */
+    @RequestMapping("getProjTagEchart")
+    @ResponseBody
+    public ResponseBo getProjTagEchart(){
+        List<Project> list =projectService.selectList(new EntityWrapper<>());
+
+        //key：标签 ， value ： 收藏数
+        Map<String, Integer> tagMap = new HashMap<>();
+        int num;
+
+        for(Project obj : list){
+
+            //可以替换大部分空白字符， 不限于空格
+            String tagStr = CharMatcher.WHITESPACE.or(CharMatcher.INVISIBLE).removeFrom(obj.getProjTag());
+            //按半角','号分割
+            List<String> tags = Lists.newArrayList(
+                    Splitter.on(',')
+                            .trimResults()
+                            .omitEmptyStrings()
+                            .split(tagStr)
+            );
+            //计算每个tag点赞数
+            for(String t : tags){
+                tagMap.put(t, (tagMap.getOrDefault(t, 0) + 1));
+            }
+        }
+        //map排序
+        Map<String, Integer> result = tagMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+
+        //categories : 标签， data ： 标签收藏数
+        return ResponseBo.ok().put("categories", result.keySet()).put("data", result.values());
+    }
+
+    /**
+     * 项目状态统计图
+     * @return
+     */
+    @RequestMapping("getProjStateEchart")
+    @ResponseBody
+    public ResponseBo getProjStateEchart(){
+        List<Project> list =projectService.selectList(new EntityWrapper<>());
+
+        //key：标签 ， value ： 收藏数
+        Map<String, Integer> map = new HashMap<>();
+        int num;
+
+        for(Project obj : list){
+
+            //可以替换大部分空白字符， 不限于空格
+            String tagStr = CharMatcher.WHITESPACE.or(CharMatcher.INVISIBLE).removeFrom(obj.getProjState());
+            //计算每个状态的项目数
+            map.put(tagStr, (map.getOrDefault(tagStr, 0) + 1));
+        }
+
+        //categories : 标签， data ： 标签收藏数
+        return ResponseBo.ok().put("categories", map.keySet()).put("data", map.values());
     }
 }
