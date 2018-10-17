@@ -81,8 +81,8 @@ public class jobSendController {
     @GetMapping("/pass/{uid}/{id}")
     public String jobpass(@PathVariable("id") String id,@PathVariable("uid")String uid){
 
-//        System.out.println("-----jobuserid "+id+"--------uid "+uid);
-//        System.out.println("--------uid "+uid);
+        System.out.println("-----jobuserid "+id+"--------uid "+uid);
+        System.out.println("--------uid "+uid);
         Jobuser jobuser = new Jobuser();
         jobuser = jobuserService.selectById(id);
 //        System.out.println("--------jobuser "+jobuser);
@@ -91,7 +91,22 @@ public class jobSendController {
 
         Users users = new Users();
         users = usersService.selectById(uid);
-        users.setUserStudio(id);
+
+        getAlluser getAlluser = new getAlluser(); //获取当前组长id
+        Alluser alluser = new Alluser();
+        alluser = getAlluser.aa();
+        String zhuid = alluser.getAllId();
+//        获取组长的工作室id
+        Users zhuzhang = usersService.selectById(zhuid);
+//        获取组长的工作室id
+        String stuid = zhuzhang.getUserStudio();
+        System.out.println("组长的工作室id-"+stuid);
+
+
+        //users加上工作室id
+        users.setUserStudio(stuid);
+
+
         Date date = new Date();
         users.setUserEntrytime(date);
         boolean b = usersService.update(users,new EntityWrapper<Users>().eq("user_id",uid));

@@ -356,8 +356,6 @@
                                 <template v-else>
                                     <li><a href="javascript:;" class="disabled">&raquo;</a></li>
                                 </template>
-
-                                <!--<template><li>共{{total}}条信息</li></template>-->
                             </ul>
                         </div>
                     </div>
@@ -393,13 +391,9 @@
                                 <template v-else>
                                     <li><a href="javascript:;" class="disabled">&raquo;</a></li>
                                 </template>
-                                <!--<template><li>共{{total}}条信息</li></template>-->
                             </ul>
                         </div>
                     </div>
-                    <!--没有搜索，有点击选择-->
-                    <!--<div v-for = "cli != 'none'">-->
-                    <!--</div>-->
                 </div>
                 <!--有搜索-->
                 <div v-if="sea != 'none'">
@@ -435,11 +429,6 @@
                                 </template>
                             </ul>
                         </div>
-                    <!--</div>-->
-                    <!--<div v-if="cli != 'none'">-->
-                        <!--sea-cli-->
-                    <!--</div>-->
-
                 </div>
             </div>
         </div>
@@ -1226,15 +1215,6 @@
             data: {
                 n: 0,
             },
-            // created: function () {
-            //     $.ajax({
-            //         type: "Post",
-            //         url: "search/jNum",
-            //         success: function (result) {
-            //             vm1.n = result.jNum;
-            //         }
-            //     })
-            // }
         })
     </script>
 </div>

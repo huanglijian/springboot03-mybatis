@@ -48,12 +48,13 @@ public class menberController {
         String userid = jobuser.getJuUsers();
         Users users = new Users();
         users = usersService.selectById(userid);
-        users.setUserStudio("");
+        users.setUserStudio(null);
 //        users.setUserEntrytime(null);
         Date date = new Date();
         users.setUserQuittme(date);
         System.out.println("----users "+users);
-        boolean b = usersService.update(users,new EntityWrapper<Users>().eq("user_id",userid));
+        boolean b = usersService.updateAllColumnById(users);
+//        boolean b = usersService.update(users,new EntityWrapper<Users>().eq("user_id",userid));
         System.out.println("---- "+b);
         boolean a = jobuserService.deleteById(juid);
         System.out.println("-----a "+a);

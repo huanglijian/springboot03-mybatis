@@ -10,26 +10,26 @@
 
     <link rel="stylesheet" href="/static/css/css_psw/style_head.css"/>
     <link rel="stylesheet" href="/static/css/css_hlj/detail.css"/>
-
 </head>
 <body>
+<p>apply？${apply}</p>
 <header class="header-navigation" id="headerBar">
     <div class="nav-content-filter">
         <div class="row_main">
             <!--logo-->
             <div class="main_logo">
-                <img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
+                <img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png"/>
             </div>
             <!--超链接-->
             <div class="nav-main-right">
                 <nav class="cd-nav">
                     <ul>
-                        <li><a  href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+                        <li><a href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
                         <li><a href="/project/xwh">项目大厅</a></li>
                         <li><a href="/stuhall/hall">服务大厅</a></li>
                         <li><a href="/resource/home">创客讲堂</a></li>
                         <li><a href="/original/all">原创中心</a></li>
-                        <li><a href="/ForJob/search"class="active">在线求职</a></li>
+                        <li><a href="/ForJob/search" class="active">在线求职</a></li>
                         <li><a href="/honor/honorPage">荣誉中心</a></li>
                     </ul>
                 </nav>
@@ -39,7 +39,8 @@
         <div id="headVue">
             <ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
+                    <a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;"
+                       href="#">
                         <!--没有登陆-->
                         <img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
                         <!--已经登录-->
@@ -71,28 +72,28 @@
         </div>
         <script type="text/javascript">
             var nav_vue = new Vue({
-                el:'#headVue',
-                data:{
+                el: '#headVue',
+                data: {
                     loginUser: '',
                     isLogined: false,
-                    isPromul : '',
-                    img : '',
-                    centerUrl : '',
+                    isPromul: '',
+                    img: '',
+                    centerUrl: '',
                 },
                 created: function () {
                     this.getUser();
                 },
                 methods: {
-                    getUser: function(){
+                    getUser: function () {
                         $.ajax({
                             type: "POST",
                             url: "/home/getLoginUser",
                             dataType: "json",
-                            success: function(result){
-                                if(result.code === 404){
+                            success: function (result) {
+                                if (result.code === 404) {
                                     nav_vue.isLogined = false;
                                 }
-                                else if(result.code === 0){
+                                else if (result.code === 0) {
                                     nav_vue.isLogined = true;
                                     nav_vue.isPromul = result.isPromul;
                                     nav_vue.loginUser = result.loginUser;
@@ -119,8 +120,6 @@
                         <li><p class="white" style="float:left;">&nbsp;&nbsp;工资: </p>
                             <p style="float:left;">&nbsp;&nbsp;
                                 {{js.jobs.jobMoney}}
-                                <!--<js class="jobs jobMon"></js>-->
-
                             </p>
                         </li>
                         <li><p class="white" style="float:left;">&nbsp;&nbsp;人数: </p>
@@ -164,25 +163,32 @@
                     <div class="name">
                         <h3>{{js.studio.stuName}}</h3>
                     </div>
-                    <!--申请加入-->
-                    <div class="join">
-                        <!--123-->
-                        <button type="button" class="btn btn-sm btn-primary but" data-toggle="modal"
-                                data-target="#myModal">申请加入
-                        </button>
-                        </span>
+                    <div v-if="join=='yes'">
+                        <div class="join">
+                            <button type="button" class="btn btn-sm btn-primary but">您已有工作室
+                            </button>
+                            </span>
+                        </div>
                     </div>
 
+                    <div v-if="join=='no'">
+                        <!--申请加入-->
+                        <div class="join">
+                            <button type="button" class="btn btn-sm btn-primary but" data-toggle="modal"
+                                    data-target="#myModal">申请加入
+                            </button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
             </div>
         </div>
     </div>
 
-
     <!--模态窗-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-        style="margin-top: 70px">
+         style="margin-top: 70px">
         <div class="modal-dialog">
             <!--聚焦的部分-->
             <div class="modal-content">
@@ -197,10 +203,6 @@
                         提交你的简历
                     </h4>
                 </div>
-
-
-
-
                 <!--模态主体-->
                 <div class="modal-body" id="ModalBody">
                     <form action="/ForJob/upload" method="post" enctype="multipart/form-data">
@@ -209,7 +211,7 @@
                         <!--<label name="jid" style="display:none">-&#45;&#45;{{js.jobs.jobId}}</label>-->
                         <!--<label name="jiddd">-&#45;&#45;{{js.jobs.jobId}}</label>-->
                         <!--<button name="jid">{{js.jobs.jobId}}</button>-->
-                        <input type="text" name = "jid" v-model="jid" style="display:none">
+                        <input type="text" name="jid" v-model="jid" style="display:none">
                         <!--'/ForJob/mes/'+j.jobs.jobId-->
                         <div>
                             <input type="file" name="resume" id="">
@@ -219,7 +221,7 @@
                             <!--关闭按钮-->
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                             <!--提交按钮-->
-                            <button type="submit" class="btn btn-primary" >确定提交</button>
+                            <button type="submit" class="btn btn-primary">确定提交</button>
                             <!--onclick="submit()-->
                         </div>
                     </form>
@@ -230,12 +232,17 @@
 </div>
 <!--vue渲染-->
 <script type="text/javascript">
+    // 获取model.addattribute 传过来的id
+
     var id = [[${id}]];
+
+
     var vm = new Vue({
         el: '#vue1',
         data: {
-            jid:'laiaa',
+            jid: 'laiaa',
             js: '',
+            join: 'n',
         },
         created: function () {
             console.log(id);
@@ -246,13 +253,12 @@
                     console.log(result);
                     vm.js = result.js;
                     vm.jid = result.js.jobs.jobId;
+                    vm.join = result.join;
                 }
             })
         },
     });
 </script>
-
-
 <footer>
     <div class="container-fluid_foot">
         <div class="foot_panel">
@@ -318,7 +324,6 @@
         </div>
     </div>
 </footer>
-
 <!--导航条滚动js-->
 <script type="text/javascript">
     var new_scroll_position = 0;
@@ -340,7 +345,6 @@
             header.classList.remove("slideUp");
             header.classList.add("slideDown");
         }
-
         new_scroll_position = last_scroll_position;
     });
 </script>

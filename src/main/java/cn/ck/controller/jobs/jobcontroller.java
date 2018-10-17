@@ -8,6 +8,7 @@ import cn.ck.entity.bean.resume;
 import cn.ck.service.JobsService;
 import cn.ck.service.JobuserService;
 import cn.ck.service.StudioService;
+import cn.ck.service.UsersService;
 import cn.ck.utils.ResponseBo;
 import cn.ck.utils.utils_hlj.fartime;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -33,6 +34,8 @@ public class jobcontroller extends AbstractController {
     private StudioService studioService;
     @Autowired
     private JobuserService jobuserService;
+    @Autowired
+    private UsersService usersService;
 
     //    @RequestMapping("/search")
     @GetMapping("/search")
@@ -112,8 +115,6 @@ public class jobcontroller extends AbstractController {
     //    返回搜索到的Json数据
     @PostMapping("/sear")
     public ResponseBo sear(String sear) {
-        System.out.println("====== " + sear);
-
         return ResponseBo.ok();
     }
 
@@ -183,7 +184,7 @@ public class jobcontroller extends AbstractController {
     public ResponseBo choice(String tee, String money, String sort,String time,String nei,@PathVariable("pagenum")int pagenum) {
         System.out.println("=====tee: " + tee + "====money: " + money + "====sort: " + sort+"====time: "+time+"=========nei "+nei+"=====pagenum "+pagenum);
 
-        if (tee == null || tee.equals("all")) {
+        if (tee == null || tee.equals("all")){
             tee = "";
         }
         if (money == null || money.equals("all")) {
@@ -406,16 +407,36 @@ public class jobcontroller extends AbstractController {
     public String mes(@PathVariable("id") int id, Model model) {
 //        System.out.println("======== id:"+id);
         model.addAttribute("id", id);
+        System.out.println("555");
         return "jobs/detail";
+//        return "jobs/helloworld";
     }
 
     //    返回渲染detail的json
     @PostMapping("/mes/{id}")
     @ResponseBody
     public ResponseBo mes2(@PathVariable("id") int id) {
-//        获得jobs对象
-//        Jobs jobs = jobsService.selectList(new EntityWrapper<Jobs>().eq("jobId",jobId))
-//        System.out.println(id);
+//            获取当前登录的用户
+        AbstractController a = new AbstractController();
+        Alluser alluser = new Alluser();
+        getAlluser g = new getAlluser();
+        alluser = g.aa();
+        System.out.println("----alluser "+alluser);
+
+
+//        获取user id
+        String userid = alluser.getAllId();
+        Users users = usersService.selectById(userid);
+        System.out.println("users-"+users);
+
+        //判断该用户是否有工作室
+        String join = "no";
+        if(users.getUserStudio()!=null){
+            join = "yes";
+//            System.out.println("已有工作室");
+        }
+
+
 //        获取招聘表
         Jobs jobs = jobsService.selectById(id);
 //        System.out.println("========= " + jobs);
@@ -424,15 +445,14 @@ public class jobcontroller extends AbstractController {
         JobsStudio js = new JobsStudio();
         js.setJobs(jobs);
         js.setStudio(studio);
-        return ResponseBo.ok().put("js", js);
+        return ResponseBo.ok().put("js", js).put("join",join);
     }
 
     //    上传简历
     @PostMapping("/upload")
 //    @RequiresRoles("users")
-    public String submit(int jid, resume r, HttpServletRequest request)throws Exception{
-        System.out.println("------222");
-        System.out.println("jid: "+jid);
+    public String submit(int jid, resume r, HttpServletRequest request,Model model)throws Exception{
+//        System.out.println("jid: "+jid);
         //如果文件不为空
         if (!r.getResume().isEmpty()){
             FileController f = new FileController();
@@ -443,8 +463,8 @@ public class jobcontroller extends AbstractController {
 //            获取加上uuid的文件名字
             String fileurl = list.get(0);
             String entryName = list.get(1);
-            System.out.println("数据库的文件路径fileurl: "+fileurl);
-            System.out.println("原本名字entryName: "+entryName);
+//            System.out.println("数据库的文件路径fileurl: "+fileurl);
+//            System.out.println("原本名字entryName: "+entryName);
 
             Jobuser j = new Jobuser();
 
@@ -454,28 +474,25 @@ public class jobcontroller extends AbstractController {
             j.setJuState("审核中");
             j.setJuJobs(jid);
 
-
 //            获取当前登录的用户
             AbstractController a = new AbstractController();
             Alluser alluser = new Alluser();
             getAlluser g = new getAlluser();
-
             alluser = g.aa();
-            System.out.println("----alluser "+alluser);
-
+//            System.out.println("----alluser "+alluser);
             j.setJuUsers(alluser.getAllId());
-
-            System.out.println("allid"+alluser.getAllId());
-            System.out.println("-----3");
-
-            System.out.println("---j " +j);
-
+//            System.out.println("allid"+alluser.getAllId());
+//            System.out.println("---j " +j);
             boolean i = jobuserService.insert(j);
-            System.out.println("---i: "+i);
-            System.out.println("end");
+//            System.out.println("---i: "+i);
+//            String apply = "no";
+//            if(i==true){
+//                apply = "yes";
+//            }
+//            model.addAttribute("apply",apply);
         }
 
-        return "redirect:/ForJob/search";
+        return "redirect:/ForJob/mes/"+jid;
     }
 
     @GetMapping("/test")
