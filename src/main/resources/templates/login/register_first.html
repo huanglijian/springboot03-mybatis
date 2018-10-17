@@ -100,14 +100,6 @@
                                 this.userType = "普通用户";
 							else this.userType = "";
                         },
-                        beforeUpdate: function () {
-                        },
-                        updated: function () {
-                        },
-                        beforeDestroy: function () {
-                        },
-                        destroyed: function () {
-                        },
                         methods: {
                             urlparse: function(){
                                 var url = window.location.href;
@@ -190,23 +182,32 @@
                 $("#validateBtn").removeAttribute("disabled");
                 $("#validateBtn").value = "请稍等";
             }
+            function emailValidate() {
+                var data = "email="+vm.email;
+                var access = false;
+                $.ajax({
+                    type: "POST",
+                    url: "/registered/isExist",
+                    async : false,
+                    data: data,
+                    dataType: "json",
+                    success: function(result){
+                        if(result.code === 0){
+                            access = true;
+                        }else{
+                            access = false;
+                            alert(result.msg);
+                        }
+                    }
+                });
+                return access;
+            }
             function sentcode(obj) {
 				if($("#signupForm").validate().element("#email")){
-                    var data = "email="+vm.email;
-                    $.ajax({
-                        type: "POST",
-                        url: "/registered/isExist",
-                        data: data,
-                        dataType: "json",
-                        success: function(result){
-                            if(result.code === 0){
-                                settime(obj);
-                                vm.sentCode();
-                            }else{
-                                alert(result.msg);
-                            }
-                        }
-                    });
+                    if(emailValidate()){
+                        settime(obj);
+                        vm.sentCode();
+					}
 				}
             }
 			function settime(obj) {

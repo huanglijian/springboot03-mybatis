@@ -185,7 +185,7 @@ public class FirstPageController extends AbstractController {
     @ResponseBody
     public ResponseBo getSuperStudio(){
         PageHelper.startPage(0, 8);
-        List<Studio> studios = studioService.selectSuperStudio(2);
+        List<Studio> studios = studioService.selectSuperStudio(0);
         PageInfo<Studio> pageInfo = new PageInfo<>(studios);
         return ResponseBo.ok().put("studios", pageInfo.getList());
     }
