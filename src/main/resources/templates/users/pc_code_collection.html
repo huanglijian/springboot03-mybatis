@@ -201,7 +201,7 @@
 					<div class="col_right_cec_down_item_left">
 						<div class='col_right_cec_down_item_title container-fluid'>
 							<span class="channel" style="float: left;">收藏</span>
-							<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">{{cec.origName}}</a>
+							<a :href="'/original/details/'+cec.origId" class="" target="_blank" title="人人开源项目" style="float: left;">{{cec.origName}}</a>
 						</div>
 						<div class="col_right_cec_down_item_2 container-fluid">
 							<a class='col_right_cec_down_item_author' target="_blank" :href="'/user/user_hp?userId='+cec.users.userId">{{cec.users.userName}}</a>

@@ -325,7 +325,6 @@ public class UsersController extends AbstractController {
             else
                 p.setProjState("竞标中止");
             p.setProjTag(p.getProjTag().replace(",", " "));
-            p.setProjId(Integer.parseInt(state));
         }
         PageInfo<PjCol> page = new PageInfo<>(pjColList);
         map.clear();

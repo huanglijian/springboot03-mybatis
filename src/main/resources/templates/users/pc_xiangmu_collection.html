@@ -201,7 +201,7 @@
 					<div class="col_right_xmc_down_item_left">
 						<div class='col_right_xmc_down_item_title container-fluid'>
 							<span class="channel" style="float: left;">项目</span>
-							<a href="/人人开源项目" class="" target="_blank" title="人人开源项目" style="float: left;">{{project.projName}}</a>
+							<a :href="'/project/projectDetail?id='+project.projId" class="" target="_blank" title="人人开源项目" style="float: left;">{{project.projName}}</a>
 						</div>
 						<div class="col_right_xmc_down_item_2 container-fluid">
 							<span class='col_right_xmc_down_item_author' href="#">{{project.projProm}}</span>

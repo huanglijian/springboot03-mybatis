@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 public class OriginalServiceImpl extends ServiceImpl<OriginalMapper, Original> implements OriginalService {
 
-
+    @Autowired
     OriginalMapper originalMapper;
 
     @Override

@@ -94,6 +94,7 @@ public class ShiroConfig {
 		chains.put("/ForJob/**", "anon");
 		chains.put("/resource/**", "anon");
 		chains.put("/studio/**", "anon");
+		chains.put("/stuhall/**", "anon");
 		chains.put("/honor/**", "anon");
 		chains.put("/admin/login", "anon");
 		chains.put("/mtest/**", "anon");

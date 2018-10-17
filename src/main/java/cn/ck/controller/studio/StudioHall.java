@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +57,7 @@ public class StudioHall {
     }
 
     //跳转工作室大厅
+    @RequiresRoles("promulgator")
     @RequestMapping("/hall2")
     public String hall2(@RequestParam(value = "type",defaultValue = "不限") String type,@RequestParam(value = "local",defaultValue = "不限") String local,@RequestParam(value = "studioName",defaultValue = "") String studioName,@RequestParam(value = "sort",required = false) String sort,@RequestParam(value = "proId",required = true) Integer proId,@RequestParam(value = "pormId",required = true) String pormId,@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "4") int size){
         this.pormId=pormId;
