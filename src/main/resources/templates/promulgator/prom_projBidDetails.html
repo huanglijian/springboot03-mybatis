@@ -537,7 +537,7 @@
                     selbidfinish:function (val) {
                         $.ajax({
                             type: 'post',
-                            url: '/promcenter/promfinproject/'+val+"/"+vm.pwdpay,
+                            url: '/promcenter/promselbidfinish/'+val+"/"+vm.pwdpay,
                             success: function (result) {
                                 if(result.code==0){
                                     alert("支付密码错误，请重新输入");
