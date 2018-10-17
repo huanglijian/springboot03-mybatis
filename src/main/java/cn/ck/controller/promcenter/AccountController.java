@@ -88,7 +88,8 @@ public class AccountController {
 
         Set<String> set = new HashSet<>();
         set.add("proj_starttime");
-        List<Project> projectList = projectService.selectList(new EntityWrapper<Project>().eq("proj_prom", user.getAllId()).eq("proj_state", "承接方中止").or().eq("proj_state", "开发中").or().eq("proj_state", "发布者中止").or().eq("proj_state", "发布者中止").orderDesc(set));
+//        List<Project> projectList = projectService.selectList(new EntityWrapper<Project>().eq("proj_prom", user.getAllId()).eq("proj_state", "承接方中止").or().eq("proj_state", "开发中").or().eq("proj_state", "发布者中止").or().eq("proj_state", "发布者中止").orderDesc(set));
+        List<Project> projectList = projectService.selectList(new EntityWrapper<Project>().addFilter("proj_prom={0} AND (proj_state='开发中' OR proj_state='发布者中止'OR proj_state='承接方中止')",user.getAllId()).orderDesc(set));
         for (Project project : projectList) {
             Studio studio = studioService.selectById(project.getProjStudio());
             String stuname = studio.getStuName();
