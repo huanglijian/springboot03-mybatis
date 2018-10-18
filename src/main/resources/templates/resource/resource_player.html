@@ -469,23 +469,23 @@
                                     </li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="tab-1" class="tab-pane active">
+                                    <div id="tab-1" class="tab-pane active" style="height:470px">
                                         <div class="full-height-scroll">
                                             <div class="table-responsive">
                                                 <table class="table table-condensed table-hover fixed_headers" >
                                                     <thead>
-                                                        <tr>
-                                                            <th><small class="text-muted">时间</small></th>
-                                                            <th><small class="text-muted">弹幕内容</small></th>
-                                                            <th><small class="text-muted">发布时间</small></th>
-                                                        </tr>
+                                                    <tr>
+                                                        <th><small class="text-muted">时间</small></th>
+                                                        <th><small class="text-muted">弹幕内容</small></th>
+                                                        <th><small class="text-muted">发布时间</small></th>
+                                                    </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr v-for="dan in danmus">
-                                                            <td><small class="text-muted">{{dan.time|danmu_timefilter}}</small></td>
-                                                            <td><small class="text-muted">{{dan.text|danmu_textfilter}}</small></td>
-                                                            <td><small class="text-muted">{{dan.sendtime | timefilter}}</small></td>
-                                                        </tr>
+                                                    <tr v-for="dan in danmus">
+                                                        <td><small class="text-muted">{{dan.time|danmu_timefilter}}</small></td>
+                                                        <td><small class="text-muted">{{dan.text|danmu_textfilter}}</small></td>
+                                                        <td><small class="text-muted">{{dan.sendtime | timefilter}}</small></td>
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -496,9 +496,9 @@
                                             <div class="table-responsive">
                                                 <table class="table" style="overflow:hidden">
                                                     <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="row" style="padding: 5px;overflow-x:hidden;" v-for="res in hotResource">
+                                                    <tr>
+                                                        <td>
+                                                            <div class="row" style="padding: 5px;overflow-x:hidden;" v-for="res in hotResource">
                                                                 <div class="col-xs-6">
                                                                     <div class="box">
                                                                         <img :src="'/file/showImg/' + res.resImg" alt="图片加载失败">
@@ -521,9 +521,9 @@
                                                                         </small>
                                                                     </div>
                                                                 </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -791,8 +791,8 @@
             //用来接收弹幕信息的url
             urlToGetDanmu: "",
             //用来存储弹幕信息的url
-            // urlToPostDanmu: "/resource/putDanmu/" + resInfo.resId,
-            urlToPostDanmu: "",
+            urlToPostDanmu: "/resource/putDanmu/" + resInfo.resId,
+            // urlToPostDanmu: "",
             maxCountInScreen: 40, //屏幕上的最大的显示弹幕数目,弹幕数量过多时,优先加载最新的。
             maxCountPerSec: 10 //每分秒秒钟最多的弹幕数目,弹幕数量过多时,优先加载最新的。
         });

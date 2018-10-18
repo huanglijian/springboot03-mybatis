@@ -26,7 +26,7 @@
                     <h5>账户</h5>
                 </div>
                 <div class="ibox-content">
-                    <h1 class="no-margins">{{a.account}}</h1>
+                    <h1 class="no-margins" v-cloak>{{a.account}}</h1>
                     <small>总金额</small>
                 </div>
             </div>
@@ -34,11 +34,11 @@
         <div class="col-sm-3">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <span class="label label-info pull-right">最近一个月</span>
+                    <span class="label label-info pull-right" >最近一个月</span>
                     <h5>活跃用户</h5>
                 </div>
                 <div class="ibox-content">
-                    <h1 class="no-margins">{{a.usernum}}</h1>
+                    <h1 class="no-margins" v-cloak>{{a.usernum}}</h1>
                     <small>{{a.month}}月</small>
                 </div>
             </div>
@@ -50,16 +50,16 @@
                     <h5>新项目</h5>
                 </div>
                 <div class="ibox-content">
-                    <h1 class="no-margins">{{a.projnum}}</h1>
+                    <h1 class="no-margins" v-cloak>{{a.projnum}}</h1>
                     <div v-if="a.projtip==1">
-                        <div class="stat-percent font-bold text-info">{{a.projpercent}}% <i class="fa fa-level-up"></i>
+                        <div class="stat-percent font-bold text-info" v-cloak>{{a.projpercent}}% <i class="fa fa-level-up"></i>
                         </div>
                     </div>
                     <div v-if="a.projtip==0">
-                        <div class="stat-percent font-bold text-danger">{{a.projpercent}}% <i
+                        <div class="stat-percent font-bold text-danger" v-cloak>{{a.projpercent}}% <i
                                 class="fa fa-level-down"></i></div>
                     </div>
-                    <small>{{a.month}}月</small>
+                    <small v-cloak>{{a.month}}月</small>
                 </div>
             </div>
         </div>
@@ -70,16 +70,16 @@
                     <h5>月收入</h5>
                 </div>
                 <div class="ibox-content">
-                    <h1 class="no-margins">{{a.fundnum}}</h1>
+                    <h1 class="no-margins" v-cloak>{{a.fundnum}}</h1>
                     <div v-if="a.fundtip==1">
-                        <div class="stat-percent font-bold text-info">{{a.fundpercent}}% <i class="fa fa-level-up"></i>
+                        <div class="stat-percent font-bold text-info" v-cloak>{{a.fundpercent}}% <i class="fa fa-level-up"></i>
                         </div>
                     </div>
                     <div v-if="a.fundtip==0">
-                        <div class="stat-percent font-bold text-danger">{{a.fundpercent}}% <i
+                        <div class="stat-percent font-bold text-danger" v-cloak>{{a.fundpercent}}% <i
                                 class="fa fa-level-down"></i></div>
                     </div>
-                    <small>{{a.month}}月</small>
+                    <small v-cloak>{{a.month}}月</small>
                 </div>
             </div>
         </div>

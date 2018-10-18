@@ -155,7 +155,10 @@
 
         //发送弹幕
         this.sendDanmu = function (e) {
-            console.log(e);
+            if(!nav_vue.isLogined){
+                alert("请先登录");
+                return;
+            }
             var text = $(e.data.that.id + " .danmu-input").get(0).value;
             if (text.length == 0) {
                 return;
@@ -180,6 +183,9 @@
             $(e.data.that.id + " .danmu-input").get(0).value = '';
             //触发事件
             $(e.data.that).trigger("senddanmu");
+            setTimeout(function() {
+                resDanmu.getDanmus();
+            }, 1000)
         };
 
         //播放暂停

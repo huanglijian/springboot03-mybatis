@@ -5,7 +5,7 @@
 
     <groupId>com.chuangke</groupId>
     <artifactId>chuang</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>chuang</name>
@@ -45,7 +45,7 @@
         <swagger.version>2.7.0</swagger.version>
         <joda.time.version>2.9.9</joda.time.version>
         <fastjson.version>1.2.47</fastjson.version>
-        <hutool.version>4.1.1</hutool.version>
+        <hutool.version>4.1.12</hutool.version>
         <guava.version>19.0</guava.version>
     </properties>
 
