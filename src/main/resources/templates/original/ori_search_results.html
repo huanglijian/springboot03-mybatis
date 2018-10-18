@@ -35,11 +35,11 @@
             <div class="nav-main-right">
                 <nav class="cd-nav">
                     <ul>
-                        <li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+                        <li><a href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
                         <li><a href="/project/xwh">项目大厅</a></li>
                         <li><a href="/stuhall/hall">服务大厅</a></li>
                         <li><a href="/resource/home">创客讲堂</a></li>
-                        <li><a href="/original/all">原创中心</a></li>
+                        <li><a class="active" href="/original/all">原创中心</a></li>
                         <li><a href="/ForJob/search">在线求职</a></li>
                         <li><a href="/honor/honorPage">荣誉中心</a></li>
                     </ul>
@@ -121,11 +121,11 @@
 <div class="header-take-space" style="height: 50px"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
 <div class="content">
     <div>
-    <div class="search" style="width:540px">
+    <div class="search" style="width:540px" action="/original/search" method="get" >
         <form id="hesernform">
             <i></i>
-            <input type="text" placeholder="搜索项目，代码片段..." />
-            <button type="button" id="hserNeeds">搜索</button>
+            <input type="text" placeholder="搜索项目..." name="key" />
+            <button type="submit" id="hserNeeds">搜索</button>
 
         </form><!--<div>为您找到相关结果约{{result.total}}个</div>-->
 
@@ -134,17 +134,17 @@
     <div class='ui container'>
 
 
-        <div class='ui grid page git-discover-content'>
+        <div class='ui grid page git-discover-content' id="git-discover-conten">
             <div class='eleven wide column git-discover-projects'>
                 <div class='projects-container'>
                     <div class='ui secondary pointing menu' id='git-discover-menu'>
-                        <h2 class='explore-menu-header'>根据关键词“”为您找到相关结果约{{result.total}}个</h2>
+                        <h2 class='explore-menu-header'>根据关键词“{{key}}”为您找到相关结果为{{num}}个</h2>
 
                     </div>
 
 
                     <div class='ui relaxed divided items' id='git-discover-list'>
-                        <div class='item' v-for="pro in highscore" v-cloak>
+                        <div class='item' v-for="pro in result" v-cloak>
                             <a href="/shuzheng" class="project-creator-link ui avatar image pull-left":title=pro.users.userName ><img src="/static/img/img_hhm/renren.png" />
                             </a>
                             <div class='project-content'>
@@ -164,8 +164,8 @@
                                 </div>
                                 <div class='project-desc'>{{pro.origIntro}}</div>
                                 <div class='project-meta'>
-                                    <a href="/explore/starred?lang=Java" class="ui small  lang-label">{{pro.origType}}</a>
-                                    <a style="margin-right:8px; " href="/explore/starred/webframework" class="ui small  lang-label" v-for="item in pro.origTag">{{item}}</a>
+                                    <a href="/explore/starred?lang=Java" class="ui small  lang-label" style="margin-right: 5px">{{pro.origType}}</a>
+                                    <a style="margin-right:8px; " href="/explore/starred/webframework" class="ui small  lang-label" v-for="item in pro.origTag" >{{item}}</a>
 
                                     <div class='pull-right'>
 
@@ -319,53 +319,13 @@
     });
 </script>
 <script>
-    $(function() {
-        $(".sort-section1 a").click(function() {
-
-            $(".sort-section1 a[class='item active']").each(function() {
-                $(this).removeClass();
-                $(this).addClass("item ");
-            });
-            $(this).removeClass();
-            $(this).addClass("item active");
-        })
-        $(".sort-section a").click(function() {
-            $(".sort-section a[class='item active']").each(function() {
-                $(this).removeClass();
-                $(this).addClass("item ");
-            });
-            $(this).removeClass();
-            $(this).addClass("item active");
-        })
-    })
-
-
-    /*     $('#star2').raty({
-             readOnly: true,
-             score: 5,
-             hints: ["1", "2", "3", "4", "5"]
-         });*/
-    /*      $(function() {
-              /!*$(".item span").click(function() {
-                  if($(this).find("img").attr("isImg") == 1) {
-
-                      $(this).find("img").attr("src", "/static/img/img_hhm/xing.png");
-                      $(this).find("img").attr("isImg", "0");
-                  } else {
-                      $(this).find("img").attr("src", "/static/img/img_hhm/xing1.png");
-                      $(this).find("img").attr("isImg", "1");
-                  }
-
-              });*!/
-              /!*$("#git-discover-list").delegate('.item','each',function () {
-                  alert("123");
-              });*!/
-          })*/
 
     new Vue({
-        el:'#git-discover-list',
+        el:'#git-discover-conten',
         data:{
-            highscore:''
+            result:'',
+            num:'',
+            key:''
         },
         filters: {
             dateFormat:function(val){
@@ -388,16 +348,24 @@
             var self=this;
             $.ajax({
                 type:'POST',
-                url:'/original/all1',
+                url:'/original/result',
                 async:false,
                 dataType:'json',
                 success:function (result) {
-                    self.highscore = result.list;
-                    /* alert(result.list[0].origTag);*/
-                    for(var i=0;i<result.list.length;i++){
-                        var s=result.list[i].origTag.split(",");
-                        result.list[i].origTag=s;
+                    self.num=result.result.total;
+                    self.key=result.key;
+                    self.result = result.result.list;
+                    console.log(result);
+                    for(var i=0;i<result.result.list.length;i++){
+                        var s = result.result.list[i].origTag.split(",");
+                        result.result.list[i].origTag=s;
                     }
+                    /* alert(result.list[0].origTag);*/
+                    /*for(var i=0;i<result.list.length;i++){
+                        var s=result.list[i].origTag.split(",");
+                        result.list[i].origTag=s;*/
+                    }
+
                     /* var obj_1={
                          obj_box:'.page_1',//翻页容器
                          total_item:result.total,   //条目总数
@@ -422,15 +390,15 @@
                              window.location.href="/original/allpage?start="+that.siblings('.input_page_num').val();
                          }
                      });*/
-                }
+
             });
 
         },
         mounted:function () {
             var self=this;
             $.ajax({
-                type:'POST',
-                url:'/original/all1',
+                type:'post',
+                url:'/original/result',
                 async:false,
                 dataType:'json',
                 success:function (result) {
@@ -442,26 +410,26 @@
                     }*/
                     var obj_1={
                         obj_box:'.page_1',//翻页容器
-                        total_item:result.total,   //条目总数
-                        per_num:result.pageSize,     //每页条目数*/
-                        current_page:result.pageNum   //当前页
+                        total_item:result.result.total,   //条目总数
+                        per_num:result.result.pageSize,    //每页条目数*/
+                        current_page:result.result.pageNum   //当前页
                     };
                     page_ctrl(obj_1);
                     $(' .page_ctrl').on('click','button',function () {
                         var that=$(this);
                         if(that.hasClass('prev_page')){
 
-                            window.location.href="/original/allpage?start="+result.prePage;
+                            window.location.href="/original/searchPage?start="+result.prePage;
                         }
                         else if(that.hasClass('next_page')){
-                            window.location.href="/original/allpage?start="+result.nextPage;
+                            window.location.href="/original/searchPage?start="+result.nextPage;
                         }
                         else if(that.hasClass('page_num')&&!that.hasClass('current_page')){
 
-                            window.location.href="/original/allpage?start="+that.html();
+                            window.location.href="/original/searchPage?start="+that.html();
                         }
                         else if(that.hasClass('to_page_num')){
-                            window.location.href="/original/allpage?start="+that.siblings('.input_page_num').val();
+                            window.location.href="/original/searchPage?start="+that.siblings('.input_page_num').val();
                         }
                     });
 

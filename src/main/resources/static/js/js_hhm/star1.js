@@ -34,7 +34,7 @@
        defaults = {
           modus:'entire',//默认点亮模式
           total:5, //星星个数
-          num:5, //默认点亮个数
+          num:2, //默认点亮个数
           readOnly:false,//是否只读
           select:function(){}, //鼠标滑过的事件
           chosen:function(){}//鼠标点击的事件

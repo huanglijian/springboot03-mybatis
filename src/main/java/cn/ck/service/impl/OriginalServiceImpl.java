@@ -39,8 +39,8 @@ public class OriginalServiceImpl extends ServiceImpl<OriginalMapper, Original> i
     }
 
     @Override
-    public List<OriUser> selectAllOri() {
-        return baseMapper.selectAllOri();
+    public List<OriUser> selectAllOri(String type,String tag,int id) {
+        return baseMapper.selectAllOri(type,tag,id);
     }
 
     @Override
@@ -51,6 +51,12 @@ public class OriginalServiceImpl extends ServiceImpl<OriginalMapper, Original> i
     @Override
     public List<Original> selectHeigestGradeOrigin() {
         List<Original> list = baseMapper.selectList(new EntityWrapper<Original>().orderBy("orig_grade", false));
+        return list;
+    }
+
+    @Override
+    public List<OriUser> selectSearch(String key) {
+        List<OriUser> list =originalMapper.selectSearch(key);
         return list;
     }
 }

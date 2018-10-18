@@ -35,11 +35,11 @@
 				<div class="nav-main-right">
 					<nav class="cd-nav">
 						<ul>
-							<li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+							<li><a href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
 							<li><a href="/project/xwh">项目大厅</a></li>
 							<li><a href="/stuhall/hall">服务大厅</a></li>
 							<li><a href="/resource/home">创客讲堂</a></li>
-							<li><a href="/original/all">原创中心</a></li>
+							<li><a class="active" href="/original/all">原创中心</a></li>
 							<li><a href="/ForJob/search">在线求职</a></li>
 							<li><a href="/honor/honorPage">荣誉中心</a></li>
 						</ul>
@@ -121,219 +121,202 @@
 	<div class="header-take-space" style="height: 50px"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
 	<div class="content">
 		<div class="search">
-			<form id="hesernform">
+			<form id="hesernform" action="/original/search" method="get" >
 				<i></i>
-				<input type="text" placeholder="搜索项目，代码片段..." />
-				<button type="button" id="hserNeeds">搜索</button>
+				<input type="text" placeholder="搜索项目" name="key"/>
+				<button type="submit" id="hserNeeds" >搜索</button>
 			</form>
 
 		</div>
 		<div class='ui container'>
-			<div class='project-lang-categories'>
+			<div class='project-lang-categories' id="project-lang-categories">
 				<div class='sort-select-segment'>
 					<div class='sort-section1'>
 
-						<div class='categories-title'>项目分类：</div>
+						<div class='categories-title'>热门分类：</div>
 						<div class='code-tab border-dashed' id='categories-tab'>
 							<ul>
 								<li>
-									<a href="原创中心.html" class="item active">全部
+									<a @click="jump('全部')" :class="addclass1('全部')">全部
 									</a>
 								</li>
 								<li>
-									<a href="###" class="item ">微信开发
+									<a @click="jump('网站开发')" :class="addclass1('网站开发')">网站开发
 									</a>
 								</li>
 								<li>
-									<a href="#" class="item ">区块链/比特币
+									<a @click="jump('桌面应用')" :class="addclass1('桌面应用')">桌面应用
 									</a>
 								</li>
 								<li>
-									<a href="#" class="item ">手机/移动开发
+									<a @click="jump('APP')" :class="addclass1('APP')">APP
 									</a>
 								</li>
 								<li>
-									<a href="###" class="item ">WEB应用开发
+									<a @click="jump('UI设计')" :class="addclass1('UI设计')">UI设计
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred/build-web-system" class="item ">建站系统
+									<a @click="jump('数据采集与分析')" :class="addclass1('数据采集与分析')">数据采集与分析
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred/enterprise-app" class="item ">企业应用
+									<a @click="jump('嵌入式智能硬件')" :class="addclass1('嵌入式与智能硬件')">嵌入式与智能硬件
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred/game-and-entertainment" class="item ">游戏/娱乐
+									<a @click="jump('微信开发')" :class="addclass1('微信开发')">微信开发
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred/application-tools" class="item ">应用工具
+									<a @click="jump('管理系统')" :class="addclass1('管理系统')">管理系统
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred/manage-monitor" class="item ">管理和监控
+									<a @click="jump('其他分类项目')" :class="addclass1('其他分类项目')">其他分类项目
 									</a>
 								</li>
-								<li>
-									<a href="/explore/starred/server-app" class="item ">服务器应用
-									</a>
-								</li>
-								<li>
-									<a href="/explore/starred/plugin-and-extension" class="item ">插件和扩展
-									</a>
-								</li>
-								<li>
-									<a href="/explore/starred/database-related" class="item ">数据库相关
-									</a>
-								</li>
-								<li>
-									<a href="/explore/starred/Artificial-Intelligence" class="item ">人工智能
-									</a>
-								</li>
-								<li>
-									<a href="/explore/starred/develop-tools" class="item ">开发工具
-									</a>
-								</li>
-								<li>
-									<a href="/explore/starred/program-develop" class="item ">程序开发
-									</a>
-								</li>
-								<li>
-									<a href="/explore/starred/other-open-source" class="item ">其他开源
-									</a>
-								</li>
+
 							</ul>
 						</div>
 					</div>
 					<div class='sort-section'>
-						<div class='languages-title'>编程语言：</div>
+						<div class='languages-title'>热门标签：</div>
 						<div class='code-tab border-dashed' id='languages-tab'>
 							<ul>
 								<li>
-									<a href="/explore" class="item active">全部
+									<a @click="jump2('全部')" :class="addclass2('全部')">全部
 									</a>
 								</li>
 								<li>
-									<a href="###" class="item ">Java
+									<a @click="jump2('Java')" :class="addclass2('Java')">Java
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=PHP" class="item ">PHP
+									<a @click="jump2('微服务')" :class="addclass2('微服务')">微服务
+									</a>
+								</li>
+                                <li>
+                                    <a @click="jump2('AI')" :class="addclass2('AI')">AI
+                                    </a>
+                                </li>
+								<li>
+									<a @click="jump2('JavaScript')" :class="addclass2('JavaScript')">JavaScript
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=JavaScript" class="item ">JavaScript
+									<a @click="jump2('Objective-C')" :class="addclass2('Objective-C')">Objective-C
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Objective-C" class="item ">Objective-C
+									<a @click="jump2('Android')" :class="addclass2('Android')">Android
+									</a>
+								</li>
+                                <li>
+                                    <a @click="jump2('Tomcat')" :class="addclass2('Tomcat')">Tomcat
+                                    </a>
+                                </li>
+								<li>
+									<a @click="jump2('Go')" :class="addclass2('Go')">Go
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Android" class="item ">Android
+									<a @click="jump2('C#')" :class="addclass2('C#')">C#
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Go" class="item ">Go
+									<a @click="jump2('Python')" :class="addclass2('Python')">Python
+									</a>
+								</li>
+                                <li>
+                                    <a @click="jump2('即时通讯聊天')" :class="addclass2('即时通讯聊天')">即时通讯聊天
+                                    </a>
+                                </li>
+								<li>
+									<a @click="jump('C++')" :class="addclass2('C++')">C++
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=csharp" class="item ">C#
+									<a @click="jump('HTML')" :class="addclass2('HTML')">HTML
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Python" class="item ">Python
+									<a @click="jump('C')" :class="addclass2('C')">C
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=cpp" class="item ">C++
+									<a @click="jump('NodeJS')" :class="addclass2('NodeJS')">NodeJS
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Html" class="item ">HTML
+									<a @click="jump('Swift')" :class="addclass2('Swift')">Swift
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=C" class="item ">C
+									<a @click="jump('Ruby')" :class="addclass2('Ruby')">Ruby
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=NodeJS" class="item ">NodeJS
+									<a @click="jump('微信')" :class="addclass2('微信')">微信
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Swift" class="item ">Swift
+									<a @click="jump('TypeScript')" :class="addclass2('TypeScript')">TypeScript
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Ruby" class="item ">Ruby
+									<a @click="jump('HTML/CSS')" :class="addclass2('HTML/CSS')">HTML/CSS
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=weixin" class="item ">微信
+									<a @click="jump('Docker')" :class="addclass2('Docker')">Docker
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=TypeScript" class="item ">TypeScript
+									<a @click="jump('Shell')" :class="addclass2('Shell')">Shell
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=html-css" class="item ">HTML/CSS
+									<a @click="jump('CSS')" :class="addclass2('CSS')">CSS
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Docker" class="item ">Docker
+									<a @click="jump('Lua')":class="addclass2('Lua')">Lua
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Shell" class="item ">Shell
+									<a @click="jump('C/C++')" :class="addclass2('C/C++')">C/C++
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=CSS" class="item ">CSS
+									<a @click="jump('Scala')" :class="addclass2('Scala')">Scala
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Lua" class="item ">Lua
+									<a @click="jump('Kotlin')" :class="addclass2('Kotlin')">Kotlin
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=c-cpp" class="item ">C/C++
+									<a @click="jump('Matlab')" :class="addclass2('Matlab')">Matlab
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Scala" class="item ">Scala
+									<a @click="jump('Delphi')" :class="addclass2('Delphi')">Delphi
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Kotlin" class="item ">Kotlin
+									<a @click="jump('ActionScript')" :class="addclass2('ActionScript')">ActionScript
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Matlab" class="item ">Matlab
+									<a @click="jump('Tex/LaTeX')" :class="addclass2('TeX/LaTeX')">TeX/LaTeX
 									</a>
 								</li>
 								<li>
-									<a href="/explore/starred?lang=Delphi" class="item ">Delphi
+									<a @click="jump('ASP')" :class="addclass2('ASP')">ASP
 									</a>
 								</li>
-								<li>
-									<a href="/explore/starred?lang=ActionScript" class="item ">ActionScript
-									</a>
-								</li>
-								<li>
-									<a href="/explore/starred?lang=tex-latex" class="item ">TeX/LaTeX
-									</a>
-								</li>
-								<li>
-									<a href="/explore/starred?lang=ASP" class="item ">ASP
-									</a>
-								</li>
-								<li>
-									<a href="/explore/starred?lang=others" class="item ">其他</a>
-								</li>
+
 							</ul>
 						</div>
 					</div>
@@ -525,7 +508,7 @@
         });
 	</script>
 	<script>
-        $(function() {
+        /*$(function() {
             $(".sort-section1 a").click(function() {
 
                 $(".sort-section1 a[class='item active']").each(function() {
@@ -543,7 +526,7 @@
                 $(this).removeClass();
                 $(this).addClass("item active");
             })
-        })
+        })*/
 
 
    /*     $('#star2').raty({
@@ -568,10 +551,12 @@
             });*!/
         })*/
 
-		 new Vue({
+		 var ori=new Vue({
             el:'#git-discover-list',
             data:{
-                highscore:''
+                highscore:'',
+				type:'',
+				tag:''
             },
              filters: {
                  dateFormat:function(val){
@@ -598,11 +583,13 @@
                     async:false,
 					dataType:'json',
                     success:function (result) {
-                        self.highscore = result.list;
+                        self.highscore = result.page.list;
+                        self.type=result.type;
+                        self.tag=result.tag;
                        /* alert(result.list[0].origTag);*/
-						for(var i=0;i<result.list.length;i++){
-						    var s=result.list[i].origTag.split(",");
-                            result.list[i].origTag=s;
+						for(var i=0;i<result.page.list.length;i++){
+						    var s=result.page.list[i].origTag.split(",");
+                            result.page.list[i].origTag=s;
 						}
                        /* var obj_1={
                             obj_box:'.page_1',//翻页容器
@@ -648,26 +635,25 @@
                          }*/
                          var obj_1={
                              obj_box:'.page_1',//翻页容器
-                             total_item:result.total,   //条目总数
-                             per_num:result.pageSize,     //每页条目数*/
-                             current_page:result.pageNum   //当前页
+                             total_item:result.page.total,   //条目总数
+                             per_num:result.page.pageSize,     //每页条目数*/
+                             current_page:result.page.pageNum   //当前页
                          };
                          page_ctrl(obj_1);
                          $(' .page_ctrl').on('click','button',function () {
                              var that=$(this);
                              if(that.hasClass('prev_page')){
-
-                                 window.location.href="/original/allpage?start="+result.prePage;
+                                 window.location.href="/original/allpage?type="+self.type+"&tag="+self.tag+"&start="+result.prePage;
                              }
                              else if(that.hasClass('next_page')){
-                                 window.location.href="/original/allpage?start="+result.nextPage;
+                                 window.location.href="/original/allpage?type="+self.type+"&tag="+self.tag+"&start="+result.nextPage;
                              }
                              else if(that.hasClass('page_num')&&!that.hasClass('current_page')){
 
-                                 window.location.href="/original/allpage?start="+that.html();
+                                 window.location.href="/original/allpage?type="+self.type+"&tag="+self.tag+"&start="+that.html();
                              }
                              else if(that.hasClass('to_page_num')){
-                                 window.location.href="/original/allpage?start="+that.siblings('.input_page_num').val();
+                                 window.location.href="/original/allpage?type="+self.type+"&tag="+self.tag+"&start="+that.siblings('.input_page_num').val();
                              }
                          });
 
@@ -682,8 +668,37 @@
                     });
                 })
              }
-
         });
+		 new Vue({
+			 el:'#project-lang-categories',
+			 data:{
+
+			 },
+			 methods:{
+			     jump:function (type) {
+					 window.location.href="/original/allpage?type="+type+"&tag="+ori.tag;
+                 },
+				 jump2:function (tag) {
+					 window.location.href="/original/allpage?tag="+tag+"&type="+ori.type;
+                 },
+				 addclass1:function (type) {
+			         if(ori.type==''&&type=='全部')
+                         return "item active";
+			         else if(ori.type==type)
+					 	return "item active";
+			         else
+			             return "item";
+                 },
+				 addclass2:function (tag) {
+                     if(ori.tag==''&&tag=='全部')
+                         return "item active";
+                     else if(ori.tag==tag)
+                         return "item active";
+                     else
+                         return "item";
+                 }
+			 }
+		 })
 
 	</script>
 	</body>

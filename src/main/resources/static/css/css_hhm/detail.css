@@ -129,24 +129,36 @@ a:active {
 	line-height: 1.6;
 	word-break: break-word;
 }
-
-.rating {
-	width: 240px;
-	height: 48px;
-	margin: 20px auto;
+.rating{
+	position:relative;
+	width:240px;
+	height: 45px;
+	background:url(../../img/img_hhm/icon.png) repeat-x;
+	margin:20px;
 }
 
-.rating-item {
-	float: left;
-	width: 47px;
-	height: 47px;
-	background: url(../../img/img_hhm/icon.png) no-repeat;
-	cursor: pointer;
-}
+.rating-disply{
+	width:48px;
+	height:45px;
+	background-position:0 -45px;
+	background:url(../../img/img_hhm/icon.png) repeat-x 0 -44px;
 
-.rating li {
+}
+.rating-mask{
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+}
+.rating-item{
 	list-style: none;
+	float: left;
+	width:48px;
+	height:45px;
+	cursor:pointer;
 }
+
+
 
 .project-creator-link img {
 	width: 35px;
