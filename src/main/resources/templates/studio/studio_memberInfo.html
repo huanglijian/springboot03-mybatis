@@ -37,18 +37,18 @@
         <div class="row_main">
             <!--logo-->
             <div class="main_logo">
-                <img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
+                <img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png"/>
             </div>
             <!--超链接-->
             <div class="nav-main-right">
                 <nav class="cd-nav">
                     <ul>
-                        <li><a  href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+                        <li><a href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
                         <li><a href="/project/xwh">项目大厅</a></li>
                         <li><a href="/stuhall/hall">服务大厅</a></li>
                         <li><a href="/resource/home">创客讲堂</a></li>
                         <li><a href="/original/all">原创中心</a></li>
-                        <li><a href="/ForJob/search"class="active">在线求职</a></li>
+                        <li><a href="/ForJob/search">在线求职</a></li>
                         <li><a href="/honor/honorPage">荣誉中心</a></li>
                     </ul>
                 </nav>
@@ -58,7 +58,8 @@
         <div id="headVue">
             <ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
+                    <a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;"
+                       href="#">
                         <!--没有登陆-->
                         <img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
                         <!--已经登录-->
@@ -78,7 +79,7 @@
                         <li v-if="isLogined">
                             <a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
                         </li>
-                        <li v-if="isLogined && !isPromul">
+                        <li v-if="isLogined && !isPromul" >
                             <a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
                         </li>
                         <li v-if="isLogined">
@@ -90,28 +91,28 @@
         </div>
         <script type="text/javascript">
             var nav_vue = new Vue({
-                el:'#headVue',
-                data:{
+                el: '#headVue',
+                data: {
                     loginUser: '',
                     isLogined: false,
-                    isPromul : '',
-                    img : '',
-                    centerUrl : '',
+                    isPromul: '',
+                    img: '',
+                    centerUrl: '',
                 },
                 created: function () {
                     this.getUser();
                 },
                 methods: {
-                    getUser: function(){
+                    getUser: function () {
                         $.ajax({
                             type: "POST",
                             url: "/home/getLoginUser",
                             dataType: "json",
-                            success: function(result){
-                                if(result.code === 404){
+                            success: function (result) {
+                                if (result.code === 404) {
                                     nav_vue.isLogined = false;
                                 }
-                                else if(result.code === 0){
+                                else if (result.code === 0) {
                                     nav_vue.isLogined = true;
                                     nav_vue.isPromul = result.isPromul;
                                     nav_vue.loginUser = result.loginUser;
@@ -127,7 +128,6 @@
     </div>
 </header>
 <div class="header-take-space" style="height: 70px"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
-<br/>
 <!--content-->
 <div class="content container-fluid">
     <!--左侧导航栏-->
@@ -163,7 +163,7 @@
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </a>
                         <ul id="safemanage" class="panel-collapse collapse in">
-                            <li class="current">
+                            <li>
                                 <a href="/studioPage/jobInfo">招聘信息</a>
                             </li>
                             <li>

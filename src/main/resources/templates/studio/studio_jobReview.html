@@ -30,8 +30,7 @@
 
 		
 	</head>
-	
-	
+
 	<body style="background-color: gainsboro;">
 	<!--header-->
 	<header class="header-navigation" id="headerBar">
@@ -39,18 +38,18 @@
 			<div class="row_main">
 				<!--logo-->
 				<div class="main_logo">
-					<img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png" />
+					<img class="img-responsive img-rounded nav-img-logo" src="/static/img/img_psw/logo2.png"/>
 				</div>
 				<!--超链接-->
 				<div class="nav-main-right">
 					<nav class="cd-nav">
 						<ul>
-							<li><a  href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+							<li><a href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
 							<li><a href="/project/xwh">项目大厅</a></li>
 							<li><a href="/stuhall/hall">服务大厅</a></li>
 							<li><a href="/resource/home">创客讲堂</a></li>
 							<li><a href="/original/all">原创中心</a></li>
-							<li><a href="/ForJob/search"class="active">在线求职</a></li>
+							<li><a href="/ForJob/search">在线求职</a></li>
 							<li><a href="/honor/honorPage">荣誉中心</a></li>
 						</ul>
 					</nav>
@@ -60,7 +59,8 @@
 			<div id="headVue">
 				<ul class="nav navbar-top-links navbar-right" style="margin-right: 5%;">
 					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;" href="#" >
+						<a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5% 0 0 0;background: #fff0;"
+						   href="#">
 							<!--没有登陆-->
 							<img class="nav-avatar" v-if="!isLogined" src="/static/img/img_chh/akari.jpg"/>
 							<!--已经登录-->
@@ -80,7 +80,7 @@
 							<li v-if="isLogined">
 								<a :href="centerUrl"><p class="nav-text-center">个人中心</p></a>
 							</li>
-							<li v-if="isLogined && !isPromul">
+							<li v-if="isLogined && !isPromul" >
 								<a href="/studio/studioNone"><p class="nav-text-center">我的工作室</p></a>
 							</li>
 							<li v-if="isLogined">
@@ -92,28 +92,28 @@
 			</div>
 			<script type="text/javascript">
                 var nav_vue = new Vue({
-                    el:'#headVue',
-                    data:{
+                    el: '#headVue',
+                    data: {
                         loginUser: '',
                         isLogined: false,
-                        isPromul : '',
-                        img : '',
-                        centerUrl : '',
+                        isPromul: '',
+                        img: '',
+                        centerUrl: '',
                     },
                     created: function () {
                         this.getUser();
                     },
                     methods: {
-                        getUser: function(){
+                        getUser: function () {
                             $.ajax({
                                 type: "POST",
                                 url: "/home/getLoginUser",
                                 dataType: "json",
-                                success: function(result){
-                                    if(result.code === 404){
+                                success: function (result) {
+                                    if (result.code === 404) {
                                         nav_vue.isLogined = false;
                                     }
-                                    else if(result.code === 0){
+                                    else if (result.code === 0) {
                                         nav_vue.isLogined = true;
                                         nav_vue.isPromul = result.isPromul;
                                         nav_vue.loginUser = result.loginUser;
@@ -129,7 +129,6 @@
 		</div>
 	</header>
 	<div class="header-take-space" style="height: 70px"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
-		<br/>
 	<!--content-->
 	<div class="content container-fluid">
 		<!--左侧导航栏-->
@@ -245,9 +244,17 @@
 														</span></td>
 				                                        <td>
 									                        <!--<button type="button" class="btn btn-primary btn-sm">通过</button>-->
+
+															<a type="button" class="btn btn-primary btn-sm"
+															   @click = "alr()"
+															   v-if="dts.users.userStudio"
+															><通过></通过></a>
+
 															<a type="button" class="btn btn-primary btn-sm"
 															   :href="'/jobdeal/pass/'+dts.jobuser.juUsers+'/'+dts.jobuser.juId"
+															   v-else
 															>通过</a>
+
 															<!--+dts.jobuser.juId+'/'+-->
 									                        <!--<button type="button" class="btn btn-danger btn-sm">忽略</button>-->
 															<a type="button" class="btn btn-danger btn-sm"
@@ -422,7 +429,16 @@
 		var jobReview = new Vue({
 			el:'#jobreviewVue',
 			data:{
-			    jobusers:''
+			    jobusers:'',
+				sqstu:'',
+				havaStu:'',
+			},
+			methods:{
+			  alr:function () {
+			      alert("此人已经加入其它工作室，不可同时加入两个工作室");
+
+
+              },
 			},
 			created:function () {
 				$.ajax({
