@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ${author}
- * @since 2018-09-21
+ * @since 2018-10-18
  */
 public class Gradeori implements Serializable {
 
@@ -21,6 +21,7 @@ public class Gradeori implements Serializable {
     private Integer graoId;
     private String graoUser;
     private Integer graoOri;
+    private Integer garoSco;
 
 
     public Integer getGraoId() {
@@ -47,12 +48,21 @@ public class Gradeori implements Serializable {
         this.graoOri = graoOri;
     }
 
+    public Integer getGaroSco() {
+        return garoSco;
+    }
+
+    public void setGaroSco(Integer garoSco) {
+        this.garoSco = garoSco;
+    }
+
     @Override
     public String toString() {
         return "Gradeori{" +
         ", graoId=" + graoId +
         ", graoUser=" + graoUser +
         ", graoOri=" + graoOri +
+        ", garoSco=" + garoSco +
         "}";
     }
 }

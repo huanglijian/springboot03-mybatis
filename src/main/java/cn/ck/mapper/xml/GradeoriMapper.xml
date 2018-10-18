@@ -7,6 +7,7 @@
         <id column="grao_id" property="graoId" />
         <result column="grao_user" property="graoUser" />
         <result column="grao_ori" property="graoOri" />
+        <result column="garo_sco" property="garoSco" />
     </resultMap>
 
 </mapper>
