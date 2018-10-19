@@ -124,7 +124,7 @@
 	</header>
 	<div class="header-take-space"><!--这是占位的div,默认高度为100px，可以自己修改--></div>
 	<!--content-->
-	<div class="content container-fluid" id="indexVue">
+	<div class="content container-fluid" id="indexVue" v-cloak>
 		<!--左侧导航栏-->
 		<div class="navL">
 			<div class="col_left">
@@ -362,9 +362,9 @@
 							    	<ul style="list-style: none;">
 								    	<li style="position: relative;" id="juVue">
 									        <div class="memberList" v-for="dt in member">
-										       	<div class="mTop">
+										       	<div class="mTop img-responsive img-rounded" >
 										       		<!--图片像素 160 X 160-->
-										       		<img :src="dt.userImgpath" />
+										       		<img :src="dt.userImgpath"  class="img-responsive img-rounded" style="width: 160px;height: 160px" />
 										       	</div>
 										       	<div class="mBottom">
 										       		<div class="mbLeft">
@@ -391,8 +391,8 @@
 								    	<li style="position: relative;">
 									        <div class="projectList">
 										       	<div class="pTop">
-										       		<!--图片像素 160 X 160-->
-										       		<img :src="data.projImgpath" />
+										       		<!--图片像素 220 X 220-->
+										       		<img :src="data.projImgpath" class="img-responsive img-rounded" style="width: 220px;height: 220px"/>
 										       	</div>
 										       	<div class="pCenter">
 										       		 <p>
@@ -407,7 +407,7 @@
 										       	 </div>
 										       	 <div class="pBottom">
 										       	 	<span style="position: relative;top: -17px;margin-right: 5px;">
-										       	 	 <button class="btn btn-primary" @click="jumpProject(data.projId)">详情</button>
+										       	 	 <button class="btn btn-primary" @click="jumpProject(data.project.projId)">详情</button>
 										       	 	</span>
 										       	 </div>
 									         </div>
