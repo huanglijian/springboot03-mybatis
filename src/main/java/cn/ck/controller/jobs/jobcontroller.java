@@ -55,7 +55,7 @@ public class jobcontroller extends AbstractController {
         System.out.println("----pagenum "+pagenum);
         //        获得所有的招聘信息
 //        调用分页插件
-        PageHelper.startPage(pagenum, 8);
+        PageHelper.startPage(pagenum, 5);
         List<Jobs> jobs = jobsService.selectList(new EntityWrapper<Jobs>());
         PageInfo<Jobs> jobPageInfo=new PageInfo<>(jobs);
 
