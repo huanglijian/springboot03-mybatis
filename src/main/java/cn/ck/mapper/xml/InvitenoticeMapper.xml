@@ -9,6 +9,7 @@
         <result column="inno_time" property="innoTime" />
         <result column="inno_foreid" property="innoForeid" />
         <result column="inno_state" property="innoState" />
+        <result column="inno_proname" property="innoProname" />
     </resultMap>
 
 </mapper>

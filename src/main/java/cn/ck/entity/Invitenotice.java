@@ -20,6 +20,7 @@ public class Invitenotice implements Serializable {
     private Date innoTime;
     private String innoForeid;
     private String innoState;
+    private String innoProname;
 
 
     public Integer getInnoId() {
@@ -62,6 +63,14 @@ public class Invitenotice implements Serializable {
         this.innoState = innoState;
     }
 
+    public String getInnoProname() {
+        return innoProname;
+    }
+
+    public void setInnoProname(String innoProname) {
+        this.innoProname = innoProname;
+    }
+
     @Override
     public String toString() {
         return "Invitenotice{" +
@@ -70,6 +79,7 @@ public class Invitenotice implements Serializable {
         ", innoTime=" + innoTime +
         ", innoForeid=" + innoForeid +
         ", innoState=" + innoState +
+        ", innoProname=" + innoProname +
         "}";
     }
 }
