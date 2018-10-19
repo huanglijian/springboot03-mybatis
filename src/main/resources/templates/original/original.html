@@ -233,87 +233,87 @@
                                     </a>
                                 </li>
 								<li>
-									<a @click="jump('C++')" :class="addclass2('C++')">C++
+									<a @click="jump2('C++')" :class="addclass2('C++')">C++
 									</a>
 								</li>
 								<li>
-									<a @click="jump('HTML')" :class="addclass2('HTML')">HTML
+									<a @click="jump2('HTML')" :class="addclass2('HTML')">HTML
 									</a>
 								</li>
 								<li>
-									<a @click="jump('C')" :class="addclass2('C')">C
+									<a @click="jump2('C')" :class="addclass2('C')">C
 									</a>
 								</li>
 								<li>
-									<a @click="jump('NodeJS')" :class="addclass2('NodeJS')">NodeJS
+									<a @click="jump2('NodeJS')" :class="addclass2('NodeJS')">NodeJS
 									</a>
 								</li>
 								<li>
-									<a @click="jump('Swift')" :class="addclass2('Swift')">Swift
+									<a @click="jump2('Swift')" :class="addclass2('Swift')">Swift
 									</a>
 								</li>
 								<li>
-									<a @click="jump('Ruby')" :class="addclass2('Ruby')">Ruby
+									<a @click="jump2('Ruby')" :class="addclass2('Ruby')">Ruby
 									</a>
 								</li>
 								<li>
-									<a @click="jump('微信')" :class="addclass2('微信')">微信
+									<a @click="jump2('微信')" :class="addclass2('微信')">微信
 									</a>
 								</li>
 								<li>
-									<a @click="jump('TypeScript')" :class="addclass2('TypeScript')">TypeScript
+									<a @click="jump2('TypeScript')" :class="addclass2('TypeScript')">TypeScript
 									</a>
 								</li>
 								<li>
-									<a @click="jump('HTML/CSS')" :class="addclass2('HTML/CSS')">HTML/CSS
+									<a @click="jump2('HTML/CSS')" :class="addclass2('HTML/CSS')">HTML/CSS
 									</a>
 								</li>
 								<li>
-									<a @click="jump('Docker')" :class="addclass2('Docker')">Docker
+									<a @click="jump2('Docker')" :class="addclass2('Docker')">Docker
 									</a>
 								</li>
 								<li>
-									<a @click="jump('Shell')" :class="addclass2('Shell')">Shell
+									<a @click="jump2('Shell')" :class="addclass2('Shell')">Shell
 									</a>
 								</li>
 								<li>
-									<a @click="jump('CSS')" :class="addclass2('CSS')">CSS
+									<a @click="jump2('CSS')" :class="addclass2('CSS')">CSS
 									</a>
 								</li>
 								<li>
-									<a @click="jump('Lua')":class="addclass2('Lua')">Lua
+									<a @click="jump2('Lua')":class="addclass2('Lua')">Lua
 									</a>
 								</li>
 								<li>
-									<a @click="jump('C/C++')" :class="addclass2('C/C++')">C/C++
+									<a @click="jump2('C/C++')" :class="addclass2('C/C++')">C/C++
 									</a>
 								</li>
 								<li>
-									<a @click="jump('Scala')" :class="addclass2('Scala')">Scala
+									<a @click="jump2('Scala')" :class="addclass2('Scala')">Scala
 									</a>
 								</li>
 								<li>
-									<a @click="jump('Kotlin')" :class="addclass2('Kotlin')">Kotlin
+									<a @click="jump2('Kotlin')" :class="addclass2('Kotlin')">Kotlin
 									</a>
 								</li>
 								<li>
-									<a @click="jump('Matlab')" :class="addclass2('Matlab')">Matlab
+									<a @click="jump2('Matlab')" :class="addclass2('Matlab')">Matlab
 									</a>
 								</li>
 								<li>
-									<a @click="jump('Delphi')" :class="addclass2('Delphi')">Delphi
+									<a @click="jump2('Delphi')" :class="addclass2('Delphi')">Delphi
 									</a>
 								</li>
 								<li>
-									<a @click="jump('ActionScript')" :class="addclass2('ActionScript')">ActionScript
+									<a @click="jump2('ActionScript')" :class="addclass2('ActionScript')">ActionScript
 									</a>
 								</li>
 								<li>
-									<a @click="jump('Tex/LaTeX')" :class="addclass2('TeX/LaTeX')">TeX/LaTeX
+									<a @click="jump2('Tex/LaTeX')" :class="addclass2('TeX/LaTeX')">TeX/LaTeX
 									</a>
 								</li>
 								<li>
-									<a @click="jump('ASP')" :class="addclass2('ASP')">ASP
+									<a @click="jump2('ASP')" :class="addclass2('ASP')">ASP
 									</a>
 								</li>
 
@@ -676,10 +676,10 @@
 			 },
 			 methods:{
 			     jump:function (type) {
-					 window.location.href="/original/allpage?type="+type+"&tag="+ori.tag;
+					 window.location.href="/original/allpage?type="+type+"&tag="+encodeURIComponent(ori.tag);
                  },
 				 jump2:function (tag) {
-					 window.location.href="/original/allpage?tag="+tag+"&type="+ori.type;
+                     window.location.href="/original/allpage?tag="+encodeURIComponent(tag)+"&type="+ori.type;
                  },
 				 addclass1:function (type) {
 			         if(ori.type==''&&type=='全部')
