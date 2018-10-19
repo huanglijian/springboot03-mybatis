@@ -314,7 +314,7 @@ public class UsersController extends AbstractController {
     @ResponseBody
     public PageInfo<Notice> get_sysn2(){
         PageHelper.startPage(start,size,"noti_time desc");//,"noti_time desc"
-        List<Notice> notices=noticeService.selectList(new EntityWrapper<Notice>().eq("noti_state","是"));
+        List<Notice> notices=noticeService.selectList(new EntityWrapper<Notice>().eq("noti_foreid",getUser().getAllId()).eq("noti_state","是"));
         PageInfo<Notice> page = new PageInfo<>(notices);
         return page;
     }
@@ -492,7 +492,7 @@ public class UsersController extends AbstractController {
     @RequestMapping("update_sysn")
     @ResponseBody
     public boolean update_sysn(String notiId){
-        Notice notice=noticeService.selectById(notiId);
+        Notice notice=noticeService.selectById(Integer.parseInt(notiId));
         notice.setNotiState("是");
         return noticeService.updateAllColumnById(notice);
     }
@@ -501,7 +501,7 @@ public class UsersController extends AbstractController {
     @RequestMapping("update_inno")
     @ResponseBody
     public boolean update_inno(String notiId){
-        Invitenotice notice=invitenoticeService.selectById(notiId);
+        Invitenotice notice=invitenoticeService.selectOne(new EntityWrapper<Invitenotice>().eq("inno_id",Integer.parseInt(notiId)));
         notice.setInnoState("是");
         return invitenoticeService.updateAllColumnById(notice);
     }

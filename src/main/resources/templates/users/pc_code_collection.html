@@ -17,10 +17,8 @@
 	<script src="http://how2j.cn/study/vue.min.js"></script>
 	<script src="http://how2j.cn/study/axios.min.js"></script>
 	<script src="https://cdn.bootcss.com/qs/6.5.2/qs.min.js"></script>
-	<style>
-		[v-cloak]{
-			display: none;
-		}
+	<style rel="stylesheet">
+		[v-cloak] { display: none }
 	</style>
 
 </head>
@@ -138,7 +136,10 @@
 								<a href="/user/user_mfyinfo">修改资料</a>
 							</li>
 							<li>
-								<i v-if="show" style="color: red;margin-left: -110px" class="fa fa-bell"></i><span v-if="show" style="line-height: 12px;padding: 1px 5px;background:red;position: relative;bottom:10px;right:5px;" class="label label-primary">{{num}}</span><a href="/user/user_sysn">系统通知</a>
+								<i v-if="show" style="color: red;margin-left: -110px" class="fa fa-bell" v-cloak></i><span v-if="show" style="line-height: 12px;padding: 1px 5px;background:red;position: relative;bottom:10px;right:5px;" class="label label-primary" v-cloak>{{num}}</span><a href="/user/user_sysn">系统通知</a>
+							</li>
+							<li>
+								<i v-if="show1" style="color: red;margin-left: -110px" class="fa fa-bell" v-cloak></i><span v-if="show1" style="line-height: 12px;padding: 1px 5px;background:red;position: relative;bottom:10px;right:5px;" class="label label-primary" v-cloak>{{num1}}</span><a href="/user/user_inno">邀请通知</a>
 							</li>
 						</ul>
 					</li>
@@ -190,7 +191,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="col_right" style="min-height: 640px">
+		<div class="col_right" style="min-height: 680px">
 			<div class="col_right_cec_up">
 				<div class="col_right_cec_up_1" id="total" v-cloak="">
 					<span>共 {{total}} 条</span>
@@ -387,20 +388,25 @@
     });
 
     new Vue({
-		el:'#notice',
-		data:{
-		    show:true,
-			num:''
-		},
-		mounted:function () {
-		    var self=this;
-			axios.get("/user/get_sysnnum").then(function (response) {
-				self.num=response.data;
-				if(response.data==0)
-				    self.show=!self.show;
+        el:'#notice',
+        data:{
+            show:false,
+            show1:false,
+            num:'',
+            num1:''
+        },
+        mounted:function () {
+            var self=this;
+            axios.get("/user/get_sysnnum").then(function (response) {
+                self.num=response.data.sysn;
+                self.num1=response.data.inno;
+                if(response.data.sysn>0)
+                    self.show=!self.show;
+                if(response.data.inno>0)
+                    self.show1=!self.show1;
             })
         }
-	})
+    });
 </script>
 </body>
 </html>

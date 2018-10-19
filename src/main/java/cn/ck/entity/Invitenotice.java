@@ -1,5 +1,8 @@
 package cn.ck.entity;
 
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,6 +18,7 @@ public class Invitenotice implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "inno_id", type = IdType.AUTO)
     private Integer innoId;
     private Integer innoProid;
     private Date innoTime;
