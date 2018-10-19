@@ -56,6 +56,8 @@ public class UsersController extends AbstractController {
     CollectoriService collectoriService;
     @Autowired
     StudioService studioService;
+    @Autowired
+    InvitenoticeService invitenoticeService;
 
     int start;//记录当前页 默认为“0“
     int size; //记录每页条目数，默认为”10“
@@ -105,6 +107,22 @@ public class UsersController extends AbstractController {
         this.start=start;
         this.size=size;
         return "users/pc_sysn2";
+    }
+
+    //跳转修改用户通知消息页面
+    @RequestMapping("/user_inno")
+    public String user_inno(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "20") int size){
+        this.start=start;
+        this.size=size;
+        return "users/pc_invitenotice";
+    }
+
+    //跳转修改用户通知消息页面
+    @RequestMapping("/user_inno2")
+    public String user_inno2(@RequestParam(value = "start", defaultValue = "1") int start,@RequestParam(value = "size", defaultValue = "20") int size){
+        this.start=start;
+        this.size=size;
+        return "users/pc_invitenotice2";
     }
 
     //跳转用户项目收藏页面
@@ -281,7 +299,7 @@ public class UsersController extends AbstractController {
         return map;
     }
 
-    //获取当前登录用户的系统通知消息
+    //获取当前登录用户未读的系统通知消息
     @RequestMapping("/get_sysn")
     @ResponseBody
     public PageInfo<Notice> get_sysn(){
@@ -301,12 +319,43 @@ public class UsersController extends AbstractController {
         return page;
     }
 
-    //获取当前登录用户的未读系统通知消息
+    //获取当前登录用户的未读邀请竞标通知消息
+    @RequestMapping("/get_inno")
+    @ResponseBody
+    public PageInfo<Invitenotice> get_inno(){
+        PageHelper.startPage(start,size,"inno_time desc");//,"noti_time desc"
+        List<Invitenotice> notices=invitenoticeService.selectList(new EntityWrapper<Invitenotice>().eq("inno_foreid",getUser().getAllId()).eq("inno_state","否"));
+        for(Invitenotice invitenotice:notices)
+            System.out.println(invitenotice.getInnoProname());
+        PageInfo<Invitenotice> page = new PageInfo<>(notices);
+        return page;
+    }
+
+    //获取当前登录用户的系统通知消息
+    @RequestMapping("/get_inno2")
+    @ResponseBody
+    public PageInfo<Invitenotice> get_inno2(){
+        PageHelper.startPage(start,size,"inno_time desc");//,"noti_time desc"
+        List<Invitenotice> notices=invitenoticeService.selectList(new EntityWrapper<Invitenotice>().eq("inno_foreid",getUser().getAllId()).eq("inno_state","是"));
+        PageInfo<Invitenotice> page = new PageInfo<>(notices);
+        return page;
+    }
+
+    /*//获取当前登录用户的未读邀请竞标通知消息数量
+    @RequestMapping("/get_innonum")
+    @ResponseBody
+    public int get_innonum(){
+        List<Invitenotice> notices=invitenoticeService.selectList(new EntityWrapper<Invitenotice>().eq("inno_state","否").eq("noti_foreid",getUser().getAllId()));
+        return notices.size();
+    }*/
+
+    //获取当前登录用户的未读系统通知消息数量
     @RequestMapping("/get_sysnnum")
     @ResponseBody
-    public int get_sysnnum(){
+    public ResponseBo get_sysnnum(){
         List<Notice> notices=noticeService.selectList(new EntityWrapper<Notice>().eq("noti_state","否").eq("noti_foreid",getUser().getAllId()));
-        return notices.size();
+        List<Invitenotice> notices1=invitenoticeService.selectList(new EntityWrapper<Invitenotice>().eq("inno_state","否").eq("inno_foreid",getUser().getAllId()));
+        return ResponseBo.ok().put("sysn",notices.size()).put("inno",notices1.size());
     }
 
     //获取当前登录用户的收藏项目
@@ -448,6 +497,29 @@ public class UsersController extends AbstractController {
         return noticeService.updateAllColumnById(notice);
     }
 
+    //更新邀请消息为已读状态
+    @RequestMapping("update_inno")
+    @ResponseBody
+    public boolean update_inno(String notiId){
+        Invitenotice notice=invitenoticeService.selectById(notiId);
+        notice.setInnoState("是");
+        return invitenoticeService.updateAllColumnById(notice);
+    }
+
+    //更新消息为已读状态
+    @RequestMapping("update_allinno")
+    @ResponseBody
+    public int update_allinno(String notiId){
+        List<Invitenotice> notices=invitenoticeService.selectList(new EntityWrapper<Invitenotice>().eq("inno_state","否").eq("inno_foreid",getUser().getAllId()));
+        if(notices.size()!=0){
+            for (Invitenotice notice:notices) {
+                notice.setInnoState("是");
+                invitenoticeService.updateAllColumnById(notice);
+            }
+        }
+        return notices.size();
+    }
+
     //更新消息为已读状态
     @RequestMapping("update_allsysn")
     @ResponseBody
@@ -460,6 +532,16 @@ public class UsersController extends AbstractController {
             }
         }
         return notices.size();
+    }
+
+    //删除邀请通知消息
+    @RequestMapping("/delete_inno")
+    @ResponseBody
+    public boolean delete_inno(String notiId){
+        if(invitenoticeService.deleteById(Integer.parseInt(notiId)))
+            return true;
+        else
+            return false;
     }
 
     //删除通知消息
