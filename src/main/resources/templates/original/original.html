@@ -334,7 +334,7 @@
 
 						<div class='ui relaxed divided items' id='git-discover-list'>
 							<div class='item' v-for="pro in highscore" v-cloak>
-								<a href="/shuzheng" class="project-creator-link ui avatar image pull-left":title=pro.users.userName ><img src="/static/img/img_hhm/renren.png" />
+								<a :href="'/user/user_hp?userId='+pro.users.userId" target="_blank" class="project-creator-link ui avatar image pull-left":title=pro.users.userName ><img src="/static/img/img_hhm/renren.png" />
 								</a>
 								<div class='project-content'>
 									<div class='project-title'>
@@ -347,14 +347,14 @@
 										</div>
 										<div class='git-project-header-actions'>
 												<span>
-													<a href="##" class="ui small  lang-label" style="font-size: 14px;">{{pro.users.userName}}</a></span>
+													<a :href="'/user/user_hp?userId='+pro.users.userId" target="_blank" class="ui small  lang-label" style="font-size: 14px;">{{pro.users.userName}}</a></span>
 										</div>
 										<div class="clearfix"></div>
 									</div>
 									<div class='project-desc'>{{pro.origIntro}}</div>
 									<div class='project-meta'>
-										<a href="/explore/starred?lang=Java" class="ui small  lang-label">{{pro.origType}}</a>
-										<a style="margin-right:8px; " href="/explore/starred/webframework" class="ui small  lang-label" v-for="item in pro.origTag">{{item}}</a>
+										<span style="margin-right:3px; " class="ui small  lang-label">{{pro.origType}}</span>
+										<span style="margin-right:8px; "  class="ui small  lang-label" v-for="item in pro.origTag">{{item}}</span>
 
 										<div class='pull-right'>
 
