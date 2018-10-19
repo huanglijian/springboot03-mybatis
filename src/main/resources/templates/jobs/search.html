@@ -309,7 +309,7 @@
                         <div class="join">
                             <div class="joinUp"></div>
                             <div class="joinM">
-                                <a class="btn btn-block btn-primary compose-mail but"
+                                <a class="btn btn-block btn-primary compose-mail but" v-if="!isPromul"
                                    :href="'/ForJob/mes/'+j.jobs.jobId"
                                    target="_blank">申请加入</a>
                             </div>
@@ -440,17 +440,11 @@
             el: '#jobsul',
             data: {
                 job: '',
+                isPromul : ''
             },
-            // created: function () {
-            //     $.ajax({
-            //         type: 'Post',
-            //         url: '/ForJob/search/jobs/1',
-            //         success: function (result) {
-            //             vm.job = result.jobsStudios;
-            //             vm1.n = result.num;
-            //         }
-            //     })
-            // },
+            created: function () {
+                this.isPromul = nav_vue.isPromul;
+            },
             methods: {}
         });
 
