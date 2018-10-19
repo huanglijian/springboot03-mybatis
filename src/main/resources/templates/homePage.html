@@ -967,12 +967,12 @@
                 <div class="row">
                     <div class="leaderboard" id="origins">
                         <h1>
-                            <a href="">
+                            <a href="/original/all">
                                 热门原创
                             </a>
                         </h1>
                         <ol>
-                            <li v-for="o in origins">
+                            <li v-for="o in origins" @click="goOris(o.origId)">
                                 <mark>{{o.origName | namefilter}}</mark>
                                 <small>{{o.origGrade}}分</small>
                             </li>
@@ -998,11 +998,14 @@
                                 success: function(result){
                                     if(result.code === 0){
                                         originsblock.origins = result.origins;
-                                        console.log(originsblock.origins);
                                     }
                                 }
                             });
                         },
+                        goOris : function (val) {
+                            let url = "/original/details/" + val;
+                            window.open(url,"_blank");
+                        }
                     },
                     filters: {
                         namefilter: function (value) {
