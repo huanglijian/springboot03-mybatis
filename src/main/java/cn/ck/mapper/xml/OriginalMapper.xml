@@ -44,7 +44,19 @@
 
 
     <select id="selectAllOri" resultMap="AllOriginalCollection">
-         select * from original,users  where original.orig_users=users.user_id ORDER BY orig_grade DESC
+         select * from original,users
+            <where>
+                <if test="type!=null and type!='' and type!='全部'">
+                    and orig_type=#{type}
+                </if>
+                <if test="tag!=null and tag!='' and tag!='全部'">
+                    and orig_tag like '%' #{tag} '%'
+                </if>
+                <if test="id!=null">
+                    and original.orig_users=users.user_id
+                </if>
+            </where>
+                ORDER BY orig_grade desc
     </select>
 
     <select id="selectOriUser" resultMap="AllOriginalCollection">
@@ -53,5 +65,9 @@
 
     <select id="selectOther" resultMap="AllOriginalCollection">
         select * from original , users  where original.orig_id!=#{id} and original.orig_users=users.user_id and original.orig_name like '%' #{tag} '%'
+    </select>
+
+    <select id="selectSearch" resultMap="AllOriginalCollection">
+        select * from original,users where original.orig_users=users.user_id and original.orig_name like '%' #{key} '%' order by orig_grade desc
     </select>
 </mapper>

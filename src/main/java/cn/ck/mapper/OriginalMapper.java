@@ -19,9 +19,11 @@ import java.util.List;
 public interface OriginalMapper extends BaseMapper<Original> {
     List<OriColUser> selectDesc(String id);
 
-    List<OriUser> selectAllOri();
+    List<OriUser> selectAllOri(@Param("type")String type,@Param("tag")String tag,@Param("id")int id);
 
     OriUser selectOriUser(@Param("id") int id);
 
     List<OriUser> selectOther(@Param("id") int id,@Param("tag") String tag);
+
+    List<OriUser> selectSearch(@Param("key") String key);
 }

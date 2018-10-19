@@ -28,9 +28,11 @@ public interface OriginalService extends IService<Original> {
      */
     List<Original> selectHeigestGradeOrigin();
 
-    List<OriUser> selectAllOri();
+    List<OriUser> selectAllOri(String type,String tag,int id);
 
     OriUser selectOriUser(int id);
 
     List<OriUser> selectOther(int id,String tag);
+
+    List<OriUser> selectSearch(String key);
 }

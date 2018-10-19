@@ -33,11 +33,11 @@
 				<div class="nav-main-right">
 					<nav class="cd-nav">
 						<ul>
-							<li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+							<li><a href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
 							<li><a href="/project/xwh">项目大厅</a></li>
 							<li><a href="/stuhall/hall">服务大厅</a></li>
 							<li><a href="/resource/home">创客讲堂</a></li>
-							<li><a href="/original/all">原创中心</a></li>
+							<li><a class="active" href="/original/all">原创中心</a></li>
 							<li><a href="/ForJob/search">在线求职</a></li>
 							<li><a href="/honor/honorPage">荣誉中心</a></li>
 						</ul>
@@ -144,8 +144,8 @@
 					<div class="project-actions">
 
 						<span><a href="javascript:void(0)" @click="colori(curOri.origId)"><i v-if="show1" style="color:red;" class="fa fa-star"></i><i v-if="show2" class="fa fa-star"></i>收藏</a></span>
-						<span style="margin-left: 20px;"><a :href="'/file/down?fileName='+curOri.origName+'.zip'" ><img src="/static/img/img_hhm/download.png"/>下载</a></span>
-
+						<span style="margin-left: 20px;"><a  @click="download(curOri.origName)"><img src="/static/img/img_hhm/download.png"/>下载</a></span>
+						<!--:href="'/file/down?fileName='+curOri.origName+'.zip'"-->
 
 					</div>
 
@@ -162,13 +162,7 @@
 					<p><strong>项目说明</strong></p>
 
 					<p>{{curOri.origIntro}}</p>
-					<ul id="rating1" class="rating" style="float: right;">
-						<li class="rating-item" title="很不好"></li>
-						<li class="rating-item" title="不好"></li>
-						<li class="rating-item" title="一般"></li>
-						<li class="rating-item" title="好"></li>
-						<li class="rating-item" title="很好"></li>
-					</ul>
+					<div class="rating" id = "rating1" style="float: right"></div>
 				<!--	<script>
 					$('#rating1').star({
 					mode: 'LightEntire', //半颗星
@@ -191,10 +185,10 @@
 					<div class='project-content'>
 						<div class='project-title1'>
 							<h3 style="margin-top: 0;">
-<a  class="title project-namespace-path" target="_blank" :title=pro.origName style="float: left;">{{pro.origName}}</a>
+<a  :href="'/original/details/'+pro.origId" class="title project-namespace-path" target="_blank" :title=pro.origName style="float: left;">{{pro.origName}}</a>
 								<!--<a  class="title project-namespace-path" target="_blank"  style="float: left;">人人开源项目</a>-->
 </h3>
-							<div :id="pro.origGrade" class="star"></div>
+							<div :id="pro.origGrade" class="star" style="width:100px;margin-left:10px;margin-top: 4px"></div>
 
 
 						</div>
@@ -362,6 +356,7 @@
 	</script>
 		<script type="text/javascript">
 
+
             /*$('#rating1').star({
                 readOnly:false,
                 num: 5
@@ -425,16 +420,49 @@
                     isScored : false,
 					show1:false,
 					show2:false,
-					other:''
+					other:'',
+                    grade:''
                 },
                 created: function () {
                     this.oriId = this.urlparse().file;
                     this.getCurOri();
                 },
                 methods: {
+                   /* scored:function(id) {
+                        if (!ori.isLogined) {
+                            alert("请登录！");
+                            return;
+                        }
+                        else if (!ori.isScored) {
+                            var url = "/original/insertColOri?oriId=" + id;
+                            $.ajax({
+                                url: url,
+                                type: 'GET',
+
+
+                                dataType: "json",
+                                success: function (result) {
+                                    ori.show1 = true;
+                                    ori.show2 = false;
+                                    ori.isCollected = true;
+                                    return;
+                                }
+                            })
+                        }
+                    },*/
+                   download:function(name){
+
+                       if(!ori.isLogined){
+                           alert("请先登录！")
+					   return;}
+					   else{
+					       window.location.href="/file/down?fileName='name'.zip"
+					   }
+
+			},
                     colori:function(id){
                         if(!ori.isLogined){
-                            alert("请登录！");
+                            alert("请先登录！");
                             return;
 						}
 						else if(!ori.isCollected) {
@@ -515,7 +543,7 @@
                             })()
                         };
                         return obj;
-                    },
+            },
 
                     getCurOri:function () {
                         var data = "origId=" + this.oriId;
@@ -533,6 +561,7 @@
                                     self.curOri = result.curOri;
                                     self.curOri.origTag = result.curOri.origTag.split(",");
                                     self.other=result.other;
+
                                     for(var i=0;i<result.other.length;i++){
                                         var s=result.other[i].origTag.split(",");
                                         /*console.log("@@@"+result.other[i].origTag);
@@ -541,11 +570,13 @@
                                     }
                                     self.isLogined = result.isLogined;
                                     self.isCollected = result.isCollected;
-                                    self.isLiked = result.isScored;
+                                    self.isScored = result.isScored;
+                                    self.grade=result.grade;
                                     console.log(self.isLogined);
                                     console.log(self.isCollected);
                                     console.log(self.isScored);
                                     console.log(self.curOri);
+                                    console.log(self.curOri.origTag);
                                     if(!self.isLogined)
                                         self.show2=true;
                                     else {if(self.isCollected)
@@ -637,14 +668,108 @@
                         score: $("#star").attr("grade"),
                         hints: ["1", "2", "3", "4", "5"]
                     });
-                    $(".other").find(".item").each( function () {
-                        var grade=$(this).find(".star").attr("id");
+                    $(".other").find(".item").each(function () {
+                        var grade = $(this).find(".star").attr("id");
                         $(this).find(".star").raty({
                             readOnly: true,
-                            score:grade,
+                            score: grade,
                             hints: ["1", "2", "3", "4", "5"]
                         });
                     })
+                    var self = this;
+                    if (!self.isLogined) {
+                        $('#rating1').click(function () {
+                            alert("请登录");
+                        })
+                    } else if (self.isScored) {
+                        $('#rating1').star({
+                            modus: 'entire', //点亮模式 （‘half’半颗， ‘entire’整颗）
+                            total: 5, //默认共几颗星
+                            num: self.grade, //默认点亮个数
+                            readOnly: true, //默认是否只读，
+                        })
+                        $('#rating1').click(function () {
+
+                            alert("你已经评分过了！");
+                        })
+                    }
+                    else {
+                        $('#rating1').star({
+                            modus: 'entire', //点亮模式 （‘half’半颗， ‘entire’整颗）
+                            total: 5, //默认共几颗星
+                            num: self.grade, //默认点亮个数
+                            readOnly: false, //默认是否只读，
+
+                            chosen: function (count, total) { //点击后事件
+                                $('#rating1').star('unbindEvent'); //点击后禁止再选，如不需要可自行删除该函数
+
+                                $.ajax({
+
+                                    type: "POST",
+                                    url: "/original/insertScore?origId="+self.curOri.origId+"&score="+count,
+                                    async: false,
+                                    dataType: "json",
+                                    success: function (result) {
+                                        alert("评分成功！");
+                                        $('#rating1').click(function () {
+
+                                            alert("你已经评分过了！");
+                                        })
+
+                                    }
+                                })
+                            }
+                        })
+                    }
+
+                 /*   $('#rating1').click(function () {
+                        if (!self.isLogined) {
+                            alert("请登录");
+                        }
+                        else if (self.isScored) {
+                            $(this).star({
+                                modus: 'entire', //点亮模式 （‘half’半颗， ‘entire’整颗）
+                                total: 5, //默认共几颗星
+                                num: 0, //默认点亮个数
+                                readOnly: true, //默认是否只读，
+                            })
+                            alert("你已经评分过了！");
+                        }
+                        else {
+                            $(this).star({
+                                modus: 'entire', //点亮模式 （‘half’半颗， ‘entire’整颗）
+                                total: 5, //默认共几颗星
+                                num: 0, //默认点亮个数
+                                readOnly: false, //默认是否只读，
+
+                                chosen: function (count, total) { //点击后事件
+                                    $('#rating1').star('unbindEvent'); //点击后禁止再选，如不需要可自行删除该函数
+                                }
+                            })
+                        }
+                    })*/
+                    /*$('#rating1').star({
+
+                        modus: 'entire', //点亮模式 （‘half’半颗， ‘entire’整颗）
+                        total: 5, //默认共几颗星
+                        num: 0, //默认点亮个数
+                        readOnly: false, //默认是否只读，
+                        chosen: function(count, total) { //点击后事件
+                            if(!self.isLogined){
+                                alert("请登录");
+                                $('#rating1').star({readOnly: true})
+							}
+                            else if(self.isScored) {
+                                $('#rating1').on('chosen',function () {
+                                    alert("你已经评分过了！");
+                                })
+                            }
+							else if(!self.isScored)
+                            	$('#rating1').star('unbindEvent'); //点击后禁止再选，如不需要可自行删除该函数
+
+                        }
+                    })*/
+
                 }
             });
 		</script>

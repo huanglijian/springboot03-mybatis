@@ -32,13 +32,13 @@
                 <div class="nav-main-right">
                     <nav class="cd-nav">
                         <ul>
-                            <li><a class="active" href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+                            <li><a href="/">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
                             <li><a href="/project/xwh">项目大厅</a></li>
                             <li><a href="/stuhall/hall">服务大厅</a></li>
                             <li><a href="/resource/home">创客讲堂</a></li>
                             <li><a href="/original/all">原创中心</a></li>
                             <li><a href="/ForJob/search">在线求职</a></li>
-                            <li><a href="/honor/honorPage">荣誉中心</a></li>
+                            <li><a class="active" href="/honor/honorPage">荣誉中心</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -163,7 +163,7 @@
                             <p>{{rank.stuName}}</p>
                         </div>
                         <div class="thumb">
-                            <a href="###" target="_blank"><img> <!--:src=rank.stuImg--> </img></a>
+                            <a :href="'/stuhall/detail?stuid='+rank.stuId" target="_blank"><img> <!--:src=rank.stuImg--> </img></a>
                         </div>
                         <div class="amount">{{rank.stuMembernum}}</div>
                         <div class="benefit"><span><i><img src="/static/img/img_hhm/money.png"/></i><b>{{rank.stuIncome}}</b></span>
@@ -225,7 +225,7 @@
                     </li>-->
                 </ul>
             </div>
-            <div class="more"><a href="###">查看更多</a></div>
+            <!--<div class="more"><a href="###">查看更多</a></div>-->
         </div>
     </div>
 
