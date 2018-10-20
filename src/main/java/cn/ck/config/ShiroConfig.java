@@ -90,6 +90,9 @@ public class ShiroConfig {
 		chains.put("/promcenter/alipayNotifyNotice","anon");
 		chains.put("/original/**","anon");
 		chains.put("/honor/**","anon");
+		chains.put("/user/user_hp","anon");
+		chains.put("/user/hp","anon");
+		chains.put("/user/get_hp","anon");
 		chains.put("/home/**", "anon");
 		chains.put("/ForJob/**", "anon");
 		chains.put("/resource/**", "anon");

@@ -235,7 +235,7 @@
 					<ul class="list-unstyled" datafrom="service">
 
 						<li  class="classfiy" datatype="ProjectFenlei">
-						    <a vals="allCf" class="item active">项目分类</a>
+						    <a id="001" vals="allCf" class="item active">项目分类</a>
 							<a vals="网站开发" href="javascript:void(0);"  datatype="网站开发">网站开发</a>
 							<a vals="桌面应用" href="javascript:void(0);"  datatype="桌面应用">桌面应用</a>
 							<a vals="APP" href="javascript:void(0);"  datatype="APP">APP</a>
@@ -315,7 +315,9 @@
                             <img  src="/static/img/img_xwh/lefttop-newicon.png"/>
                         </div>
 
-                        <img :src=project.projImg />
+                        <!--<img :src=project.projImg />-->
+                        <img class="img-responsive img-rounded" style="width: 120px;height: 120px" :src="'/project/showImg/'+project.projImg" />
+
 					</div>
 					<div class="projectBody3">
 						<a :href="['projectDetail?id='+project.projId]" target="_blank">
@@ -366,7 +368,7 @@
 							<ul class="list-group">
 								<li class="list-group-item">
 									<span class="ProjectLike1-top" >
-										大家都在 的项目TOP10
+										大家都感兴趣项目TOP10
 									</span>
 								</li>
 								<!-- 拼接字符串 -->
@@ -405,6 +407,8 @@
 
 
 					<script type="text/javascript">
+
+
                         $(function () {
                             var keyWord = $("#wordInput").keyWord({
                                 panel: '#wordTags',
@@ -412,6 +416,9 @@
                                 max: 5,
                                 tips: '最多只能输入5项'
                             });
+                            // alert(location.search);
+
+
                         });
 
                       var vn =   new Vue({
@@ -472,6 +479,7 @@
                              islikes:"",
                              islogin:"",
                              loginUser:"",
+                             path:"E:/ChuangKeFile/Project/file",
                          },
                          mounted: function () {
                              var self=this;
@@ -496,6 +504,7 @@
                                  dataType: "json",
                                  success: function(result){
                                      self.projects = result.list;
+                                     // self.projects.projStudio = "E:/ChuangKeFile/Project/file";
                                      self.total =result.total;
                                      var obj_1={
                                          obj_box:'.page_1',//翻页容器

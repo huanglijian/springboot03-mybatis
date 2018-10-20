@@ -46,11 +46,15 @@ public class ChuangApplicationTests {
     BiddingService biddingService;
     @Autowired
     StudioService studioService;
+    @Autowired
+    InvitenoticeService invitenoticeService;
 
     @Test
     public void contextLoads() throws Exception {
 
 //        System.out.println(tags);
+        List<Invitenotice> notices=invitenoticeService.selectList(new EntityWrapper<Invitenotice>().eq("inno_foreid","3fdc347f78624422bd9f3db7fb14c107").eq("inno_state","否"));
+        System.out.println(notices);
     }
 
     @Test

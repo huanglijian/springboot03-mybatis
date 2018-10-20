@@ -1,14 +1,8 @@
 package cn.ck.controller.studio;
 
 
-import cn.ck.entity.Invite;
-import cn.ck.entity.Project;
-import cn.ck.entity.Studio;
-import cn.ck.entity.Users;
-import cn.ck.service.InviteService;
-import cn.ck.service.ProjectService;
-import cn.ck.service.StudioService;
-import cn.ck.service.UsersService;
+import cn.ck.entity.*;
+import cn.ck.service.*;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -33,6 +27,8 @@ public class StudioHall {
     ProjectService projectService;
     @Autowired
     InviteService inviteService;
+    @Autowired
+    InvitenoticeService invitenoticeService;
 
     int start;//记录当前页 默认为“0“
     int size; //记录每页条目数，默认为”10“
@@ -116,21 +112,25 @@ public class StudioHall {
     @ResponseBody
     public String insert_invite(String stuId){
         Invite invite=inviteService.selectOne(new EntityWrapper<Invite>().eq("inv_project",proId).eq("inv_studio",stuId).eq("inv_prom",pormId));
-        System.out.println(proId);
-        System.out.println(pormId);
-        System.out.println("----------------------");
         if(invite==null){
             Invite invite2=new Invite();
             invite2.setInvProject(proId);
             invite2.setInvCreattime(new Date());
             invite2.setInvProm(pormId);
             invite2.setInvStudio(stuId);
-            if(inviteService.insertAllColumn(invite2))
+            Invitenotice notice=new Invitenotice();
+            Project project=projectService.selectOne(new EntityWrapper<Project>().eq("proj_id",proId));
+            notice.setInnoProid(proId);
+            notice.setInnoProname(project.getProjName());
+            notice.setInnoTime(new Date());
+            notice.setInnoForeid(studioService.selectOne(new EntityWrapper<Studio>().eq("stu_id",stuId)).getStuCreatid());
+            if(invitenoticeService.insertAllColumn(notice)&&inviteService.insertAllColumn(invite2))
                 return "1";
             else
                 return "0";
         }
         return "2";
     }
+
 
 }

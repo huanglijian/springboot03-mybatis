@@ -68,6 +68,7 @@ public class OriginalController extends AbstractController{
         @RequestMapping("/allpage")
         public String allpage(@RequestParam(value = "type", defaultValue = "") String type,@RequestParam(value = "tag",defaultValue = "")  String tag,
                 @RequestParam(value = "start", defaultValue = "1")  int start){
+            System.out.println(tag);
             this.type=type;
             this.tag=tag;
             this.start = start;

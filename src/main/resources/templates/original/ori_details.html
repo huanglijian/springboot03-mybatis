@@ -131,7 +131,7 @@
 				<div class="header-details">
 					<div class="project-title" style="display: flex;">
 						<h3 style="display: flex;">
-<a  class="title project-namespace-path" target="_blank" :title=curOri.origName style="float: left;">{{users.userName}}</a><p>/{{curOri.origName}}</p>
+<a  :href="'/user/user_hp?userId='+users.userId" class="title project-namespace-path" target="_blank" :title=curOri.origName style="float: left;">{{users.userName}}</a><p>/{{curOri.origName}}</p>
 </h3>
 						<div class='project-meta' style="display: flex;">
 							<p class="ui small  lang-label" :title=curOri.origType>{{curOri.origType}}</p>
@@ -144,7 +144,7 @@
 					<div class="project-actions">
 
 						<span><a href="javascript:void(0)" @click="colori(curOri.origId)"><i v-if="show1" style="color:red;" class="fa fa-star"></i><i v-if="show2" class="fa fa-star"></i>收藏</a></span>
-						<span style="margin-left: 20px;"><a  @click="download(curOri.origName)"><img src="/static/img/img_hhm/download.png"/>下载</a></span>
+						<span style="margin-left: 20px;"><a  href="javascript:void(0)" @click="download(curOri.origName)"><img src="/static/img/img_hhm/download.png"/>下载</a></span>
 						<!--:href="'/file/down?fileName='+curOri.origName+'.zip'"-->
 
 					</div>
@@ -180,7 +180,7 @@
 				<h3>相关推荐</h3>
 				<div class='item' v-for="pro in other">
 
-					<a href="/shuzheng" class="project-creator-link ui avatar image pull-left"><img src="../../static/img/img_hhm/renren.png" />
+					<a :href="'/user/user_hp?userId='+pro.users.userId" class="project-creator-link ui avatar image pull-left"><img src="../../static/img/img_hhm/renren.png" />
 					</a>
 					<div class='project-content'>
 						<div class='project-title1'>
@@ -194,11 +194,11 @@
 						</div>
 						<div class='project-desc'>{{pro.origIntro}}</div>
 						<div class='project-meta'>
-							<a href="/explore/starred?lang=Java" class="ui small  lang-label">{{pro.origType}}</a>
-							<a href="/explore/starred/webframework"  style="margin-right: 5px" class="ui small  lang-label" v-for="item in pro.origTag">{{item}}</a>
+							<span  class="ui small  lang-label">{{pro.origType}}</span>
+							<span style="margin-right: 5px" class="ui small  lang-label" v-for="item in pro.origTag">{{item}}</span>
 
 							<div class='pull-right'>
-								<a href="##" class="ui small  lang-label" style="font-size: 14px; margin-right: 5px;">{{pro.users.userName}}</a>
+								<a :href="'/user/user_hp?userId='+users.userId" class="ui small  lang-label" style="font-size: 14px; margin-right: 5px;">{{pro.users.userName}}</a>
 								<span class='timeago' :title=pro.origUploadtime|dateFormat>
 							{{pro.origUploadtime|dateFormat}}
 							</span>
