@@ -6,22 +6,22 @@ import java.io.*;
 import java.util.*;
 
 import cn.ck.service.*;
+import cn.ck.utils.ConstCofig;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.stream.Collectors;
+
+import static cn.ck.controller.FileController.responseFile;
 
 
 @Controller
@@ -88,6 +88,26 @@ public class ProjectContorller {
         else
             return "login";
 
+    }
+    /**
+     * 加载图片
+     * 以字节数组的形式
+     * 用response输出到页面
+     * 假设数据库的是文件的文件名和格式如"myImg.jgp"
+     * 若需要其他存储格式，自己定义处理方法，可以拿到File就可以使用responseFile输出
+     * @param fileName 要加载的图片文件名
+     * @param response
+     */
+    @RequestMapping("/showImg/{projectimg}")
+    public void showPicture(@PathVariable("projectimg") String projectimg, HttpServletResponse response){
+        System.out.println("projectimg "+projectimg);
+        //将文件名分割成 文件名 和 格式
+        //“ . " 需要用两次转义
+        String [] path = projectimg.split("\\.");
+        //获取服务器中的文件
+        File imgFile = new File(ConstCofig.RootPath + ConstCofig.projectimgPath + path[0] + "." + path[1]);
+        //输出到页面
+        responseFile(response, imgFile);
     }
     //将条件清零
     @RequestMapping("/pjClear")
@@ -209,6 +229,7 @@ public class ProjectContorller {
             wrappers.orderBy("proj_creattime", false);
         }
          wrappers.between("proj_creattime",this.strattime,this.endtime);
+         wrappers.orderBy("proj_id",false);
         if(!this.tags.equals("0")){
             String t[] = tags.split(",");
             System.out.println(t.length);
