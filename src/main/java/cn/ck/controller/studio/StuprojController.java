@@ -1,12 +1,11 @@
 package cn.ck.controller.studio;
 
 import cn.ck.controller.AbstractController;
-import cn.ck.entity.Bidding;
-import cn.ck.entity.Project;
-import cn.ck.entity.Promulgator;
-import cn.ck.entity.Users;
+import cn.ck.controller.FileController;
+import cn.ck.entity.*;
 import cn.ck.entity.bean.ProjectBid;
 import cn.ck.service.*;
+import cn.ck.utils.ConstCofig;
 import cn.ck.utils.DateUtils;
 import cn.ck.utils.ResponseBo;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -16,10 +15,13 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
 import java.util.Date;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
@@ -69,6 +71,17 @@ public class StuprojController extends AbstractController {
             projectBid.setCreatdate(creatdate);
             //竞标剩余时间
             projectBid.setBidday(10-projectService.projBidTimeNum(project.getProjId()));
+            int bidday = projectBid.getBidday();
+
+            //竞标人数
+            int count=biddingService.selectCount(new EntityWrapper<Bidding>().eq("bid_proj",bidding.getBidProj()));
+            projectBid.setBidnum(count);
+            if(bidday<=0){
+                bidding.setBidState("竞标超时");
+                biddingService.updateAllColumnById(bidding);
+            }
+
+
             projbidList.add(projectBid);
         }
         PageInfo<ProjectBid> page=new PageInfo<>(projbidList);
@@ -96,6 +109,7 @@ public class StuprojController extends AbstractController {
             System.out.println(projId+"|"+project.getProjState());*/
 
             int developday = project.getProjCycletime() - projectService.projDevelopTimeNum(project.getProjId());
+            System.out.println();
             projBid.setDevelopday(developday);
             /*projBid.setBidding(bidding);*/
             projBid.setProject(project);
@@ -234,5 +248,16 @@ public class StuprojController extends AbstractController {
         return true;
     }
 
+/*    //获取项目头像
+    @RequestMapping("/showImg/{fileName}")
+    public void showPicture(@PathVariable("fileName") String fileName, HttpServletResponse response){
+        //将文件名分割成 文件名 和 格式
+        //“ . " 需要用两次转义
+
+        //获取服务器中的文件
+        File imgFile = new File(ConstCofig.RootPath + ConstCofig.projectimgPath + fileName);
+        //输出到页面
+        FileController.responseFile(response, imgFile);
+    }*/
 
 }
