@@ -145,7 +145,7 @@ public class LoginController extends AbstractController {
 	/**
 	 * 后台登录页面
 	 */
-	@RequiresGuest
+//	@RequiresGuest
 	@GetMapping("/admin/login")
 	public String adminLogin() {
 		return "admin/login";
