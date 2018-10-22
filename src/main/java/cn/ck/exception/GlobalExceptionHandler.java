@@ -15,21 +15,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler {
 
-//	@ExceptionHandler(value = AuthorizationException.class)
-//	public String handleAuthorizationException() {
-//		if(ShiroUtils.getSubject().getPrincipal() == null)
-//			return "redirect:/login";
-//		else
-//			return "error/403";
-//	}
-//
-//	@ExceptionHandler(DuplicateKeyException.class)
-//	public String handleDuplicateKeyException(DuplicateKeyException e){
-//		return "error/500";
-//	}
+	@ExceptionHandler(value = AuthorizationException.class)
+	public String handleAuthorizationException() {
+		if(ShiroUtils.getSubject().getPrincipal() == null)
+			return "redirect:/login";
+		else
+			return "error/403";
+	}
 
-//	@ExceptionHandler(Exception.class)
-//	public String handleException(Exception e){
-//		return "error/500";
-//	}
+	@ExceptionHandler(DuplicateKeyException.class)
+	public String handleDuplicateKeyException(DuplicateKeyException e){
+		return "error/500";
+	}
+
+	@ExceptionHandler(Exception.class)
+	public String handleException(Exception e){
+		return "error/500";
+	}
 }
