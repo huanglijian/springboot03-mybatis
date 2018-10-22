@@ -337,7 +337,7 @@
 		</div>
 	<div  class="modal inmodal"  id="Moda_jingbiao" tabindex="-1" role="dialog" aria-hidden="true">
 		<div  class="col-sm-4"
-			 style="width: 600px; position: relative;left:35%; top:0%;">
+			 style="width: 600px; position: relative;left:35%; top:3%;">
 			<div class="ibox float-e-margins" style="display: table-cell; vertical-align: middle; text-align: center;">
 				<div class="ibox-title">
 					<h5>请填写竞标信息</h5>
@@ -551,8 +551,107 @@
         });
         // 解决二次校验问题方法
 		//1先加载 2 . 摧毁 3.再加载
+        $("#Moda_jingbiao").on('hidden.bs.modal',function(e){
+        $("#f3").data('bootstrapValidator').destroy();
+        $('#f3').data('bootstrapValidator',null);
+        $('#f3').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    BidMoney: {
+                        message: '项目预算验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '项目预算不能为空'
+                            },
+                            stringLength: {
+                                min: 3,
+                                max: 10,
+                                message: '项目预算必须在3到10位之间'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]+$/,
+                                message: '项目预算只能包含数字'
+                            }
+                        }
+                    },
+                    BidCycle: {
+                        message: '开发周期验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '开发周期不能为空'
+                            },
+                            stringLength: {
+                                min: 1,
+                                max: 3,
+                                message: '开发周期必须在1到3位之间'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]+$/,
+                                message: '开发周期只能包含数字'
+                            }
+                        }
+                    },
+                    BidScheme: {
+                        message: '竞标方案验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '竞标方案不能为空'
+                            },
+                            stringLength: {
+                                min: 5,
+                                message: '竞标方案必须在5位以上'
+                            }
+                        }
+                    },
+                    BidPhone: {
+                        message: '电话验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '电话不能为空'
+                            },
+                            stringLength: {
+                                min: 11,
+                                max: 11,
+                                message: '电话号码是11位的'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]+$/,
+                                message: '电话号码只能包含数字'
+                            }
 
-		0.0
+                        }
+                    },
+                    BidEmail: {
+                        message: '邮箱验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '邮箱不能为空'
+                            },
+                            stringLength: {
+                                min: 8,
+                                max: 16,
+                                message: '请输入正确的的E-mail'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9.@]+$/,
+                                message: '请输入正确的的E-mail'
+                            }
+                        }
+                    },
+                },
+
+
+
+
+            });
+
+
+        })
 		// function ok() { //
 		// 	alert("ok?");
         // }
