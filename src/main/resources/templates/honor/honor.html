@@ -163,7 +163,7 @@
                             <p>{{rank.stuName}}</p>
                         </div>
                         <div class="thumb">
-                            <a :href="'/stuhall/detail?stuid='+rank.stuId" target="_blank"><img> <!--:src=rank.stuImg--> </img></a>
+                            <a :href="'/stuhall/detail?stuid='+rank.stuId" target="_blank"><img :src="'/file/showImg/' + rank.stuImg" /></a>
                         </div>
                         <div class="amount">{{rank.stuMembernum}}</div>
                         <div class="benefit"><span><i><img src="/static/img/img_hhm/money.png"/></i><b>{{rank.stuIncome}}</b></span>
@@ -235,7 +235,7 @@
             <div class="foot_panel_left">
                 <div class="img">
                     <a href="#">
-                        <img src="../../static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
+                        <img src="/static/img/img_psw/log3.png" width="127" height="36" alt="软件项目交易网">
                     </a>
                 </div>
                 <div class="beian">

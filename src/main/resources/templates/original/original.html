@@ -334,7 +334,9 @@
 
 						<div class='ui relaxed divided items' id='git-discover-list'>
 							<div class='item' v-for="pro in highscore" v-cloak>
-								<a :href="'/user/user_hp?userId='+pro.users.userId" target="_blank" class="project-creator-link ui avatar image pull-left":title=pro.users.userName ><img src="/static/img/img_hhm/renren.png" />
+								<a :href="'/user/user_hp?userId='+pro.users.userId" target="_blank" class="project-creator-link ui avatar image pull-left":title=pro.users.userName >
+									<!--<img src="/static/img/img_hhm/renren.png" />-->
+									<img :src="'/file/showImg/' + pro.users.userImg" />
 								</a>
 								<div class='project-content'>
 									<div class='project-title'>

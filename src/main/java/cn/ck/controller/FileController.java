@@ -98,7 +98,8 @@ public class FileController {
         System.out.println("in--down---and--filename--is:"+fileName);
         try {
             //存放地址
-            String realPath = "F:\\down";
+//            String realPath = "F:\\down";
+            String realPath = "E:\\ChuangKeFile\\Project\\file";
             //获得服务器端某个文件的完整路径
             String fullPath = realPath + File.separator + fileName;
             //设置响应

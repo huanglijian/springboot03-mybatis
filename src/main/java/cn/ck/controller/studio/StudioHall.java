@@ -123,6 +123,7 @@ public class StudioHall {
             notice.setInnoProid(proId);
             notice.setInnoProname(project.getProjName());
             notice.setInnoTime(new Date());
+            notice.setInnoState("否");
             notice.setInnoForeid(studioService.selectOne(new EntityWrapper<Studio>().eq("stu_id",stuId)).getStuCreatid());
             if(invitenoticeService.insertAllColumn(notice)&&inviteService.insertAllColumn(invite2))
                 return "1";

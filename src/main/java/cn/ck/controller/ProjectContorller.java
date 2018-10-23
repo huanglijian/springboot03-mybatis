@@ -84,7 +84,7 @@ public class ProjectContorller {
     public String islogin() {
 
         if(true)
-            return "project/Project-Shouye";
+            return "project/Project-ShouYe";
         else
             return "login";
 
@@ -121,7 +121,7 @@ public class ProjectContorller {
         this.strattime="2000-1-1";
         this.endtime  ="2099-12-31";
         this.tags  ="0";
-        return "project/Project-Shouye";
+        return "project/Project-ShouYe";
     }
     //接收一系列的参数
 
@@ -142,7 +142,7 @@ public class ProjectContorller {
         this.endtime = endtime;
         this.values = values;
         this.tags = tags;
-        return "project/Project-Shouye";
+        return "project/Project-ShouYe";
     }
 
     @RequestMapping("/toadduser")
@@ -168,7 +168,7 @@ public class ProjectContorller {
         orderByMoney = true;
         orderByDate = false;
         this.start = 1;
-        return "project/Project-Shouye";
+        return "project/Project-ShouYe";
     }
 
     //按时间排序
@@ -177,7 +177,7 @@ public class ProjectContorller {
         orderByDate = true;
         orderByMoney = false;
         this.start = 1;
-        return "project/Project-Shouye";
+        return "project/Project-ShouYe";
     }
 
     //value 即是项目的名字
@@ -187,7 +187,7 @@ public class ProjectContorller {
             @RequestParam(value = "values", defaultValue = "0") String values){
         this.start=start;
         this.values = values;
-        return "project/Project-Shouye";
+        return "project/Project-ShouYe";
     }
 
 
@@ -292,7 +292,7 @@ public class ProjectContorller {
 //          //  System.out.println(attribute.toString());
 //        }
 
-        return "project/Project-Shouye";
+        return "project/Project-ShouYe";
     }
     @RequestMapping("/projectShouYe")
     @ResponseBody
