@@ -290,7 +290,8 @@
                         <div class="piture">
                             <!--<p>{{j.studio.stuImg}}</p>-->
                             <!--<img v-if="j.studio && j.studio.stuImg" :src="'/file/showImg/'+j.studio.stuImg"/>-->
-                            <img src="/static/img/img_hlj/alibaba2.png"/>
+                            <!--<img src="/static/img/img_hlj/alibaba2.png"/>-->
+                            <img :src="'/file/showImg/'+j.studio.stuImg"/>
                         </div>
                         <div class="studioIntro">
                             <h4><a href="mes" class="color" target="_blank" :href="'/ForJob/mes/'+j.jobs.jobId">{{j.studio.stuName}}</a>

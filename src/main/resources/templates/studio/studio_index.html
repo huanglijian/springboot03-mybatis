@@ -230,22 +230,22 @@
 							<span style="position: relative;right: -20%;top:-5px;" v-else>
 
 								<span v-if="user.userQuittme == null">
-								<button  class="btn btn-outline btn-primary" data-toggle="modal" data-target="#myModal0">
-									申请退出
-								</button>
-								<div class="modal inmodal" id="myModal0" tabindex="-1" role="dialog"  aria-hidden="true">
-                                <div class="modal-dialog modal-sm" style="position: relative;top:30%;">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                           <h3 style="">你确定要申请退出工作室?</h3>
-                                        </div>
-                                        <div class="modal-footer">
-											<button @click="userApply(user.userId)" class="btn btn-warning">确定</button>
-                                            <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                                        </div>
-                                    </div>
-                                </div>
-                               </div>
+									<button  class="btn btn-outline btn-primary" data-toggle="modal" data-target="#myModal0">
+										申请退出
+									</button>
+									<div class="modal inmodal" id="myModal0" tabindex="-1" role="dialog"  aria-hidden="true">
+									<div class="modal-dialog modal-sm" style="position: relative;top:30%;">
+										<div class="modal-content">
+											<div class="modal-body">
+											   <h3 style="">你确定要申请退出工作室?</h3>
+											</div>
+											<div class="modal-footer">
+												<button @click="userApply(user.userId)" class="btn btn-warning">确定</button>
+												<button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+											</div>
+										</div>
+									</div>
+								   </div>
 								</span>
 								<span v-else>
 									<button  class="btn btn-outline btn-default" data-toggle="modal" data-target="#myModal">
@@ -264,10 +264,7 @@
 									</div>
 								   </div>
 								</span>
-
 							</span>
-
-
 						</li>
 						<li style="position: relative;top:3px;left:-1%;">
 							<img src="/static/img/img_mzb/ditu.png" />
