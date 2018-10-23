@@ -238,17 +238,16 @@
 				                                        <td>{{dts.users.userName}}</td>
 				                                        <td><a href="#">{{dts.jobs.jobName}}</a></td>
 				                                        <td>{{dts.jobuser.juTime|dateFormat}}</td>
-				                                        <td>{{dts.jobuser.juFile}}</td>
+				                                        <!--<td>{{dts.jobuser.juFile}}</td>-->
+														<td><a :href="'/down/jianli?fileName='+dts.jobuser.juFile">简历</a></td>
 				                                        <td><span v-if="dts.jobuser.juState == '审核中'"  style="color:orange;">
 															{{dts.jobuser.juState}}
 														</span></td>
 				                                        <td>
-									                        <!--<button type="button" class="btn btn-primary btn-sm">通过</button>-->
-
 															<a type="button" class="btn btn-primary btn-sm"
 															   @click = "alr()"
 															   v-if="dts.users.userStudio"
-															><通过></通过></a>
+															>通过</a>
 
 															<a type="button" class="btn btn-primary btn-sm"
 															   :href="'/jobdeal/pass/'+dts.jobuser.juUsers+'/'+dts.jobuser.juId"

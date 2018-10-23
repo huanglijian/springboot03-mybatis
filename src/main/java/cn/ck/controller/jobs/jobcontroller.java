@@ -9,6 +9,7 @@ import cn.ck.service.JobsService;
 import cn.ck.service.JobuserService;
 import cn.ck.service.StudioService;
 import cn.ck.service.UsersService;
+import cn.ck.utils.ConstCofig;
 import cn.ck.utils.ResponseBo;
 import cn.ck.utils.utils_hlj.fartime;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -458,7 +459,8 @@ public class jobcontroller extends AbstractController {
             FileController f = new FileController();
             List<String> list = new ArrayList<>();
 //            调用工具类将文件存入指定文件夹
-            list = f.fileupload(r.getResume(),"D:/ChuangKeFile/resume");
+//            list = f.fileupload(r.getResume(),"D:/ChuangKeFile/resume");
+            list = f.fileupload(r.getResume(), ConstCofig.RootPath+"resume");
 
 //            获取加上uuid的文件名字
             String fileurl = list.get(0);
@@ -467,10 +469,9 @@ public class jobcontroller extends AbstractController {
 //            System.out.println("原本名字entryName: "+entryName);
 
             Jobuser j = new Jobuser();
-
             Date date = new Date();
             j.setJuTime(date);
-            j.setJuFile(entryName);
+            j.setJuFile(fileurl);
             j.setJuState("审核中");
             j.setJuJobs(jid);
 

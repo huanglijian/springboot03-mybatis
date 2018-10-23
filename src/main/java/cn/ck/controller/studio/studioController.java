@@ -143,7 +143,6 @@ public class studioController extends AbstractController {
         return map;
     }
 
-
     //获取用户头像
     @RequestMapping("/showImg")
     public void previewsrc(HttpServletResponse response) {
