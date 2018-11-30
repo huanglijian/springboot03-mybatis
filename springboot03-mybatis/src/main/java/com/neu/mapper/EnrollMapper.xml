@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.EnrollMapper">
+    <resultMap id="BaseResultMap" type="com.neu.bean.Enroll">
+        <id column="enr_id" jdbcType="INTEGER" property="enrId"/>
+        <result column="enr_user" jdbcType="VARCHAR" property="enrUser"/>
+        <result column="enr_publish" jdbcType="INTEGER" property="enrPublish"/>
+        <result column="enr_note" jdbcType="VARCHAR" property="enrNote"/>
+        <result column="enr_date" jdbcType="TIMESTAMP" property="enrDate"/>
+    </resultMap>
+
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        enr_id
+        ,
+        enr_user,
+        enr_publish,
+        enr_note,
+        enr_date
+    </sql>
+    <select id="selectByExample" parameterType="com.neu.bean.EnrollExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from enroll
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from enroll
+        where enr_id = #{enrId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from enroll
+        where enr_id = #{enrId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.neu.bean.EnrollExample">
+        delete from enroll
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.neu.bean.Enroll">
+        insert into enroll (enr_id, enr_user, enr_publish,
+                            enr_note, enr_date)
+        values (#{enrId,jdbcType=INTEGER}, #{enrUser,jdbcType=VARCHAR}, #{enrPublish,jdbcType=INTEGER},
+                #{enrNote,jdbcType=VARCHAR}, #{enrDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.neu.bean.Enroll">
+        insert into enroll
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="enrId != null">
+                enr_id,
+            </if>
+            <if test="enrUser != null">
+                enr_user,
+            </if>
+            <if test="enrPublish != null">
+                enr_publish,
+            </if>
+            <if test="enrNote != null">
+                enr_note,
+            </if>
+            <if test="enrDate != null">
+                enr_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="enrId != null">
+                #{enrId,jdbcType=INTEGER},
+            </if>
+            <if test="enrUser != null">
+                #{enrUser,jdbcType=VARCHAR},
+            </if>
+            <if test="enrPublish != null">
+                #{enrPublish,jdbcType=INTEGER},
+            </if>
+            <if test="enrNote != null">
+                #{enrNote,jdbcType=VARCHAR},
+            </if>
+            <if test="enrDate != null">
+                #{enrDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.neu.bean.EnrollExample" resultType="java.lang.Long">
+        select count(*) from enroll
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update enroll
+        <set>
+            <if test="record.enrId != null">
+                enr_id = #{record.enrId,jdbcType=INTEGER},
+            </if>
+            <if test="record.enrUser != null">
+                enr_user = #{record.enrUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.enrPublish != null">
+                enr_publish = #{record.enrPublish,jdbcType=INTEGER},
+            </if>
+            <if test="record.enrNote != null">
+                enr_note = #{record.enrNote,jdbcType=VARCHAR},
+            </if>
+            <if test="record.enrDate != null">
+                enr_date = #{record.enrDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update enroll
+        set enr_id = #{record.enrId,jdbcType=INTEGER},
+        enr_user = #{record.enrUser,jdbcType=VARCHAR},
+        enr_publish = #{record.enrPublish,jdbcType=INTEGER},
+        enr_note = #{record.enrNote,jdbcType=VARCHAR},
+        enr_date = #{record.enrDate,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.neu.bean.Enroll">
+        update enroll
+        <set>
+            <if test="enrUser != null">
+                enr_user = #{enrUser,jdbcType=VARCHAR},
+            </if>
+            <if test="enrPublish != null">
+                enr_publish = #{enrPublish,jdbcType=INTEGER},
+            </if>
+            <if test="enrNote != null">
+                enr_note = #{enrNote,jdbcType=VARCHAR},
+            </if>
+            <if test="enrDate != null">
+                enr_date = #{enrDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where enr_id = #{enrId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.neu.bean.Enroll">
+        update enroll
+        set enr_user    = #{enrUser,jdbcType=VARCHAR},
+            enr_publish = #{enrPublish,jdbcType=INTEGER},
+            enr_note    = #{enrNote,jdbcType=VARCHAR},
+            enr_date    = #{enrDate,jdbcType=TIMESTAMP}
+        where enr_id = #{enrId,jdbcType=INTEGER}
+    </update>
+
+
+    <!--parameterType接受的参数类型-->
+    <select id="selectByEnr_publish"  resultMap="BaseResultMap">
+        select *
+        from enroll
+        where enr_publish = #{id}
+    </select>
+
+    <!--根据用户id查找-->
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        select *
+        from enroll
+        where enr_user = #{id}
+    </select>
+
+
+
+</mapper>

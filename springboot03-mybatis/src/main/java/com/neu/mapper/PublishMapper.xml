@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.PublishMapper">
+  <resultMap id="BaseResultMap" type="com.neu.bean.Publish">
+    <id column="pub_id" jdbcType="INTEGER" property="pubId" />
+    <result column="pub_theme" jdbcType="VARCHAR" property="pubTheme" />
+    <result column="pub_scene" jdbcType="VARCHAR" property="pubScene" />
+    <result column="pub_intro" jdbcType="VARCHAR" property="pubIntro" />
+    <result column="pub_date" jdbcType="TIMESTAMP" property="pubDate" />
+    <result column="pub_watchNum" jdbcType="INTEGER" property="pubWatchnum" />
+    <result column="pub_state" jdbcType="INTEGER" property="pubState" />
+    <result column="pub_user" jdbcType="VARCHAR" property="pubUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pub_id, pub_theme, pub_scene, pub_intro, pub_date, pub_watchNum, pub_state, pub_user
+  </sql>
+  <select id="selectByExample" parameterType="com.neu.bean.PublishExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from publish
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from publish
+    where pub_id = #{pubId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from publish
+    where pub_id = #{pubId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.neu.bean.PublishExample">
+    delete from publish
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.neu.bean.Publish">
+    insert into publish (pub_id, pub_theme, pub_scene, 
+      pub_intro, pub_date, pub_watchNum, 
+      pub_state, pub_user)
+    values (#{pubId,jdbcType=INTEGER}, #{pubTheme,jdbcType=VARCHAR}, #{pubScene,jdbcType=VARCHAR}, 
+      #{pubIntro,jdbcType=VARCHAR}, #{pubDate,jdbcType=TIMESTAMP}, #{pubWatchnum,jdbcType=INTEGER}, 
+      #{pubState,jdbcType=INTEGER}, #{pubUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.neu.bean.Publish">
+    insert into publish
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pubId != null">
+        pub_id,
+      </if>
+      <if test="pubTheme != null">
+        pub_theme,
+      </if>
+      <if test="pubScene != null">
+        pub_scene,
+      </if>
+      <if test="pubIntro != null">
+        pub_intro,
+      </if>
+      <if test="pubDate != null">
+        pub_date,
+      </if>
+      <if test="pubWatchnum != null">
+        pub_watchNum,
+      </if>
+      <if test="pubState != null">
+        pub_state,
+      </if>
+      <if test="pubUser != null">
+        pub_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pubId != null">
+        #{pubId,jdbcType=INTEGER},
+      </if>
+      <if test="pubTheme != null">
+        #{pubTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="pubScene != null">
+        #{pubScene,jdbcType=VARCHAR},
+      </if>
+      <if test="pubIntro != null">
+        #{pubIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="pubDate != null">
+        #{pubDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pubWatchnum != null">
+        #{pubWatchnum,jdbcType=INTEGER},
+      </if>
+      <if test="pubState != null">
+        #{pubState,jdbcType=INTEGER},
+      </if>
+      <if test="pubUser != null">
+        #{pubUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.neu.bean.PublishExample" resultType="java.lang.Long">
+    select count(*) from publish
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update publish
+    <set>
+      <if test="record.pubId != null">
+        pub_id = #{record.pubId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pubTheme != null">
+        pub_theme = #{record.pubTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pubScene != null">
+        pub_scene = #{record.pubScene,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pubIntro != null">
+        pub_intro = #{record.pubIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pubDate != null">
+        pub_date = #{record.pubDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pubWatchnum != null">
+        pub_watchNum = #{record.pubWatchnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.pubState != null">
+        pub_state = #{record.pubState,jdbcType=INTEGER},
+      </if>
+      <if test="record.pubUser != null">
+        pub_user = #{record.pubUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update publish
+    set pub_id = #{record.pubId,jdbcType=INTEGER},
+      pub_theme = #{record.pubTheme,jdbcType=VARCHAR},
+      pub_scene = #{record.pubScene,jdbcType=VARCHAR},
+      pub_intro = #{record.pubIntro,jdbcType=VARCHAR},
+      pub_date = #{record.pubDate,jdbcType=TIMESTAMP},
+      pub_watchNum = #{record.pubWatchnum,jdbcType=INTEGER},
+      pub_state = #{record.pubState,jdbcType=INTEGER},
+      pub_user = #{record.pubUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.neu.bean.Publish">
+    update publish
+    <set>
+      <if test="pubTheme != null">
+        pub_theme = #{pubTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="pubScene != null">
+        pub_scene = #{pubScene,jdbcType=VARCHAR},
+      </if>
+      <if test="pubIntro != null">
+        pub_intro = #{pubIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="pubDate != null">
+        pub_date = #{pubDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pubWatchnum != null">
+        pub_watchNum = #{pubWatchnum,jdbcType=INTEGER},
+      </if>
+      <if test="pubState != null">
+        pub_state = #{pubState,jdbcType=INTEGER},
+      </if>
+      <if test="pubUser != null">
+        pub_user = #{pubUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pub_id = #{pubId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.neu.bean.Publish">
+    update publish
+    set pub_theme = #{pubTheme,jdbcType=VARCHAR},
+      pub_scene = #{pubScene,jdbcType=VARCHAR},
+      pub_intro = #{pubIntro,jdbcType=VARCHAR},
+      pub_date = #{pubDate,jdbcType=TIMESTAMP},
+      pub_watchNum = #{pubWatchnum,jdbcType=INTEGER},
+      pub_state = #{pubState,jdbcType=INTEGER},
+      pub_user = #{pubUser,jdbcType=VARCHAR}
+    where pub_id = #{pubId,jdbcType=INTEGER}
+  </update>
+
+  <update id="addWatchNum" parameterType="com.neu.bean.Publish">
+    update publish
+    set pub_watchNum = pub_watchNum+1
+    where pub_id = #{id}
+  </update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
